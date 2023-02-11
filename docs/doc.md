@@ -23,8 +23,35 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
 ---
 
 ## 1 Einleitung
+Das folgende Dokument enthält die Dokumentation der Semesterarbeit im Modul WebE (Web Engineering), des Frühlingssemesters 2023 an der Fernfachhochschule Schweiz (nachfolgend FFHS). Im Kern geht es dabei um die Umsetzung einer web-basierten Applikation (fortan Web App).
 
 ## 2 Erklärung des Spiels
+Die Web App wird ein Kartenspiel und ist die Umsetzung des bekannten Kartenspiels **"The Game - Spiel solange du kannst..."**. Die Spielregeln und der Spielabbau ergeben sich somit direkt aus jenen des [realen Kartenspiels](https://www.gamefactory-spiele.com/the-game). 
+
+Informationen zum Spiel:
+
+|                |             |
+|----------------|-------------|
+| Alter          | 8+ Jahre    |
+| Anzahl Spieler | 1 - 5       |
+| Dauer          | 20+ Minuten |
+| Karten         | 98 Zahlenkarten, Werte von 2 bis 99 |
+
+### 2.1 Spielaufbau
+Zu beginn gibt es vier Einzelkarten (Zielkarten) die auf der Spielfläche liegen und vier Ablegestapel anzeigen. Von den 98 Zahlenkarten erhält jede:r Spieler:in eine gewisse Anzahl verdeckt ausgeteilt. Die Anzahl Handkarten hängt von der Anzahl Spielender ab (siehe folgende Tabelle). Die verbleibenden Zahlenkarten dienen verdeckt als Nachziehstapel.
+
+| Anzahl Spielender | Anzahl Handkarten pro Spieler:in |
+|-------------------|----------------------------------|
+| 3, 4, 5           | 6                                |
+| 2                 | 7                                |
+| 1                 | 8                                |
+
+### 2.2 Ziel des Spiels
+Das Spiel basiert auf einem kollaborativen Ansatz. Alle Spieler:innen verfolgen also als Team das Ziel, das Spiel zu besiegen. Dies ist geschafft, wenn sämtliche 98 Spielkarten auf die vier Ablegestapel abgelegt werden konnten.
+
+### 2.3 Spielregeln
+Die Spieler:innen versuchen reihum, ihre Karten auf die Ablegestapelabzulegen. Wichtig ist dabei, dass zwei Stapel aufsteigend (2 - 100) und zwei Stapel absteigend (99 - 1) bedient werden müssen. Dabei muss die numerische Reihenfolge der Werte respektiert werden (z.B., auf einem absteigenden Ablagestapel darf keine 55 auf eine 49 gelegt werden)Solange auf dem Nachziehstapel noch Karten liegen, **müssen** alle Spieler:innen darüber hinaus in jeder Runde zwei Karten ablegen. Sobald der Nachziehstapel keine Karten mehr enthält, **muss** in jeder Spieler in jeder Runde nur noch eine Karte ablegen.  
+Mit dem Rückwärtstrick können Kartenstapel gerettet werden. Es ist erlaubt, eine Karte mit einer exakten Differenz von 10 (nicht 20, 30, etc.), entgegen der Zählrichtung (auf- bzw. absteigend) eines Ablagestapels zu legen. Dadurch wird der Wert des Stapels wieder um 10 erhöht, bzw. gesenkt und es können mehr Karten abgelegt werden.
 
 ## 3 Projektplanung
 
