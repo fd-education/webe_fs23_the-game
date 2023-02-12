@@ -117,6 +117,31 @@ Mit dem Stand dieses Meilensteins muss das Projekt in der nächsten Präsenzvera
 - [ ] Projekttagebuch (klare Differenzierung zwischen Zustand im MS3 und MS4!)
 
 ## 4 Anforderungen
+Die Anforderungen an die Web App ergeben sich aus der Aufgabenstellung im Modulplan der FFHS, den Spielregeln (vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwicklers, welche die Vorgaben ergänzen. In einem ersten Schritt werden die Anforderungen prosaisch festgehalten, bevor sie in einem weiteren Schritt aggregiert, in funktionale und nicht-funktionale Anforderungen aufgebrochen und die funktionalen Anforderungen in entsprechende Diagramme eingegliedert werden.
+
+**Anforderungen der Aufgabenstellung:**
+- Die Web App muss über ein responsives Frontend verfügen.
+- Aktions-Logik muss über ein Backend geregelt werden.
+- Das Backend muss einen Persistenz-Layer aufweisen (Nachvollziehbarkeit von Spielrunden, Highscores, Account-Daten, Freundesliste).
+- Die Web App enthält eine Echtzeit-Chatfunktion, die mit Websockets umgesetzt ist.
+- Der Datenaustausch zwischen Backend und Frontend wird über ein Kommunikationsprotokoll abgehalten.
+
+**Anforderungen aus den Spielregeln:**
+- Die Web App muss Spielsessions von 1 bis 5 Spieler:innen zulassen.
+- Die Web App muss Nachziehstapel und Handkarten abbilden.
+- Die Web App muss Ablagestapel (2x aufsteigend, 2x absteigend) abbilden.
+- Die Web App muss die Logik des aufsteigenden und absteigenden Ablegens, sowie den Rückwärtstrick beherrschen.
+- Die Web App muss Kurzinterventionen (Stapel blockieren, Stapel retten, etc.) zulassen.
+- Die Web App muss Kommunikation zwischen den Spieler:innen zulassen, ohne den Spielfluss zu stark zu beeinträchtigen.
+- Die Web App muss die Spezialregeln des "On Fire" Modus umsetzen.
+- Die Web App muss verstehen, wann das Spiel gewonnen ist bzw. nicht mehr gewonnen werden kann.
+
+**Anforderungen des Entwicklers:**
+- Die Web App soll eine öffentliche und eine Freunde-Lobby beinhalten.
+- Die Web App soll das erstellen von Spieltischen pro Modus erlauben.
+- Die Web App soll einen tisch-unabhängigen Light- und Dark-Mode unterstützen.
+- Die Web App soll in deutsch und englisch Verfügbar sein.
+- Die Web App soll ein Spieler:innen-Profil mit einer Score-History und Freunden erfassen können.
 
 ### 4.1 Funktionale Anforderungen
 ### 4.2 Nicht-Funktionale Anforderungen
