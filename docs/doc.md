@@ -11,7 +11,7 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
   - [2.1 Spielaufbau](#21-spielaufbau)
   - [2.2 Ziel des Spiels](#22-ziel-des-spiels)
   - [2.3 Spielregeln](#23-spielregeln)
-  - [2.4 Spielregeln "On Fire"](#24-spielregeln-on-fire)
+  - [2.4 Spielregeln "On Fire"](#24-spielregeln--on-fire-)
 - [3 Projektplanung](#3-projektplanung)
   - [3.1 Meilenstein 1](#31-meilenstein-1)
   - [3.2 Meilenstein 2](#32-meilenstein-2)
@@ -34,22 +34,22 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
 ---
 
 ## 1 Einleitung
-Das folgende Dokument enthält die Dokumentation der Semesterarbeit im Modul WebE (Web Engineering), des Frühlingssemesters 2023 an der Fernfachhochschule Schweiz (nachfolgend FFHS). Im Kern geht es dabei um die Umsetzung einer web-basierten Applikation (fortan Web App).
+Das folgende Dokument enthält die Dokumentation der Semesterarbeit im Modul WebE (Web Engineering), des Frühlingssemesters 2023 an der Fernfachhochschule Schweiz (nachfolgend FFHS). Im Kern geht es dabei um die Umsetzung einer web-basierten Applikation (fortan Web-App).
 
 ## 2 Erklärung des Spiels
-Die Web App wird ein Kartenspiel und ist die Umsetzung des bekannten Kartenspiels **"The Game - Spiel solange du kannst..."**. Die Spielregeln und der Spielabbau ergeben sich somit direkt aus jenen des [realen Kartenspiels](https://www.gamefactory-spiele.com/the-game). 
+Die Web-App wird ein Kartenspiel und ist die Umsetzung des bekannten Kartenspiels **"The Game - Spiel solange du kannst..."**. Die Spielregeln und der Spielaufbau ergeben sich somit direkt aus jenen des [realen Kartenspiels](https://www.gamefactory-spiele.com/the-game). 
 
 Informationen zum Spiel:
 
-|                |             |
-|----------------|-------------|
-| Alter          | 8+ Jahre    |
-| Anzahl Spieler | 1 - 5       |
-| Dauer          | 20+ Minuten |
+|                |                                     |
+|----------------|-------------------------------------|
+| Alter          | 8+ Jahre                            |
+| Anzahl Spieler | 1 - 5                               |
+| Dauer          | 20+ Minuten                         |
 | Karten         | 98 Zahlenkarten, Werte von 2 bis 99 |
 
 ### 2.1 Spielaufbau
-Zu beginn gibt es vier Einzelkarten (Zielkarten) die auf der Spielfläche liegen und vier Ablegestapel anzeigen. Von den 98 Zahlenkarten erhält jede:r Spieler:in eine gewisse Anzahl verdeckt ausgeteilt. Die Anzahl Handkarten hängt von der Anzahl Spielender ab (siehe folgende Tabelle). Die verbleibenden Zahlenkarten dienen verdeckt als Nachziehstapel.
+Zu Beginn gibt es vier Einzelkarten (Zielkarten) die auf der Spielfläche liegen und vier Ablegestapel anzeigen. Von den 98 Zahlenkarten erhält jede:r Spieler:in eine gewisse Anzahl verdeckt ausgeteilt. Die Anzahl Handkarten hängt von der Anzahl Spielender ab (siehe folgende Tabelle). Die verbleibenden Zahlenkarten dienen verdeckt als Nachziehstapel.
 
 | Anzahl Spielender | Anzahl Handkarten pro Spieler:in |
 |-------------------|----------------------------------|
@@ -61,7 +61,7 @@ Zu beginn gibt es vier Einzelkarten (Zielkarten) die auf der Spielfläche liegen
 Das Spiel basiert auf einem kollaborativen Ansatz. Alle Spieler:innen verfolgen also als Team das Ziel, das Spiel zu besiegen. Dies ist geschafft, wenn sämtliche 98 Spielkarten auf die vier Ablegestapel abgelegt werden konnten.
 
 ### 2.3 Spielregeln
-Die Spieler:innen versuchen reihum, ihre Karten auf die Ablegestapelabzulegen. Wichtig ist dabei, dass zwei Stapel aufsteigend (2 - 100) und zwei Stapel absteigend (99 - 1) bedient werden müssen. Dabei muss die numerische Reihenfolge der Werte respektiert werden (z.B., auf einem absteigenden Ablagestapel darf keine 55 auf eine 49 gelegt werden). Solange auf dem Nachziehstapel noch Karten liegen, **müssen** alle Spieler:innen darüber hinaus in jeder Runde zwei Karten ablegen. Sobald der Nachziehstapel keine Karten mehr enthält, **muss** in jeder Spieler in jeder Runde nur noch eine Karte ablegen. Jede:r Spieler:in füllt nach dem Ablegen die Handkarten wieder vom Nachziehstapel auf.  
+Die Spieler:innen versuchen reihum, ihre Karten auf die Ablegestapel abzulegen. Wichtig ist dabei, dass zwei Stapel aufsteigend (2 - 100) und zwei Stapel absteigend (99 - 1) bedient werden müssen. Dabei muss die numerische Reihenfolge der Werte respektiert werden (z.B., auf einem absteigenden Ablagestapel darf keine 55 auf eine 49 gelegt werden). Solange auf dem Nachziehstapel noch Karten liegen, **müssen** alle Spieler:innen darüber hinaus in jeder Runde zwei Karten ablegen. Sobald der Nachziehstapel keine Karten mehr enthält, **muss** in jeder Spieler in jeder Runde nur noch eine Karte ablegen. Jede:r Spieler:in füllt nach dem Ablegen die Handkarten wieder vom Nachziehstapel auf.  
   
 Mit dem **Rückwärtstrick** können Kartenstapel gerettet werden. Es ist erlaubt, eine Karte mit einer exakten Differenz von 10 (nicht 20, 30, etc.), entgegen der Zählrichtung (auf- bzw. absteigend) eines Ablagestapels zu legen. Dadurch wird der Wert des Stapels wieder um 10 erhöht, bzw. gesenkt und es können mehr Karten abgelegt werden.
 
@@ -70,7 +70,7 @@ Nebst dem Basisspiel soll auch der Spielmodus "On Fire" spielbar sein. Die Spiel
 
 ## 3 Projektplanung
 ### 3.1 Meilenstein 1  
-**Abgabe: 20.02.2023 (PVA2 - 1w), Nachbearbeitung: 10.03.2023 (PVA3 - 2d)**  
+**Abgabe: 26.02.2023 (PVA2 - 1d), Nachbearbeitung: 10.03.2023 (PVA3 - 2d)**  
 Fokus dieses Meilensteines ist eine möglichst granulare Planung des Endproduktes. Der Programmieraspekt steht hier noch im Hintergrund. Es sollen sowohl Mockups erstellt und genaue Anforderungen definiert werden. Folgende Punkte sollen in dem Projektdokument geschildert und in dem Repository in dem Ordner "docs" hinterlegt werden.
 
 - [X] Beschreibung des Ziels des Spieles und der zugehörigen Spielregeln.
@@ -85,7 +85,7 @@ Fokus dieses Meilensteines ist eine möglichst granulare Planung des Endprodukte
 - [ ] Arbeitsplan/Balkendiagramm
 
 ### 3.2 Meilenstein 2
-**Abgabe: 20.03.2023 (PVA4 - 1w), Nachbearbeitung: 07.04.2023 (PVA5 - 2d)**  
+**Abgabe: 26.03.2023 (PVA4 - 1d), Nachbearbeitung: 07.04.2023 (PVA5 - 2d)**  
 Das Frontend, die Einarbeitung des Feedbacks aus dem ersten Meilenstein sowie eine Ausarbeitung der Kommunikationsstrategie bilden den Fokus dieser Abgabe. Bereits ausprogrammiert soll die Anmeldung durch den Client beim Server sein, damit die Kommunikation für spätere Schritte bereits gegeben ist. Das Frontend soll, neben der Anmeldung, bereits grob strukturiert sein, muss allerdings nicht vollständig sein.
 
 - [ ] Erweiterung des Kommunikationsschemas (Protokollplanung)
@@ -97,7 +97,7 @@ Das Frontend, die Einarbeitung des Feedbacks aus dem ersten Meilenstein sowie ei
 - [ ] Projekttagebuch
 
 ### 3.3 Meilenstein 3
-**Abgabe: 17.04.2023 (PVA6 - 1w), Nachbearbeitung: 05.05.2023 (PVA7 - 2d)**  
+**Abgabe: 23.04.2023 (PVA6 - 1d), Nachbearbeitung: 05.05.2023 (PVA7 - 2d)**  
 In diesem Schritt werden sowohl Server- wie auch Client-Seite weiterentwickelt. Insbesondere über den State der Applikation sollen die gemachten Gedanken implementiert und ausprogrammiert werden. Die Logik der Applikation oder des Spiels soll bereits vollständig stehen und programmiert sein. Das Projekt soll also bereits bedienbar sein. Es wird noch nicht erwartet, dass sämtliche Kontroll- und Speichermechanismen vollständig implementiert sind.
 
 - [ ] Verwaltung des State auf dem Client und auf dem Server
@@ -107,8 +107,8 @@ In diesem Schritt werden sowohl Server- wie auch Client-Seite weiterentwickelt. 
 - [ ] Projekttagebuch (klare Differenzierung zwischen Zustand im MS2 und MS3!)
 
 ### 3.4 Meilenstein 4
-**Abgabe: 15.05.2023 (PVA8 - 1w), Nachbearbeitung: 02.06.2023 (PVA9 - 2d)**  
-Mit dem Stand dieses Meilensteins muss das Projekt in der nächsten Präsenzveranstaltung präsentiert werden. Dementsprechend  muss die Funktionalität so komplett wie möglich integriert und das Projekt vollständig sein. Nach der Präsenzveranstaltung werden noch zwei Wochen zur Verfügung gestellt. Dieser Puffer sollte allerdings nicht für fehlende Features, sondern für Bugfixes und finalisierende Politur des Projektes dienen.
+**Abgabe: 21.05.2023 (PVA8 - 1d), Nachbearbeitung: 02.06.2023 (PVA9 - 2d)**  
+Mit dem Stand dieses Meilensteins muss das Projekt in der nächsten Präsenzveranstaltung präsentiert werden. Dementsprechend muss die Funktionalität so komplett wie möglich integriert und das Projekt vollständig sein. Nach der Präsenzveranstaltung werden noch zwei Wochen zur Verfügung gestellt. Dieser Puffer sollte allerdings nicht für fehlende Features, sondern für Bugfixes und finalisierende Politur des Projektes dienen.
 
 - [ ] Feature-complete Version des Servers
 - [ ] Feature-complete Version des Clients
@@ -117,31 +117,31 @@ Mit dem Stand dieses Meilensteins muss das Projekt in der nächsten Präsenzvera
 - [ ] Projekttagebuch (klare Differenzierung zwischen Zustand im MS3 und MS4!)
 
 ## 4 Anforderungen
-Die Anforderungen an die Web App ergeben sich aus der Aufgabenstellung im Modulplan der FFHS, den Spielregeln (vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwicklers, welche die Vorgaben ergänzen. In einem ersten Schritt werden die Anforderungen prosaisch festgehalten, bevor sie in einem weiteren Schritt aggregiert, in funktionale und nicht-funktionale Anforderungen aufgebrochen und die funktionalen Anforderungen in entsprechende Diagramme eingegliedert werden.
+Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulplan der FFHS, den Spielregeln (vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwicklers, welche die Vorgaben ergänzen. In einem ersten Schritt werden die Anforderungen prosaisch festgehalten, bevor sie in einem weiteren Schritt aggregiert, in funktionale und nicht-funktionale Anforderungen aufgebrochen und die funktionalen Anforderungen in entsprechende Diagramme eingegliedert werden.
 
 **Anforderungen der Aufgabenstellung:**
-- Die Web App muss über ein responsives Frontend verfügen.
+- Die Web-App muss über ein responsives Frontend verfügen.
 - Aktions-Logik muss über ein Backend geregelt werden.
 - Das Backend muss einen Persistenz-Layer aufweisen (Nachvollziehbarkeit von Spielrunden, Highscores, Account-Daten, Freundesliste).
-- Die Web App enthält eine Echtzeit-Chatfunktion, die mit Websockets umgesetzt ist.
+- Die Web-App enthält eine Echtzeit-Chatfunktion, die mit Websockets umgesetzt ist.
 - Der Datenaustausch zwischen Backend und Frontend wird über ein Kommunikationsprotokoll abgehalten.
 
 **Anforderungen aus den Spielregeln:**
-- Die Web App muss Spielsessions von 1 bis 5 Spieler:innen zulassen.
-- Die Web App muss Nachziehstapel und Handkarten abbilden.
-- Die Web App muss Ablagestapel (2x aufsteigend, 2x absteigend) abbilden.
-- Die Web App muss die Logik des aufsteigenden und absteigenden Ablegens, sowie den Rückwärtstrick beherrschen.
-- Die Web App muss Kurzinterventionen (Stapel blockieren, Stapel retten, etc.) zulassen.
-- Die Web App muss Kommunikation zwischen den Spieler:innen zulassen, ohne den Spielfluss zu stark zu beeinträchtigen.
-- Die Web App muss die Spezialregeln des "On Fire" Modus umsetzen.
-- Die Web App muss verstehen, wann das Spiel gewonnen ist bzw. nicht mehr gewonnen werden kann.
+- Die Web-App muss Spielsessions von 1 bis 5 Spieler:innen zulassen.
+- Die Web-App muss Nachziehstapel und Handkarten abbilden.
+- Die Web-App muss Ablagestapel (2x aufsteigend, 2x absteigend) abbilden.
+- Die Web-App muss die Logik des aufsteigenden und absteigenden Ablegens, sowie den Rückwärtstrick beherrschen.
+- Die Web-App muss Kurzinterventionen (Stapel blockieren, Stapel retten, etc.) zulassen.
+- Die Web-App muss Kommunikation zwischen den Spieler:innen zulassen, ohne den Spielfluss zu stark zu beeinträchtigen.
+- Die Web-App muss die Spezialregeln des "On Fire" Modus umsetzen.
+- Die Web-App muss verstehen, wann das Spiel gewonnen ist bzw. nicht mehr gewonnen werden kann.
 
 **Anforderungen des Entwicklers:**
-- Die Web App soll eine öffentliche und eine Freunde-Lobby beinhalten.
-- Die Web App soll das erstellen von Spieltischen pro Modus erlauben.
-- Die Web App soll einen tisch-unabhängigen Light- und Dark-Mode unterstützen.
-- Die Web App soll in deutsch und englisch Verfügbar sein.
-- Die Web App soll ein Spieler:innen-Profil mit einer Score-History und Freunden erfassen können.
+- Die Web-App soll eine öffentliche und eine Freunde-Lobby beinhalten.
+- Die Web-App soll das Erstellen von Spieltischen pro Modus erlauben.
+- Die Web-App soll einen tisch-unabhängigen Light- und Dark-Mode unterstützen.
+- Die Web-App soll in Deutsch und Englisch verfügbar sein.
+- Die Web-App soll ein Spieler:innen-Profil mit einer Score-History und Freunden erfassen können.
 
 ### 4.1 Funktionale Anforderungen
 ### 4.2 Nicht-Funktionale Anforderungen
