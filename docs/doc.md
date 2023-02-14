@@ -263,40 +263,43 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #3 - Spielregeln</td>
   </tr>
   <tr>
     <th>Ziel</th>
-    <td></td>
+    <td>Alle Nutzenden (nicht angemeldet, angemeldet) können die Regeln des Spiels einsehen</td>
   </tr>
   <tr>
     <th>Akteure</th>
-    <td></td>
+    <td>Nutzende</td>
   </tr>
   <tr>
     <th>Vorbedingung</th>
-    <td></td>
+    <td>Keine</td>
   </tr>
   <tr>
     <th>Auslösendes Ereignis</th>
-    <td></td>
+    <td>Nutzende klicken auf die "Spielregeln" Schaltfläche.</td>
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td>Keine</td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
-    <td></td>
+    <td>Keine</td>
   </tr>
   <tr>
     <th>Normalfall</th>
-      <td></td>
+    <td>
+      1. Spielregeln werden angezeigt <br>
+      2. Nutzende lesen Spielregeln <br>
+      3. Nutzende verlassen die Spielregeln-Übersicht wieder <br>
+    </td>
   </tr>
   <tr>
     <th>Sonderfall</th>
-    <td></td>
+    <td>Keine</td>
   </tr>
 </table>
 
@@ -304,19 +307,19 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #4 - Allgemeine Lobby</td>
   </tr>
   <tr>
     <th>Ziel</th>
-    <td></td>
+    <td>Angemeldete Nutzende befinden sich in einer Lobby mit potenziellen Mitspieler:innen auf demselben Server.</td>
   </tr>
   <tr>
     <th>Akteure</th>
-    <td></td>
+    <td>Angemeldete Nutzende</td>
   </tr>
   <tr>
     <th>Vorbedingung</th>
-    <td></td>
+    <td>Nutzende sind bereits angemeldet.</td>
   </tr>
   <tr>
     <th>Auslösendes Ereignis</th>
@@ -324,8 +327,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -345,7 +347,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #5 - Freunde Lobby</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -365,8 +367,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -386,7 +387,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #6 - Spieltisch</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -406,8 +407,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -427,7 +427,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #7 - Chatting</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -447,8 +447,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -468,7 +467,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #8 - Normales Spiel</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -488,8 +487,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -509,7 +507,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #9 - Spiel "On Fire"</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -529,8 +527,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -550,7 +547,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #10 - Kurzinterventionen</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -570,8 +567,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -591,7 +587,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #11 - Sieg/ Niederlage erkennen</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -611,8 +607,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
@@ -632,7 +627,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
 <table>
   <tr>
     <th>Name</th>
-    <td></td>
+    <td>UC #12 - Spielstatistiken</td>
   </tr>
   <tr>
     <th>Ziel</th>
@@ -652,8 +647,7 @@ Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulp
   </tr>
   <tr>
     <th>Nachbedingung Normalfall</th>
-    <td>
-    </td>
+    <td></td>
   </tr>
   <tr>
     <th>Nachbedingung Sonderfall</th>
