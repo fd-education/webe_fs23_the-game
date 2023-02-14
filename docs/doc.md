@@ -19,6 +19,18 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
   - [3.4 Meilenstein 4](#34-meilenstein-4)
 - [4 Anforderungen](#4-anforderungen)
   - [4.1 Funktionale Anforderungen](#41-funktionale-anforderungen)
+    - [4.1.1 Registration](#411-uc-1---registration)
+    - [4.1.2 Login](#412-uc-2---login)
+    - [4.1.3 Spielregeln](#413-uc-3---spielregeln)
+    - [4.1.4 Allgemeine Lobby](#414-uc-4---allgemeine-lobby)
+    - [4.1.5 Freunde-Lobby](#415-uc-5---freunde-lobby)
+    - [4.1.6 Spieltisch](#416-uc-6---spieltisch)
+    - [4.1.7 Chatting](#417-uc-7---chatting)
+    - [4.1.8 Normales Spiel](#418-uc-8---normales-spiel)
+    - [4.1.9 Spiel "On Fire"](#419-uc-9---spiel--on-fire-)
+    - [4.1.10 Kurzinterventionen](#4110-uc-10---kurzinterventionen)
+    - [4.1.11 Sieg/ Niederlage erkennen](#4111-uc-11---sieg-niederlage-erkennen)
+    - [4.1.12 Spielstatistiken](#4112-uc-12---spielstatistiken)
   - [4.2 Nicht-Funktionale Anforderungen](#42-nicht-funktionale-anforderungen)
 - [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
 - [6 Datenmodell](#6-datenmodell)
@@ -94,7 +106,6 @@ Das Frontend, die Einarbeitung des Feedbacks aus dem ersten Meilenstein sowie ei
 - [ ] Möglichkeit der Kommunikation unter den Clients
 - [ ] Grundgerüst Frontend
 - [ ] Grundgerüst des Servers
-- [ ] Projekttagebuch
 
 ### 3.3 Meilenstein 3
 **Abgabe: 23.04.2023 (PVA6 - 1d), Nachbearbeitung: 05.05.2023 (PVA7 - 2d)**  
@@ -104,7 +115,6 @@ In diesem Schritt werden sowohl Server- wie auch Client-Seite weiterentwickelt. 
 - [ ] Bedienbare Version des Projektes
 - [ ] Erweiterte Version des Servers
 - [ ] Erweiterte Version des Clients
-- [ ] Projekttagebuch (klare Differenzierung zwischen Zustand im MS2 und MS3!)
 
 ### 3.4 Meilenstein 4
 **Abgabe: 21.05.2023 (PVA8 - 1d), Nachbearbeitung: 02.06.2023 (PVA9 - 2d)**  
@@ -114,36 +124,551 @@ Mit dem Stand dieses Meilensteins muss das Projekt in der nächsten Präsenzvera
 - [ ] Feature-complete Version des Clients
 - [ ] Kontrolle, ob alle Anforderungen realisiert wurden
 - [ ] Auflistung, was noch Verbessert werden muss und/oder was noch nicht erledigt wurde
-- [ ] Projekttagebuch (klare Differenzierung zwischen Zustand im MS3 und MS4!)
 
 ## 4 Anforderungen
 Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulplan der FFHS, den Spielregeln (vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwicklers, welche die Vorgaben ergänzen. In einem ersten Schritt werden die Anforderungen prosaisch festgehalten, bevor sie in einem weiteren Schritt aggregiert, in funktionale und nicht-funktionale Anforderungen aufgebrochen und die funktionalen Anforderungen in entsprechende Diagramme eingegliedert werden.
 
 **Anforderungen der Aufgabenstellung:**
-- Die Web-App muss über ein responsives Frontend verfügen.
-- Aktions-Logik muss über ein Backend geregelt werden.
-- Das Backend muss einen Persistenz-Layer aufweisen (Nachvollziehbarkeit von Spielrunden, Highscores, Account-Daten, Freundesliste).
-- Die Web-App enthält eine Echtzeit-Chatfunktion, die mit Websockets umgesetzt ist.
-- Der Datenaustausch zwischen Backend und Frontend wird über ein Kommunikationsprotokoll abgehalten.
+- NF, muss: Die Web-App muss über ein responsives Frontend verfügen.
+- NF, muss: Aktions-Logik muss über ein Backend geregelt werden.
+- NF, muss: Das Backend muss einen Persistenz-Layer aufweisen (Nachvollziehbarkeit von Spielrunden, Highscores, Account-Daten, Freundesliste).
+- NF, muss: Die Web-App enthält eine Echtzeit-Chatfunktion, die mit Websockets umgesetzt ist.
+- NF, muss: Der Datenaustausch zwischen Backend und Frontend wird über ein Kommunikationsprotokoll abgehalten.
 
 **Anforderungen aus den Spielregeln:**
-- Die Web-App muss Spielsessions von 1 bis 5 Spieler:innen zulassen.
-- Die Web-App muss Nachziehstapel und Handkarten abbilden.
-- Die Web-App muss Ablagestapel (2x aufsteigend, 2x absteigend) abbilden.
-- Die Web-App muss die Logik des aufsteigenden und absteigenden Ablegens, sowie den Rückwärtstrick beherrschen.
-- Die Web-App muss Kurzinterventionen (Stapel blockieren, Stapel retten, etc.) zulassen.
-- Die Web-App muss Kommunikation zwischen den Spieler:innen zulassen, ohne den Spielfluss zu stark zu beeinträchtigen.
-- Die Web-App muss die Spezialregeln des "On Fire" Modus umsetzen.
-- Die Web-App muss verstehen, wann das Spiel gewonnen ist bzw. nicht mehr gewonnen werden kann.
+- F, muss: Die Web-App muss Spielsessions von 1 bis 5 Spieler:innen zulassen.
+- F, muss: Die Web-App muss Nachziehstapel und Handkarten abbilden.
+- F, muss: Die Web-App muss Ablagestapel (2x aufsteigend, 2x absteigend) abbilden.
+- F, muss: Die Web-App muss die Logik des aufsteigenden und absteigenden Ablegens, sowie den Rückwärtstrick beherrschen.
+- F, soll: Die Web-App muss Kurzinterventionen (Stapel blockieren, Stapel retten, etc.) zulassen.
+- FN, muss: Die Web-App muss Kommunikation zwischen den Spieler:innen zulassen, ohne den Spielfluss zu stark zu beeinträchtigen.
+- F, soll: Die Web-App muss die Spezialregeln des "On Fire" Modus umsetzen.
+- F, muss: Die Web-App muss verstehen, wann das Spiel gewonnen ist bzw. nicht mehr gewonnen werden kann.
 
 **Anforderungen des Entwicklers:**
-- Die Web-App soll eine öffentliche und eine Freunde-Lobby beinhalten.
-- Die Web-App soll das Erstellen von Spieltischen pro Modus erlauben.
-- Die Web-App soll einen tisch-unabhängigen Light- und Dark-Mode unterstützen.
-- Die Web-App soll in Deutsch und Englisch verfügbar sein.
-- Die Web-App soll ein Spieler:innen-Profil mit einer Score-History und Freunden erfassen können.
+- F, soll: Die Web-App soll eine öffentliche und eine Freunde-Lobby beinhalten.
+- F, muss: Die Web-App muss das Erstellen von Spieltischen pro Modus erlauben.
+- NF, soll: Die Web-App soll einen tisch-unabhängigen Light- und Dark-Mode unterstützen.
+- NF, muss: Die Web-App muss in Deutsch und Englisch verfügbar sein.
+- F, muss: Die Web-App muss ein Spieler:innen-Profil mit einer Score-History und Freunden erfassen können.
 
 ### 4.1 Funktionale Anforderungen
+#### 4.1.1 UC #1 - Registration
+<table>
+  <tr>
+    <th>Name</th>
+    <td>UC #1 - Registration</td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td>Die Spielenden registrieren sich als Nutzende der Applikation.</td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td>Nutzende</td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td>Nutzende sind nicht bereits registrierte Spielende.</td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td>Nutzende klicken auf die "Registrieren"-Oberfläche.</td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>Nutzende erhalten eine Erfolgsmeldung im UI.</td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td>
+      2a. Fehlende Felder werden gekennzeichnet, Formular wird nicht abgeschlossen
+      3a. Invalide Felder werden gekennzeichnet, Formular wird nicht abgeschlossen 
+    </td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td>
+        1. Nutzende werden auf die "Registrieren"-Page weitergeleitet <br>
+        2. Nutzende geben ihre persönlichen Daten an <br>
+        3. Die Daten werden validiert <br>
+        4. Für die nutzende Person wird ein Spieler:innen-Profil angelegt <br>
+      </td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td>
+      2a. Nutzende haben nicht alle Daten angegeben <br>
+      3a. Die persönlichen Daten der Nutzenden werden als invalide erkannt.
+    </td>
+  </tr>
+</table>
+
+#### 4.1.2 UC #2 - Login
+<table>
+  <tr>
+    <th>Name</th>
+    <td>UC #2 - Login</td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td>Registrierte Nutzende können sich einloggen.</td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td>Registrierte Nutzende</td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td>Nutzende haben durch eine Registration bereits ein Profil erhalten.</td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td>Nutzende klicken auf die "Login"-Oberfläche.</td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+      Nutzende erhalten eine Erfolgsnachricht, werden eingeloggt und haben nun Zugang zu ihrem
+      Profil, sowie zu allen Funktionen des Spiels.
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td>
+      2a. Fehlende Felder werden gekennzeichnet, Formular wird nicht abgeschlossen
+      4a. Generische Fehlernachricht wird angezeigt 
+    </td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td>
+        1. Ein "Login"-Dropdown wird angezeigt <br>
+        2. Nutzende geben ihre Authentifikations-Daten (Username, Passwort) an <br>
+        3. Nutzende klicken auf "Login"-Knopf <br>
+        4. Authentifikations-Daten werden verifiziert <br>
+        5. Nutzende werden eingeloggt <br>
+      </td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td>
+      2a. Nutzende füllen nicht alle Felder aus <br>
+      4a. Authentifikations-Daten werden als invalide erkannt <br>
+    </td>
+  </tr>
+</table>
+
+#### 4.1.3 UC #3 - Spielregeln
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.4 UC #4 - Allgemeine Lobby
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.5 UC #5 - Freunde Lobby
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.6 UC #6 - Spieltisch
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.7 UC #7 - Chatting
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.8 UC #8 - Normales Spiel
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.9 UC #9 - Spiel "On Fire"
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.10 UC #10 - Kurzinterventionen
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.11 UC #11 - Sieg/ Niederlage erkennen
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
+#### 4.1.12 UC #12 - Spielstatistiken
+<table>
+  <tr>
+    <th>Name</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Ziel</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Akteure</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Vorbedingung</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Auslösendes Ereignis</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Normalfall</th>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <th>Nachbedingung Sonderfall</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Normalfall</th>
+      <td></td>
+  </tr>
+  <tr>
+    <th>Sonderfall</th>
+    <td></td>
+  </tr>
+</table>
+
 ### 4.2 Nicht-Funktionale Anforderungen
 
 ## 5 Eingesetzte Technologien
