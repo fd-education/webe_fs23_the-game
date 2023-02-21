@@ -7,44 +7,55 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
 ---
 
 ## Inhalt
-
-- [1 Einleitung](#1-einleitung)
-- [2 Erklärung des Spiels](#2-erklärung-des-spiels)
-    - [2.1 Spielaufbau](#21-spielaufbau)
-    - [2.2 Ziel des Spiels](#22-ziel-des-spiels)
-    - [2.3 Spielregeln](#23-spielregeln)
-    - [2.4 Spielregeln "On Fire"](#24-spielregeln--on-fire-)
-- [3 Projektplanung](#3-projektplanung)
-    - [3.1 Meilenstein 1](#31-meilenstein-1)
-    - [3.2 Meilenstein 2](#32-meilenstein-2)
-    - [3.3 Meilenstein 3](#33-meilenstein-3)
-    - [3.4 Meilenstein 4](#34-meilenstein-4)
-- [4 Anforderungen](#4-anforderungen)
-    - [4.1 Funktionale Anforderungen](#41-funktionale-anforderungen)
-        - [4.1.1 Registration](#411-uc-1---registration)
-        - [4.1.2 Login](#412-uc-2---login)
-        - [4.1.3 Spielregeln](#413-uc-3---spielregeln)
-        - [4.1.4 Allgemeine Lobby](#414-uc-4---allgemeine-lobby)
-        - [4.1.5 Nutzende zu Freundesliste hinzufügen](#415-uc-5---nutzende-zu-freundesliste-hinzufügen)
-        - [4.1.6 Nutzende von Freundesliste entfernen](#416-uc-6---nutzende-von-freundesliste-entfernen)
-        - [4.1.7 Freunde-Lobby](#417-uc-7---freunde-lobby)
-        - [4.1.8 Spieltisch](#418-uc-8---spieltisch)
-        - [4.1.9 Chatting](#419-uc-9---chatting)
-        - [4.1.10 Normales Spiel](#4110-uc-10---normales-spiel)
-        - [4.1.11 Spiel "On Fire"](#4111-uc-11---spiel--on-fire-)
-        - [4.1.12 Schnellinterventionen](#4112-uc-12---schnellinterventionen)
-        - [4.1.13 Spielstatistiken](#4113-uc-13---spielstatistiken)
-    - [4.2 Nicht-Funktionale Anforderungen](#42-nicht-funktionale-anforderungen)
-- [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
-- [6 Datenmodell](#6-datenmodell)
-- [7 UI Prototyp](#7-ui-prototyp)
-    - [7.1 Mobil](#71-mobil)
-    - [7.2 Desktop](#72-desktop)
-- [8 Architekturentscheidungen](#8-architekturentscheidungen)
-- [9 Deploymentkonzept](#9-deploymentkonzept)
-- [10 Installationsanleitung](#10-installationsanleitung)
-- [11 Projekt-Tagebuch](#11-projekt-tagebuch)
-- [Quellen](#quellen)
+<!-- TOC -->
+* [Dokumentation: The Game](#dokumentation--the-game)
+  * [Inhalt](#inhalt)
+  * [1 Einleitung](#1-einleitung)
+  * [2 Erklärung des Spiels](#2-erklärung-des-spiels)
+    * [2.1 Spielaufbau](#21-spielaufbau)
+    * [2.2 Ziel des Spiels](#22-ziel-des-spiels)
+    * [2.3 Spielregeln](#23-spielregeln)
+    * [2.4 Spielregeln "On Fire"](#24-spielregeln--on-fire-)
+  * [3 Projektplanung](#3-projektplanung)
+    * [3.1 Meilenstein 1](#31-meilenstein-1)
+    * [3.2 Meilenstein 2](#32-meilenstein-2)
+    * [3.3 Meilenstein 3](#33-meilenstein-3)
+    * [3.4 Meilenstein 4](#34-meilenstein-4)
+  * [4 Anforderungen](#4-anforderungen)
+    * [4.1 Funktionale Anforderungen](#41-funktionale-anforderungen)
+      * [4.1.1 UC #1 - Registration](#411-uc-1---registration)
+      * [4.1.2 UC #2 - Login](#412-uc-2---login)
+      * [4.1.3 UC #3 - Spielregeln](#413-uc-3---spielregeln)
+      * [4.1.4 UC #4 - Allgemeine Lobby](#414-uc-4---allgemeine-lobby)
+      * [4.1.5 UC #5 - Nutzende zu Freundesliste hinzufügen](#415-uc-5---nutzende-zu-freundesliste-hinzufügen)
+      * [4.1.6 UC #6 - Nutzende von Freundesliste entfernen](#416-uc-6---nutzende-von-freundesliste-entfernen)
+      * [4.1.7 UC #7 - Freunde Lobby](#417-uc-7---freunde-lobby)
+      * [4.1.8 UC #8 - Spieltisch](#418-uc-8---spieltisch)
+      * [4.1.9 UC #9 - Chatting](#419-uc-9---chatting)
+      * [4.1.10 UC #10 - Normales Spiel](#4110-uc-10---normales-spiel)
+      * [4.1.11 UC #11 - Spiel "On Fire"](#4111-uc-11---spiel--on-fire-)
+      * [4.1.12 UC #12 - Schnellinterventionen](#4112-uc-12---schnellinterventionen)
+      * [4.1.13 UC #13 - Spielstatistiken](#4113-uc-13---spielstatistiken)
+    * [4.2 Nicht-Funktionale Anforderungen](#42-nicht-funktionale-anforderungen)
+      * [4.2.1 Leistungsanforderungen](#421-leistungsanforderungen)
+      * [4.2.2 Qualitätsanforderungen](#422-qualitätsanforderungen)
+      * [4.2.3 Randbedingungen](#423-randbedingungen)
+  * [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
+    * [5.1 NodeJS](#51-nodejs)
+    * [5.2 TypeScript](#52-typescript)
+    * [5.3 React](#53-react)
+    * [5.4 Socket.io](#54-socketio)
+  * [6 Datenmodell](#6-datenmodell)
+  * [7 UI Prototyp](#7-ui-prototyp)
+    * [7.1 Mobil](#71-mobil)
+    * [7.2 Desktop](#72-desktop)
+  * [8 Architekturentscheidungen](#8-architekturentscheidungen)
+    * [8.1 Kommunikationsprotokoll](#81-kommunikationsprotokoll)
+  * [9 Deploymentkonzept](#9-deploymentkonzept)
+  * [10 Installationsanleitung](#10-installationsanleitung)
+  * [11 Projekt-Tagebuch](#11-projekt-tagebuch)
+  * [Quellen](#quellen)
+<!-- TOC -->
 
 ---
 
@@ -116,8 +127,8 @@ im Hintergrund. Es sollen sowohl Mockups erstellt und genaue Anforderungen defin
 dem Projektdokument geschildert und in dem Repository in dem Ordner "docs" hinterlegt werden.
 
 - [X] Beschreibung des Ziels des Spieles und der zugehörigen Spielregeln.
-- [ ] Beschreibung der Anforderungen (Funktional, Nicht-Funktional, KANN, MUSS).
-- [ ] Präsentation der Anforderungen an die zu entwickelnde Software
+- [X] Beschreibung der Anforderungen (Funktional, Nicht-Funktional, KANN, MUSS).
+- [X] Präsentation der Anforderungen an die zu entwickelnde Software
 - [ ] Mockups für das Frontend, sowohl für Desktop als auch für Mobile Devices
 - [ ] Erste Auflistung der verwendeten Technologien und Bibliotheken
 - [ ] Kurze Beschreibung des Protokolls zwischen Client und Server
@@ -170,39 +181,7 @@ Features, sondern für Bugfixes und finalisierende Politur des Projektes dienen.
 ## 4 Anforderungen
 
 Die Anforderungen an die Web-App ergeben sich aus der Aufgabenstellung im Modulplan der FFHS, den Spielregeln (
-vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwicklers, welche die Vorgaben ergänzen. In
-einem ersten Schritt werden die Anforderungen prosaisch festgehalten, bevor sie in einem weiteren Schritt aggregiert, in
-funktionale und nicht-funktionale Anforderungen aufgebrochen und die funktionalen Anforderungen in entsprechende
-Diagramme eingegliedert werden.
-
-**Anforderungen der Aufgabenstellung:**
-
-- NF, muss: Die Web-App muss über ein responsives Frontend verfügen.
-- NF, muss: Aktions-Logik muss über ein Backend geregelt werden.
-- NF, muss: Das Backend muss einen Persistenz-Layer aufweisen (Nachvollziehbarkeit von Spielrunden, Highscores,
-  Account-Daten, Freundesliste).
-- NF, muss: Die Web-App enthält eine Echtzeit-Chatfunktion, die mit Websockets umgesetzt ist.
-- NF, muss: Der Datenaustausch zwischen Backend und Frontend wird über ein Kommunikationsprotokoll abgehalten.
-
-**Anforderungen aus den Spielregeln:**
-
-- F, muss: Die Web-App muss Spielsessions von 1 bis 5 Spieler:innen zulassen.
-- F, muss: Die Web-App muss Nachziehstapel und Handkarten abbilden.
-- F, muss: Die Web-App muss Ablagestapel (2x aufsteigend, 2x absteigend) abbilden.
-- F, muss: Die Web-App muss die Logik des aufsteigenden und absteigenden Ablegens, sowie den Rückwärtstrick beherrschen.
-- F, soll: Die Web-App muss Kurzinterventionen (Stapel blockieren, Stapel retten, etc.) zulassen.
-- FN, muss: Die Web-App muss Kommunikation zwischen den Spieler:innen zulassen, ohne den Spielfluss zu stark zu
-  beeinträchtigen.
-- F, soll: Die Web-App muss die Spezialregeln des "On Fire" Modus umsetzen.
-- F, muss: Die Web-App muss verstehen, wann das Spiel gewonnen ist bzw. nicht mehr gewonnen werden kann.
-
-**Anforderungen des Entwicklers:**
-
-- F, soll: Die Web-App soll eine öffentliche und eine Freunde-Lobby beinhalten.
-- F, muss: Die Web-App muss das Erstellen von Spieltischen pro Modus erlauben.
-- NF, soll: Die Web-App soll einen tisch-unabhängigen Light- und Dark-Mode unterstützen.
-- NF, muss: Die Web-App muss in Deutsch und Englisch verfügbar sein.
-- F, muss: Die Web-App muss ein Spieler:innen-Profil mit einer Score-History und Freunden erfassen können.
+vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwicklers, welche die Vorgaben ergänzen.
 
 ### 4.1 Funktionale Anforderungen
 
@@ -860,7 +839,35 @@ Diagramme eingegliedert werden.
 
 ### 4.2 Nicht-Funktionale Anforderungen
 
+#### 4.2.1 Leistungsanforderungen
+| Titel                      | Art  | Beschreibung                                                                                                                                  | Metrik                                   |
+|----------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
+| Spielrunden Nachvollziehen | Muss | Spielrunden sind bis auf Spielrunden-Ebene nachvollziehbar                                                                                    | Ja/ Nein                                 |
+| Echtzeit-Kommunikation     | Muss | Kommunikation zwischen den Spielern während der Runde erfolgt in Echtzeit und beeinträchtigt den Spielfluss nicht                             | < 2 Sekunden zwischen Sender & Empfänger |
+| Spielstatistiken           | Soll | Statistiken (Anzahl gespielter Spiele, Anzahl gewonnener Spiele, durchschnittliche Rundendauer) werden unmittelbar nach Spielende nachgeführt | < 5 Sekunden bis Update in UI            |
+
+#### 4.2.2 Qualitätsanforderungen
+| Titel                       | Art  | Beschreibung                                                                                   | Metrik                                   |
+|-----------------------------|------|------------------------------------------------------------------------------------------------|------------------------------------------|
+| Server-Client-Kommunikation | Muss | Der Datenaustausch zwischen Client und Server ist über ein Kommunikationsprotokoll geregelt    | Kein Austausch ausserhalb des Protokolls |
+| Responsive Frontend         | Muss | Das Frontend der Web-App ist responsiv (Desktop, Mobile)                                       | Ja/ Nein                                 |
+| Aktionslogik im Backend     | Muss | Die Logik aller Spielzüge und die Zustandsgenerierung erfolgt im Backend                       | Ja/ Nein                                 |
+| Light- & Dark-Mode          | Soll | Das Frontend unterstützt zwei Darstellungsmodi, unabhängig von der Konstellation der Nutzenden | Ja/ Nein                                 |
+
+#### 4.2.3 Randbedingungen
+| Titel                 | Art  | Beschreibung                                                                                                           | Metrik   |
+|-----------------------|------|------------------------------------------------------------------------------------------------------------------------|----------|
+| Internationalisierung | Muss | Sämtliche Texte im Frontend sind auf Englisch und Deutsch verfügbar                                                    | Ja/ Nein |  
+| Persistenz            | Muss | Das Backend hat einen Persistenz-Layer (Nachvollziehbarkeit von Spielrunden, Statistiken, Profil-Daten, Freundeslisten | Ja/ Nein |
+
 ## 5 Eingesetzte Technologien
+### 5.1 NodeJS
+
+### 5.2 TypeScript
+
+### 5.3 React
+
+### 5.4 Socket.io
 
 ## 6 Datenmodell
 
