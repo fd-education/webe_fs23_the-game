@@ -41,10 +41,13 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
       * [4.2.2 Qualitätsanforderungen](#422-qualitätsanforderungen)
       * [4.2.3 Randbedingungen](#423-randbedingungen)
   * [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
-    * [5.1 NodeJS](#51-nodejs)
-    * [5.2 TypeScript](#52-typescript)
-    * [5.3 React](#53-react)
+    * [5.1 NodeJS (TypeScript)](#51-nodejs--typescript-)
+    * [5.2 Yarn](#52-yarn)
+    * [5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher](#53-reactjs--html-css-typescript----nicht-100-sicher)
     * [5.4 Socket.io](#54-socketio)
+    * [5.5 MongoDB](#55-mongodb)
+    * [5.6 Docker](#56-docker)
+    * [5.7 Gitlab](#57-gitlab)
   * [6 Datenmodell](#6-datenmodell)
   * [7 UI Prototyp](#7-ui-prototyp)
     * [7.1 Mobil](#71-mobil)
@@ -130,7 +133,7 @@ dem Projektdokument geschildert und in dem Repository in dem Ordner "docs" hinte
 - [X] Beschreibung der Anforderungen (Funktional, Nicht-Funktional, KANN, MUSS).
 - [X] Präsentation der Anforderungen an die zu entwickelnde Software
 - [ ] Mockups für das Frontend, sowohl für Desktop als auch für Mobile Devices
-- [ ] Erste Auflistung der verwendeten Technologien und Bibliotheken
+- [X] Erste Auflistung der verwendeten Technologien und Bibliotheken
 - [ ] Kurze Beschreibung des Protokolls zwischen Client und Server
     - Welche Daten werden übertragen
     - Welchem Zweck dient der Austausch
@@ -861,13 +864,58 @@ vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwi
 | Persistenz            | Muss | Das Backend hat einen Persistenz-Layer (Nachvollziehbarkeit von Spielrunden, Statistiken, Profil-Daten, Freundeslisten | Ja/ Nein |
 
 ## 5 Eingesetzte Technologien
-### 5.1 NodeJS
+### 5.1 NodeJS (TypeScript)
+[NodeJS](https://nodejs.org/en/) ist eine JavaScript-Laufzeitumgebung, welche Plattformneutral und Open-Source ist. Durch den extrem schlanken Kern, die grosse Modularität,
+die Möglichkeit der asynchronen Programmierung trotz der single-threat Natur von NodeJS und letztlich der extrem grossen Community,
+eignet sich NodeJS für eine Vielzahl von unterschiedlichen Anwendungen.
+Obwohl in NodeJS grundsätzlich JavaScript verwendet wird, wird für die Umsetzung dieses Projekts TypeScript verwendet. TypeScript führt einige Konzepte
+wie Typsicherheit, Klassenstrukturen und Vererbung ein, die zur Entwicklungszeit grosse Vorteile und Sicherheiten bieten. Der in TypeScript verfasste Code
+wird vor der Laufzeit in JavaScript Code kompiliert. Letztlich läuft in der Laufzeitumgebung folglich wieder JavaScript und TypeScript existiert nur zur Entwicklungszeit.
 
-### 5.2 TypeScript
+Für das Projekt wird NodeJS in der LTS-Version 18.14.2 verwendet. Ausserdem wird entsprechend dem JavaScript Standard ES13 ([ECMAScript 13/ 2022](https://www.ecma-international.org/wp-content/uploads/ECMA-262_13th_edition_june_2022.pdf)) entwickelt.
 
-### 5.3 React
+### 5.2 Yarn 
+[Yarn](https://yarnpkg.com/) ist ein Package-Manager für Nodejs und bietet hinsichtlich Security und Geschwindigkeit einige Vorteile gegenüber dem klassischen
+Node Package Manager (NPM), der mit Node mitgeliefert wird. So werden unter anderem Lizenzen automatisch geprüft und kann Dependencies parallel installieren. 
+Für diese Vorteile wird der Mehraufwand hinsichtlich Speicherplatz in Kauf genommen.
+
+Für das Projekt wird Yarn in der Version 1.22.19 (Classic Stable) verwendet.
+
+### 5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher
+[ReactJS](https://reactjs.org/) ist eine Bibliothek zur Erstellung von webbasierten UIs. Ein spezielles Merkmal der Library ist die komponentenbasierte Herangehensweise an
+die Erstellung einer grafischen Benutzeroberfläche. So können repetitive Muster sehr effizient und effektiv umgesetzt und gewartet werden.
+
+Der Autor ist sich zum aktuellen Zeitpunkt noch unsicher, ob React zum Einsatz kommen wird. 
+Sollte React für das Frontend verwendet werden, würden nebst HTML und CSS wiederum TypeScript zum Einsatz kommen. Die Entscheidung
+ist im Abschnitt [5.1 NodeJS](#51-nodejs--typescript-) erklärt. Für das Projekt würde React 18 verwendet werden.
 
 ### 5.4 Socket.io
+Für die Echtzeitkommunikation zwischen Server(n) und Webclients kommt [Socket.io](https://socket.io/) zum Einsatz. Socket.IO nutzt das [WebSocket Protokoll](https://en.wikipedia.org/wiki/WebSocket), um eine bidirektionale, nahezu verzögerungsfreie Verbindung 
+zwischen Server und Client aufzubauen. Zusätzliche Funktionalitäten wie HTTP long-polling (Server schickt Response erst, wenn Daten vorhanden sind) als Fallback zur regulären WebSocket-Verbindung, automatisches Wiederherstellen der Verbindung nach Unterbrüchen, Pufferung von 
+Datenpaketen und der Möglichkeit, Acknowledgments zu senden, eignet sich Socket.io bestens zur Verwendung im Projekt.
+
+Im Projekt wird die aktuellste Version von Socket.io gemäss [npmjs.com](https://www.npmjs.com/package/socket.io) verwendet (z.Z. 4.6.1)
+
+### 5.5 MongoDB
+Die Persistenz im Projekt wird mit [MongoDB](https://www.mongodb.com/) umgesetzt. MongoDB ist eine NoSQL Dokumentdatenbank, die sehr oft für Web Development verwendet wird.
+Datensätze werden als Dokumente (in unserem Fall in JSON) abgelegt. Sammlungen von Dokumenten werden Collections genannt (z.B. Players-Collection, mit einzelnen Player-Documents).
+Aufgrund der hohen Flexibilität, Skalierbarkeit und Einfachheit in der Anwendung wird für das Projekt eine NoSQL Datenbank verwendet.
+
+Da MongoDB mit [Mongo Atlas](https://www.mongodb.com/atlas/database) kostenfrei (begrenzt) eine Cloud-Datenbank zur Verfügung stellt 
+und der Autor bereits Erfahrung mit deren Verwendung hat, fällt die Wahl auf das Produkt.
+
+### 5.6 Docker
+Mindestens im Rahmen des Deploymentkonzepts wird Containerisierung eine Rolle spielen. Dafür wird auf [Docker](https://www.docker.com/) gesetzt. Containerisierung
+erlaubt, das Deployment von Applikationen unabhängig von der Infrastruktur, da die Applikation mit sämtlichen Abhängigkeiten (Libraries, Files, Konfigurationen) 
+geliefert wird und somit im Idealfall keine Konfiguration der Infrastruktur mehr notwendig ist.
+
+Ausserdem können mit diesem Prozess sehr einfach Replikate erstellt werden, wodurch eine unkomplizierte Skalierung (z.B. mit [Kubernetes](https://kubernetes.io/)) erst möglich wird.
+Nähere Details zum Deploymentkonzept werden zu einem späteren Zeitpunkt im Rahmen des entsprechenden Auftrags erarbeitet.
+
+### 5.7 Gitlab
+Für die Source-Code-Verwaltung und die Versionierung wird GitLab verwendet. Innerhalb von Gitlab werden insbesondere Issues verwendet,
+um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Board mit den Phasen "Backlog", "Sprint Backlog", "Development",
+"Verification" und "Done" erstellt. Die Branch-Strategie folgt grundsätzlich den Empfehlungen des Git-flow-Workflow.
 
 ## 6 Datenmodell
 
