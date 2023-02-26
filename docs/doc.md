@@ -54,9 +54,12 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
     * [7.2 Desktop](#72-desktop)
   * [8 Architekturentscheidungen](#8-architekturentscheidungen)
     * [8.1 Kommunikationsprotokoll](#81-kommunikationsprotokoll)
+      * [8.1.1 Chatting](#811-chatting)
+      * [8.1.2 Spielverlauf](#812-spielverlauf)
+      * [8.1.3 Kurzinterventionen](#813-kurzinterventionen)
+      * [8.1.3 Ausserhalb des Spiels](#813-ausserhalb-des-spiels)
   * [9 Deploymentkonzept](#9-deploymentkonzept)
   * [10 Installationsanleitung](#10-installationsanleitung)
-  * [11 Projekt-Tagebuch](#11-projekt-tagebuch)
   * [Quellen](#quellen)
 <!-- TOC -->
 
@@ -134,11 +137,10 @@ dem Projektdokument geschildert und in dem Repository in dem Ordner "docs" hinte
 - [X] Präsentation der Anforderungen an die zu entwickelnde Software
 - [ ] Mockups für das Frontend, sowohl für Desktop als auch für Mobile Devices
 - [X] Erste Auflistung der verwendeten Technologien und Bibliotheken
-- [ ] Kurze Beschreibung des Protokolls zwischen Client und Server
+- [X] Kurze Beschreibung des Protokolls zwischen Client und Server
     - Welche Daten werden übertragen
     - Welchem Zweck dient der Austausch
     - Welcher Transportweg wird gewählt (WebSocket oder AJAX)
-- [ ] Arbeitsplan/Balkendiagramm
 
 ### 3.2 Meilenstein 2
 
@@ -929,10 +931,125 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
 
 ### 8.1 Kommunikationsprotokoll
 
+#### 8.1.1 Chatting
+Die Web App soll eine Chatting Funktion umsetzen (vgl. [UC#9 Chatting](#419-uc-9---chatting)). Diese soll den Austausch von
+Chat-Nachrichten in verschiedene Gruppen erlauben.
+
+Umgesetzt werden diese Gruppen in Socket.io mit Namespaces. So wird es einen "friends", einen "global" und einen "table" Namespace geben,
+in denen Nachrichten ausgetauscht werden können. Die Namespaces werden im Protokoll als Recipients angegeben. Wird keine Gruppe angesprochen,
+sondern ein einzelner Nutzer, wird dessen Nutzer-UUID angegeben.
+
+Die Verbindung zum Namespace wird bereits im Socket aufgebaut. Die Information im JSON wird der Nachvollziehbarkeit halber dennoch
+hinterlegt.
+```json
+{
+  "id": "<request-uuid>",
+  "type": "chat-request",
+  "sender": "<player-uuid>",
+  "recipients": "<global || table || friends || <user-uuid>>",
+  "message": "<message>"
+}
+```
+
+Die Anfrage löst beim Socket das Versenden der Nachricht an die gewünschte Gruppe aus.
+
+#### 8.1.2 Spielverlauf
+Während des Spiels fordert jeder Client nach jedem Spielzug vom Server den neuen Zustand an. Um die Antwortzeit zu überbrücken,
+hält der Client einen transienten Zustand des Spiels, der dann mit der Antwort des Servers ersetzt wird.
+
+Das JSON, mit dem der neue Zustand angefordert wird, hat folgende Form:
+```json
+{
+  "id": "<request-uuid>",
+  "type": "state-request",
+  "round": "<round-number>",
+  "player": "<player-uuid>",
+  "action": 
+    {
+      "stack": "<1 || 2 || 3 || 4>",
+      "card": "<2 - 99>",
+    }
+}
+```
+
+Die Antwort, die der Server sendet, beinhaltet die Information, ob der gesendete Zug valide war und abhängig davon den neuen 
+oder alten Zustand des Spiels. Mit der Request-UUID können die Antworten zu den jeweiligen Anfragen gemappt werden:
+```json
+{
+  "id": "<request-uuid>",
+  "type": "state-response",
+  "valid_play": "true || false",
+  "state": [
+    {
+      "stack": "<1 || 2 || 3 || 4>",
+      "cards": ["<all cards on the stack in laid order>"]
+    }, 
+    ...
+  ]
+}
+```
+
+#### 8.1.3 Kurzinterventionen
+Kurzinterventionen sind Anforderungen von Spielern bezüglich eines bestimmten Stapels (dass nach Möglichkeit nicht mehr weiter
+auf einen Stapel abgelegt werden solle oder dass beim aktuellen Stand des Stapels ein Rückwärtstrick möglich wäre). Die Kurzinterventionen
+werden über folgendes JSON an den Server geschickt:
+```json
+{
+  "id": "<request-uuid>",
+  "type": "intervention",
+  "kind": "<stop || save>",
+  "stack": "1 || 2 || 3 || 4",
+  "player": "<player-uuid"
+}
+```
+
+Der Server verteilt die Intervention an die verbundenen Clients, welche die UI entsprechend updaten.
+
+#### 8.1.3 Ausserhalb des Spiels
+Aktionen die nicht unmittelbar mit dem Spiel verbunden sind (namentlich Registration, Login, Hinzufügen- & Entfernen von Nutzenden zu Freundeslisten, Erstellen von Spieltischen), werden über
+REST Endpoints gelöst.
+
+Daten aus dem Registrationsformular werden vom Frontend über eine HTTP POST Anfrage an den "registration"-Endpoint vom Backend abgesetzt und dort verarbeitet.
+Mit dem HTTP Status Code sendet das Backend eine JSON Message, welche nähere Informationen über den Stand der Registration gibt:
+```json
+{
+  "outcome": "<success || failure>",
+  "message": "<message to reason the outcome>"
+}
+```
+
+Daten aus dem Loginformular werden vom Fronten über eine HTTP POST Anfrage an den "login"-Endpoint vom Backend abgesetzt und dort verifiziert.
+Mit dem HTTP Status Code sendet das Backend eine JSON Message, welche nähere Informationen über den Stand des Logins gibt:
+```json
+{
+  "outcome": "<success || failure>",
+  "message": "<message to reason the outcome>"
+}
+```
+
+In beiden Fällen wird das Frontend eine erfolgreiche Aktion entsprechend abhandeln und im Fehlerfall eine entsprechende visuelle Aufarbeitung bieten,
+die im Rahmen des UI Prototyps näher spezifiziert wird.
+
+Das Hinzufügen bzw. Entfernen eines Nutzers zu bzw. von der Freundesliste wird ebenfalls mit einer HTTP POST Anfrage an den Server umgesetzt.
+Hierfür werden ein "add-friend"- und ein "remove-friend"-Endpoint angeboten. Der Request Body hat dabei das folgende Format:
+```json
+{
+  "user-uuid": "<uuid of user demanding the removal/ addition>",
+  "friend-uuid": "<uuid of the user to be removed/ added"
+}
+```
+
+Als Antwort erfolgt wiederum ein HTTP Status Code, sowie eine Erläuterung über den Zustand nach der Aktion:
+```json
+{
+  "outcome": "<success || failure>",
+  "message": "<message to reason the outcome>"
+}
+```
+
+
 ## 9 Deploymentkonzept
 
 ## 10 Installationsanleitung
-
-## 11 Projekt-Tagebuch
 
 ## Quellen
