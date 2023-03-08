@@ -50,8 +50,7 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
     * [5.7 Gitlab](#57-gitlab)
   * [6 Datenmodell](#6-datenmodell)
   * [7 UI Prototyp](#7-ui-prototyp)
-    * [7.1 Mobil](#71-mobil)
-    * [7.2 Desktop](#72-desktop)
+    * [7.1 Landing Page](#71-landing-page)
   * [8 Architekturentscheidungen](#8-architekturentscheidungen)
     * [8.1 Kommunikationsprotokoll](#81-kommunikationsprotokoll)
       * [8.1.1 Chatting](#811-chatting)
@@ -923,9 +922,10 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
 
 ## 7 UI Prototyp
 
-### 7.1 Mobil
+### 7.1 Landing Page
+![Landing Page](./img/landing_page.png)
 
-### 7.2 Desktop
+Idee: Karten drehen sich automatisch um, sobald die Passworteingabe im Fokus steht.
 
 ## 8 Architekturentscheidungen
 
