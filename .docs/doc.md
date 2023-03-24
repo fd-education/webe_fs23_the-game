@@ -51,6 +51,12 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
   * [6 Datenmodell](#6-datenmodell)
   * [7 UI Prototyp](#7-ui-prototyp)
     * [7.1 Landing Page](#71-landing-page)
+    * [7.2 Registration Page](#72-registration-page)
+    * [7.3 Retrieve Code Page](#73-retrieve-code-page)
+    * [7.4 Reset Password Page](#74-reset-password-page)
+    * [7.5 Lobby Page](#75-lobby-page)
+    * [7.6 Game Page](#76-game-page)
+    * [7.7 Profile Page](#77-profile-page)
   * [8 Architekturentscheidungen](#8-architekturentscheidungen)
     * [8.1 Kommunikationsprotokoll](#81-kommunikationsprotokoll)
       * [8.1.1 Chatting](#811-chatting)
@@ -921,11 +927,37 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
 ## 6 Datenmodell
 
 ## 7 UI Prototyp
+Der UI/UX Prototyp wurde mit Figma erstellt. Die folgenden Abschnitte zeigen die Screens und liefern eine kurze Beschreibung.
+Link zum interaktiven Prototypen: [Figma](https://www.figma.com/proto/hoWQ9phvgjPlq5waB3pztI/UI-Prototype?page-id=0%3A1&node-id=73-862&viewport=-1118%2C331%2C0.18&scaling=contain&starting-point-node-id=44%3A468&show-proto-sidebar=1)
 
 ### 7.1 Landing Page
-![Landing Page](./img/landing_page.png)
+![Landing Page (Dark Mode)](./img/Login%20Page%20_%20Dark.png)
+![Landing Page (Light Mode)](./img/Login%20Page%20_%20Light.png)
 
-Idee: Karten drehen sich automatisch um, sobald die Passworteingabe im Fokus steht.
+### 7.2 Registration Page
+![Registration Page (Dark Mode)](./img/Registration%20Page%20_%20Dark.png)
+![Registration Page (Light Mode)](./img/Registration%20Page%20_%20Light.png)
+
+### 7.3 Retrieve Code Page
+![Retrieve Code Page (Dark Mode)](./img/Retrieve%20Code%20_%20Dark.png)
+![Retrieve Code Page (Light Mode)](./img/Retrieve%20Code%20_%20Light.png)
+
+### 7.4 Reset Password Page
+![Reset Password Page (Dark Mode)](./img/Reset%20Password%20_%20Dark.png)
+![Reset Password Page (Light Mode)](./img/Reset%20Password%20_%20Light.png)
+
+### 7.5 Lobby Page
+![Lobby Page (Dark Mode)](./img/Lobby%20Page%20_%20Dark.png)
+![Lobby Page (Light Mode)](./img/Lobby%20Page%20_%20Light.png)
+
+### 7.6 Game Page
+![Game Page (Dark Mode)](./img/Game%20Page%20_%20Dark.png)
+![Game Page (Light Mode)](./img/Game%20Page%20_%20Light.png)
+
+### 7.7 Profile Page
+![Profile Page (Dark Mode)](./img/Profile%20Page%20_%20Dark.png)
+![Profile Page (Light Mode)](./img/Profile%20Page%20_%20Light.png)
+
 
 ## 8 Architekturentscheidungen
 
