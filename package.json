@@ -1,0 +1,19 @@
+{
+  "name": "@devtronaut/the-game",
+  "version": "0.0.1",
+  "author": "Fabian Diemand, fabian.diemand@students.ffhs.ch",
+  "license": "MIT",
+  "description": "Web Engineering Semester Project",
+  "workspaces": {
+    "packages": [
+      "workspaces/*"
+    ]
+  },
+  "scripts": {
+    "start-client:dev": "yarn workspace @the-game/client start:dev",
+    "start-server:dev": "yarn workspace @the-game/server start:dev",
+    "start-client:prod": "yarn workspace @the-game/client start:prod",
+    "start-server:prod": "yarn workspace @the-game/server start:prod"
+  },
+  "packageManager": "yarn@3.5.0"
+}
