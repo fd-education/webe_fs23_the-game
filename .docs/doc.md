@@ -140,7 +140,7 @@ dem Projektdokument geschildert und in dem Repository in dem Ordner "docs" hinte
 - [X] Beschreibung des Ziels des Spieles und der zugehörigen Spielregeln.
 - [X] Beschreibung der Anforderungen (Funktional, Nicht-Funktional, KANN, MUSS).
 - [X] Präsentation der Anforderungen an die zu entwickelnde Software
-- [ ] Mockups für das Frontend, sowohl für Desktop als auch für Mobile Devices
+- [X] Mockups für das Frontend, sowohl für Desktop als auch für Mobile Devices
 - [X] Erste Auflistung der verwendeten Technologien und Bibliotheken
 - [X] Kurze Beschreibung des Protokolls zwischen Client und Server
     - Welche Daten werden übertragen
@@ -155,7 +155,7 @@ Kommunikationsstrategie bilden den Fokus dieser Abgabe. Bereits ausprogrammiert 
 Server sein, damit die Kommunikation für spätere Schritte bereits gegeben ist. Das Frontend soll, neben der Anmeldung,
 bereits grob strukturiert sein, muss allerdings nicht vollständig sein.
 
-- [ ] Erweiterung des Kommunikationsschemas (Protokollplanung)
+- [X] Erweiterung des Kommunikationsschemas (Protokollplanung)
 - [ ] Anmeldung eines Clients beim Server
 - [ ] Möglichkeit, Nachrichten vom Client an den Server zu schicken mit angemeldetem Benutzer
 - [ ] Möglichkeit der Kommunikation unter den Clients
