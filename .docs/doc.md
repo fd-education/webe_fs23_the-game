@@ -63,6 +63,7 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
       * [8.1.2 Spielverlauf](#812-spielverlauf)
       * [8.1.3 Kurzinterventionen](#813-kurzinterventionen)
       * [8.1.3 Ausserhalb des Spiels](#813-ausserhalb-des-spiels)
+    * [8.2 Server](#82-server)
   * [9 Deploymentkonzept](#9-deploymentkonzept)
   * [10 Installationsanleitung](#10-installationsanleitung)
   * [Quellen](#quellen)
@@ -927,7 +928,7 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
 ## 6 Datenmodell
 
 ## 7 UI Prototyp
-Der UI/UX Prototyp wurde mit Figma erstellt. Die folgenden Abschnitte zeigen die Screens und liefern eine kurze Beschreibung.
+Der UI/UX Prototyp wurde mit Figma erstellt. Die folgenden Abschnitte zeigen die Screens.  
 Link zum interaktiven Prototypen: [Figma](https://www.figma.com/proto/hoWQ9phvgjPlq5waB3pztI/UI-Prototype?page-id=0%3A1&node-id=73-862&viewport=-1118%2C331%2C0.18&scaling=contain&starting-point-node-id=44%3A468&show-proto-sidebar=1)
 
 ### 7.1 Landing Page
@@ -1079,6 +1080,11 @@ Als Antwort erfolgt wiederum ein HTTP Status Code, sowie eine Erläuterung über
 }
 ```
 
+### 8.2 Server
+Bei der Architektur des Servers handelt es sich um einen groben Entwurf, der sich zum aktuellen Zeitpunt primär auf den Datenaustausch zwischen einzelnen Modulen bzw. Komponenten, sowie den Gateways zum Frontend hin konzentriert.
+Ebenfalls werden erste Überlegungen für die Struktur der Datenbank dargelegt.
+
+![Server Architecture Draft](./img/server.jpg)
 
 ## 9 Deploymentkonzept
 
