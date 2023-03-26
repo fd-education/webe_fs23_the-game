@@ -29,7 +29,8 @@
     "dotenv": "^16.0.3",
     "joi": "^17.9.1",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "webpack": "^5.76.3"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
