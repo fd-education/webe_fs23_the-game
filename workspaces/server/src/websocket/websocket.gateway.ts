@@ -14,9 +14,9 @@ export class WebsocketGateway{
         this.logger.setContext(WebsocketGateway.name);
     }
 
-    @SubscribeMessage('message')
+    @SubscribeMessage('createChatMessage')
     handleMessage(@MessageBody() message: string): void{
         this.logger.info(message);
-        this.server.emit('message', message);
+        this.server.emit('incomingChatMessage', message);
     }
 }
