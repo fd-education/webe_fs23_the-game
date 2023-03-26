@@ -6,9 +6,11 @@ let socket: any;
 type Message = {
   author: string;
   message: string;
+
+  timestamp: number
 }
 
-export default function Home(){
+export default function Chat(){
   const [username, setUsername] = useState('');
   const [chosenUsername, setChosenUsername] = useState('');
   const [message, setMessage] = useState('');
@@ -27,7 +29,7 @@ export default function Home(){
     socket.on('incomingChatMessage', (msg: Message) => {
       setMessages(currentMsg => [
           ...currentMsg,
-        {author: msg.author, message: msg.message}
+        {author: msg.author, message: msg.message, timestamp: msg.timestamp}
       ]);
 
       console.log(messages);
@@ -37,7 +39,7 @@ export default function Home(){
   const sendMessage = async () => {
     if(message === '') return;
 
-    socket.emit('createChatMessage', {author: chosenUsername, message});
+    socket.emit('createChatMessage', {author: chosenUsername, message, timestamp: Date.now()});
     setMessage('');
   }
 
@@ -84,21 +86,31 @@ export default function Home(){
                       return msg.author === chosenUsername? (
                               <div className="chat chat-end">
                                 <div className="chat-bubble bg-chatBubbleOwn text-black" key={i}>
-                                  {msg.author} : {msg.message}
+                                  <div className="chat-header opacity-50">
+                                  <time className="text-xs opacity-50"> {new Date(msg.timestamp).toLocaleTimeString('de-CH', {hour: "numeric", minute: "numeric"})}</time>
+                                </div>
+                                  {msg.message}
                                 </div>
                               </div>
                     ):(
                               <div className="chat chat-start">
                                 <div className="chat-bubble bg-chatBubbleForeign text-white" key={i}>
-                                  {msg.author} : {msg.message}
-                            </div>
-                          </div>
+                                    <div className="chat-header opacity-50">
+                                        {msg.author}
+                                        <time className="text-xs opacity-50"> {new Date(msg.timestamp).toLocaleTimeString('de-CH', {hour: "numeric", minute: "numeric"})}</time>
+                                    </div>
+                                    {msg.message}
+
+                                </div>
+                              </div>
                       );
                     })}
                   </div>
                   <div className="border-t border-gray-300 w-full flex rounded-bl-md">
                     <input
+                        id="chat-input"
                         type="text"
+                        value={message}
                         placeholder="Your chat..."
                         className="outline-none py-2 px-2 rounded-bl-md flex-1"
                         onChange={(e) => setMessage(e.target.value)}
