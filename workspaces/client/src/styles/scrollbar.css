@@ -1,0 +1,17 @@
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    background: theme('colors.gray');
+    border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: theme('colors.orange');
+    border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.darkOrange');
+}

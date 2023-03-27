@@ -28,8 +28,8 @@ export default function Chat(){
 
     socket.on('incomingChatMessage', (msg: Message) => {
       setMessages(currentMsg => [
-          ...currentMsg,
-        {author: msg.author, message: msg.message, timestamp: msg.timestamp}
+          {author: msg.author, message: msg.message, timestamp: msg.timestamp},
+          ...currentMsg
       ]);
 
       console.log(messages);
@@ -52,8 +52,8 @@ export default function Chat(){
   };
 
   return (
-      <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryDark drop-shadow-2xl shadow-shadowDark">
-        <main className="gap-4 flex flex-col items-center justify-center w-full h-full">
+      <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryDark">
+        <div className="gap-4 flex flex-col items-center justify-center w-full h-full">
           {!chosenUsername ? (
               <>
                 <h3 className="font-bold text-white text-xl">
@@ -77,11 +77,8 @@ export default function Chat(){
               </>
           ) : (
               <>
-                <p className="font-bold text-white text-xl">
-                  User: {username}
-                </p>
-                <div className="flex flex-col justify-end bg-secondaryDark h-[20rem] min-w-[33%] rounded-md shadow-md ">
-                  <div className="h-full last:border-b-0 overflow-y-scroll">
+                <div className="flex flex-col justify-end bg-secondaryDark h-[20rem] min-w-[33%] rounded-2lg shadow-around p-3">
+                  <div className="h-full last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((msg, i) => {
                       return msg.author === chosenUsername? (
                               <div className="chat chat-end">
@@ -106,31 +103,31 @@ export default function Chat(){
                       );
                     })}
                   </div>
-                  <div className="border-t border-gray-300 w-full flex rounded-bl-md">
+                  <div className="divider"/>
+                  <div className="w-full flex space-x-3">
                     <input
                         id="chat-input"
                         type="text"
                         value={message}
-                        placeholder="Your chat..."
-                        className="outline-none py-2 px-2 rounded-bl-md flex-1"
+                        placeholder="Write here ..."
+                        className="input w-full flex-1 h-10 rounded-full bg-white"
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyUp={handleKeypress}
                     />
-                    <div className="border-l border-gray-300 flex justify-center items-center  rounded-br-md group hover:bg-purple-500 transition-all">
+
                       <button
-                          className="group-hover:text-white px-3 h-full bg-blue-500 text-white font-bold"
+                          className="w-10 h-10 bg-purple rounded-full"
                           onClick={() => {
                             sendMessage();
                           }}
                       >
-                        Send
+                        <i className="bi bi-send-fill icon-black"></i>
                       </button>
-                    </div>
                   </div>
                 </div>
               </>
           )}
-        </main>
+        </div>
       </div>
   );
 }
