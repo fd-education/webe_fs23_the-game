@@ -1,5 +1,8 @@
-.icon-black{
+.icon-black {
     color: theme('colors.black');
+}
+
+.icon-size-m {
     font-size: 1.3rem;
 }
 
