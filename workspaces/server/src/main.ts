@@ -1,16 +1,18 @@
-import { NestFactory } from '@nestjs/core';
+import {NestFactory} from '@nestjs/core';
 import { AppModule } from './app.module';
-import {ConfigService} from "@nestjs/config";
 import {LoggerService} from "./logger/logger.service";
+import {ConfigService} from "./config/config.service";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useLogger(new LoggerService())
 
-  const configService = app.get(ConfigService);
 
-  const port = configService.get('PORT');
-  await app.listen(port);
+  const configService = app.get(ConfigService, {strict: false});
+  const loggerService = app.get(LoggerService, {strict: false});
+
+  app.useLogger(loggerService)
+
+  await app.listen(configService.port);
 }
 
 // noinspection JSIgnoredPromiseFromCall
