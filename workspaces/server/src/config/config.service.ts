@@ -25,7 +25,7 @@ export class ConfigService {
     }
     get mongoUri(): string {
         if(this.envConfig.STAGE === Stage.DEV){
-            return `mongodb://${this.envConfig.MONGO_HOST}/${this.envConfig.MONGO_DB}`;
+            return `mongodb://${this.envConfig.MONGO_USER}:${this.envConfig.MONGO_PASS}@${this.envConfig.MONGO_HOST}`;
         }
 
         return `mongodb://${this.envConfig.MONGO_USER}:${this.envConfig.MONGO_PASS}@${this.envConfig.MONGO_HOST}/${this.envConfig.MONGO_DB}`;
