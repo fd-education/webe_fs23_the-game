@@ -8,14 +8,14 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
 
 ## Inhalt
 <!-- TOC -->
-* [Dokumentation: The Game](#dokumentation--the-game)
+* [Dokumentation: The Game](#dokumentation-the-game)
   * [Inhalt](#inhalt)
   * [1 Einleitung](#1-einleitung)
   * [2 Erklärung des Spiels](#2-erklärung-des-spiels)
     * [2.1 Spielaufbau](#21-spielaufbau)
     * [2.2 Ziel des Spiels](#22-ziel-des-spiels)
     * [2.3 Spielregeln](#23-spielregeln)
-    * [2.4 Spielregeln "On Fire"](#24-spielregeln--on-fire-)
+    * [2.4 Spielregeln "On Fire"](#24-spielregeln-on-fire)
   * [3 Projektplanung](#3-projektplanung)
     * [3.1 Meilenstein 1](#31-meilenstein-1)
     * [3.2 Meilenstein 2](#32-meilenstein-2)
@@ -33,7 +33,7 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
       * [4.1.8 UC #8 - Spieltisch](#418-uc-8---spieltisch)
       * [4.1.9 UC #9 - Chatting](#419-uc-9---chatting)
       * [4.1.10 UC #10 - Normales Spiel](#4110-uc-10---normales-spiel)
-      * [4.1.11 UC #11 - Spiel "On Fire"](#4111-uc-11---spiel--on-fire-)
+      * [4.1.11 UC #11 - Spiel "On Fire"](#4111-uc-11---spiel-on-fire)
       * [4.1.12 UC #12 - Schnellinterventionen](#4112-uc-12---schnellinterventionen)
       * [4.1.13 UC #13 - Spielstatistiken](#4113-uc-13---spielstatistiken)
     * [4.2 Nicht-Funktionale Anforderungen](#42-nicht-funktionale-anforderungen)
@@ -41,14 +41,15 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
       * [4.2.2 Qualitätsanforderungen](#422-qualitätsanforderungen)
       * [4.2.3 Randbedingungen](#423-randbedingungen)
   * [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
-    * [5.1 NodeJS (TypeScript)](#51-nodejs--typescript-)
-    * [5.2 Yarn](#52-yarn)
-    * [5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher](#53-reactjs--html-css-typescript----nicht-100-sicher)
+    * [5.1 NodeJS (TypeScript)](#51-nodejs-typescript)
+    * [5.2 Yarn](#52-yarn-)
+    * [5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher](#53-reactjs-html-css-typescript---nicht-100-sicher)
     * [5.4 Socket.io](#54-socketio)
     * [5.5 MongoDB](#55-mongodb)
     * [5.6 Docker](#56-docker)
     * [5.7 Gitlab](#57-gitlab)
   * [6 Datenmodell](#6-datenmodell)
+    * [6.1 User](#61-user)
   * [7 UI Prototyp](#7-ui-prototyp)
     * [7.1 Landing Page](#71-landing-page)
     * [7.2 Registration Page](#72-registration-page)
@@ -166,7 +167,7 @@ bereits grob strukturiert sein, muss allerdings nicht vollständig sein.
 ### 3.3 Meilenstein 3
 
 **Abgabe: 23.04.2023 (PVA6 - 1d), Nachbearbeitung: 05.05.2023 (PVA7 - 2d)**  
-In diesem Schritt werden sowohl Server- wie auch Client-Seite weiterentwickelt. Insbesondere über den State der
+In diesem Schritt werden sowohl Server- als auch Client-Seite weiterentwickelt. Insbesondere über den State der
 Applikation sollen die gemachten Gedanken implementiert und ausprogrammiert werden. Die Logik der Applikation oder des
 Spiels soll bereits vollständig stehen und programmiert sein. Das Projekt soll also bereits bedienbar sein. Es wird noch
 nicht erwartet, dass sämtliche Kontroll- und Speichermechanismen vollständig implementiert sind.
@@ -895,7 +896,7 @@ die Erstellung einer grafischen Benutzeroberfläche. So können repetitive Muste
 
 Der Autor ist sich zum aktuellen Zeitpunkt noch unsicher, ob React zum Einsatz kommen wird. 
 Sollte React für das Frontend verwendet werden, würden nebst HTML und CSS wiederum TypeScript zum Einsatz kommen. Die Entscheidung
-ist im Abschnitt [5.1 NodeJS](#51-nodejs--typescript-) erklärt. Für das Projekt würde React 18 verwendet werden.
+ist im Abschnitt [5.1 NodeJS](#51-nodejs-typescript) erklärt. Für das Projekt würde React 18 verwendet werden.
 
 ### 5.4 Socket.io
 Für die Echtzeitkommunikation zwischen Server(n) und Webclients kommt [Socket.io](https://socket.io/) zum Einsatz. Socket.IO nutzt das [WebSocket Protokoll](https://en.wikipedia.org/wiki/WebSocket), um eine bidirektionale, nahezu verzögerungsfreie Verbindung 
@@ -926,6 +927,29 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
 "Verification" und "Done" erstellt. Die Branch-Strategie folgt grundsätzlich den Empfehlungen des Git-flow-Workflow.
 
 ## 6 Datenmodell
+### 6.1 User
+
+```json
+{
+  "uid": <unique identifier>,
+  "firstname": <first name of the user>,
+  "lastname": <last name of the user>,
+  "username": <pseudonym username>,
+  "email": <email of the user>,
+  "password": <password of the user>,
+  "profile_picture": <profile picture of the user>,
+  "friend_list": <list of user-ids>
+  
+  "games_data": {
+    "played": <#of games played>,
+    "wins": <#of games won>,
+    "defeats": <#of games lost>,
+    "avg_duration": <average game duration>,
+    "partners": <list of prev partners (max. 30 rounds)>
+  }
+}
+```
+
 
 ## 7 UI Prototyp
 Der UI/UX Prototyp wurde mit Figma erstellt. Die folgenden Abschnitte zeigen die Screens.  
