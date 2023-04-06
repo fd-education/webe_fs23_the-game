@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import {MongooseModule} from "@nestjs/mongoose";
 import {ConfigService} from "../../config/config.service";
 import {ConfigModule} from "../../config/config.module";
-import {UsersModule} from "../users/users.module";
+
 @Module({
     imports: [
         MongooseModule.forRootAsync({
