@@ -25,6 +25,24 @@ export class UsersService{
         return user;
     }
 
+    async findByEmail(email: string): Promise<User>{
+        const user = await this.userModel.findOne({email: email});
+
+        if(user == null){
+            // TODO: correctly handle user not existing!
+            return new User();
+        }
+
+        return user;
+    }
+
+    async checkUsernameAndEmail(username: string, email: string): Promise<Boolean>{
+        const user = await this.userModel.find({$or: [{email: email}, {username: username}]});
+
+        // return false if a user is found, true otherwise
+        return !user;
+    }
+
     async update(updateUserDto: UserDto): Promise<User>{
         const updatedUser = new this.userModel(updateUserDto);
 
