@@ -51,6 +51,10 @@ export class ConfigService {
         return this.envConfig.JWT_EXPIRY;
     }
 
+    get saltRounds(): number{
+        return this.envConfig.SALT_ROUNDS;
+    }
+
     private validateEnv() {
         const envVarsSchema: Joi.ObjectSchema = Joi.object({
             APP_NAME: Joi.string().required(),
@@ -64,6 +68,8 @@ export class ConfigService {
 
             JWT_SECRET: Joi.string().required(),
             JWT_EXPIRY: Joi.string().required(),
+
+            SALT_ROUNDS: Joi.number().min(10).max(15).required(),
         })
 
         const { error, value: validatedEnvConfig } = envVarsSchema.validate(process.env, {

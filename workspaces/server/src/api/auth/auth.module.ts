@@ -6,9 +6,10 @@ import {LoggerModule} from "../../logger/logger.module";
 import {JwtModule} from "@nestjs/jwt";
 import {ConfigModule} from "../../config/config.module";
 import {ConfigService} from "../../config/config.service";
+import {BcryptService} from "./bcrypt.service";
 
 @Module({
-  imports: [UsersModule, LoggerModule,
+  imports: [UsersModule, LoggerModule, ConfigModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -18,7 +19,7 @@ import {ConfigService} from "../../config/config.service";
       inject: [ConfigService],
     })
     ],
-  providers: [AuthService],
+  providers: [AuthService, BcryptService],
   controllers: [AuthController]
 })
 export class AuthModule {}
