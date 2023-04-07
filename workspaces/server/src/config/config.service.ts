@@ -43,6 +43,14 @@ export class ConfigService {
         return this.envConfig.MONGO_PASS;
     }
 
+    get jwtSecret(): string {
+        return this.envConfig.JWT_SECRET;
+    }
+
+    get jwtExpiry(): string {
+        return this.envConfig.JWT_EXPIRY;
+    }
+
     private validateEnv() {
         const envVarsSchema: Joi.ObjectSchema = Joi.object({
             APP_NAME: Joi.string().required(),
@@ -52,7 +60,10 @@ export class ConfigService {
             MONGO_HOST: Joi.string().required(),
             MONGO_DB: Joi.string().required(),
             MONGO_USER: Joi.string().required(),
-            MONGO_PASS: Joi.string().required()
+            MONGO_PASS: Joi.string().required(),
+
+            JWT_SECRET: Joi.string().required(),
+            JWT_EXPIRY: Joi.string().required(),
         })
 
         const { error, value: validatedEnvConfig } = envVarsSchema.validate(process.env, {
