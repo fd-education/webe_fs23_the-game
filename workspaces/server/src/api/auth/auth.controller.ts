@@ -1,4 +1,4 @@
-import {Body, Controller, HttpCode, HttpException, HttpStatus, Post,} from '@nestjs/common';
+import {BadRequestException, Body, Controller, HttpCode, HttpStatus, Post,} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SigninDto} from "./signin.dto";
 import {UserDto} from "../../data/users/user.dto";
@@ -22,8 +22,8 @@ export class AuthController {
         try{
             return await this.authService.register(userDto);
         } catch (error: any) {
-            this.logger.error(`Error: ${error}`);
-            throw new HttpException('Make sure to provide a well-formed user entity', HttpStatus.BAD_REQUEST);
+            this.logger.error(`Error: ${error}, Type: ${error.name}`);
+            throw new BadRequestException('Make sure to provide a well-formed, unique user entity');
         }
     }
 }

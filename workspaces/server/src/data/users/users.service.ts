@@ -37,10 +37,10 @@ export class UsersService{
     }
 
     async checkUsernameAndEmail(username: string, email: string): Promise<Boolean>{
-        const user = await this.userModel.find({$or: [{email: email}, {username: username}]});
+        const users = await this.userModel.find({$or: [{email: email}, {username: username}]});
 
-        // return false if a user is found, true otherwise
-        return !user;
+        // return true if a user is found, true otherwise
+        return users.length > 0;
     }
 
     async update(updateUserDto: UserDto): Promise<User>{

@@ -1,5 +1,6 @@
 import { HydratedDocument } from 'mongoose';
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
+import { v4 as uuidv4 } from 'uuid';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -27,8 +28,10 @@ class UserGameStats{
 @Schema()
 export class User {
     @Prop({
-        required: true,
-        unique: true
+        unique: true,
+        default: function genUUID(){
+            return uuidv4();
+        }
     })
     uid: string
 

@@ -2176,6 +2176,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:18.11.18"],\
             ["@types/socket.io", "npm:3.0.2"],\
             ["@types/supertest", "npm:2.0.12"],\
+            ["@types/uuid", "npm:9.0.1"],\
             ["@typescript-eslint/eslint-plugin", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:5.56.0"],\
             ["@typescript-eslint/parser", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:5.56.0"],\
             ["dotenv", "npm:16.0.3"],\
@@ -2195,6 +2196,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["ts-node", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:10.9.1"],\
             ["tsconfig-paths", "npm:4.1.1"],\
             ["typescript", "patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=23ec76"],\
+            ["uuid", "npm:9.0.0"],\
             ["webpack", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:5.76.3"]\
           ],\
           "linkType": "SOFT"\
@@ -2634,6 +2636,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@types/supertest", "npm:2.0.12"],\
             ["@types/superagent", "npm:4.1.16"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/uuid", [\
+        ["npm:9.0.1", {\
+          "packageLocation": "./.yarn/cache/@types-uuid-npm-9.0.1-b44e45eb8a-c472b8a77c.zip/node_modules/@types/uuid/",\
+          "packageDependencies": [\
+            ["@types/uuid", "npm:9.0.1"]\
           ],\
           "linkType": "HARD"\
         }]\
