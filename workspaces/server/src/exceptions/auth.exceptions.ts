@@ -17,3 +17,9 @@ export class AuthenticationFailedException extends HttpException{
         super(`Authentication for user ${email} failed`, HttpStatus.UNAUTHORIZED);
     }
 }
+
+export class NotAuthenticatedException extends HttpException{
+    constructor(){
+        super('Unauthorized: Action not allowed.', HttpStatus.UNAUTHORIZED);
+    }
+}
