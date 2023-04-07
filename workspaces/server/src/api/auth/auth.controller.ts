@@ -6,10 +6,10 @@ import {
     Post
 } from '@nestjs/common';
 import {AuthService} from "./auth.service";
-import {SigninDto} from "./signin.dto";
-import {UserDto} from "../../data/users/user.dto";
-import {LoggerService} from "../../logger/logger.service";
-import {AuthenticationFailedException} from "../../exceptions/auth.exceptions";
+import {SigninDto} from "../../common/dto/signin.dto";
+import {UserDto} from "../../common/dto/user.dto";
+import {AuthenticationFailedException} from "../../common/exceptions/auth.exceptions";
+import {LoggerService} from "../../common/logger/logger.service";
 
 @Controller('auth')
 export class AuthController {

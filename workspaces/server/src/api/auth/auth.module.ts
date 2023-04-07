@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {UsersModule} from "../../data/users/users.module";
 import {AuthController} from "./auth.controller";
-import {LoggerModule} from "../../logger/logger.module";
+import {LoggerModule} from "../../common/logger/logger.module";
+import {ConfigModule} from "../../common/config/config.module";
+import {ConfigService} from "../../common/config/config.service";
 import {JwtModule} from "@nestjs/jwt";
-import {ConfigModule} from "../../config/config.module";
-import {ConfigService} from "../../config/config.service";
-import {BcryptService} from "./bcrypt.service";
+import {BcryptModule} from "../../security/bcrypt/bcrypt.module";
 
 @Module({
-  imports: [UsersModule, LoggerModule, ConfigModule,
+  imports: [UsersModule, LoggerModule, ConfigModule, BcryptModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -19,7 +19,7 @@ import {BcryptService} from "./bcrypt.service";
       inject: [ConfigService],
     })
     ],
-  providers: [AuthService, BcryptService],
+  providers: [AuthService],
   controllers: [AuthController]
 })
 export class AuthModule {}

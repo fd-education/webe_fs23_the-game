@@ -1,10 +1,9 @@
 import {Injectable} from '@nestjs/common';
 import {UsersService} from "../../data/users/users.service";
-import {UserDto} from "../../data/users/user.dto";
-import {RegistrationDto} from "./registration.dto";
-import {AuthenticationFailedException, DuplicateUserException} from "../../exceptions/auth.exceptions";
+import {RegistrationDto} from "../../common/dto/registration.dto";
+import {AuthenticationFailedException, DuplicateUserException} from "../../common/exceptions/auth.exceptions";
 import {JwtService} from "@nestjs/jwt";
-import {BcryptService} from "./bcrypt.service";
+import {BcryptService} from "../../security/bcrypt/bcrypt.service";
 
 @Injectable()
 export class AuthService {
@@ -30,13 +29,6 @@ export class AuthService {
             throw new DuplicateUserException();
         }
 
-        const hashedPassword = await this.bcryptService.hashPassword(registrationDto.password);
-
-        const user: UserDto = {
-            ...registrationDto,
-            password: hashedPassword
-        }
-
-        return await this.usersService.create(user);
+        return await this.usersService.create(registrationDto);
     }
 }

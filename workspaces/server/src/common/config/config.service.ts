@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import * as Joi from "joi";
 import { Injectable } from '@nestjs/common';
-import {Stage} from "../enums/stage.enum";
+import {Stage} from "../server-enums/stage.enum";
 
 @Injectable()
 export class ConfigService {

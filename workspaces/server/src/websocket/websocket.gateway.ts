@@ -1,5 +1,5 @@
 import {MessageBody, SubscribeMessage, WebSocketGateway, WebSocketServer} from "@nestjs/websockets";
-import {LoggerService} from "../logger/logger.service";
+import {LoggerService} from "../common/logger/logger.service";
 
 @WebSocketGateway({
     cors: {
