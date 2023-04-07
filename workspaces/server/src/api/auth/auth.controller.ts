@@ -1,8 +1,17 @@
-import {BadRequestException, Body, Controller, HttpCode, HttpStatus, Post,} from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    HttpCode,
+    HttpStatus,
+    Post,
+    UnauthorizedException,
+} from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SigninDto} from "./signin.dto";
 import {UserDto} from "../../data/users/user.dto";
 import {LoggerService} from "../../logger/logger.service";
+import {AuthenticationFailedException, DuplicateUserException} from "../../exceptions/auth.exceptions";
 
 @Controller('auth')
 export class AuthController {
@@ -13,7 +22,16 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('signin')
     async signIn(@Body() signInDto: SigninDto){
-        return await this.authService.signIn(signInDto.username, signInDto.password);
+        try{
+            return await this.authService.signIn(signInDto.username, signInDto.password);
+        } catch(exception: any){
+            if(exception instanceof AuthenticationFailedException){
+                this.logger.warn(`${exception}`);
+                throw exception;
+            }
+
+            this.logger.error(exception);
+        }
     }
 
     @HttpCode(HttpStatus.OK)
@@ -21,9 +39,9 @@ export class AuthController {
     async register(@Body() userDto: UserDto){
         try{
             return await this.authService.register(userDto);
-        } catch (error: any) {
-            this.logger.error(`Error: ${error}, Type: ${error.name}`);
-            throw new BadRequestException('Make sure to provide a well-formed, unique user entity');
+        } catch (exception: any) {
+            this.logger.error(`${exception}`);
+            throw exception;
         }
     }
 }

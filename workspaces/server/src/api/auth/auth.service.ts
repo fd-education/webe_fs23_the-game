@@ -2,6 +2,7 @@ import {Injectable, UnauthorizedException} from '@nestjs/common';
 import {UsersService} from "../../data/users/users.service";
 import {UserDto} from "../../data/users/user.dto";
 import {RegistrationDto} from "./registration.dto";
+import {AuthenticationFailedException, DuplicateUserException} from "../../exceptions/auth.exceptions";
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
         const user = await this.usersService.findByEmail(email);
 
         if(user?.password !== pass){
-            throw new UnauthorizedException();
+            throw new AuthenticationFailedException(email);
         }
 
         const {password, ...result} = user;
@@ -26,7 +27,7 @@ export class AuthService {
 
         const exists = await this.usersService.checkUsernameAndEmail(user.username, user.email);
         if(exists){
-            throw new Error('User with similar email and/or username already existing in database!');
+            throw new DuplicateUserException();
         }
 
         return await this.usersService.create(user);

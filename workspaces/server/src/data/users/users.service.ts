@@ -1,6 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {InjectModel} from "@nestjs/mongoose";
-import {User} from "./user.schema";
+import {User, UserDocument} from "./user.schema";
 import {Model} from "mongoose";
 import {UserDto} from "./user.dto";
 
@@ -9,31 +9,15 @@ export class UsersService{
     constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
     async create(createUserDto: UserDto): Promise<User>{
-        const createdUser = new this.userModel(createUserDto);
-
-        return createdUser.save();
+        return await this.userModel.create(createUserDto);
     }
 
-    async findByUid(uid: string): Promise<User>{
-        const user = await this.userModel.findOne({uid: uid});
-
-        if(user == null){
-            // TODO: correctly handle user not existing!
-            return new User();
-        }
-
-        return user;
+    async findByUid(uid: string): Promise<User | null>{
+        return await this.userModel.findOne({uid: uid}).lean().select(['-__v', '-_id']);
     }
 
-    async findByEmail(email: string): Promise<User>{
-        const user = await this.userModel.findOne({email: email});
-
-        if(user == null){
-            // TODO: correctly handle user not existing!
-            return new User();
-        }
-
-        return user;
+    async findByEmail(email: string): Promise<User | null>{
+        return await this.userModel.findOne({email: email}).lean().select(['-__v', '-_id']);
     }
 
     async checkUsernameAndEmail(username: string, email: string): Promise<Boolean>{
@@ -49,14 +33,7 @@ export class UsersService{
         return updatedUser.save();
     }
 
-    async delete(uid: string): Promise<User> {
-        const deletedUser = await this.userModel.findOneAndDelete({uid: uid});
-
-        if(deletedUser == null){
-            // TODO: correctly handle user not existing!
-            return new User();
-        }
-
-        return deletedUser;
+    async delete(uid: string): Promise<User | null> {
+        return await this.userModel.findOneAndDelete({uid: uid}).lean().select(['-__v', '-_id']);
     }
 }
