@@ -1,17 +1,15 @@
 import {
-    BadRequestException,
     Body,
     Controller,
     HttpCode,
     HttpStatus,
-    Post,
-    UnauthorizedException,
+    Post
 } from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SigninDto} from "./signin.dto";
 import {UserDto} from "../../data/users/user.dto";
 import {LoggerService} from "../../logger/logger.service";
-import {AuthenticationFailedException, DuplicateUserException} from "../../exceptions/auth.exceptions";
+import {AuthenticationFailedException} from "../../exceptions/auth.exceptions";
 
 @Controller('auth')
 export class AuthController {
