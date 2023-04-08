@@ -1,6 +1,6 @@
 import {UserGameStatsDto} from "./user.dto";
 
-export class ProfileDto{
+export interface ProfileDto{
     readonly uid: string
     readonly firstname: string
     readonly lastname: string
@@ -9,4 +9,13 @@ export class ProfileDto{
     readonly profile_picture: string
     readonly friend_list?: string[]
     readonly game_stats?: UserGameStatsDto
+}
+
+export class ProfileRequestDto{
+    readonly uid: string
+}
+
+export interface PasswordDto{
+    id: string
+    password: string
 }

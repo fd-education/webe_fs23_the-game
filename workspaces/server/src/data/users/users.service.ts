@@ -5,6 +5,7 @@ import {Model} from "mongoose";
 import {UserDto} from "../../common/dto/user.dto";
 import {BcryptService} from "../../security/bcrypt/bcrypt.service";
 import {LoggerService} from "../../common/logger/logger.service";
+import {ProfileDto} from "../../common/dto/profile.dto";
 
 @Injectable()
 export class UsersService{
@@ -42,17 +43,14 @@ export class UsersService{
         return users.length > 0;
     }
 
-    async update(updateUserDto: UserDto): Promise<User>{
-        const hashedPassword = await this.bcryptService.hashPassword(updateUserDto.password);
+    async update(updateUserDto: ProfileDto): Promise<User | null>{
+        return await this.userModel.findOneAndUpdate({uid: updateUserDto.uid}, updateUserDto);
+    }
 
-        const secureUpdateUser: UserDto = {
-            ...updateUserDto,
-            password: hashedPassword
-        }
+    async updatePassword(uid: string, password: string): Promise<User | null>{
+        const hashedPassword = await this.bcryptService.hashPassword(password);
 
-        const updatedUser = new this.userModel(secureUpdateUser);
-
-        return updatedUser.save();
+        return await this.userModel.findOneAndUpdate({uid}, {password: hashedPassword})
     }
 
     async delete(uid: string): Promise<User | null> {
