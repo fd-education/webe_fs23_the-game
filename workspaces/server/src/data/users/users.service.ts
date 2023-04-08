@@ -4,10 +4,17 @@ import {User} from "./user.schema";
 import {Model} from "mongoose";
 import {UserDto} from "../../common/dto/user.dto";
 import {BcryptService} from "../../security/bcrypt/bcrypt.service";
+import {LoggerService} from "../../common/logger/logger.service";
 
 @Injectable()
 export class UsersService{
-    constructor(@InjectModel(User.name) private userModel: Model<User>, private bcryptService: BcryptService) {}
+    constructor(
+        @InjectModel(User.name) private userModel: Model<User>,
+        private bcryptService: BcryptService,
+        private logger: LoggerService)
+    {
+        this.logger.setContext(UsersService.name);
+    }
 
     async create(createUserDto: UserDto): Promise<User>{
         const hashedPassword = await this.bcryptService.hashPassword(createUserDto.password);

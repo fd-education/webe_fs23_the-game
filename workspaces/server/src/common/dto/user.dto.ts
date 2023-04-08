@@ -1,4 +1,4 @@
-class UserGameStatsDto{
+export class UserGameStatsDto{
     readonly played: number
     readonly wins: number
     readonly defeats: number
@@ -7,6 +7,7 @@ class UserGameStatsDto{
 }
 
 export class UserDto{
+    readonly uid?: string
     readonly firstname: string
     readonly lastname: string
     readonly username: string

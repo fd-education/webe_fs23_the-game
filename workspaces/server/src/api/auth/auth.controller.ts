@@ -8,8 +8,13 @@ import {
 import {AuthService} from "./auth.service";
 import {SigninDto} from "../../common/dto/signin.dto";
 import {UserDto} from "../../common/dto/user.dto";
-import {AuthenticationFailedException} from "../../common/exceptions/auth.exceptions";
+import {
+    AuthenticationFailedException,
+    DuplicateUserException,
+    MalformedUserException
+} from "../../common/exceptions/auth.exceptions";
 import {LoggerService} from "../../common/logger/logger.service";
+import {Error} from "mongoose";
 
 @Controller('auth')
 export class AuthController {
@@ -28,7 +33,8 @@ export class AuthController {
                 throw exception;
             }
 
-            this.logger.error(exception);
+            this.logger.error(`UNHANDLED: ${exception}`);
+            throw exception;
         }
     }
 
@@ -38,7 +44,18 @@ export class AuthController {
         try{
             return await this.authService.register(userDto);
         } catch (exception: any) {
-            this.logger.error(`${exception}`);
+
+            if(exception.code === 11000){
+                this.logger.warn(`${exception}`);
+                throw new DuplicateUserException();
+            }
+
+            if(exception instanceof Error.ValidationError){
+                this.logger.warn(`${exception}`);
+                throw new MalformedUserException();
+            }
+
+            this.logger.error(`UNHANDLED: ${exception}`);
             throw exception;
         }
     }
