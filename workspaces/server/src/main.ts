@@ -10,7 +10,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService, {strict: false});
   const loggerService = await app.resolve(LoggerService);
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true,
+    forbidNonWhitelisted: true
+  }));
   app.useLogger(loggerService);
 
   await app.listen(configService.port);

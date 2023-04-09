@@ -33,6 +33,8 @@ export class ProfileService {
     }
 
     async updateProfile(profileUpdate: ProfileDto) {
+
+
         const user = await this.userService.update(profileUpdate);
 
         if(user === null){
