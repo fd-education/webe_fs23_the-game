@@ -2218,6 +2218,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/express", "npm:4.17.17"],\
             ["@types/jest", "npm:29.2.4"],\
             ["@types/node", "npm:18.11.18"],\
+            ["@types/nodemailer", "npm:6.4.7"],\
             ["@types/socket.io", "npm:3.0.2"],\
             ["@types/supertest", "npm:2.0.12"],\
             ["@types/uuid", "npm:9.0.1"],\
@@ -2233,6 +2234,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:29.3.1"],\
             ["joi", "npm:17.9.1"],\
             ["mongoose", "npm:7.0.3"],\
+            ["node-mailer", "npm:0.1.1"],\
             ["prettier", "npm:2.8.7"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["rxjs", "npm:7.8.0"],\
@@ -2567,6 +2569,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-node-npm-18.15.9-8ef19f541e-5165f84f2f.zip/node_modules/@types/node/",\
           "packageDependencies": [\
             ["@types/node", "npm:18.15.9"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@types/nodemailer", [\
+        ["npm:6.4.7", {\
+          "packageLocation": "./.yarn/cache/@types-nodemailer-npm-6.4.7-8618621ba9-dc2a33a891.zip/node_modules/@types/nodemailer/",\
+          "packageDependencies": [\
+            ["@types/nodemailer", "npm:6.4.7"],\
+            ["@types/node", "npm:18.15.5"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -8933,11 +8945,30 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["node-mailer", [\
+        ["npm:0.1.1", {\
+          "packageLocation": "./.yarn/cache/node-mailer-npm-0.1.1-bacf89fc1e-5d13884fc2.zip/node_modules/node-mailer/",\
+          "packageDependencies": [\
+            ["node-mailer", "npm:0.1.1"],\
+            ["nodemailer", "npm:6.9.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["node-releases", [\
         ["npm:2.0.10", {\
           "packageLocation": "./.yarn/cache/node-releases-npm-2.0.10-f8e2d9a776-d784ecde25.zip/node_modules/node-releases/",\
           "packageDependencies": [\
             ["node-releases", "npm:2.0.10"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["nodemailer", [\
+        ["npm:6.9.1", {\
+          "packageLocation": "./.yarn/cache/nodemailer-npm-6.9.1-5159f56f86-b1b9670afc.zip/node_modules/nodemailer/",\
+          "packageDependencies": [\
+            ["nodemailer", "npm:6.9.1"]\
           ],\
           "linkType": "HARD"\
         }]\
