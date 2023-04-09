@@ -7,7 +7,6 @@ import {
 } from '@nestjs/common';
 import {AuthService} from "./auth.service";
 import {SigninDto} from "../../common/dto/signin.dto";
-import {UserDto} from "../../common/dto/user.dto";
 import {
     AuthenticationFailedException,
     DuplicateUserException,
@@ -15,6 +14,7 @@ import {
 } from "../../common/exceptions/auth.exceptions";
 import {LoggerService} from "../../common/logger/logger.service";
 import {Error} from "mongoose";
+import {RegistrationDto} from "../../common/dto/registration.dto";
 
 @Controller('auth')
 export class AuthController {
@@ -40,9 +40,9 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post('register')
-    async register(@Body() userDto: UserDto){
+    async register(@Body() registrationDto: RegistrationDto){
         try{
-            return await this.authService.register(userDto);
+            return await this.authService.register(registrationDto);
         } catch (exception: any) {
 
             if(exception.code === 11000){

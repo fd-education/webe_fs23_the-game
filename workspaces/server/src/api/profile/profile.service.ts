@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import {UserDto} from "../../common/dto/user.dto";
 import {UsersService} from "../../data/users/users.service";
 import {NoSuchProfileException} from "../../common/exceptions/profile.exceptions";
 import {PasswordDto, ProfileDto} from "../../common/dto/profile.dto";
@@ -45,7 +44,7 @@ export class ProfileService {
 
     async updatePassword(passwordUpdate: PasswordDto) {
         const hashedPassword = await this.bcryptService.hashPassword(passwordUpdate.password);
-        const user = await this.userService.updatePassword(passwordUpdate.id, hashedPassword);
+        const user = await this.userService.updatePassword(passwordUpdate.uid, hashedPassword);
 
         if(user === null){
             throw new NoSuchProfileException();
