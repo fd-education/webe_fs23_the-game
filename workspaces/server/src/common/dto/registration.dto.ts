@@ -1,5 +1,7 @@
-import {IsEmail, IsNotEmpty, IsString, IsStrongPassword} from "class-validator";
+import {IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword} from "class-validator";
 import {Transform, TransformFnParams} from "class-transformer";
+import {Lang} from "../enum/lang.enum";
+import {Theme} from "../enum/theme.enum";
 
 export class RegistrationDto{
     @IsString() @IsNotEmpty()
@@ -25,5 +27,12 @@ export class RegistrationDto{
         minSymbols: 1
     })
     readonly password: string
+
+    @IsEnum(Lang)
+    readonly language: string
+
+    @IsEnum(Theme)
+    readonly theme: string
+
     readonly profile_picture: string
 }

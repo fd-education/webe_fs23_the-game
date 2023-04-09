@@ -1,6 +1,8 @@
 import {UserGameStatsDto} from "./user.dto";
-import {IsEmail, IsNotEmpty, IsString, IsUUID} from "class-validator";
+import {IsEmail, IsEnum, IsNotEmpty, IsString, IsUUID} from "class-validator";
 import {Transform, TransformFnParams} from "class-transformer";
+import {Lang} from "../enum/lang.enum";
+import {Theme} from "../enum/theme.enum";
 
 export class ProfileDto{
     @IsUUID(4)
@@ -20,6 +22,12 @@ export class ProfileDto{
 
     @IsEmail()
     readonly email: string
+
+    @IsEnum(Lang)
+    readonly language: string
+
+    @IsEnum(Theme)
+    readonly theme: string
 
     readonly profile_picture: string
     readonly friend_list?: string[]

@@ -1,6 +1,8 @@
 import { HydratedDocument } from 'mongoose';
 import {Prop, Schema, SchemaFactory} from "@nestjs/mongoose";
 import { v4 as uuidv4 } from 'uuid';
+import {Lang} from "../../common/enum/lang.enum";
+import {Theme} from "../../common/enum/theme.enum";
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -61,6 +63,18 @@ export class User {
         required: true
     })
     password: string
+
+    @Prop({
+        type: String,
+        required: true
+    })
+    theme: Theme
+
+    @Prop({
+        type: String,
+        required: true,
+    })
+    language: Lang
 
     @Prop()
     profile_picture: string
