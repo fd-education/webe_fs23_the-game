@@ -1,57 +1,63 @@
 import { Injectable } from '@nestjs/common';
-import {UsersService} from "../../data/users/users.service";
-import {NoSuchProfileException} from "../../common/exceptions/profile.exceptions";
-import {PasswordDto, ProfileDto} from "../../common/dto/profile.dto";
-import {BcryptService} from "../../security/bcrypt/bcrypt.service";
+import { UsersService } from '../../data/users/users.service';
+import { NoSuchProfileException } from '../../common/exceptions/profile.exceptions';
+import { PasswordDto, ProfileDto } from '../../common/dto/profile.dto';
+import { BcryptService } from '../../security/bcrypt/bcrypt.service';
 
 @Injectable()
 export class ProfileService {
-    constructor(private userService: UsersService, private bcryptService: BcryptService,){}
+  constructor(
+    private userService: UsersService,
+    private bcryptService: BcryptService,
+  ) {}
 
-    async getProfile(uid: string): Promise<ProfileDto> {
-        const user = await this.userService.findByUid(uid);
+  async getProfile(uid: string): Promise<ProfileDto> {
+    const user = await this.userService.findByUid(uid);
 
-        if(user === null){
-            throw new NoSuchProfileException();
-        }
-
-        const {password, ...result} = user;
-
-        return result;
+    if (user === null) {
+      throw new NoSuchProfileException();
     }
 
-    async deleteProfile(uid: string): Promise<ProfileDto> {
-        const user = await this.userService.delete(uid);
+    const { password, ...result } = user;
 
-        if(user === null){
-            throw new NoSuchProfileException();
-        }
+    return result;
+  }
 
-        const {password, ...result} = user;
+  async deleteProfile(uid: string): Promise<ProfileDto> {
+    const user = await this.userService.delete(uid);
 
-        return result;
+    if (user === null) {
+      throw new NoSuchProfileException();
     }
 
-    async updateProfile(profileUpdate: ProfileDto) {
+    const { password, ...result } = user;
 
+    return result;
+  }
 
-        const user = await this.userService.update(profileUpdate);
+  async updateProfile(profileUpdate: ProfileDto) {
+    const user = await this.userService.update(profileUpdate);
 
-        if(user === null){
-            throw new NoSuchProfileException();
-        }
-
-        return user;
+    if (user === null) {
+      throw new NoSuchProfileException();
     }
 
-    async updatePassword(passwordUpdate: PasswordDto) {
-        const hashedPassword = await this.bcryptService.hashPassword(passwordUpdate.password);
-        const user = await this.userService.updatePassword(passwordUpdate.uid, hashedPassword);
+    return user;
+  }
 
-        if(user === null){
-            throw new NoSuchProfileException();
-        }
+  async updatePassword(passwordUpdate: PasswordDto) {
+    const hashedPassword = await this.bcryptService.hashPassword(
+      passwordUpdate.password,
+    );
+    const user = await this.userService.updatePassword(
+      passwordUpdate.uid,
+      hashedPassword,
+    );
 
-        return user;
+    if (user === null) {
+      throw new NoSuchProfileException();
     }
+
+    return user;
+  }
 }

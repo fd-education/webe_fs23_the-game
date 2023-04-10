@@ -1,10 +1,10 @@
-import {Module} from '@nestjs/common';
-import {BcryptService} from "./bcrypt.service";
-import {ConfigModule} from "../../common/config/config.module";
+import { Module } from '@nestjs/common';
+import { BcryptService } from './bcrypt.service';
+import { ConfigModule } from '../../common/config/config.module';
 
 @Module({
-    imports: [ConfigModule],
-    providers: [BcryptService],
-    exports: [BcryptService]
+  imports: [ConfigModule],
+  providers: [BcryptService],
+  exports: [BcryptService],
 })
 export class BcryptModule {}

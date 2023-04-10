@@ -1570,6 +1570,7 @@ __metadata:
     ts-loader: ^9.2.3
     ts-node: ^10.0.0
     tsconfig-paths: 4.1.1
+    tslib: ^2.5.0
     typescript: ^4.7.4
     uuid: ^9.0.0
     webpack: ^5.76.3

@@ -1,25 +1,31 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import {UsersModule} from "../../data/users/users.module";
-import {AuthController} from "./auth.controller";
-import {LoggerModule} from "../../common/logger/logger.module";
-import {ConfigModule} from "../../common/config/config.module";
-import {ConfigService} from "../../common/config/config.service";
-import {JwtModule} from "@nestjs/jwt";
-import {BcryptModule} from "../../security/bcrypt/bcrypt.module";
+import { UsersModule } from '../../data/users/users.module';
+import { AuthController } from './auth.controller';
+import { LoggerModule } from '../../common/logger/logger.module';
+import { ConfigModule } from '../../common/config/config.module';
+import { ConfigService } from '../../common/config/config.service';
+import { JwtModule } from '@nestjs/jwt';
+import { BcryptModule } from '../../security/bcrypt/bcrypt.module';
+import { MailModule } from '../../common/mail/mail.module';
 
 @Module({
-  imports: [UsersModule, LoggerModule, ConfigModule, BcryptModule,
+  imports: [
+    UsersModule,
+    LoggerModule,
+    ConfigModule,
+    BcryptModule,
+    MailModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         secret: configService.jwtSecret,
-        signOptions: {expiresIn: configService.jwtExpiry},
+        signOptions: { expiresIn: configService.jwtExpiry },
       }),
       inject: [ConfigService],
-    })
-    ],
+    }),
+  ],
   providers: [AuthService],
-  controllers: [AuthController]
+  controllers: [AuthController],
 })
 export class AuthModule {}
