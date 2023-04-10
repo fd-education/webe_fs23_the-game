@@ -55,6 +55,26 @@ export class ConfigService {
         return this.envConfig.SALT_ROUNDS;
     }
 
+    get getSmtpHost(): string{
+        return this.envConfig.SMTP_HOST;
+    }
+
+    get getSmtpPort(): number{
+        return this.envConfig.SMTP_PORT;
+    }
+
+    get getSmtpUsername(): string{
+        return this.envConfig.SMTP_USERNAME;
+    }
+
+    get getSmtpPassword(): string{
+        return this.envConfig.SMTP_PASSWORD;
+    }
+
+    get getSmtpSender(): string{
+        return this.envConfig.SMTP_SENDER;
+    }
+
     private validateEnv() {
         const envVarsSchema: Joi.ObjectSchema = Joi.object({
             APP_NAME: Joi.string().required(),
@@ -70,6 +90,12 @@ export class ConfigService {
             JWT_EXPIRY: Joi.string().required(),
 
             SALT_ROUNDS: Joi.number().min(10).max(15).required(),
+
+            SMTP_HOST: Joi.string().uri().required(),
+            SMTP_PORT: Joi.number().port().required(),
+            SMTP_USERNAME: Joi.string().required(),
+            SMTP_PASSWORD: Joi.string().required(),
+            SMTP_SENDER: Joi.string().email().required()
         })
 
         const { error, value: validatedEnvConfig } = envVarsSchema.validate(process.env, {
