@@ -6,12 +6,15 @@ import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from '../../security/bcrypt/bcrypt.service';
 import { LoggerService } from '../../common/logger/logger.service';
 import { MailService } from '../../common/mail/mail.service';
-import {Lang} from "../../common/enum/lang.enum";
+import { randomBytes } from 'crypto';
+import {TokensService} from "../../data/token/tokens.service";
+import {RequestTokenDto} from "../../common/dto/token.dto";
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
+    private tokensService: TokensService,
     private jwtService: JwtService,
     private bcryptService: BcryptService,
     private mailService: MailService,
@@ -42,7 +45,16 @@ export class AuthService {
     return await this.usersService.create(registrationDto);
   }
 
-  async sendPasswordResetCode(email: string) {
-    this.mailService.sendPasswordResetCode('devtronaut@hotmail.com', Lang.DE);
+  async sendPasswordResetCode(requestTokenDto: RequestTokenDto) {
+    const user = await this.usersService.findByEmail(requestTokenDto.email);
+
+    if(user == null || user.username !== requestTokenDto.username ){
+      return;
+    }
+
+    const token = randomBytes(4).toString('hex');
+    await this.tokensService.create({username: user.username, token});
+
+    this.mailService.sendPasswordResetCode(user, token);
   }
 }

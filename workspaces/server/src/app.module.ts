@@ -7,6 +7,7 @@ import { ApiModule } from './api/api.module';
 import { AuthModule } from './api/auth/auth.module';
 import { UsersModule } from './data/users/users.module';
 import { MailModule } from './common/mail/mail.module';
+import {TokensModule} from "./data/token/tokens.module";
 
 @Module({
   imports: [
@@ -15,8 +16,9 @@ import { MailModule } from './common/mail/mail.module';
     LoggerModule,
     WebsocketModule,
     ApiModule,
-      AuthModule,
+    AuthModule,
     UsersModule,
+    TokensModule,
     MailModule,
   ],
 })
