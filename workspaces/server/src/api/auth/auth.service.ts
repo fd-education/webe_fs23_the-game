@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { BcryptService } from '../../security/bcrypt/bcrypt.service';
 import { LoggerService } from '../../common/logger/logger.service';
 import { MailService } from '../../common/mail/mail.service';
+import {Lang} from "../../common/enum/lang.enum";
 
 @Injectable()
 export class AuthService {
@@ -42,6 +43,6 @@ export class AuthService {
   }
 
   async sendPasswordResetCode(email: string) {
-    this.mailService.sendPasswordResetCode('devtronaut@hotmail.com');
+    this.mailService.sendPasswordResetCode('devtronaut@hotmail.com', Lang.DE);
   }
 }

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ConfigService } from '../config/config.service';
+import {Lang} from "../enum/lang.enum";
 
 @Injectable()
 export class MailService {
@@ -9,14 +10,21 @@ export class MailService {
     private configService: ConfigService,
   ) {}
 
-  sendPasswordResetCode(recipient: string): void {
+  sendPasswordResetCode(recipient: string, lang: Lang): void {
     this.mailerService
       .sendMail({
-        to: recipient,
-        from: `No Reply <${this.configService.smtpSender}>`,
-        sender: this.configService.smtpSender,
-        text: 'Hello World!',
-        html: '<b>Hello World!</b>',
+          to: recipient,
+          from: `No Reply <${this.configService.smtpSender}>`,
+          sender: this.configService.smtpSender,
+          subject: 'The Game - Reset Password',
+          template: `password-token-${lang}.template.pug`,
+          context: {
+              user: 'Devtronaut',
+              token: '2898ubib-eur9^^',
+              expiry: '60',
+              resetUrl: 'https://www.the-game.com/reset-password',
+              frontendUrl: 'https://www.the-game.com'
+          }
       })
       .then();
   }

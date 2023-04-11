@@ -25,7 +25,7 @@ import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
         },
         preview: configService.stage === Stage.DEV,
         template: {
-          dir: process.cwd() + '/templates',
+          dir: process.cwd() + '/mail-templates',
           adapter: new PugAdapter(),
           options: {
             strict: true,

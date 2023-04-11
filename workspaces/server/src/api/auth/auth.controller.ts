@@ -59,6 +59,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('send-token')
   async sendPasswordResetToken() {
-    await this.authService.sendPasswordResetCode('');
+    await this.authService.sendPasswordResetCode('devtronaut@hotmail.com');
   }
 }
