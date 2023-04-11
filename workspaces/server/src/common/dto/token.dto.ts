@@ -14,6 +14,12 @@ export class TokenDto{
     readonly token: string
 }
 
+export class ValidateTokenDto{
+    @IsString() @IsNotEmpty()
+    @Transform(({ value }: TransformFnParams) => value?.trim())
+    readonly token: string
+}
+
 export class RequestTokenDto{
     @IsString() @IsNotEmpty()
     @Transform(({ value }: TransformFnParams) => value?.trim())

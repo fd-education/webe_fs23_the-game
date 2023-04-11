@@ -8,7 +8,7 @@ import { LoggerService } from '../../common/logger/logger.service';
 import { MailService } from '../../common/mail/mail.service';
 import { randomBytes } from 'crypto';
 import {TokensService} from "../../data/token/tokens.service";
-import {RequestTokenDto} from "../../common/dto/token.dto";
+import {RequestTokenDto, ValidateTokenDto} from "../../common/dto/token.dto";
 
 @Injectable()
 export class AuthService {
@@ -56,5 +56,18 @@ export class AuthService {
     await this.tokensService.create({username: user.username, token});
 
     this.mailService.sendPasswordResetCode(user, token);
+  }
+
+  async validatePasswordResetToken(validateTokenDto: ValidateTokenDto) {
+    const token = await this.tokensService.findToken(validateTokenDto.token);
+
+    if(token == null){
+      return;
+    }
+
+    await this.tokensService.delete(token.token);
+
+    // TODO implement some sort of a redirect
+    return true;
   }
 }

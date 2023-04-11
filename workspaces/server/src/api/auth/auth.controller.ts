@@ -9,7 +9,7 @@ import {
 import { LoggerService } from '../../common/logger/logger.service';
 import { Error } from 'mongoose';
 import { RegistrationDto } from '../../common/dto/registration.dto';
-import {RequestTokenDto} from "../../common/dto/token.dto";
+import {RequestTokenDto, ValidateTokenDto} from "../../common/dto/token.dto";
 
 @Controller('auth')
 export class AuthController {
@@ -61,5 +61,11 @@ export class AuthController {
   @Post('request-token')
   async sendPasswordResetToken(@Body() requestTokenDto: RequestTokenDto) {
     await this.authService.sendPasswordResetCode(requestTokenDto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('validate-token')
+  async validatePasswordResetToken(@Body() validateTokenDto: ValidateTokenDto){
+    return await this.authService.validatePasswordResetToken(validateTokenDto);
   }
 }
