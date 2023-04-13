@@ -14,10 +14,10 @@ import {
 } from '../../common/dto/profile.dto';
 import { ProfileService } from './profile.service';
 import { NoSuchProfileException } from '../../common/exceptions/profile.exceptions';
-import { AuthGuard } from '../../security/guards/auth.guard';
+import {AccessTokenGuard} from "../../security/guards/accessToken.guard";
 
 @Controller('profile')
-@UseGuards(AuthGuard)
+@UseGuards(AccessTokenGuard)
 export class ProfileController {
   constructor(
     private profileService: ProfileService,

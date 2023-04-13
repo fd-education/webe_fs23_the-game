@@ -43,12 +43,20 @@ export class ConfigService {
     return this.envConfig.MONGO_PASS;
   }
 
-  get jwtSecret(): string {
-    return this.envConfig.JWT_SECRET;
+  get jwtAccessSecret(): string {
+    return this.envConfig.JWT_ACCESS_SECRET;
   }
 
-  get jwtExpiry(): string {
-    return this.envConfig.JWT_EXPIRY;
+  get jwtRefreshSecret(): string {
+    return this.envConfig.JWT_REFRESH_SECRET;
+  }
+
+  get jwtAccessExpiry(): string {
+    return this.envConfig.JWT_ACCESS_EXPIRY;
+  }
+
+  get jwtRefreshExpiry(): string {
+    return this.envConfig.JWT_REFRESH_EXPIRY;
   }
 
   get saltRounds(): number {
@@ -92,8 +100,10 @@ export class ConfigService {
       MONGO_USER: Joi.string().required(),
       MONGO_PASS: Joi.string().required(),
 
-      JWT_SECRET: Joi.string().required(),
-      JWT_EXPIRY: Joi.string().required(),
+      JWT_ACCESS_SECRET: Joi.string().required(),
+      JWT_REFRESH_SECRET: Joi.string().required(),
+      JWT_ACCESS_EXPIRY: Joi.string().required(),
+      JWT_REFRESH_EXPIRY: Joi.string().required(),
 
       SALT_ROUNDS: Joi.number().min(10).max(15).required(),
 

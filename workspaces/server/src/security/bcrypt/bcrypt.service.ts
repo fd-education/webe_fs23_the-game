@@ -6,12 +6,12 @@ import * as bcrypt from 'bcrypt';
 export class BcryptService {
   constructor(private configService: ConfigService) {}
 
-  async hashPassword(password: string): Promise<string> {
+  async hash(value: string): Promise<string> {
     const saltRounds = this.configService.saltRounds;
-    return await bcrypt.hash(password, saltRounds);
+    return await bcrypt.hash(value, saltRounds);
   }
 
-  async comparePasswords(plain: string, hash: string): Promise<boolean> {
+  async compare(plain: string, hash: string): Promise<boolean> {
     return await bcrypt.compare(plain, hash);
   }
 }

@@ -57,6 +57,9 @@ export class UserDto {
   @Transform(({ value }: TransformFnParams) => value?.trim())
   readonly password: string;
 
+  @IsString() @IsUUID(4)
+  readonly refresh_token?: string
+
   @IsEnum(Lang)
   readonly language: string;
 

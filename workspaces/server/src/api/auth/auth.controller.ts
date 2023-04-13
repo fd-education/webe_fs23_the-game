@@ -1,20 +1,38 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SigninDto } from '../../common/dto/signin.dto';
 import {
   AuthenticationFailedException,
-  DuplicateUserException,
   MalformedUserException,
 } from '../../common/exceptions/auth.exceptions';
 import { LoggerService } from '../../common/logger/logger.service';
 import { Error } from 'mongoose';
 import { RegistrationDto } from '../../common/dto/registration.dto';
 import {RequestTokenDto, ValidateTokenDto} from "../../common/dto/token.dto";
+import {AccessTokenGuard} from "../../security/guards/accessToken.guard";
+import {RefreshTokenGuard} from "../../security/guards/refreshToken.guard";
+import {RefreshTokenDto} from "../../common/dto/refreshToken.dto";
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService, private logger: LoggerService) {
     this.logger.setContext(AuthController.name);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('register')
+  async register(@Body() registrationDto: RegistrationDto) {
+    try {
+      return await this.authService.register(registrationDto);
+    } catch (exception: any) {
+      if (exception instanceof Error.ValidationError) {
+        this.logger.warn(`${exception}`);
+        throw new MalformedUserException();
+      }
+
+      this.logger.error(`UNHANDLED: ${exception}`);
+      throw exception;
+    }
   }
 
   @HttpCode(HttpStatus.OK)
@@ -36,25 +54,18 @@ export class AuthController {
     }
   }
 
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
-  @Post('register')
-  async register(@Body() registrationDto: RegistrationDto) {
-    try {
-      return await this.authService.register(registrationDto);
-    } catch (exception: any) {
-      if (exception.code === 11000) {
-        this.logger.warn(`${exception}`);
-        throw new DuplicateUserException();
-      }
+  @Post('refresh')
+  async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
+    return await this.authService.refreshTokens(refreshTokenDto.uid, refreshTokenDto.refreshToken);
+  }
 
-      if (exception instanceof Error.ValidationError) {
-        this.logger.warn(`${exception}`);
-        throw new MalformedUserException();
-      }
-
-      this.logger.error(`UNHANDLED: ${exception}`);
-      throw exception;
-    }
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get('signout')
+  async logout(@Body() uid: string) {
+    await this.authService.signOut(uid);
   }
 
   @HttpCode(HttpStatus.OK)

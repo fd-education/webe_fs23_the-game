@@ -9,6 +9,8 @@ import { JwtModule } from '@nestjs/jwt';
 import { BcryptModule } from '../../security/bcrypt/bcrypt.module';
 import { MailModule } from '../../common/mail/mail.module';
 import {TokensModule} from "../../data/token/tokens.module";
+import {AccessTokenStrategy} from "../../security/strategies/accessToken.strategy";
+import {RefreshTokenStrategy} from "../../security/strategies/refreshToken.strategy";
 
 @Module({
   imports: [
@@ -21,13 +23,13 @@ import {TokensModule} from "../../data/token/tokens.module";
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        secret: configService.jwtSecret,
-        signOptions: { expiresIn: configService.jwtExpiry },
+        secret: configService.jwtAccessSecret,
+        signOptions: { expiresIn: configService.jwtAccessExpiry },
       }),
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}

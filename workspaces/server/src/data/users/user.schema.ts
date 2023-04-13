@@ -64,6 +64,9 @@ export class User {
   })
   password: string;
 
+  @Prop()
+  refresh_token: string;
+
   @Prop({
     type: String,
     required: true,

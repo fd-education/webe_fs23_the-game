@@ -8,18 +8,20 @@ import { AuthModule } from './api/auth/auth.module';
 import { UsersModule } from './data/users/users.module';
 import { MailModule } from './common/mail/mail.module';
 import {TokensModule} from "./data/token/tokens.module";
+import {ProfileModule} from "./api/profile/profile.module";
 
 @Module({
-  imports: [
-    ConfigModule,
-    DatabaseModule,
-    LoggerModule,
-    WebsocketModule,
-    ApiModule,
-    AuthModule,
-    UsersModule,
-    TokensModule,
-    MailModule,
-  ],
+    imports: [
+        ConfigModule,
+        DatabaseModule,
+        LoggerModule,
+        WebsocketModule,
+        ApiModule,
+        AuthModule,
+        ProfileModule,
+        UsersModule,
+        TokensModule,
+        MailModule,
+    ],
 })
 export class AppModule {}

@@ -46,7 +46,7 @@ export class ProfileService {
   }
 
   async updatePassword(passwordUpdate: PasswordDto) {
-    const hashedPassword = await this.bcryptService.hashPassword(
+    const hashedPassword = await this.bcryptService.hash(
       passwordUpdate.password,
     );
     const user = await this.userService.updatePassword(
