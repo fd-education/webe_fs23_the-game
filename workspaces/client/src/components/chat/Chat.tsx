@@ -1,8 +1,10 @@
 import io from 'socket.io-client';
 import React, {useState, useEffect} from 'react';
-import {Message, MessageWithKey} from "@/types/message";
-import {ChatBubbleForeign, ChatBubbleOwn} from "@/components/chat/ChatBubble";
-import {Panel} from "@/components/util/Panel";
+import {Message} from "postcss";
+import {Panel} from "../util/Panel";
+import {MessageWithKey} from "../../types/message";
+import {ChatBubbleForeign, ChatBubbleOwn} from "./ChatBubble";
+
 
 let socket: any;
 
@@ -22,10 +24,13 @@ export const Chat = () => {
         socket = io('http://localhost:3000/');
 
         socket.on('incomingChatMessage', (msg: Message) => {
-            setMessages(currentMsg => [
-                {author: msg.author, message: msg.message, timestamp: msg.timestamp},
-                ...currentMsg
-            ]);
+            // TODO exchange for Message[] as type
+            setMessages((currentMsg:any) => {
+                return [
+                    {author: msg.author, message: msg.message, timestamp: msg.timestamp},
+                    ...currentMsg
+                ];
+            });
 
             console.log(messages);
         });
@@ -76,7 +81,9 @@ export const Chat = () => {
                             <div className="h-full last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
                                 {messages.map((message, key) => {
 
-                                    const msg: MessageWithKey = {...message, key}
+                                    // TODO Replace with MessageWithKey
+                                    // const msg: MessageWithKey = {...message, key}
+                                    const msg: any = {...message, key}
 
                                     return msg.author === chosenUsername? (
                                         <ChatBubbleOwn author={msg.author} message={msg.message} timestamp={msg.timestamp} key={msg.key}/>
