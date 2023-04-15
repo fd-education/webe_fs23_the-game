@@ -40,7 +40,7 @@ export class AuthController {
   async signIn(@Body() signInDto: SigninDto) {
     try {
       return await this.authService.signIn(
-        signInDto.username,
+        signInDto.email,
         signInDto.password,
       );
     } catch (exception: any) {

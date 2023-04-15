@@ -5,7 +5,7 @@ export class SigninDto {
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => value?.trim())
-  username: string;
+  email: string;
 
   @IsString()
   @IsNotEmpty()
