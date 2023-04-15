@@ -1,12 +1,11 @@
 export type Message = {
     author: string;
     message: string;
-    timestamp: number
-}
+    timestamp: number;
+};
 
 type Key = {
-    key: number
-}
+    key: number;
+};
 
-export type MessageWithKey  = Message & Key;
-
+export type MessageWithKey = Message & Key;

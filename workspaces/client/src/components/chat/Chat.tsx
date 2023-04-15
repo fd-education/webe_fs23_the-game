@@ -1,10 +1,9 @@
 import io from 'socket.io-client';
 import React, {useState, useEffect} from 'react';
-import {Message} from "postcss";
-import {Panel} from "../util/Panel";
-import {MessageWithKey} from "../../types/message";
-import {ChatBubbleForeign, ChatBubbleOwn} from "./ChatBubble";
-
+import {Message} from 'postcss';
+import {Panel} from '../util/Panel';
+import {MessageWithKey} from '../../types/message';
+import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 let socket: any;
 
@@ -25,9 +24,13 @@ export const Chat = () => {
 
         socket.on('incomingChatMessage', (msg: Message) => {
             // TODO exchange for Message[] as type
-            setMessages((currentMsg:any) => {
+            setMessages((currentMsg: any) => {
                 return [
-                    {author: msg.author, message: msg.message, timestamp: msg.timestamp},
+                    {
+                        author: msg.author,
+                        message: msg.message,
+                        timestamp: msg.timestamp
+                    },
                     ...currentMsg
                 ];
             });
@@ -37,16 +40,20 @@ export const Chat = () => {
     };
 
     const sendMessage = async () => {
-        if(message === '') return;
+        if (message === '') return;
 
-        socket.emit('createChatMessage', {author: chosenUsername, message, timestamp: Date.now()});
+        socket.emit('createChatMessage', {
+            author: chosenUsername,
+            message,
+            timestamp: Date.now()
+        });
         setMessage('');
-    }
+    };
 
-    const handleKeypress = (e:any) => {
-        if(e.keyCode === 13){
-            if(message){
-                sendMessage()
+    const handleKeypress = (e: any) => {
+        if (e.keyCode === 13) {
+            if (message) {
+                sendMessage();
             }
         }
     };
@@ -80,19 +87,28 @@ export const Chat = () => {
                         <Panel>
                             <div className="h-full last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
                                 {messages.map((message, key) => {
-
                                     // TODO Replace with MessageWithKey
                                     // const msg: MessageWithKey = {...message, key}
-                                    const msg: any = {...message, key}
+                                    const msg: any = {...message, key};
 
-                                    return msg.author === chosenUsername? (
-                                        <ChatBubbleOwn author={msg.author} message={msg.message} timestamp={msg.timestamp} key={msg.key}/>
-                                    ):(
-                                        <ChatBubbleForeign author={msg.author} message={msg.message} timestamp={msg.timestamp} key={msg.key}/>
+                                    return msg.author === chosenUsername ? (
+                                        <ChatBubbleOwn
+                                            author={msg.author}
+                                            message={msg.message}
+                                            timestamp={msg.timestamp}
+                                            key={msg.key}
+                                        />
+                                    ) : (
+                                        <ChatBubbleForeign
+                                            author={msg.author}
+                                            message={msg.message}
+                                            timestamp={msg.timestamp}
+                                            key={msg.key}
+                                        />
                                     );
                                 })}
                             </div>
-                            <div className="divider"/>
+                            <div className="divider" />
                             <div className="w-full flex space-x-3">
                                 <input
                                     id="chat-input"
@@ -119,4 +135,4 @@ export const Chat = () => {
             </div>
         </div>
     );
-}
+};
