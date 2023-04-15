@@ -15,10 +15,5 @@
     "start-client:prod": "yarn workspace @the-game/client start:prod",
     "start-server:prod": "yarn workspace @the-game/server start:prod"
   },
-  "packageManager": "yarn@3.5.0",
-  "dependencies": {
-    "@nestjs-modules/mailer": "^1.8.1",
-    "lodash": "^4.17.21",
-    "tslib": "^2.5.0"
-  }
+  "packageManager": "yarn@3.5.0"
 }
