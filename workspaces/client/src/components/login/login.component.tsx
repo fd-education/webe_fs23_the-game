@@ -1,9 +1,22 @@
-import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {FloatingLabelInput} from '../../components/util/FloatingLabelInput';
+import {
+    ErrorMessage,
+    Field,
+    Form,
+    Formik,
+    FormikProps,
+    FormikValues
+} from 'formik';
 import React, {FC} from 'react';
 import {useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import {LoginPayload} from '../../common/types/loginPayload';
 import AuthService from '../../services/auth.service';
+
+interface LoginValues {
+    email: string;
+    password: string;
+}
 
 export const Login: FC = () => {
     const navigate = useNavigate();
@@ -46,46 +59,34 @@ export const Login: FC = () => {
     };
 
     return (
-        <div>
-            <div>
+        <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryLight">
+            <>
                 <Formik
                     initialValues={initialValues}
                     onSubmit={handleLogin}
                     validationSchema={validationSchema}
                 >
-                    <Form>
-                        <div>
-                            <label htmlFor="email">email</label>
-                            <Field
+                    {() => (
+                        <Form>
+                            <FloatingLabelInput
                                 name={'email'}
-                                type="text"
-                                placeholder="email"
-                            />
-                            <ErrorMessage name={'email'} component={'div'} />
-                        </div>
-
-                        <div>
-                            <label htmlFor="password">password</label>
-                            <Field
+                                type={'text'}
+                                label={'Email'}
+                            />{' '}
+                            <FloatingLabelInput
                                 name={'password'}
-                                type="password"
-                                placeholder="password"
+                                type={'password'}
+                                label={'Password'}
                             />
-                            <ErrorMessage name={'password'} component={'div'} />
-                        </div>
-
-                        <div>
-                            <button type="submit">Login</button>
-                        </div>
-
-                        {message && (
-                            <div>
-                                <div role="alert">{message}</div>
-                            </div>
-                        )}
-                    </Form>
+                            {message && (
+                                <div>
+                                    <div role="alert">{message}</div>
+                                </div>
+                            )}
+                        </Form>
+                    )}
                 </Formik>
-            </div>
+            </>
         </div>
     );
 };

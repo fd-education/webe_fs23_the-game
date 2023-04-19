@@ -1,0 +1,28 @@
+import {InputError} from '../util/InputError';
+import {FieldAttributes, FieldInputProps, useField} from 'formik';
+
+export const FloatingLabelInput = ({label, ...props}: any) => {
+    const [field, meta, helpers] = useField(props);
+
+    return (
+        <>
+            <div className="relative">
+                <input
+                    {...field}
+                    {...props}
+                    className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-white appearance-none focus:outline-none focus:ring-0 focus:border-0 focus:border-b-2 focus:border-b-the_game_purple peer"
+                    placeholder=" "
+                />
+                <label
+                    htmlFor={field.name}
+                    className="pointer-events-none absolute text-sm text-gray-300 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] left-2.5 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4"
+                >
+                    {label}
+                </label>
+                {meta.touched && meta.error && (
+                    <InputError message={meta.error} />
+                )}
+            </div>
+        </>
+    );
+};

@@ -1,3 +1,4 @@
+import {Chat} from './components/chat/Chat';
 import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -34,12 +35,13 @@ const App: FC = () => {
 
     return (
         <div>
-            <div className="container mt-3">
+            <div>
                 <Routes>
                     <Route path={'/'} element={<Login />} />
                     <Route path={'/login'} element={<Login />} />
                     <Route path={'/register'} element={<Register />} />
                     <Route path={'/profile'} element={<Profile />} />
+                    <Route path={'/chat'} element={<Chat />} />
                 </Routes>
             </div>
         </div>
