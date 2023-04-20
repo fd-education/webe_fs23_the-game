@@ -1,3 +1,4 @@
+import {FloatingLabelInput} from '../../components/util/FloatingLabelInput';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import React, {FC} from 'react';
@@ -72,110 +73,75 @@ export const Register: FC = () => {
     };
 
     return (
-        <div>
-            <div>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={handleRegister}
-                    validationSchema={validationSchema}
-                >
-                    <Form>
-                        {!successful && (
-                            <div>
-                                <div>
-                                    <label htmlFor="firstname">firstname</label>
-                                    <Field
-                                        name={'firstname'}
-                                        type="text"
-                                        placeholder="firstname"
-                                    />
-                                    <ErrorMessage
-                                        name={'firstname'}
-                                        component={'div'}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="lastname">lastname</label>
-                                    <Field
-                                        name={'lastname'}
-                                        type="text"
-                                        placeholder="lastname"
-                                    />
-                                    <ErrorMessage
-                                        name={'lastname'}
-                                        component={'div'}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="username">username</label>
-                                    <Field
-                                        name={'username'}
-                                        type="text"
-                                        placeholder="username"
-                                    />
-                                    <ErrorMessage
-                                        name={'username'}
-                                        component={'div'}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="email">email</label>
-                                    <Field
-                                        name={'email'}
-                                        type="text"
-                                        placeholder="email"
-                                    />
-                                    <ErrorMessage
-                                        name={'email'}
-                                        component={'div'}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="password">password</label>
-                                    <Field
-                                        name={'password'}
-                                        type="password"
-                                        placeholder="password"
-                                    />
-                                    <ErrorMessage
-                                        name={'password'}
-                                        component={'div'}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="confirmPassword">
-                                        confirmPassword
-                                    </label>
-                                    <Field
-                                        name={'confirmPassword'}
-                                        type="password"
-                                        placeholder="confirmPassword"
-                                    />
-                                    <ErrorMessage
-                                        name={'confirmPassword'}
-                                        component={'div'}
-                                    />
-                                </div>
-
-                                <div className="form-group">
-                                    <button type="submit">Register</button>
-                                </div>
+        <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryLight">
+            <Formik
+                initialValues={initialValues}
+                onSubmit={handleRegister}
+                validationSchema={validationSchema}
+            >
+                <Form className="flex flex-col space-y-5 w-1/5">
+                    {!successful && (
+                        <div className="flex flex-col space-y-8">
+                            <div className="flex flex-col space-y-3">
+                                <FloatingLabelInput
+                                    name={'firstname'}
+                                    type={'text'}
+                                    label={'Firstname'}
+                                />
+                                <FloatingLabelInput
+                                    name={'lastname'}
+                                    type={'text'}
+                                    label={'Lastname'}
+                                />
+                                <FloatingLabelInput
+                                    name={'username'}
+                                    type={'text'}
+                                    label={'Username'}
+                                />
+                                <FloatingLabelInput
+                                    name={'email'}
+                                    type={'text'}
+                                    label={'E-Mail'}
+                                />
                             </div>
-                        )}
-
-                        {message && (
-                            <div>
-                                <div role="alert">{message}</div>
+                            <div className="flex flex-col space-y-3">
+                                <FloatingLabelInput
+                                    name={'password'}
+                                    type={'password'}
+                                    label={'Password'}
+                                />
+                                <FloatingLabelInput
+                                    name={'confirmPassword'}
+                                    type={'password'}
+                                    label={'Confirm Password'}
+                                />
                             </div>
-                        )}
-                    </Form>
-                </Formik>
-            </div>
+
+                            <div className="flex flex-col space-y-3">
+                                <button
+                                    className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full`}
+                                    type="submit"
+                                >
+                                    Register
+                                </button>
+
+                                <button
+                                    className={`btn bg-the_game_gray hover:bg-the_game_darkPurple text-white rounded-full`}
+                                    type="reset"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {message && (
+                        <div>
+                            <div role="alert">{message}</div>
+                        </div>
+                    )}
+                </Form>
+            </Formik>
         </div>
     );
 };

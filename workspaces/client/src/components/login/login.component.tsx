@@ -62,54 +62,58 @@ export const Login: FC = () => {
 
     return (
         <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryLight">
-            <>
-                <Formik
-                    initialValues={initialValues}
-                    onSubmit={handleLogin}
-                    validationSchema={validationSchema}
-                >
-                    {() => (
-                        <Form className="flex flex-col space-y-5 w-1/5">
-                            <div className="flex flex-col space-y-3">
+            <Formik
+                initialValues={initialValues}
+                onSubmit={handleLogin}
+                validationSchema={validationSchema}
+            >
+                {() => (
+                    <Form className="flex flex-col space-y-5 w-1/5">
+                        <div className="flex flex-col space-y-3">
+                            <FloatingLabelInput
+                                name={'email'}
+                                type={'text'}
+                                label={'Email'}
+                            />
+                            <div>
                                 <FloatingLabelInput
-                                    name={'email'}
-                                    type={'text'}
-                                    label={'Email'}
-                                />{' '}
-                                <div>
-                                    <FloatingLabelInput
-                                        name={'password'}
-                                        type={'password'}
-                                        label={'Password'}
-                                    />
-                                    <Link
-                                        className="text-sm text-the_game_purple"
-                                        to={'/password-reset'}
-                                    >
-                                        Forgot password?
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="flex flex-col space-y-2">
-                                <button
-                                    className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full ${
-                                        loading && 'loading'
-                                    }`}
-                                    type="submit"
-                                >
-                                    {(loading && 'Logging in ...') || 'Log in'}
-                                </button>
+                                    name={'password'}
+                                    type={'password'}
+                                    label={'Password'}
+                                />
                                 <Link
                                     className="text-sm text-the_game_purple"
-                                    to={'/register'}
+                                    to={'/password-reset'}
                                 >
-                                    No Account? Register!
+                                    Forgot password?
                                 </Link>
                             </div>
-                        </Form>
-                    )}
-                </Formik>
-            </>
+                        </div>
+                        <div className="flex flex-col space-y-2">
+                            <button
+                                className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full ${
+                                    loading && 'loading'
+                                }`}
+                                type="submit"
+                            >
+                                {(loading && 'Logging in ...') || 'Log in'}
+                            </button>
+                            <Link
+                                className="text-sm text-the_game_purple"
+                                to={'/register'}
+                            >
+                                No Account? Register!
+                            </Link>
+                        </div>
+
+                        {message && (
+                            <div>
+                                <div role="alert">{message}</div>
+                            </div>
+                        )}
+                    </Form>
+                )}
+            </Formik>
         </div>
     );
 };
