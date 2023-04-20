@@ -4,6 +4,9 @@ module.exports = {
         './src/pages/**/*.{ts,tsx,js,jsx}'
     ],
     theme: {
+        fontFamily: {
+            'sans': ['Inter', 'sans-serif']
+        },
         extend: {
             colors: {
                 primaryLight: '#F3E6E6',
@@ -29,7 +32,7 @@ module.exports = {
             },
             borderRadius: {
                 '2lg': '1rem'
-            }
+            },
         }
     },
     variants: {},

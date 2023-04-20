@@ -8,7 +8,7 @@ import {
     FormikValues
 } from 'formik';
 import React, {FC} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import {LoginPayload} from '../../common/types/loginPayload';
 import AuthService from '../../services/auth.service';
@@ -31,7 +31,9 @@ export const Login: FC = () => {
 
     const validationSchema = () => {
         return Yup.object().shape({
-            email: Yup.string().required('Email is required'),
+            email: Yup.string()
+                .email('This is not a valid email address.')
+                .required('Email is required'),
             password: Yup.string().required('Password is required')
         });
     };
@@ -67,22 +69,43 @@ export const Login: FC = () => {
                     validationSchema={validationSchema}
                 >
                     {() => (
-                        <Form>
-                            <FloatingLabelInput
-                                name={'email'}
-                                type={'text'}
-                                label={'Email'}
-                            />{' '}
-                            <FloatingLabelInput
-                                name={'password'}
-                                type={'password'}
-                                label={'Password'}
-                            />
-                            {message && (
+                        <Form className="flex flex-col space-y-5 w-1/5">
+                            <div className="flex flex-col space-y-3">
+                                <FloatingLabelInput
+                                    name={'email'}
+                                    type={'text'}
+                                    label={'Email'}
+                                />{' '}
                                 <div>
-                                    <div role="alert">{message}</div>
+                                    <FloatingLabelInput
+                                        name={'password'}
+                                        type={'password'}
+                                        label={'Password'}
+                                    />
+                                    <Link
+                                        className="text-sm text-the_game_purple"
+                                        to={'/password-reset'}
+                                    >
+                                        Forgot password?
+                                    </Link>
                                 </div>
-                            )}
+                            </div>
+                            <div className="flex flex-col space-y-2">
+                                <button
+                                    className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full ${
+                                        loading && 'loading'
+                                    }`}
+                                    type="submit"
+                                >
+                                    {(loading && 'Logging in ...') || 'Log in'}
+                                </button>
+                                <Link
+                                    className="text-sm text-the_game_purple"
+                                    to={'/register'}
+                                >
+                                    No Account? Register!
+                                </Link>
+                            </div>
                         </Form>
                     )}
                 </Formik>
