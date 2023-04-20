@@ -32,10 +32,11 @@ module.exports = {
                 'cards': "url('/public/svg/background-cards.svg')",
             },
             backgroundPosition: {
-                'cards-background': '-10rem -40rem',
+                'cards-background': '-10rem -45rem',
+                'exp': 'center center',
             },
             backgroundSize: {
-                '1.4': '140%',
+                '6': '4rem',
             },
             boxShadow: {
                 around: '0 0 7px 11px theme(colors.shadowDark)'

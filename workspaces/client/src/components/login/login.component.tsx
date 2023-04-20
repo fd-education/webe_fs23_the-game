@@ -52,7 +52,7 @@ export const Login: FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fixed bg-1.4 bg-cards-background bg-no-repeat">
+        <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fill bg-scroll bg-cards-background bg-no-repeat">
             <BigTitle />
 
             <Formik
