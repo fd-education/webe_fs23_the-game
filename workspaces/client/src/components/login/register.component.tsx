@@ -1,4 +1,4 @@
-import {FloatingLabelInput} from '../../components/util/FloatingLabelInput';
+import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import React, {FC} from 'react';

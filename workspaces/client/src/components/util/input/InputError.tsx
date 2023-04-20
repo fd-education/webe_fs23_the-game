@@ -1,4 +1,4 @@
-import {ExclamationMark} from '../svg/exclamation-mark.icon.svg';
+import {ExclamationMark} from '../../svg-components/exclamation-mark.icon.svg';
 
 interface InputErrorProps {
     message: string;

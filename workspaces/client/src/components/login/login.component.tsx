@@ -1,10 +1,13 @@
-import {FloatingLabelInput} from '../../components/util/FloatingLabelInput';
+import {PreferenceToggles} from '../util/button/PreferenceToggles';
+import {RulesButton} from '../util/button/RulesButton';
+import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import {LoginPayload} from '../../common/types/loginPayload';
 import AuthService from '../../services/auth.service';
+import {BigTitle} from '../util/title/BigTitle';
 
 export const Login: FC = () => {
     const navigate = useNavigate();
@@ -49,7 +52,9 @@ export const Login: FC = () => {
     };
 
     return (
-        <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryLight">
+        <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fixed bg-1.4 bg-cards-background bg-no-repeat">
+            <BigTitle />
+
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleLogin}
@@ -79,7 +84,7 @@ export const Login: FC = () => {
                         </div>
                         <div className="flex flex-col space-y-2">
                             <button
-                                className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full ${
+                                className={`btn bg-the_game_purple border-none hover:bg-the_game_darkPurple text-white rounded-full ${
                                     loading && 'loading'
                                 }`}
                                 type="submit"
@@ -102,6 +107,14 @@ export const Login: FC = () => {
                     </Form>
                 )}
             </Formik>
+
+            <div className="flex flex-col items-center space-y-8">
+                <RulesButton />
+
+                <PreferenceToggles
+                    togglesToDisplay={{screenMode: true, language: true}}
+                />
+            </div>
         </div>
     );
 };

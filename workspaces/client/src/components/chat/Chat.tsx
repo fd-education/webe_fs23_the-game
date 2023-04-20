@@ -126,7 +126,7 @@ export const Chat = () => {
                                         sendMessage();
                                     }}
                                 >
-                                    <i className="bi bi-send-fill icon-black icon-size-m"></i>
+                                    <i className="bi bi-send-fill text-black icon-size-m"></i>
                                 </button>
                             </div>
                         </Panel>

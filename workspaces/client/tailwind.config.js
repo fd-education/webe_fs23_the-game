@@ -5,7 +5,8 @@ module.exports = {
     ],
     theme: {
         fontFamily: {
-            'sans': ['Inter', 'sans-serif']
+            'sans': ['Inter', 'sans-serif'],
+            'title': ['Roboto Mono', 'monospace'],
         },
         extend: {
             colors: {
@@ -25,7 +26,16 @@ module.exports = {
                 the_game_gray: '#847C7C',
 
                 chatBubbleForeign: '#262628',
-                chatBubbleOwn: '#E9E9EB'
+                chatBubbleOwn: '#E9E9EB',
+            },
+            backgroundImage: {
+                'cards': "url('/public/svg/background-cards.svg')",
+            },
+            backgroundPosition: {
+                'cards-background': '-10rem -40rem',
+            },
+            backgroundSize: {
+                '1.4': '140%',
             },
             boxShadow: {
                 around: '0 0 7px 11px theme(colors.shadowDark)'
@@ -34,6 +44,15 @@ module.exports = {
                 '2lg': '1rem'
             },
         }
+    },
+    daisyui: {
+      themes: [
+          {
+              mytheme: {
+                  "base-100": "#D9D9D9",
+              }
+          }
+      ]
     },
     variants: {},
     plugins: [require('daisyui')]
