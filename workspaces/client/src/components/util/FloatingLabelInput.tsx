@@ -1,8 +1,8 @@
 import {InputError} from '../util/InputError';
-import {FieldAttributes, FieldInputProps, useField} from 'formik';
+import {useField} from 'formik';
 
 export const FloatingLabelInput = ({label, ...props}: any) => {
-    const [field, meta, helpers] = useField(props);
+    const [field, meta] = useField(props);
 
     return (
         <>

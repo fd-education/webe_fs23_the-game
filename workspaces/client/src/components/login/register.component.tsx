@@ -1,5 +1,5 @@
 import {FloatingLabelInput} from '../../components/util/FloatingLabelInput';
-import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import React, {FC} from 'react';
 import * as Yup from 'yup';

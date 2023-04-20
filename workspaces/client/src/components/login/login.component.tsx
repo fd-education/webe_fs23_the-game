@@ -1,22 +1,10 @@
 import {FloatingLabelInput} from '../../components/util/FloatingLabelInput';
-import {
-    ErrorMessage,
-    Field,
-    Form,
-    Formik,
-    FormikProps,
-    FormikValues
-} from 'formik';
+import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import {LoginPayload} from '../../common/types/loginPayload';
 import AuthService from '../../services/auth.service';
-
-interface LoginValues {
-    email: string;
-    password: string;
-}
 
 export const Login: FC = () => {
     const navigate = useNavigate();
