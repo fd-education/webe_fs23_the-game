@@ -1,5 +1,7 @@
 import {useState} from 'react';
-import useDarkSide from '../../../hooks/useDarkSide';
+import {useTranslation} from 'react-i18next';
+import useSwitchLang from '../../../hooks/useSwitchLang';
+import useSwitchTheme from '../../../hooks/useSwitchTheme';
 
 interface TogglesToDisplay {
     screenMode?: boolean;
@@ -11,12 +13,21 @@ interface PreferenceTogglesProps {
 }
 
 export const PreferenceToggles = (props: PreferenceTogglesProps) => {
-    const [colorTheme, setTheme] = useDarkSide();
+    const [colorTheme, setTheme] = useSwitchTheme();
     const [darkSide, setDarkSide] = useState(colorTheme === 'light');
+
+    const {i18n} = useTranslation();
+    const [displayLanguage, setLanguage] = useSwitchLang();
+    const [language, setLang] = useState(displayLanguage === 'en');
 
     const toggleDarkMode = (checked: boolean) => {
         setTheme(colorTheme);
         setDarkSide(checked);
+    };
+
+    const toggleLanguage = (checked: boolean) => {
+        setLanguage(displayLanguage);
+        setLang(checked);
     };
 
     return (
@@ -44,6 +55,8 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
                         </p>
                         <input
                             type="checkbox"
+                            checked={language}
+                            onChange={(e) => toggleLanguage(e.target.checked)}
                             className="toggle toggle-md border-none bg-the_game_orange"
                         />
                         <p className="font-bold text-black dark:text-white icon-size-m px-2">
