@@ -2,19 +2,33 @@
     "translation": {
         "auth": {
             "common": {
+                "confirmPassword": "Passwort bestätigen",
                 "email": "E-Mail",
-                "password": "Passwort",
                 "errors": {
+                    "invalidConfirmPassword": "Passwörter müssen übereinstimmen.",
                     "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
+                    "invalidLengthUsername": "Benutzername muss mind. 5 und max. 30 Buchstaben lang sein.",
+                    "invalidPassword": "Passwort muss mind. 8 Zeichen lang sein und Gross- und Kleinbuchstaben, Zahlen und Sonderzeichen enthalten.",
                     "requiredEmail": "Keine E-Mail Adresse eingetragen.",
-                    "requiredPassword": "Kein Passwort eingetragen."
-                }
+                    "requiredFirstname": "Kein Vorname eingetragen.",
+                    "requiredLastname": "Kein Nachname eingetragen.",
+                    "requiredPassword": "Kein Passwort eingetragen.",
+                    "requiredUsername": "Kein Benutzername eingetragen."
+                },
+                "firstname": "Vorname",
+                "lastname": "Nachname",
+                "password": "Passwort",
+                "username": "Benutzername"
             },
             "login": {
                 "forgotPassword": "Passwort vergessen?",
-                "login": "Anmelden",
                 "loggingIn": "Anmeldung...",
+                "login": "Anmelden",
                 "noAccount": "Noch kein Konto? Jetzt registrieren!"
+            },
+            "register": {
+                "cancel": "Abbrechen",
+                "register": "Registrieren"
             }
         },
         "common": {

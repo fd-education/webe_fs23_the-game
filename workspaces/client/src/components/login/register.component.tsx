@@ -1,3 +1,4 @@
+import {useTranslation} from 'react-i18next';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
@@ -12,6 +13,7 @@ export const Register: FC = () => {
     const [successful, setSuccessful] = React.useState(false);
     const [message, setMessage] = React.useState('');
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     const initialValues: RegistrationPayload = {
         firstname: '',
@@ -25,26 +27,37 @@ export const Register: FC = () => {
     };
 
     const validationSchema = () => {
+        const passwordInvalid = t(
+            'auth.common.errors.invalidPassword'
+        ).toString();
+        const usernameInvalid = t(
+            'auth.common.errors.invalidUsername'
+        ).toString();
+
         return Yup.object().shape({
-            firstname: Yup.string().required('Firstname is required'),
-            lastname: Yup.string().required('Lastname is required'),
+            firstname: Yup.string().required(
+                t('auth.common.errors.requiredFirstname').toString()
+            ),
+            lastname: Yup.string().required(
+                t('auth.common.errors.requiredLastname').toString()
+            ),
             username: Yup.string()
-                .min(5, 'Username must be between 5 and 30 characters.')
-                .max(30, 'Username must be between 5 and 30 characters.')
-                .required('Username is required'),
+                .min(5, usernameInvalid)
+                .max(30, usernameInvalid)
+                .required(t('auth.common.errors.requiredUsername').toString()),
             email: Yup.string()
-                .email('Email is invalid')
-                .required('Email is required'),
+                .email(t('auth.common.errors.invalidEmail').toString())
+                .required(t('auth.common.errors.requiredEmail').toString()),
             password: Yup.string()
-                .min(8, 'Password must be 8 characters long')
-                .matches(/[0-9]/, 'Password requires a number')
-                .matches(/[a-z]/, 'Password requires a lowercase letter')
-                .matches(/[A-Z]/, 'Password requires an uppercase letter')
-                .matches(/\W/, 'Password requires a symbol')
-                .required('Password is required'),
+                .min(8, passwordInvalid)
+                .matches(/[0-9]/, passwordInvalid)
+                .matches(/[a-z]/, passwordInvalid)
+                .matches(/[A-Z]/, passwordInvalid)
+                .matches(/\W/, passwordInvalid)
+                .required(t('auth.common.errors.requiredPassword').toString()),
             confirmPassword: Yup.string().oneOf(
                 [Yup.ref('password')],
-                'Must match "Password" field value'
+                t('auth.common.errors.invalidConfirmPassword').toString()
             )
         });
     };
@@ -86,34 +99,34 @@ export const Register: FC = () => {
                                 <FloatingLabelInput
                                     name={'firstname'}
                                     type={'text'}
-                                    label={'Firstname'}
+                                    label={t('auth.common.firstname')}
                                 />
                                 <FloatingLabelInput
                                     name={'lastname'}
                                     type={'text'}
-                                    label={'Lastname'}
+                                    label={t('auth.common.lastname')}
                                 />
                                 <FloatingLabelInput
                                     name={'username'}
                                     type={'text'}
-                                    label={'Username'}
+                                    label={t('auth.common.username')}
                                 />
                                 <FloatingLabelInput
                                     name={'email'}
                                     type={'text'}
-                                    label={'E-Mail'}
+                                    label={t('auth.common.email')}
                                 />
                             </div>
                             <div className="flex flex-col space-y-3">
                                 <FloatingLabelInput
                                     name={'password'}
                                     type={'password'}
-                                    label={'Password'}
+                                    label={t('auth.common.password')}
                                 />
                                 <FloatingLabelInput
                                     name={'confirmPassword'}
                                     type={'password'}
-                                    label={'Confirm Password'}
+                                    label={t('auth.common.confirmPassword')}
                                 />
                             </div>
 
@@ -122,14 +135,14 @@ export const Register: FC = () => {
                                     className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full`}
                                     type="submit"
                                 >
-                                    Register
+                                    {t('auth.register.register')}
                                 </button>
 
                                 <button
                                     className={`btn bg-the_game_gray hover:bg-the_game_darkPurple text-white rounded-full`}
                                     type="reset"
                                 >
-                                    Cancel
+                                    {t('auth.register.cancel')}
                                 </button>
                             </div>
                         </div>

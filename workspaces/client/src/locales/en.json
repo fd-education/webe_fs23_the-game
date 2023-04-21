@@ -2,19 +2,33 @@
     "translation": {
         "auth": {
             "common": {
+                "confirmPassword": "Confirm Password",
                 "email": "Email",
-                "password": "Password",
                 "errors": {
+                    "invalidConfirmPassword": "Passwords must match.",
                     "invalidEmail": "This email address is not valid.",
+                    "invalidLengthUsername": "Username must be between 5 and 30 characters.",
+                    "invalidPassword": "Password must be at least 8 characters long and contain upper and lower case letters, numbers and special characters.",
                     "requiredEmail": "Email address is required.",
-                    "requiredPassword": "Password is required."
-                }
+                    "requiredFirstname": "Firstname is required.",
+                    "requiredLastname": "Lastname ist required.",
+                    "requiredPassword": "Password is required.",
+                    "requiredUsername": "Username is required."
+                },
+                "firstname": "Firstname",
+                "lastname": "Lastname",
+                "password": "Password",
+                "username": "Username"
             },
             "login": {
                 "forgotPassword": "Forgot password?",
-                "login": "Log in",
                 "loggingIn": "Loading...",
+                "login": "Log in",
                 "noAccount": "No account? Register!"
+            },
+            "register": {
+                "cancel": "Cancel",
+                "register": "Register"
             }
         },
         "common": {
