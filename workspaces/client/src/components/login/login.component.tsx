@@ -1,3 +1,4 @@
+import {useTranslation} from 'react-i18next';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
@@ -11,6 +12,7 @@ import {BigTitle} from '../util/title/BigTitle';
 
 export const Login: FC = () => {
     const navigate = useNavigate();
+    const {t} = useTranslation();
 
     const [loading, setLoading] = React.useState(false);
     const [message, setMessage] = React.useState('');
@@ -23,9 +25,11 @@ export const Login: FC = () => {
     const validationSchema = () => {
         return Yup.object().shape({
             email: Yup.string()
-                .email('This is not a valid email address.')
-                .required('Email is required'),
-            password: Yup.string().required('Password is required')
+                .email(t('auth.common.errors.invalidEmail').toString())
+                .required(t('auth.common.errors.requiredEmail').toString()),
+            password: Yup.string().required(
+                t('auth.common.errors.requiredPassword').toString()
+            )
         });
     };
 
@@ -66,19 +70,19 @@ export const Login: FC = () => {
                             <FloatingLabelInput
                                 name={'email'}
                                 type={'text'}
-                                label={'Email'}
+                                label={t('auth.common.email')}
                             />
                             <div>
                                 <FloatingLabelInput
                                     name={'password'}
                                     type={'password'}
-                                    label={'Password'}
+                                    label={t('auth.common.password')}
                                 />
                                 <Link
                                     className="text-sm text-the_game_purple"
                                     to={'/password-reset'}
                                 >
-                                    Forgot password?
+                                    {t('auth.login.forgotPassword')}
                                 </Link>
                             </div>
                         </div>
@@ -89,13 +93,14 @@ export const Login: FC = () => {
                                 }`}
                                 type="submit"
                             >
-                                {(loading && 'Logging in ...') || 'Log in'}
+                                {(loading && t('auth.common.loggingIn')) ||
+                                    t('auth.login.login')}
                             </button>
                             <Link
                                 className="text-sm text-the_game_purple"
                                 to={'/register'}
                             >
-                                No Account? Register!
+                                {t('auth.login.noAccount')}
                             </Link>
                         </div>
 

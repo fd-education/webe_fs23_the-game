@@ -1,0 +1,25 @@
+{
+    "translation": {
+        "auth": {
+            "common": {
+                "email": "E-Mail",
+                "loggingIn": "Anmeldung...",
+                "password": "Passwort",
+                "errors": {
+                    "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
+                    "requiredEmail": "Keine E-Mail Adresse eingtragen.",
+                    "requiredPassword": "Kein Passwort eingetragen."
+                }
+            },
+            "login": {
+                "forgotPassword": "Passwort vergessen?",
+                "login": "Anmelden",
+                "noAccount": "Noch kein Konto? Jetzt registrieren!"
+            }
+        },
+        "common": {
+            "readRules": "Regeln lesen",
+            "subtitle": "Spiel... solange du kannst!"
+        }
+    }
+}
