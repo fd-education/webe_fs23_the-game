@@ -93,7 +93,7 @@ export const Login: FC = () => {
                                 }`}
                                 type="submit"
                             >
-                                {(loading && t('auth.common.loggingIn')) ||
+                                {(loading && t('auth.login.loggingIn')) ||
                                     t('auth.login.login')}
                             </button>
                             <Link

@@ -3,7 +3,6 @@
         "auth": {
             "common": {
                 "email": "Email",
-                "loggingIn": "Loading...",
                 "password": "Password",
                 "errors": {
                     "invalidEmail": "This email address is not valid.",
@@ -14,6 +13,7 @@
             "login": {
                 "forgotPassword": "Forgot password?",
                 "login": "Log in",
+                "loggingIn": "Loading...",
                 "noAccount": "No account? Register!"
             }
         },

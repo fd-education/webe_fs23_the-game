@@ -3,7 +3,6 @@
         "auth": {
             "common": {
                 "email": "E-Mail",
-                "loggingIn": "Anmeldung...",
                 "password": "Passwort",
                 "errors": {
                     "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
@@ -14,6 +13,7 @@
             "login": {
                 "forgotPassword": "Passwort vergessen?",
                 "login": "Anmelden",
+                "loggingIn": "Anmeldung...",
                 "noAccount": "Noch kein Konto? Jetzt registrieren!"
             }
         },
