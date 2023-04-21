@@ -1,4 +1,6 @@
 import {useTranslation} from 'react-i18next';
+import {PreferenceToggles} from '../util/button/PreferenceToggles';
+import {RulesButton} from '../util/button/RulesButton';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
@@ -8,6 +10,7 @@ import {Lang} from '../../common/enum/lang.enum';
 import {Theme} from '../../common/enum/theme.enum';
 import AuthService from '../../services/auth/auth.service';
 import {useNavigate} from 'react-router-dom';
+import {BigTitle} from '../util/title/BigTitle';
 
 export const Register: FC = () => {
     const [successful, setSuccessful] = React.useState(false);
@@ -86,7 +89,9 @@ export const Register: FC = () => {
     };
 
     return (
-        <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-primaryLight">
+        <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fill bg-scroll bg-cards-background bg-no-repeat">
+            <BigTitle />
+
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleRegister}
@@ -132,14 +137,14 @@ export const Register: FC = () => {
 
                             <div className="flex flex-col space-y-3">
                                 <button
-                                    className={`btn bg-the_game_purple hover:bg-the_game_darkPurple text-white rounded-full`}
+                                    className={`btn bg-the_game_purple border-none hover:bg-the_game_darkPurple text-white rounded-full`}
                                     type="submit"
                                 >
                                     {t('auth.register.register')}
                                 </button>
 
                                 <button
-                                    className={`btn bg-the_game_gray hover:bg-the_game_darkPurple text-white rounded-full`}
+                                    className={`btn bg-the_game_gray border-none hover:bg-gray-600 text-white rounded-full`}
                                     type="reset"
                                 >
                                     {t('auth.register.cancel')}
@@ -155,6 +160,14 @@ export const Register: FC = () => {
                     )}
                 </Form>
             </Formik>
+
+            <div className="flex flex-col items-center space-y-8">
+                <RulesButton />
+
+                <PreferenceToggles
+                    togglesToDisplay={{screenMode: true, language: true}}
+                />
+            </div>
         </div>
     );
 };
