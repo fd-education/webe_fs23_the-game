@@ -3,6 +3,7 @@ import axios from 'axios';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import {LoginPayload} from '../../common/types/loginPayload';
 import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
+import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
 
 const AUTH_API = config.backendUrl + '/auth';
 
@@ -32,6 +33,14 @@ class AuthService {
 
     requestResetPasswordToken(requestTokenPayload: RequestTokenPayload) {
         return axios.post(AUTH_API + '/request-token', requestTokenPayload);
+    }
+
+    resetPassword(resetPasswordPayload: ResetPasswordPayload): Promise<void> {
+        // TODO implement backend route for reset-password
+        console.log('resetPasswordPayload', resetPasswordPayload);
+        return new Promise((resolve, _) => {
+            resolve();
+        });
     }
 
     getCurrentUser() {

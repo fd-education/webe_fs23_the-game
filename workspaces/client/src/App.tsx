@@ -4,6 +4,7 @@ import React, {FC, useEffect} from 'react';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {User} from './common/types/user';
 import {RequestToken} from './components/pages/RequestToken';
+import {ResetPassword} from './components/pages/ResetPassword';
 import AuthService from './services/auth/auth.service';
 import {Route, Routes} from 'react-router-dom';
 import {Profile} from './components/pages/Profile';
@@ -42,6 +43,10 @@ const App: FC = () => {
                     <Route path={'/login'} element={<Login />} />
                     <Route path={'/register'} element={<Register />} />
                     <Route path={'/request-token'} element={<RequestToken />} />
+                    <Route
+                        path={'/reset-password'}
+                        element={<ResetPassword />}
+                    />
                     <Route path={'/profile'} element={<Profile />} />
                     <Route path={'/chat'} element={<Chat />} />
                 </Routes>
