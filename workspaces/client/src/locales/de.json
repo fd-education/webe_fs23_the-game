@@ -27,12 +27,20 @@
                 "login": "Anmelden",
                 "noAccount": "Noch kein Konto? Jetzt registrieren!"
             },
+            "passwordReset": {
+                "codeExists": "Ich habe bereits einen Code.",
+                "getCode": "Code erhalten",
+                "info": "Gib deine E-Mail Adresse und deinen Benutzernamen an, um einen Code für die Rücksetzung deines Passworts zu erhalten.",
+                "resetCode": "Code",
+                "resetInfo": "Gib deinen Code ein und setze ein neues Passwort.",
+                "resetPassword": "Passwort zurücksetzen"
+            },
             "register": {
-                "cancel": "Abbrechen",
                 "register": "Registrieren"
             }
         },
         "common": {
+            "cancel": "Abbrechen",
             "readRules": "Regeln lesen",
             "subtitle": "Spiel... solange du kannst!"
         }

@@ -80,7 +80,7 @@ export const Login: FC = () => {
                                 />
                                 <Link
                                     className="text-sm text-the_game_purple"
-                                    to={'/password-reset'}
+                                    to={'/request-token'}
                                 >
                                     {t('auth.login.forgotPassword')}
                                 </Link>

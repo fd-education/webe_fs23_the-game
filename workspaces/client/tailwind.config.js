@@ -44,6 +44,9 @@ module.exports = {
             borderRadius: {
                 '2lg': '1rem'
             },
+            fontSize:{
+                '10xl': '10rem',
+            }
         }
     },
     daisyui: {

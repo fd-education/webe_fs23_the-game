@@ -27,12 +27,20 @@
                 "login": "Log in",
                 "noAccount": "No account? Register!"
             },
+            "passwordReset": {
+                "codeExists": "I already have a code.",
+                "getCode": "Get reset code",
+                "info": "Enter your email address and your username to get a reset code for your password.",
+                "resetCode": "Reset Code",
+                "resetInfo": "Enter your reset code and set a new password.",
+                "resetPassword": "Reset Password"
+            },
             "register": {
-                "cancel": "Cancel",
                 "register": "Register"
             }
         },
         "common": {
+            "cancel": "Cancel",
             "readRules": "Read the Rules",
             "subtitle": "Play... as long as you can!"
         }

@@ -2,6 +2,7 @@ import {config} from '../../common/config/config';
 import axios from 'axios';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import {LoginPayload} from '../../common/types/loginPayload';
+import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
 
 const AUTH_API = config.backendUrl + '/auth';
 
@@ -21,11 +22,16 @@ class AuthService {
 
     logout() {
         // TODO implement backend route for signout
-        localStorage.removeItem('user');
+        console.log('Logging out');
+        // localStorage.removeItem('user');
     }
 
     register(registrationPayload: RegistrationPayload) {
         return axios.post(AUTH_API + '/register', registrationPayload);
+    }
+
+    requestResetPasswordToken(requestTokenPayload: RequestTokenPayload) {
+        return axios.post(AUTH_API + '/request-token', requestTokenPayload);
     }
 
     getCurrentUser() {

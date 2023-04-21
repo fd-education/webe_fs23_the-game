@@ -3,11 +3,12 @@ import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {User} from './common/types/user';
+import {RequestToken} from './components/pages/RequestToken';
 import AuthService from './services/auth/auth.service';
 import {Route, Routes} from 'react-router-dom';
-import {Profile} from './components/login/profile.component';
-import {Register} from './components/login/register.component';
-import {Login} from './components/login/login.component';
+import {Profile} from './components/pages/Profile';
+import {Register} from './components/pages/Registration';
+import {Login} from './components/pages/Login';
 import EventBus from './common/eventbus/eventBus';
 
 const App: FC = () => {
@@ -40,6 +41,7 @@ const App: FC = () => {
                     <Route path={'/'} element={<Login />} />
                     <Route path={'/login'} element={<Login />} />
                     <Route path={'/register'} element={<Register />} />
+                    <Route path={'/request-token'} element={<RequestToken />} />
                     <Route path={'/profile'} element={<Profile />} />
                     <Route path={'/chat'} element={<Chat />} />
                 </Routes>

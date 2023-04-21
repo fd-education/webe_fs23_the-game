@@ -156,7 +156,7 @@ export const Register: FC = () => {
                                     className={`btn bg-the_game_gray border-none hover:bg-gray-600 text-white rounded-full`}
                                     type="reset"
                                 >
-                                    {t('auth.register.cancel')}
+                                    {t('common.cancel')}
                                 </button>
                             </div>
                         </div>
