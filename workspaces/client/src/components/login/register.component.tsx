@@ -92,6 +92,10 @@ export const Register: FC = () => {
         );
     };
 
+    const handleCancellation = () => {
+        navigate('/login');
+    };
+
     return (
         <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fill bg-scroll bg-cards-background bg-no-repeat">
             <BigTitle />
@@ -99,6 +103,7 @@ export const Register: FC = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleRegister}
+                onReset={handleCancellation}
                 validationSchema={validationSchema}
             >
                 <Form className="flex flex-col space-y-5 w-1/5">
