@@ -39,7 +39,7 @@ module.exports = {
                 '6': '4rem',
             },
             boxShadow: {
-                around: '0 0 7px 11px theme(colors.shadowDark)'
+                around: '0 0 7px 11px theme(colors.shadowDark) dark(theme(colors.shadowLight))',
             },
             borderRadius: {
                 '2lg': '1rem'
@@ -56,5 +56,6 @@ module.exports = {
       ]
     },
     variants: {},
+    darkMode: 'class',
     plugins: [require('daisyui')]
 };

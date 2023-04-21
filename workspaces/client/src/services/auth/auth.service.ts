@@ -1,7 +1,7 @@
-import {config} from '../common/config/config';
+import {config} from '../../common/config/config';
 import axios from 'axios';
-import {RegistrationPayload} from '../common/types/registrationPayload';
-import {LoginPayload} from '../common/types/loginPayload';
+import {RegistrationPayload} from '../../common/types/registrationPayload';
+import {LoginPayload} from '../../common/types/loginPayload';
 
 const AUTH_API = config.backendUrl + '/auth';
 

@@ -5,7 +5,7 @@ import React, {FC} from 'react';
 import * as Yup from 'yup';
 import {Lang} from '../../common/enum/lang.enum';
 import {Theme} from '../../common/enum/theme.enum';
-import AuthService from '../../services/auth.service';
+import AuthService from '../../services/auth/auth.service';
 import {useNavigate} from 'react-router-dom';
 
 export const Register: FC = () => {

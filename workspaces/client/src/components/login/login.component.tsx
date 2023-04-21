@@ -6,7 +6,7 @@ import React, {FC} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import * as Yup from 'yup';
 import {LoginPayload} from '../../common/types/loginPayload';
-import AuthService from '../../services/auth.service';
+import AuthService from '../../services/auth/auth.service';
 import {BigTitle} from '../util/title/BigTitle';
 
 export const Login: FC = () => {

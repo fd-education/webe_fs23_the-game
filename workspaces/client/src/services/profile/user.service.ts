@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {config} from '../common/config/config';
-import authHeader from './auth-header';
+import {config} from '../../common/config/config';
+import authHeader from '../auth/auth-header';
 
 const PROFILE_API = config.backendUrl + '/profile';
 

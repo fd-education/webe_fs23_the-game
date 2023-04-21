@@ -3,7 +3,7 @@ import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {User} from './common/types/user';
-import AuthService from './services/auth.service';
+import AuthService from './services/auth/auth.service';
 import {Route, Routes} from 'react-router-dom';
 import {Profile} from './components/login/profile.component';
 import {Register} from './components/login/register.component';
