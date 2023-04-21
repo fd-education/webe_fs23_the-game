@@ -7,7 +7,7 @@
                 "password": "Passwort",
                 "errors": {
                     "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
-                    "requiredEmail": "Keine E-Mail Adresse eingtragen.",
+                    "requiredEmail": "Keine E-Mail Adresse eingetragen.",
                     "requiredPassword": "Kein Passwort eingetragen."
                 }
             },
