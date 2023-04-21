@@ -58,10 +58,14 @@ export const Register: FC = () => {
                 .matches(/[A-Z]/, passwordInvalid)
                 .matches(/\W/, passwordInvalid)
                 .required(t('auth.common.errors.requiredPassword').toString()),
-            confirmPassword: Yup.string().oneOf(
-                [Yup.ref('password')],
-                t('auth.common.errors.invalidConfirmPassword').toString()
-            )
+            confirmPassword: Yup.string()
+                .oneOf(
+                    [Yup.ref('password')],
+                    t('auth.common.errors.invalidConfirmPassword').toString()
+                )
+                .required(
+                    t('auth.common.errors.requiredConfirmPassword').toString()
+                )
         });
     };
 

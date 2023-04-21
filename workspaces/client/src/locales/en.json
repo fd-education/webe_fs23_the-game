@@ -9,6 +9,7 @@
                     "invalidEmail": "This email address is not valid.",
                     "invalidLengthUsername": "Username must be between 5 and 30 characters.",
                     "invalidPassword": "Password must be at least 8 characters long and contain upper and lower case letters, numbers and special characters.",
+                    "requiredConfirmPassword": "Confirmation Password is required.",
                     "requiredEmail": "Email address is required.",
                     "requiredFirstname": "Firstname is required.",
                     "requiredLastname": "Lastname ist required.",

@@ -9,6 +9,7 @@
                     "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
                     "invalidLengthUsername": "Benutzername muss mind. 5 und max. 30 Buchstaben lang sein.",
                     "invalidPassword": "Passwort muss mind. 8 Zeichen lang sein und Gross- und Kleinbuchstaben, Zahlen und Sonderzeichen enthalten.",
+                    "requiredConfirmPassword": "Kein Bestätigungspasswort eingetragen.",
                     "requiredEmail": "Keine E-Mail Adresse eingetragen.",
                     "requiredFirstname": "Kein Vorname eingetragen.",
                     "requiredLastname": "Kein Nachname eingetragen.",
