@@ -1,5 +1,5 @@
 import { UserGameStatsDto } from './user.dto';
-import { IsEmail, IsEnum, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID, Matches, MinLength} from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { Lang } from '../enum/lang.enum';
 import { Theme } from '../enum/theme.enum';
@@ -47,7 +47,12 @@ export class PasswordDto {
   readonly uid: string;
 
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @IsStrongPassword({
+    minLength: 8,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+  })
   readonly password: string;
 }

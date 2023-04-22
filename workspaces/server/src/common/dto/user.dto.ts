@@ -4,8 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsPositive,
-  IsString,
-  IsUUID,
+  IsString, IsStrongPassword, IsUUID, Matches, MinLength,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { Lang } from '../enum/lang.enum';
@@ -53,8 +52,13 @@ export class UserDto {
   readonly email: string;
 
   @IsString()
-  @IsNotEmpty()
-  @Transform(({ value }: TransformFnParams) => value?.trim())
+  @IsStrongPassword({
+    minLength: 8,
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+    minSymbols: 1,
+  })
   readonly password: string;
 
   @IsString() @IsUUID(4)

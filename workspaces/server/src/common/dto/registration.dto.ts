@@ -3,9 +3,10 @@ import {
   IsEnum,
   IsNotEmpty,
   IsString,
-  IsStrongPassword,
+  IsStrongPassword, Matches,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
+import {Match} from '../decorators/match.decorator';
 import { Lang } from '../enum/lang.enum';
 import { Theme } from '../enum/theme.enum';
 
@@ -36,6 +37,9 @@ export class RegistrationDto {
     minSymbols: 1,
   })
   readonly password: string;
+
+  @Match(RegistrationDto, (r: RegistrationDto) => r.password)
+  readonly confirmPassword: string;
 
   @IsEnum(Lang)
   readonly language: string;

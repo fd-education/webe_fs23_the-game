@@ -18,7 +18,7 @@ export class Token {
     required: true,
     unique: true
   })
-  username: string;
+  user_id: string;
 
   @Prop({
     required: true,

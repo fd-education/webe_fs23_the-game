@@ -4197,10 +4197,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["glob", "npm:8.0.3"],\
             ["handlebars", "npm:4.7.7"],\
             ["inline-css", "npm:4.0.1"],\
+            ["lodash", "npm:4.17.21"],\
             ["mjml", "npm:4.14.1"],\
             ["nodemailer", "npm:6.9.1"],\
             ["preview-email", "npm:3.0.5"],\
-            ["pug", "npm:3.0.2"]\
+            ["pug", "npm:3.0.2"],\
+            ["tslib", "npm:2.5.0"]\
           ],\
           "packagePeers": [\
             "@nestjs/common",\
@@ -5426,6 +5428,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-prettier", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:4.2.1"],\
             ["jest", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:29.3.1"],\
             ["joi", "npm:17.9.1"],\
+            ["joi-password", "npm:4.1.1"],\
             ["mongoose", "npm:7.0.3"],\
             ["nodemailer", "npm:6.9.1"],\
             ["passport", "npm:0.6.0"],\
@@ -14863,6 +14866,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@sideway/address", "npm:4.1.4"],\
             ["@sideway/formula", "npm:3.0.1"],\
             ["@sideway/pinpoint", "npm:2.0.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["joi-password", [\
+        ["npm:4.1.1", {\
+          "packageLocation": "./.yarn/cache/joi-password-npm-4.1.1-5e29117a3b-a1730c8f65.zip/node_modules/joi-password/",\
+          "packageDependencies": [\
+            ["joi-password", "npm:4.1.1"],\
+            ["joi", "npm:17.9.1"]\
           ],\
           "linkType": "HARD"\
         }]\

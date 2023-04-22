@@ -1,4 +1,5 @@
 import {Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards} from '@nestjs/common';
+import {ResetPasswordDto} from '../../common/dto/resetPassword.dto';
 import { AuthService } from './auth.service';
 import { SigninDto } from '../../common/dto/signin.dto';
 import {
@@ -8,7 +9,7 @@ import {
 import { LoggerService } from '../../common/logger/logger.service';
 import { Error } from 'mongoose';
 import { RegistrationDto } from '../../common/dto/registration.dto';
-import {RequestTokenDto, ValidateTokenDto} from "../../common/dto/token.dto";
+import {RequestTokenDto} from "../../common/dto/token.dto";
 import {AccessTokenGuard} from "../../security/guards/accessToken.guard";
 import {RefreshTokenGuard} from "../../security/guards/refreshToken.guard";
 import {RefreshTokenDto} from "../../common/dto/refreshToken.dto";
@@ -75,8 +76,9 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('validate-token')
-  async validatePasswordResetToken(@Body() validateTokenDto: ValidateTokenDto){
-    return await this.authService.validatePasswordResetToken(validateTokenDto);
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDto){
+    console.log(resetPasswordDto);
+    return await this.authService.resetPassword(resetPasswordDto);
   }
 }

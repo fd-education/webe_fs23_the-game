@@ -70,10 +70,7 @@ export const Register: FC = () => {
     };
 
     const handleRegister = (formValue: RegistrationPayload) => {
-        const {confirmPassword: string, ...formValueWithoutConfirmPassword} =
-            formValue;
-
-        AuthService.register(formValueWithoutConfirmPassword).then(
+        AuthService.register(formValue).then(
             (response: any) => {
                 setMessage(response.data.message);
                 setSuccessful(true);

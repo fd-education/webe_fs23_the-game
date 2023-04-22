@@ -6,15 +6,10 @@ export class TokenDto{
     readonly uid?: string
 
     @IsString() @IsNotEmpty()
+    @IsUUID(4)
     @Transform(({ value }: TransformFnParams) => value?.trim())
-    readonly username: string
+    readonly user_id: string
 
-    @IsString() @IsNotEmpty()
-    @Transform(({ value }: TransformFnParams) => value?.trim())
-    readonly token: string
-}
-
-export class ValidateTokenDto{
     @IsString() @IsNotEmpty()
     @Transform(({ value }: TransformFnParams) => value?.trim())
     readonly token: string

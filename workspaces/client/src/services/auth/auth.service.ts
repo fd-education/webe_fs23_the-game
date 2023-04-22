@@ -36,11 +36,7 @@ class AuthService {
     }
 
     resetPassword(resetPasswordPayload: ResetPasswordPayload): Promise<void> {
-        // TODO implement backend route for reset-password
-        console.log('resetPasswordPayload', resetPasswordPayload);
-        return new Promise((resolve, _) => {
-            resolve();
-        });
+        return axios.post(AUTH_API + '/reset-password', resetPasswordPayload);
     }
 
     getCurrentUser() {

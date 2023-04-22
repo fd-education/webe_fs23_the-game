@@ -1,4 +1,5 @@
 import {Injectable, UnauthorizedException} from '@nestjs/common';
+import {ResetPasswordDto} from '../../common/dto/resetPassword.dto';
 import { UsersService } from '../../data/users/users.service';
 import { RegistrationDto } from '../../common/dto/registration.dto';
 import {AuthenticationFailedException, DuplicateUserException} from '../../common/exceptions/auth.exceptions';
@@ -8,7 +9,7 @@ import { LoggerService } from '../../common/logger/logger.service';
 import { MailService } from '../../common/mail/mail.service';
 import { randomBytes } from 'crypto';
 import {TokensService} from "../../data/token/tokens.service";
-import {RequestTokenDto, ValidateTokenDto} from "../../common/dto/token.dto";
+import {RequestTokenDto} from "../../common/dto/token.dto";
 import {ConfigService} from "../../common/config/config.service";
 
 @Injectable()
@@ -55,9 +56,11 @@ export class AuthService {
             throw new DuplicateUserException();
         }
 
+        const {confirmPassword, ...strippedUser} = registrationDto;
+
         const secureUser = {
-            ...registrationDto,
-            password: await this.bcryptService.hash(registrationDto.password)
+            ...strippedUser,
+            password: await this.bcryptService.hash(strippedUser.password)
         }
         const user = await this.usersService.create(secureUser);
         const tokens = await this.getTokens(user.uid, user.username);
@@ -99,22 +102,22 @@ export class AuthService {
         }
 
         const token = randomBytes(4).toString('hex');
-        await this.tokensService.create({username: user.username, token});
+        await this.tokensService.create({user_id: user.uid, token});
 
         this.mailService.sendPasswordResetCode(user, token);
     }
 
-    async validatePasswordResetToken(validateTokenDto: ValidateTokenDto) {
-        const token = await this.tokensService.findToken(validateTokenDto.token);
+    async resetPassword(resetPasswordDto: ResetPasswordDto) {
+        const token = await this.tokensService.findToken(resetPasswordDto.resetCode);
 
         if(token == null){
             return;
         }
 
-        await this.tokensService.delete(token.token);
+        const uid = token.user_id;
+        await this.usersService.updatePassword(uid, resetPasswordDto.password);
 
-        // TODO implement some sort of a redirect
-        return true;
+        await this.tokensService.delete(token.token);
     }
 
     private async getTokens(uid: string, username: string){
