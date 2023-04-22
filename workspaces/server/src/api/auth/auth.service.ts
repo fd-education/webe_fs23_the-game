@@ -125,7 +125,7 @@ export class AuthService {
             this.jwtService.signAsync(
                 {
                     username,
-                    sub: uid},
+                    uid},
                 {
                     secret: this.configService.jwtAccessSecret,
                     expiresIn: this.configService.jwtAccessExpiry}
@@ -133,7 +133,7 @@ export class AuthService {
             this.jwtService.signAsync(
                 {
                     username,
-                    sub: uid},
+                    uid},
                 {
                     secret: this.configService.jwtRefreshSecret,
                     expiresIn: '7d'

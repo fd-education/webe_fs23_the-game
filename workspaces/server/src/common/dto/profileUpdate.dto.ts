@@ -3,7 +3,7 @@ import {
     IsEnum,
     IsNotEmpty,
     IsString,
-    IsStrongPassword, Matches,
+    IsStrongPassword,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import {Match} from '../decorators/match.decorator';

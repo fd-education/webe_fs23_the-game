@@ -4,7 +4,7 @@ import {
   IsNotEmpty,
   IsNumber,
   IsPositive,
-  IsString, IsStrongPassword, IsUUID, Matches, MinLength,
+  IsString, IsStrongPassword, IsUUID,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { Lang } from '../enum/lang.enum';

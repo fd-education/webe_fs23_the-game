@@ -1,5 +1,5 @@
 import { UserGameStatsDto } from './user.dto';
-import {IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID, Matches, MinLength} from 'class-validator';
+import {IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID} from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { Lang } from '../enum/lang.enum';
 import { Theme } from '../enum/theme.enum';
