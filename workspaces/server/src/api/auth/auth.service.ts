@@ -136,7 +136,7 @@ export class AuthService {
                     uid},
                 {
                     secret: this.configService.jwtRefreshSecret,
-                    expiresIn: '7d'
+                    expiresIn: this.configService.jwtRefreshExpiry
                 }
             )]);
 
