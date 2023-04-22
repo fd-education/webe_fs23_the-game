@@ -1,5 +1,7 @@
 import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {Lang} from '../../../common/enum/lang.enum';
+import {Theme} from '../../../common/enum/theme.enum';
 import useSwitchLang from '../../../hooks/useSwitchLang';
 import useSwitchTheme from '../../../hooks/useSwitchTheme';
 
@@ -14,11 +16,11 @@ interface PreferenceTogglesProps {
 
 export const PreferenceToggles = (props: PreferenceTogglesProps) => {
     const [colorTheme, setTheme] = useSwitchTheme();
-    const [darkSide, setDarkSide] = useState(colorTheme === 'light');
+    const [darkSide, setDarkSide] = useState(colorTheme === Theme.default);
 
     const {i18n} = useTranslation();
     const [displayLanguage, setLanguage] = useSwitchLang();
-    const [language, setLang] = useState(displayLanguage === 'en');
+    const [language, setLang] = useState(displayLanguage === Lang.default);
 
     const toggleDarkMode = (checked: boolean) => {
         setTheme(colorTheme);

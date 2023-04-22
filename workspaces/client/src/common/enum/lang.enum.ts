@@ -1,4 +1,5 @@
 export enum Lang {
     EN = 'en',
-    DE = 'de'
+    DE = 'de',
+    default = EN
 }

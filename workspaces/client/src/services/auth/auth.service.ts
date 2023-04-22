@@ -4,6 +4,7 @@ import {RegistrationPayload} from '../../common/types/registrationPayload';
 import {LoginPayload} from '../../common/types/loginPayload';
 import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
 import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
+import {User} from '../../common/types/user';
 
 const AUTH_API = config.backendUrl + '/auth';
 
@@ -39,7 +40,7 @@ class AuthService {
         return axios.post(AUTH_API + '/reset-password', resetPasswordPayload);
     }
 
-    getCurrentUser() {
+    getCurrentUser(): User | null {
         const user = localStorage.getItem('user');
         if (user) return JSON.parse(user);
 

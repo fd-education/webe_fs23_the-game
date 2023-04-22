@@ -1,3 +1,5 @@
+import {Lang} from './common/enum/lang.enum';
+import {Theme} from './common/enum/theme.enum';
 import {Chat} from './components/chat/Chat';
 import React, {FC, useEffect} from 'react';
 
@@ -11,6 +13,7 @@ import {Profile} from './components/pages/Profile';
 import {Register} from './components/pages/Registration';
 import {Login} from './components/pages/Login';
 import EventBus from './common/eventbus/eventBus';
+import PreferenceService from './services/preference/preference.service';
 
 const App: FC = () => {
     const [currentUser, setCurrentUser] = React.useState<User | undefined>(
@@ -19,8 +22,14 @@ const App: FC = () => {
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
+        console.log('user', user);
         if (user) {
             setCurrentUser(user);
+            PreferenceService.setLanguage(user.language);
+            PreferenceService.setTheme(user.theme);
+        } else {
+            PreferenceService.setLanguage(Lang.default);
+            PreferenceService.setTheme(Theme.default);
         }
 
         EventBus.on('logout', logOut);

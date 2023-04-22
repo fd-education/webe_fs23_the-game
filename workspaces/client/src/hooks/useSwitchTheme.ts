@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 
 export default function useSwitchTheme(): [string, React.Dispatch<any>] {
     const [theme, setTheme] = useState(localStorage.theme);
-    const colorTheme = theme === 'light' ? 'dark' : 'light';
+    const colorTheme = theme === 'dark' ? 'light' : 'dark';
 
     useEffect(() => {
         const root = window.document.documentElement;
