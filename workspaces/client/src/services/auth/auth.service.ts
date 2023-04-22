@@ -1,43 +1,41 @@
-import {config} from '../../common/config/config';
-import axios from 'axios';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import {LoginPayload} from '../../common/types/loginPayload';
 import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
 import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
 import {User} from '../../common/types/user';
-
-const AUTH_API = config.backendUrl + '/auth';
+import authInterceptor from '../api';
+import TokenService from './token.service';
 
 class AuthService {
     login(loginPayload: LoginPayload) {
-        console.log('loginPayload', loginPayload);
-
-        return axios
-            .post(AUTH_API + '/signin', loginPayload)
+        return authInterceptor
+            .post('/auth/signin', loginPayload)
             .then((response) => {
                 if (response.data.accessToken) {
-                    localStorage.setItem('user', JSON.stringify(response.data));
+                    TokenService.setAccessToken(response.data.accessToken);
+                    TokenService.setRefreshToken(response.data.refreshToken);
                 }
                 return response.data;
             });
     }
 
-    logout() {
-        // TODO implement backend route for signout
-        console.log('Logging out');
-        // localStorage.removeItem('user');
+    logout(uid: string) {
+        return authInterceptor.post('/auth/signout', {uid});
     }
 
     register(registrationPayload: RegistrationPayload) {
-        return axios.post(AUTH_API + '/register', registrationPayload);
+        return authInterceptor.post('/auth/register', registrationPayload);
     }
 
     requestResetPasswordToken(requestTokenPayload: RequestTokenPayload) {
-        return axios.post(AUTH_API + '/request-token', requestTokenPayload);
+        return authInterceptor.post('/auth/request-token', requestTokenPayload);
     }
 
     resetPassword(resetPasswordPayload: ResetPasswordPayload): Promise<void> {
-        return axios.post(AUTH_API + '/reset-password', resetPasswordPayload);
+        return authInterceptor.post(
+            '/auth/reset-password',
+            resetPasswordPayload
+        );
     }
 
     getCurrentUser(): User | null {

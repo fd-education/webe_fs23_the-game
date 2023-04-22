@@ -69,7 +69,7 @@ export class UsersService {
         return await this.userModel.findOneAndUpdate(
             { uid },
             { refresh_token: null },
-            {new: true}
+            { new: true }
         )
     }
 

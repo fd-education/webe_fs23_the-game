@@ -12,7 +12,6 @@ import {Route, Routes} from 'react-router-dom';
 import {Profile} from './components/pages/Profile';
 import {Register} from './components/pages/Registration';
 import {Login} from './components/pages/Login';
-import EventBus from './common/eventbus/eventBus';
 import PreferenceService from './services/preference/preference.service';
 
 const App: FC = () => {
@@ -22,7 +21,6 @@ const App: FC = () => {
 
     useEffect(() => {
         const user = AuthService.getCurrentUser();
-        console.log('user', user);
         if (user) {
             setCurrentUser(user);
             PreferenceService.setLanguage(user.language);
@@ -31,18 +29,7 @@ const App: FC = () => {
             PreferenceService.setLanguage(Lang.default);
             PreferenceService.setTheme(Theme.default);
         }
-
-        EventBus.on('logout', logOut);
-
-        return () => {
-            EventBus.remove('logout', logOut);
-        };
     }, []);
-
-    const logOut = () => {
-        AuthService.logout();
-        setCurrentUser(undefined);
-    };
 
     return (
         <div>
