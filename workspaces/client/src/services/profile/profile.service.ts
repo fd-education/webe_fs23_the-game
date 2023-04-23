@@ -1,13 +1,12 @@
 import axios from 'axios';
 import {config} from '../../common/config/config';
+import authInterceptor from '../api';
 import authHeader from '../auth/auth-header';
-
-const PROFILE_API = config.backendUrl + '/profile';
 
 class ProfileService {
     getProfile(uid: string) {
-        return axios.post(
-            PROFILE_API + '/get-profile',
+        return authInterceptor.post(
+            '/profile/get-profile',
             {
                 uid
             },

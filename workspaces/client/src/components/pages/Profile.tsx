@@ -1,11 +1,29 @@
-import {FC, useEffect} from 'react';
+import {FC, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import AuthService from '../../services/auth/auth.service';
+import UserService from '../../services/profile/profile.service';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {Panel} from '../util/panel/Panel';
 import {SmallTitle} from '../util/title/SmallTitle';
 
 export const Profile: FC = () => {
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const uid = localStorage.getItem('user_id');
+
+        if (!uid) {
+            navigate('/login');
+            return;
+        }
+
+        UserService.getProfile(uid).then((res) => {
+            localStorage.setItem('user', JSON.stringify(res.data));
+            setUser(res.data);
+        });
+    }, []);
 
     return (
         <div className="flex flex-col items-center p-4 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full bg-primaryLight dark:bg-primaryDark">

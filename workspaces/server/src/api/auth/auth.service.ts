@@ -79,15 +79,19 @@ export class AuthService {
     }
 
     async refreshTokens(uid: string, refreshToken: string) {
+        this.logger.info(`Refreshing tokens for user ${uid}`);
+
         const user = await this.usersService.findByUid(uid);
 
         if(user == null || !(await this.bcryptService.compare(refreshToken, user.refresh_token))){
+            this.logger.warn(`User '${uid}' tried to refresh tokens with invalid refresh token`);
             throw new UnauthorizedException();
         }
 
         const tokens = await this.getTokens(user.uid, user.username);
         await this.updateRefreshToken(user.uid, tokens.refreshToken);
 
+        this.logger.info(`Tokens refreshed for user '${user?.username}' (${user?.email})`)
         return {
             uid: user.uid,
             ...tokens

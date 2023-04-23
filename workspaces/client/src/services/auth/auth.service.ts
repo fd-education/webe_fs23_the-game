@@ -14,6 +14,7 @@ class AuthService {
                 if (response.data.accessToken) {
                     TokenService.setAccessToken(response.data.accessToken);
                     TokenService.setRefreshToken(response.data.refreshToken);
+                    localStorage.setItem('user_id', response.data.uid);
                 }
                 return response.data;
             });

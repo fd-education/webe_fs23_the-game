@@ -35,6 +35,7 @@ authInterceptor.interceptors.response.use(
 
                 try {
                     const resp = await authInterceptor.post('/auth/refresh', {
+                        uid: localStorage.getItem('user_id'),
                         refreshToken: TokenService.getRefreshToken()
                     });
 
