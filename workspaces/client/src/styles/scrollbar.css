@@ -3,15 +3,15 @@
 }
 
 ::-webkit-scrollbar-track {
-    background: theme('colors.gray');
+    background: theme('colors.the_game_gray');
     border-radius: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: theme('colors.orange');
+    background: theme('colors.the_game_orange');
     border-radius: 0.5rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: theme('colors.darkOrange');
+    background: theme('colors.the_game_darkOrange');
 }

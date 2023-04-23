@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import {WebsocketGateway} from "./websocket.gateway";
-import {LoggerService} from "../logger/logger.service";
+import { WebsocketGateway } from './websocket.gateway';
+import { LoggerService } from '../common/logger/logger.service';
 
 @Module({
-    providers: [WebsocketGateway, LoggerService]
+  providers: [WebsocketGateway, LoggerService],
 })
 export class WebsocketModule {}

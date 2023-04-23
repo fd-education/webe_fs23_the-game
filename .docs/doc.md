@@ -8,14 +8,14 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
 
 ## Inhalt
 <!-- TOC -->
-* [Dokumentation: The Game](#dokumentation--the-game)
+* [Dokumentation: The Game](#dokumentation-the-game)
   * [Inhalt](#inhalt)
   * [1 Einleitung](#1-einleitung)
   * [2 Erklärung des Spiels](#2-erklärung-des-spiels)
     * [2.1 Spielaufbau](#21-spielaufbau)
     * [2.2 Ziel des Spiels](#22-ziel-des-spiels)
     * [2.3 Spielregeln](#23-spielregeln)
-    * [2.4 Spielregeln "On Fire"](#24-spielregeln--on-fire-)
+    * [2.4 Spielregeln "On Fire"](#24-spielregeln-on-fire)
   * [3 Projektplanung](#3-projektplanung)
     * [3.1 Meilenstein 1](#31-meilenstein-1)
     * [3.2 Meilenstein 2](#32-meilenstein-2)
@@ -33,7 +33,7 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
       * [4.1.8 UC #8 - Spieltisch](#418-uc-8---spieltisch)
       * [4.1.9 UC #9 - Chatting](#419-uc-9---chatting)
       * [4.1.10 UC #10 - Normales Spiel](#4110-uc-10---normales-spiel)
-      * [4.1.11 UC #11 - Spiel "On Fire"](#4111-uc-11---spiel--on-fire-)
+      * [4.1.11 UC #11 - Spiel "On Fire"](#4111-uc-11---spiel-on-fire)
       * [4.1.12 UC #12 - Schnellinterventionen](#4112-uc-12---schnellinterventionen)
       * [4.1.13 UC #13 - Spielstatistiken](#4113-uc-13---spielstatistiken)
     * [4.2 Nicht-Funktionale Anforderungen](#42-nicht-funktionale-anforderungen)
@@ -41,14 +41,15 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
       * [4.2.2 Qualitätsanforderungen](#422-qualitätsanforderungen)
       * [4.2.3 Randbedingungen](#423-randbedingungen)
   * [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
-    * [5.1 NodeJS (TypeScript)](#51-nodejs--typescript-)
-    * [5.2 Yarn](#52-yarn)
-    * [5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher](#53-reactjs--html-css-typescript----nicht-100-sicher)
+    * [5.1 NodeJS (TypeScript)](#51-nodejs-typescript)
+    * [5.2 Yarn](#52-yarn-)
+    * [5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher](#53-reactjs-html-css-typescript---nicht-100-sicher)
     * [5.4 Socket.io](#54-socketio)
     * [5.5 MongoDB](#55-mongodb)
     * [5.6 Docker](#56-docker)
     * [5.7 Gitlab](#57-gitlab)
   * [6 Datenmodell](#6-datenmodell)
+    * [6.1 User](#61-user)
   * [7 UI Prototyp](#7-ui-prototyp)
     * [7.1 Landing Page](#71-landing-page)
     * [7.2 Registration Page](#72-registration-page)
@@ -58,12 +59,17 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
     * [7.6 Game Page](#76-game-page)
     * [7.7 Profile Page](#77-profile-page)
   * [8 Architekturentscheidungen](#8-architekturentscheidungen)
-    * [8.1 Kommunikationsprotokoll](#81-kommunikationsprotokoll)
-      * [8.1.1 Chatting](#811-chatting)
-      * [8.1.2 Spielverlauf](#812-spielverlauf)
-      * [8.1.3 Kurzinterventionen](#813-kurzinterventionen)
-      * [8.1.3 Ausserhalb des Spiels](#813-ausserhalb-des-spiels)
-    * [8.2 Server](#82-server)
+    * [8.1 Authentifizierungsprotokoll](#81-authentifizierungsprotokoll)
+      * [8.1.1 Authentifizierung API](#811-authentifizierung-api)
+        * [8.1.1.1 Registration](#8111-registration)
+        * [8.1.1.2 Anmeldung](#8112-anmeldung)
+        * [8.1.1.3 Passwort zurücksetzen](#8113-passwort-zurücksetzen)
+    * [8.2 Kommunikationsprotokoll](#82-kommunikationsprotokoll)
+      * [8.2.1 Chatting](#821-chatting)
+      * [8.2.2 Spielverlauf](#822-spielverlauf)
+      * [8.2.3 Kurzinterventionen](#823-kurzinterventionen)
+      * [8.2.3 Ausserhalb des Spiels](#823-ausserhalb-des-spiels)
+    * [8.4 Server](#84-server)
   * [9 Deploymentkonzept](#9-deploymentkonzept)
   * [10 Installationsanleitung](#10-installationsanleitung)
   * [Quellen](#quellen)
@@ -157,24 +163,32 @@ Server sein, damit die Kommunikation für spätere Schritte bereits gegeben ist.
 bereits grob strukturiert sein, muss allerdings nicht vollständig sein.
 
 - [X] Erweiterung des Kommunikationsschemas (Protokollplanung)
-- [ ] Anmeldung eines Clients beim Server
-- [ ] Möglichkeit, Nachrichten vom Client an den Server zu schicken mit angemeldetem Benutzer
-- [ ] Möglichkeit der Kommunikation unter den Clients
-- [ ] Grundgerüst Frontend
-- [ ] Grundgerüst des Servers
+- [X] Anmeldung eines Clients beim Server
+- [X] Möglichkeit, Nachrichten vom Client an den Server zu schicken mit angemeldetem Benutzer
+- [X] Möglichkeit der Kommunikation unter den Clients
+- [X] Grundgerüst Frontend
+- [X] Grundgerüst des Servers
 
 ### 3.3 Meilenstein 3
 
 **Abgabe: 23.04.2023 (PVA6 - 1d), Nachbearbeitung: 05.05.2023 (PVA7 - 2d)**  
-In diesem Schritt werden sowohl Server- wie auch Client-Seite weiterentwickelt. Insbesondere über den State der
+In diesem Schritt werden sowohl Server- als auch Client-Seite weiterentwickelt. Insbesondere über den State der
 Applikation sollen die gemachten Gedanken implementiert und ausprogrammiert werden. Die Logik der Applikation oder des
 Spiels soll bereits vollständig stehen und programmiert sein. Das Projekt soll also bereits bedienbar sein. Es wird noch
 nicht erwartet, dass sämtliche Kontroll- und Speichermechanismen vollständig implementiert sind.
 
-- [ ] Verwaltung des State auf dem Client und auf dem Server
-- [ ] Bedienbare Version des Projektes
-- [ ] Erweiterte Version des Servers
-- [ ] Erweiterte Version des Clients
+- [X] Verwaltung des State auf dem Client und auf dem Server
+- [X] Bedienbare Version des Projektes
+- [X] Erweiterte Version des Servers
+  - [X] Speicherung der Benutzenden
+  - [X] Authentifizierungs-API & Prozesse
+  - [X] Password-Änderungs-Mechanik
+- [X] Erweiterte Version des Clients
+  - [X] Authentifizierung
+  - [X] Light- & Dark-Theme Preferences
+  - [X] Internationalisierung (DE & EN)
+  - [X] Password-Änderung
+  - [X] Barebones-UI für Lobby, Spiel und Authentifizierung
 
 ### 3.4 Meilenstein 4
 
@@ -895,7 +909,7 @@ die Erstellung einer grafischen Benutzeroberfläche. So können repetitive Muste
 
 Der Autor ist sich zum aktuellen Zeitpunkt noch unsicher, ob React zum Einsatz kommen wird. 
 Sollte React für das Frontend verwendet werden, würden nebst HTML und CSS wiederum TypeScript zum Einsatz kommen. Die Entscheidung
-ist im Abschnitt [5.1 NodeJS](#51-nodejs--typescript-) erklärt. Für das Projekt würde React 18 verwendet werden.
+ist im Abschnitt [5.1 NodeJS](#51-nodejs-typescript) erklärt. Für das Projekt würde React 18 verwendet werden.
 
 ### 5.4 Socket.io
 Für die Echtzeitkommunikation zwischen Server(n) und Webclients kommt [Socket.io](https://socket.io/) zum Einsatz. Socket.IO nutzt das [WebSocket Protokoll](https://en.wikipedia.org/wiki/WebSocket), um eine bidirektionale, nahezu verzögerungsfreie Verbindung 
@@ -926,6 +940,29 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
 "Verification" und "Done" erstellt. Die Branch-Strategie folgt grundsätzlich den Empfehlungen des Git-flow-Workflow.
 
 ## 6 Datenmodell
+### 6.1 User
+
+```json
+{
+  "uid": <unique identifier>,
+  "firstname": <first name of the user>,
+  "lastname": <last name of the user>,
+  "username": <pseudonym username>,
+  "email": <email of the user>,
+  "password": <password of the user>,
+  "profile_picture": <profile picture of the user>,
+  "friend_list": <list of user-ids>
+  
+  "games_data": {
+    "played": <#of games played>,
+    "wins": <#of games won>,
+    "defeats": <#of games lost>,
+    "avg_duration": <average game duration>,
+    "partners": <list of prev partners (max. 30 rounds)>
+  }
+}
+```
+
 
 ## 7 UI Prototyp
 Der UI/UX Prototyp wurde mit Figma erstellt. Die folgenden Abschnitte zeigen die Screens.  
@@ -962,9 +999,104 @@ Link zum interaktiven Prototypen: [Figma](https://www.figma.com/proto/hoWQ9phvgj
 
 ## 8 Architekturentscheidungen
 
-### 8.1 Kommunikationsprotokoll
+### 8.1 Authentifizierungsprotokoll
 
-#### 8.1.1 Chatting
+#### 8.1.1 Authentifizierung API
+Serverseitig werden folgende Endpunkte für die Authentifizierung bereitgestellt:
+- POST /auth/register (Registrierung eines neuen Benutzers)
+- POST /auth/signin (Anmeldung eines registrierten Benutzers)
+- POST /auth/signout (Abmeldung eines registrierten Benutzers)
+- POST /auth/refresh (Erneuerung des JWT Access Tokens)
+- POST /auth/request-token (Anfordern einer E-Mail mit einem Token zur Passwortänderung)
+- POST /auth/reset-password (Passwortänderung)
+
+##### 8.1.1.1 Registration
+Bei der Registration wird ein neuer Benutzer angelegt. Das Passwort wird mit bcrypt gehasht und in der Datenbank gespeichert.
+Sämtliche Daten der Registrierung werden vom Client, vom Server und von der Datenbank überprüft. So werden 
+Schema-Inkonsistenzen in jedem Layer vermieden.
+Das erwartete DTO hat folgende Struktur:
+```json
+{
+  "firstname": <Vorname des Benutzers>,
+  "lastname": <Nachname des Benutzers>,
+  "username": <Benutzername>,
+  "email": <E-Mail des Benutzers>,
+  "password": <Passwort des Benutzers>,
+  "confirmationPassword": <Passwort des Benutzers zur Bestätigung>,
+  "language": <Sprache des Benutzers>,
+  "theme": <Theme des Benutzers>,
+  "profilePicture": <Profilbild des Benutzers>
+}
+```
+
+##### 8.1.1.2 Anmeldung
+Bei der Anmeldung wird der Benutzer anhand seiner E-Mail-Adresse und seines Passworts authentifiziert. Das Passwort wird mit bcrypt
+gehasht und mit dem gespeicherten Hash verglichen. Ist die Authentifizierung erfolgreich, wird ein JWT Access Token und ein JWT Refresh Token
+erzeugt und an den Client zurückgegeben. Die Tokens werden mit Hilfe von JSON Web Tokens (JWT) erzeugt. Die Tokens werden mit einer
+Signatur (Secret) versehen, die nur der Server kennt. So kann der Server die Authentizität der Tokens überprüfen. Sowohl der Access Token, als auch der
+Refresh Token haben eine Gültigkeit. Während die Gültigkeit grundsätzlich beliebig im .env File spezifiziert werden kann, empfiehlt der Autor
+eine Gültigkeit von 15 Minuten für den Access Token und von sieben Tagen für den Refresh Token.
+
+Ein Login-Request hat folgende Struktur:
+```json
+{
+  "email": <E-Mail des Benutzers>,
+  "password": <Passwort des Benutzers>
+}
+```
+
+Die Login-Response hat folgende Struktur:
+```json
+{
+  "uid": <User ID des angemeldeten Benutzers>,
+  "accessToken": <JWT-Access Token mit einer Gültigkeit von 15 Minuten>,
+  "refreshToken" <JWT-Refresh Token mit einer Gültigkeit von 7 Tagen>
+}
+```
+Fehler werden entsprechend ihrer Ursache mit einem HTTP Status Code (400 oder 401) und einer Fehlermeldung zurückgegeben:
+```json
+{
+  "status": <HTTP Status Code>,
+  "message": <Fehlermeldung>
+}
+```
+
+Der Browser speichert die Token im Localstorage. Der Access Token wird bei jeder Anfrage an den Server mitgeschickt. Der Refresh Token wird
+nur bei der Anfrage zum Erneuern des Access Tokens mitgeschickt. Client-seitig werden Requests an den Server mit Axios durchgeführt. Mit Interceptors wird
+dabei der Authorization-Header automatisch gesetzt und bei Bedarf der Access Token erneuert.
+Die Erneuerung des Access Tokens erfordert folgende Struktur:
+```json
+{
+  "uid": <User ID des angemeldeten Benutzers>,
+  "refreshToken": <JWT-Refresh Token>
+}
+```
+
+##### 8.1.1.3 Passwort zurücksetzen
+Der Client hat die Möglichkeit, sein Passwort zurückzusetzen. Dazu muss er eine E-Mail-Adresse und einen Usernamen angeben, die mit seinem Account verknüpft sind.
+Der Server prüft, ob die E-Mail-Adresse und der Username mit einem Account verknüpft sind. Ist dies der Fall, wird ein Token erzeugt und an die E-Mail-Adresse
+des Benutzers gesendet. Der Token wird in der Datenbank gespeichert und hat eine Gültigkeit von 60 Minuten. Der Client kann nun das Passwort zurücksetzen.
+Der Request-Body für die Anforderung des Reset-Tokens hat folgende Struktur:
+```json
+{
+  "email": <E-Mail des Benutzers>,
+  "username": <Username des Benutzers>
+}
+```
+
+Mit dem Token kann das Passwort vom Client zurückgesetzt werden.
+Der Request-Body für das Zurücksetzen des Passworts hat folgende Struktur:
+```json
+{
+  "token": <Token, das an die E-Mail-Adresse des Benutzers gesendet wurde>,
+  "password": <Neues Passwort des Benutzers>,
+  "confirmationPassword": <Neues Passwort des Benutzers zur Bestätigung>
+}
+```
+
+### 8.2 Kommunikationsprotokoll
+
+#### 8.2.1 Chatting
 Die Web App soll eine Chatting Funktion umsetzen (vgl. [UC#9 Chatting](#419-uc-9---chatting)). Diese soll den Austausch von
 Chat-Nachrichten in verschiedene Gruppen erlauben.
 
@@ -986,7 +1118,7 @@ hinterlegt.
 
 Die Anfrage löst beim Socket das Versenden der Nachricht an die gewünschte Gruppe aus.
 
-#### 8.1.2 Spielverlauf
+#### 8.2.2 Spielverlauf
 Während des Spiels fordert jeder Client nach jedem Spielzug vom Server den neuen Zustand an. Um die Antwortzeit zu überbrücken,
 hält der Client einen transienten Zustand des Spiels, der dann mit der Antwort des Servers ersetzt wird.
 
@@ -1022,7 +1154,7 @@ oder alten Zustand des Spiels. Mit der Request-UUID können die Antworten zu den
 }
 ```
 
-#### 8.1.3 Kurzinterventionen
+#### 8.2.3 Kurzinterventionen
 Kurzinterventionen sind Anforderungen von Spielern bezüglich eines bestimmten Stapels (dass nach Möglichkeit nicht mehr weiter
 auf einen Stapel abgelegt werden solle oder dass beim aktuellen Stand des Stapels ein Rückwärtstrick möglich wäre). Die Kurzinterventionen
 werden über folgendes JSON an den Server geschickt:
@@ -1038,31 +1170,7 @@ werden über folgendes JSON an den Server geschickt:
 
 Der Server verteilt die Intervention an die verbundenen Clients, welche die UI entsprechend updaten.
 
-#### 8.1.3 Ausserhalb des Spiels
-Aktionen die nicht unmittelbar mit dem Spiel verbunden sind (namentlich Registration, Login, Hinzufügen- & Entfernen von Nutzenden zu Freundeslisten, Erstellen von Spieltischen), werden über
-REST Endpoints gelöst.
-
-Daten aus dem Registrationsformular werden vom Frontend über eine HTTP POST Anfrage an den "registration"-Endpoint vom Backend abgesetzt und dort verarbeitet.
-Mit dem HTTP Status Code sendet das Backend eine JSON Message, welche nähere Informationen über den Stand der Registration gibt:
-```json
-{
-  "outcome": "<success || failure>",
-  "message": "<message to reason the outcome>"
-}
-```
-
-Daten aus dem Loginformular werden vom Fronten über eine HTTP POST Anfrage an den "login"-Endpoint vom Backend abgesetzt und dort verifiziert.
-Mit dem HTTP Status Code sendet das Backend eine JSON Message, welche nähere Informationen über den Stand des Logins gibt:
-```json
-{
-  "outcome": "<success || failure>",
-  "message": "<message to reason the outcome>"
-}
-```
-
-In beiden Fällen wird das Frontend eine erfolgreiche Aktion entsprechend abhandeln und im Fehlerfall eine entsprechende visuelle Aufarbeitung bieten,
-die im Rahmen des UI Prototyps näher spezifiziert wird.
-
+#### 8.2.3 Ausserhalb des Spiels
 Das Hinzufügen bzw. Entfernen eines Nutzers zu bzw. von der Freundesliste wird ebenfalls mit einer HTTP POST Anfrage an den Server umgesetzt.
 Hierfür werden ein "add-friend"- und ein "remove-friend"-Endpoint angeboten. Der Request Body hat dabei das folgende Format:
 ```json
@@ -1080,7 +1188,7 @@ Als Antwort erfolgt wiederum ein HTTP Status Code, sowie eine Erläuterung über
 }
 ```
 
-### 8.2 Server
+### 8.4 Server
 Bei der Architektur des Servers handelt es sich um einen groben Entwurf, der sich zum aktuellen Zeitpunt primär auf den Datenaustausch zwischen einzelnen Modulen bzw. Komponenten, sowie den Gateways zum Frontend hin konzentriert.
 Ebenfalls werden erste Überlegungen für die Struktur der Datenbank dargelegt.
 

@@ -1,4 +1,4 @@
-import {MessageWithKey} from "@/types/message";
+import {MessageWithKey} from '../../types/message';
 
 /**
  * Brighter chat bubble to display messages sent by this client.
@@ -6,18 +6,26 @@ import {MessageWithKey} from "@/types/message";
  * @param msg the message to display
  */
 export const ChatBubbleOwn = (msg: MessageWithKey) => {
-    return (<div className="chat chat-end">
-            <div className="chat-bubble bg-chatBubbleOwn text-black" key={msg.key}>
+    return (
+        <div className="chat chat-end">
+            <div
+                className="chat-bubble bg-chatBubbleOwn text-black"
+                key={msg.key}
+            >
                 <div className="chat-header opacity-50">
-                    <time className="text-xs opacity-50"> {new Date(msg.timestamp).toLocaleTimeString('de-CH', {
-                        hour: "numeric",
-                        minute: "numeric"
-                    })}</time>
+                    <time className="text-xs opacity-50">
+                        {' '}
+                        {new Date(msg.timestamp).toLocaleTimeString('de-CH', {
+                            hour: 'numeric',
+                            minute: 'numeric'
+                        })}
+                    </time>
                 </div>
                 {msg.message}
             </div>
-        </div>)
-}
+        </div>
+    );
+};
 
 /**
  * Darker chat bubble to display messages sent by other clients, received by this client.
@@ -25,17 +33,24 @@ export const ChatBubbleOwn = (msg: MessageWithKey) => {
  * @param msg the message to display.
  */
 export const ChatBubbleForeign = (msg: MessageWithKey) => {
-    return (<div className="chat chat-start">
-            <div className="chat-bubble bg-chatBubbleForeign text-white" key={msg.key}>
+    return (
+        <div className="chat chat-start">
+            <div
+                className="chat-bubble bg-chatBubbleForeign text-white"
+                key={msg.key}
+            >
                 <div className="chat-header opacity-50">
                     {msg.author}
-                    <time className="text-xs opacity-50"> {new Date(msg.timestamp).toLocaleTimeString('de-CH', {
-                        hour: "numeric",
-                        minute: "numeric"
-                    })}</time>
+                    <time className="text-xs opacity-50">
+                        {' '}
+                        {new Date(msg.timestamp).toLocaleTimeString('de-CH', {
+                            hour: 'numeric',
+                            minute: 'numeric'
+                        })}
+                    </time>
                 </div>
                 {msg.message}
-
             </div>
-        </div>)
-}
+        </div>
+    );
+};
