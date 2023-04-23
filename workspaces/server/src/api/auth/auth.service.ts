@@ -85,7 +85,7 @@ export class AuthService {
 
         if(user == null || !(await this.bcryptService.compare(refreshToken, user.refresh_token))){
             this.logger.warn(`User '${uid}' tried to refresh tokens with invalid refresh token`);
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Hello World!");
         }
 
         const tokens = await this.getTokens(user.uid, user.username);

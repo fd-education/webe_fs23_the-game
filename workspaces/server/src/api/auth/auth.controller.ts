@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpCode, HttpStatus, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, HttpCode, HttpStatus, Post, UseGuards} from '@nestjs/common';
 import {ResetPasswordDto} from '../../common/dto/resetPassword.dto';
 import { AuthService } from './auth.service';
 import { SigninDto } from '../../common/dto/signin.dto';
@@ -55,7 +55,7 @@ export class AuthController {
     }
   }
 
-  // @UseGuards(RefreshTokenGuard)
+  @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @Post('refresh')
   async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {

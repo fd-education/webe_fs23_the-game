@@ -1,5 +1,3 @@
-import axios from 'axios';
-import {config} from '../../common/config/config';
 import authInterceptor from '../api';
 import authHeader from '../auth/auth-header';
 

@@ -34,10 +34,20 @@ authInterceptor.interceptors.response.use(
                 originalConfig._retry = true;
 
                 try {
-                    const resp = await authInterceptor.post('/auth/refresh', {
-                        uid: localStorage.getItem('user_id'),
-                        refreshToken: TokenService.getRefreshToken()
-                    });
+                    const BASE_URL = config.backendUrl;
+
+                    const resp = await axios.post(
+                        BASE_URL + '/auth/refresh',
+                        {
+                            uid: localStorage.getItem('user_id'),
+                            refreshToken: TokenService.getRefreshToken()
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${TokenService.getRefreshToken()}`
+                            }
+                        }
+                    );
 
                     const {accessToken} = resp.data;
                     TokenService.setAccessToken(accessToken);
