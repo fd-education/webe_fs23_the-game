@@ -5,6 +5,8 @@ import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {User} from './common/types/user';
+import {Game} from './components/pages/Game';
+import {Lobby} from './components/pages/Lobby';
 import {RequestToken} from './components/pages/RequestToken';
 import {ResetPassword} from './components/pages/ResetPassword';
 import AuthService from './services/auth/auth.service';
@@ -44,6 +46,8 @@ const App: FC = () => {
                         element={<ResetPassword />}
                     />
                     <Route path={'/profile'} element={<Profile />} />
+                    <Route path={'/lobby'} element={<Lobby />} />
+                    <Route path={'/game'} element={<Game />} />
                     <Route path={'/chat'} element={<Chat />} />
                 </Routes>
             </div>
