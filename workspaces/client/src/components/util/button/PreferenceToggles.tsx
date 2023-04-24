@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {useNavigate} from 'react-router-dom';
 import {Lang} from '../../../common/enum/lang.enum';
 import {Theme} from '../../../common/enum/theme.enum';
 import useSwitchLang from '../../../hooks/useSwitchLang';
 import useSwitchTheme from '../../../hooks/useSwitchTheme';
+import AuthService from '../../../services/auth/auth.service';
 import {HouseIcon} from '../../svg/house.icon';
 import {LogoutIcon} from '../../svg/logout.icon';
 import {ProfileIcon} from '../../svg/profile.icon';
@@ -21,6 +23,8 @@ interface PreferenceTogglesProps {
 }
 
 export const PreferenceToggles = (props: PreferenceTogglesProps) => {
+    const navigate = useNavigate();
+
     const [colorTheme, setTheme] = useSwitchTheme();
     const [darkSide, setDarkSide] = useState(colorTheme === Theme.default);
 
@@ -36,6 +40,19 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
     const toggleLanguage = (checked: boolean) => {
         setLanguage(displayLanguage);
         setLang(checked);
+    };
+
+    const handleHomeClick = () => {
+        navigate('/lobby');
+    };
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+    };
+
+    const handleLogout = () => {
+        AuthService.logout();
+        navigate('/login');
     };
 
     return (
@@ -74,25 +91,38 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
                 </div>
             )}
 
-            <div className="flex flex-row space-x-4 bg-secondaryLight dark:bg-secondaryDark shadow px-2 rounded-xl">
-                {props.togglesToDisplay.logout && (
-                    <button className="flex items-center h-full px-2  ">
-                        <LogoutIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
-                    </button>
-                )}
+            {props.togglesToDisplay.logout ||
+            props.togglesToDisplay.home ||
+            props.togglesToDisplay.profile ? (
+                <div className="flex flex-row space-x-4 bg-secondaryLight dark:bg-secondaryDark shadow px-2 rounded-xl">
+                    {props.togglesToDisplay.logout && (
+                        <button
+                            className="flex items-center h-full px-2"
+                            onClick={handleLogout}
+                        >
+                            <LogoutIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                        </button>
+                    )}
 
-                {props.togglesToDisplay.home && (
-                    <button className="flex items-center h-full px-2 p-0.5">
-                        <HouseIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
-                    </button>
-                )}
+                    {props.togglesToDisplay.home && (
+                        <button
+                            className="flex items-center h-full px-2"
+                            onClick={handleHomeClick}
+                        >
+                            <HouseIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                        </button>
+                    )}
 
-                {props.togglesToDisplay.profile && (
-                    <button className="flex items-center h-full px-2 ">
-                        <ProfileIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
-                    </button>
-                )}
-            </div>
+                    {props.togglesToDisplay.profile && (
+                        <button
+                            className="flex items-center h-full px-2"
+                            onClick={handleProfileClick}
+                        >
+                            <ProfileIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                        </button>
+                    )}
+                </div>
+            ) : null}
         </div>
     );
 };

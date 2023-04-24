@@ -26,7 +26,7 @@ export const Profile: FC = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center p-4 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full bg-primaryLight dark:bg-primaryDark">
+        <div className="flex flex-col items-center p-4 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
             <SmallTitle />
 
             <div className="grow flex flex-row w-full p-8 space-x-8">
@@ -40,7 +40,9 @@ export const Profile: FC = () => {
                     togglesToDisplay={{
                         screenMode: true,
                         language: true,
-                        logout: true
+                        logout: true,
+                        home: true,
+                        profile: true
                     }}
                 />
             </div>

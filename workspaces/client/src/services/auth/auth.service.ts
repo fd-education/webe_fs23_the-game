@@ -20,8 +20,12 @@ class AuthService {
             });
     }
 
-    logout(uid: string) {
-        return authInterceptor.post('/auth/signout', {uid});
+    logout() {
+        const uid = localStorage.getItem('user_id')!;
+        authInterceptor.post('/auth/signout', {uid});
+        localStorage.removeItem('user');
+        localStorage.removeItem('user_id');
+        TokenService.removeTokens();
     }
 
     register(registrationPayload: RegistrationPayload) {
