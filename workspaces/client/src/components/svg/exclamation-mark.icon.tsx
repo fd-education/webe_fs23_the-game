@@ -2,7 +2,7 @@ interface ExclamationMarkIconProps {
     strokeColor: string;
 }
 
-export const ExclamationMark = (props: ExclamationMarkIconProps) => {
+export const ExclamationMarkIcon = (props: ExclamationMarkIconProps) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

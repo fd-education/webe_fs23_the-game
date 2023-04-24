@@ -11,8 +11,8 @@ module.exports = {
         extend: {
             colors: {
                 primaryLight: '#F3E6E6',
-                secondaryLight: '#FFFFFF',
-                shadowLight: '#EFE0EF',
+                secondaryLight: '#FFF8F8',
+                shadowLight: 'rgba(239, 224, 239, 0.33)',
 
                 primaryDark: '#3D3A3A',
                 secondaryDark: '#3A3737',
@@ -39,7 +39,7 @@ module.exports = {
                 '6': '4rem',
             },
             boxShadow: {
-                around: '0 0 7px 11px theme(colors.shadowDark) dark(theme(colors.shadowLight))',
+                around: '0 0 7px 11px',
             },
             borderRadius: {
                 '2lg': '1rem'
