@@ -74,23 +74,25 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
                 </div>
             )}
 
-            {props.togglesToDisplay.logout && (
-                <button className="flex items-center h-full px-2 bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl">
-                    <LogoutIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
-                </button>
-            )}
+            <div className="flex flex-row space-x-4 bg-secondaryLight dark:bg-secondaryDark shadow px-2 rounded-xl">
+                {props.togglesToDisplay.logout && (
+                    <button className="flex items-center h-full px-2  ">
+                        <LogoutIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                    </button>
+                )}
 
-            {props.togglesToDisplay.logout && (
-                <button className="flex items-center h-full px-2 bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl">
-                    <HouseIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
-                </button>
-            )}
+                {props.togglesToDisplay.home && (
+                    <button className="flex items-center h-full px-2 p-0.5">
+                        <HouseIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                    </button>
+                )}
 
-            {props.togglesToDisplay.logout && (
-                <button className="flex items-center h-full px-2 bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl">
-                    <ProfileIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
-                </button>
-            )}
+                {props.togglesToDisplay.profile && (
+                    <button className="flex items-center h-full px-2 ">
+                        <ProfileIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                    </button>
+                )}
+            </div>
         </div>
     );
 };
