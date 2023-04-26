@@ -8,7 +8,9 @@ import useSwitchTheme from '../../../hooks/useSwitchTheme';
 import AuthService from '../../../services/auth/auth.service';
 import {HouseIcon} from '../../svg/house.icon';
 import {LogoutIcon} from '../../svg/logout.icon';
+import {MoonIcon} from '../../svg/moon.icon';
 import {ProfileIcon} from '../../svg/profile.icon';
+import {SunIcon} from '../../svg/sun.icon';
 
 interface TogglesToDisplay {
     screenMode?: boolean;
@@ -59,15 +61,15 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
         <div className="flex flex-row h-max space-x-10">
             {props.togglesToDisplay.screenMode && (
                 <div className="bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl w-max cursor-pointer">
-                    <label className="flex flex-row justify-center items-center">
-                        <i className="bi bi-brightness-high-fill text-black dark:text-white icon-size-m px-2 cursor-pointer"></i>
+                    <label className="flex flex-row justify-center items-center space-x-2 p-1">
+                        <SunIcon />
                         <input
                             type="checkbox"
                             checked={darkSide}
                             onChange={(e) => toggleDarkMode(e.target.checked)}
                             className="toggle toggle-md border-none bg-the_game_orange"
                         />
-                        <i className="bi bi-moon-stars-fill text-black dark:text-white icon-size-m px-2"></i>
+                        <MoonIcon />
                     </label>
                 </div>
             )}
