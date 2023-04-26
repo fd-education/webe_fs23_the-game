@@ -22,7 +22,12 @@ export const Lobby: FC = () => {
                 <div className="flex flex-col items-center space-y-6">
                     <RulesButton />
                     <PreferenceToggles
-                        togglesToDisplay={{screenMode: true, language: true}}
+                        togglesToDisplay={{
+                            screenMode: true,
+                            language: true,
+                            logout: true,
+                            profile: true
+                        }}
                     />
                 </div>
             </div>

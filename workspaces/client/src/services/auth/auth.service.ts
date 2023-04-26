@@ -16,7 +16,6 @@ class AuthService {
                     TokenService.setRefreshToken(response.data.refreshToken);
                     localStorage.setItem('user_id', response.data.uid);
                 }
-                return response.data;
             });
     }
 

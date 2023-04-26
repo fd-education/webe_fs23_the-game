@@ -34,15 +34,14 @@ export const Profile: FC = () => {
                 <Panel className="grow h-full" />
             </div>
 
-            <div className="flex flex-col items-center space-y-8">
+            <div className="flex flex-col items-center space-y-6">
                 <RulesButton />
                 <PreferenceToggles
                     togglesToDisplay={{
                         screenMode: true,
                         language: true,
                         logout: true,
-                        home: true,
-                        profile: true
+                        home: true
                     }}
                 />
             </div>
