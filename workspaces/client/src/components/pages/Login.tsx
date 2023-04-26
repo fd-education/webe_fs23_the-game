@@ -39,7 +39,7 @@ export const Login: FC = () => {
 
         AuthService.login(formValue).then(
             () => {
-                navigate('/profile');
+                navigate('/lobby');
                 window.location.reload();
             },
             (error: any) => {
