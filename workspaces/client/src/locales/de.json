@@ -43,6 +43,9 @@
             "cancel": "Abbrechen",
             "readRules": "Regeln lesen",
             "subtitle": "Spiel... solange du kannst!"
+        },
+        "profile": {
+            "update": "Speichern"
         }
     }
 }

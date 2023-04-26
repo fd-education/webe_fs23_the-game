@@ -43,6 +43,9 @@
             "cancel": "Cancel",
             "readRules": "Read the Rules",
             "subtitle": "Play... as long as you can!"
+        },
+        "profile": {
+            "update": "Update"
         }
     }
 }

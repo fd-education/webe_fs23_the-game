@@ -60,7 +60,7 @@ export const Chat = () => {
 
     return (
         <div className="flex items-center h-full justify-center bg-primaryLight dark:bg-primaryDark">
-            <Panel>
+            <Panel className="justify-end">
                 <div className="last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((message, key) => {
                         // TODO Replace with MessageWithKey
