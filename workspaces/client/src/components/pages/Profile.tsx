@@ -1,5 +1,5 @@
 import {Field, Form, Formik} from 'formik';
-import React, {FC, useEffect, useState} from 'react';
+import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import AuthService from '../../services/auth/auth.service';
@@ -36,7 +36,8 @@ export const Profile: FC = () => {
         username: 'user?.username',
         email: 'user?.email',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        avatar: ''
     };
 
     const handleUpdate = () => {
@@ -100,6 +101,11 @@ export const Profile: FC = () => {
                         validationSchema={validationSchema}
                     >
                         <Form className="flex flex-col space-y-5">
+                            <div className="m-auto relative inline-flex items-center justify-center w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                                <span className="font-medium text-gray-600 dark:text-gray-300">
+                                    {'user?.username'.slice(0, 2).toUpperCase()}
+                                </span>
+                            </div>
                             <div className="flex flex-col space-y-3">
                                 <div className="flex flex-row space-x-4 justify-center">
                                     <FloatingLabelInput
