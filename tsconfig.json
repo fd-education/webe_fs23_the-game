@@ -1,0 +1,17 @@
+{
+  "exclude": [
+    "packages/**/tests/**",
+    "packages/**/dist/**"
+  ],
+  "references": [
+    {
+      "path": "./workspaces/shared"
+    },
+    {
+      "path": "./workspaces/client"
+    },
+    {
+      "path": "./workspaces/server"
+    }
+  ]
+}

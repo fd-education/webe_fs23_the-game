@@ -16,13 +16,8 @@
         "incremental": true,
         "baseUrl": "./src",
         "paths": {
-            "@/*": ["./src/*"]
-        },
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ]
+            "@the-game/common": ["../common"],
+        }
     },
     "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
     "exclude": ["node_modules"]
