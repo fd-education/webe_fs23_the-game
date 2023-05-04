@@ -1,13 +1,13 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import {useTranslation} from 'react-i18next';
+import {userValidation} from '../../services/validation/user.validation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import React, {FC} from 'react';
-import * as Yup from 'yup';
 import AuthService from '../../services/auth/auth.service';
 import {useNavigate} from 'react-router-dom';
 import {BigTitle} from '../util/title/BigTitle';
@@ -27,46 +27,6 @@ export const Register: FC = () => {
         confirmPassword: '',
         language: Lang.DE,
         theme: Theme.light
-    };
-
-    const validationSchema = () => {
-        const passwordInvalid = t(
-            'auth.common.errors.invalidPassword'
-        ).toString();
-        const usernameInvalid = t(
-            'auth.common.errors.invalidUsername'
-        ).toString();
-
-        return Yup.object().shape({
-            firstname: Yup.string().required(
-                t('auth.common.errors.requiredFirstname').toString()
-            ),
-            lastname: Yup.string().required(
-                t('auth.common.errors.requiredLastname').toString()
-            ),
-            username: Yup.string()
-                .min(5, usernameInvalid)
-                .max(30, usernameInvalid)
-                .required(t('auth.common.errors.requiredUsername').toString()),
-            email: Yup.string()
-                .email(t('auth.common.errors.invalidEmail').toString())
-                .required(t('auth.common.errors.requiredEmail').toString()),
-            password: Yup.string()
-                .min(8, passwordInvalid)
-                .matches(/[0-9]/, passwordInvalid)
-                .matches(/[a-z]/, passwordInvalid)
-                .matches(/[A-Z]/, passwordInvalid)
-                .matches(/\W/, passwordInvalid)
-                .required(t('auth.common.errors.requiredPassword').toString()),
-            confirmPassword: Yup.string()
-                .oneOf(
-                    [Yup.ref('password')],
-                    t('auth.common.errors.invalidConfirmPassword').toString()
-                )
-                .required(
-                    t('auth.common.errors.requiredConfirmPassword').toString()
-                )
-        });
     };
 
     const handleRegister = (formValue: RegistrationPayload) => {
@@ -101,7 +61,7 @@ export const Register: FC = () => {
                 initialValues={initialValues}
                 onSubmit={handleRegister}
                 onReset={handleCancellation}
-                validationSchema={validationSchema}
+                validationSchema={userValidation}
             >
                 <Form className="flex flex-col space-y-5 w-1/5">
                     {!successful && (
