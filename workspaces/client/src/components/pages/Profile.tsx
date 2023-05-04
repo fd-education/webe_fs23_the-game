@@ -2,6 +2,7 @@ import {Field, Form, Formik} from 'formik';
 import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
+import {User} from '../../common/types/user';
 import AuthService from '../../services/auth/auth.service';
 import UserService from '../../services/profile/profile.service';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
@@ -26,6 +27,9 @@ export const Profile: FC = () => {
 
         UserService.getProfile(uid).then((res) => {
             localStorage.setItem('user', JSON.stringify(res.data));
+
+
+
             setUser(res.data);
         });
     }, []);

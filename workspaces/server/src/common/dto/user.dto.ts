@@ -1,5 +1,6 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import {UserGameStats} from '@the-game/common/dist/types/gameStats';
 import {
   IsEmail,
   IsEnum,
@@ -10,7 +11,7 @@ import {
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 
-export class UserGameStatsDto {
+export class UserGameStatsDto implements UserGameStats {
   @IsNumber()
   @IsPositive()
   readonly played: number;

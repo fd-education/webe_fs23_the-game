@@ -4,8 +4,10 @@ import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import { UserGameStatsDto } from './user.dto';
 import {IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID} from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
+import {Profile} from '@the-game/common/dist/types/profile';
 
-export class ProfileDto {
+
+export class ProfileDto implements Profile {
   @IsUUID(4)
   readonly uid: string;
 
@@ -28,10 +30,10 @@ export class ProfileDto {
   readonly email: string;
 
   @IsEnum(Lang)
-  readonly language: string;
+  readonly language: Lang;
 
   @IsEnum(Theme)
-  readonly theme: string;
+  readonly theme: Theme;
 
   readonly profile_picture: string;
   readonly friend_list?: string[];

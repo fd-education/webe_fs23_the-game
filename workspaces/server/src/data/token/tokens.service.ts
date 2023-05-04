@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Token } from './token.schema';
 import { Model } from 'mongoose';
-import { TokenDto } from '../../common/dto/token.dto';
+import { PasswordResetTokenDto } from '../../common/dto/passwordResetTokenDto';
 import { LoggerService } from '../../common/logger/logger.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class TokensService {
     this.logger.setContext(TokensService.name);
   }
 
-  async create(tokenDto: TokenDto): Promise<Token> {
+  async create(tokenDto: PasswordResetTokenDto): Promise<Token> {
     return await this.tokenModel.create(tokenDto);
   }
 

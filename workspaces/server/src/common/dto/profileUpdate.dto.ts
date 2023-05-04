@@ -1,5 +1,6 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
 import {
     IsEmail,
     IsEnum,
@@ -10,7 +11,7 @@ import {
 import { Transform, TransformFnParams } from 'class-transformer';
 import {Match} from '../decorators/match.decorator';
 
-export class ProfileUpdateDto {
+export class ProfileUpdateDto implements ProfileUpdate{
     @IsString()
     @IsNotEmpty()
     @Transform(({ value }: TransformFnParams) => value?.trim())

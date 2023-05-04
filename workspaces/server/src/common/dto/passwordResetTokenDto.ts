@@ -1,7 +1,14 @@
+import {PasswordResetTokenPayload} from '@the-game/common/dist/types/passwordResetTokenPayload';
 import {IsNotEmpty, IsString, IsUUID} from "class-validator";
 import {Transform, TransformFnParams} from "class-transformer";
 
-export class TokenDto{
+type PasswordResetToken = {
+    uid?: string
+    user_id: string
+    token: string
+}
+
+export class PasswordResetTokenDto implements PasswordResetToken {
     @IsUUID(4)
     readonly uid?: string
 
@@ -15,7 +22,8 @@ export class TokenDto{
     readonly token: string
 }
 
-export class RequestTokenDto{
+
+export class RequestPasswordResetTokenDto implements PasswordResetTokenPayload {
     @IsString() @IsNotEmpty()
     @Transform(({ value }: TransformFnParams) => value?.trim())
     readonly email: string
