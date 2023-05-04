@@ -1,9 +1,9 @@
 import {
   Body,
-  Controller,
+  Controller, Get,
   HttpCode,
-  HttpStatus,
-  Post,
+  HttpStatus, Param, ParseUUIDPipe,
+  Post, Query,
   UseGuards,
 } from '@nestjs/common';
 import { LoggerService } from '../../common/logger/logger.service';
@@ -27,10 +27,11 @@ export class ProfileController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('get-profile')
-  async getProfile(@Body() profileRequest: ProfileRequestDto) {
+  @Get()
+  async getProfile(@Query('uid', ParseUUIDPipe) uuid: string) {
+    this.logger.info(`getProfile: ${JSON.stringify(uuid)}`);
     try {
-      return await this.profileService.getProfile(profileRequest.uid);
+      return await this.profileService.getProfile(uuid);
     } catch (exception: any) {
       if (exception instanceof NoSuchProfileException) {
         this.logger.warn(`${exception}`);
