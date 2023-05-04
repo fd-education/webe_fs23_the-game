@@ -1,5 +1,5 @@
-import {Lang} from '../enum/lang.enum';
-import {Theme} from '../enum/theme.enum';
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
 
 export type RegistrationPayload = {
     firstname: string;

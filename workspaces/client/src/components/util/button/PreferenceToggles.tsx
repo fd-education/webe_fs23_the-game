@@ -1,8 +1,8 @@
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-import {Lang} from '../../../common/enum/lang.enum';
-import {Theme} from '../../../common/enum/theme.enum';
 import useSwitchLang from '../../../hooks/useSwitchLang';
 import useSwitchTheme from '../../../hooks/useSwitchTheme';
 import AuthService from '../../../services/auth/auth.service';

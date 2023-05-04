@@ -2,10 +2,8 @@
   "name": "@the-game/common",
   "version": "1.0.0",
   "packageManager": "yarn@3.5.0",
-  "main": "dist/util-test.js",
-  "types": "dist/util-test.d.ts",
   "scripts": {
-    "build": "rimraf dist && tsc",
+    "build": "rimraf dist && rimraf tsconfig.tsbuildinfo && tsc",
     "postinstall": "yarn build",
     "watch": "tsc -w"
   },

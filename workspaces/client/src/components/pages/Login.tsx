@@ -21,7 +21,6 @@ export const Login: FC = () => {
         email: '',
         password: ''
     };
-
     const validationSchema = () => {
         return Yup.object().shape({
             email: Yup.string()

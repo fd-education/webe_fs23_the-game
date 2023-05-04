@@ -1,5 +1,5 @@
-import {Lang} from '../../common/enum/lang.enum';
-import {Theme} from '../../common/enum/theme.enum';
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
 
 class PreferenceService {
     private THEME_KEY = 'theme';

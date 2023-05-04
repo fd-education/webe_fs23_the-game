@@ -1,3 +1,5 @@
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import {useTranslation} from 'react-i18next';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
@@ -6,8 +8,6 @@ import {Form, Formik} from 'formik';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import React, {FC} from 'react';
 import * as Yup from 'yup';
-import {Lang} from '../../common/enum/lang.enum';
-import {Theme} from '../../common/enum/theme.enum';
 import AuthService from '../../services/auth/auth.service';
 import {useNavigate} from 'react-router-dom';
 import {BigTitle} from '../util/title/BigTitle';
