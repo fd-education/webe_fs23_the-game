@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Token } from './token.schema';
 import { Model } from 'mongoose';
-import { PasswordResetTokenDto } from '../../common/dto/passwordResetTokenDto';
+import { PasswordResetTokenDto } from '../../common/dto/passwordResetToken.dto';
 import { LoggerService } from '../../common/logger/logger.service';
 
 @Injectable()

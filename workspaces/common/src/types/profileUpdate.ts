@@ -1,10 +1,11 @@
 export type ProfileUpdate = {
+    uid: string;
     firstname?: string;
     lastname?: string;
     username?: string;
     email?: string;
     password?: string;
-    confirmationPassword?: string;
+    confirmPassword?: string;
     language?: string;
     theme?: string;
     profile_picture?: string;

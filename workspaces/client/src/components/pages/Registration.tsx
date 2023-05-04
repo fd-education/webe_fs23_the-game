@@ -1,7 +1,7 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import {useTranslation} from 'react-i18next';
-import {userValidation} from '../../services/validation/user.validation';
+import {registrationValidation} from '../../services/validation/registrationValidation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
@@ -61,7 +61,7 @@ export const Register: FC = () => {
                 initialValues={initialValues}
                 onSubmit={handleRegister}
                 onReset={handleCancellation}
-                validationSchema={userValidation}
+                validationSchema={registrationValidation}
             >
                 <Form className="flex flex-col space-y-5 w-1/5">
                     {!successful && (

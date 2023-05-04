@@ -2,14 +2,14 @@ import {
   Body,
   Controller, Get,
   HttpCode,
-  HttpStatus, Param, ParseUUIDPipe,
+  HttpStatus, ParseUUIDPipe, Patch,
   Post, Query,
   UseGuards,
 } from '@nestjs/common';
+import {ProfileUpdateDto} from '../../common/dto/profileUpdate.dto';
 import { LoggerService } from '../../common/logger/logger.service';
 import {
   PasswordDto,
-  ProfileDto,
   ProfileRequestDto,
 } from '../../common/dto/profile.dto';
 import { ProfileService } from './profile.service';
@@ -28,10 +28,29 @@ export class ProfileController {
 
   @HttpCode(HttpStatus.OK)
   @Get()
-  async getProfile(@Query('uid', ParseUUIDPipe) uuid: string) {
-    this.logger.info(`getProfile: ${JSON.stringify(uuid)}`);
+  async getProfile(@Query('uid', new ParseUUIDPipe({version: '4'})) uuid: string) {
+    this.logger.info(`Get Profile for: ${uuid}`);
+
     try {
       return await this.profileService.getProfile(uuid);
+    } catch (exception: any) {
+      if (exception instanceof NoSuchProfileException) {
+        this.logger.warn(`${exception}`);
+        throw exception;
+      }
+
+      this.logger.error(`UNHANDLED: ${exception}`);
+      throw exception;
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Patch()
+  async updateProfile(@Body() profileUpdate: ProfileUpdateDto) {
+    this.logger.info(`Update Profile for: ${profileUpdate.uid}`);
+
+    try {
+      return await this.profileService.updateProfile(profileUpdate);
     } catch (exception: any) {
       if (exception instanceof NoSuchProfileException) {
         this.logger.warn(`${exception}`);
@@ -48,22 +67,6 @@ export class ProfileController {
   async deleteProfile(@Body() profileRequest: ProfileRequestDto) {
     try {
       return await this.profileService.deleteProfile(profileRequest.uid);
-    } catch (exception: any) {
-      if (exception instanceof NoSuchProfileException) {
-        this.logger.warn(`${exception}`);
-        throw exception;
-      }
-
-      this.logger.error(`UNHANDLED: ${exception}`);
-      throw exception;
-    }
-  }
-
-  @HttpCode(HttpStatus.OK)
-  @Post('update-profile')
-  async updateProfile(@Body() profileUpdate: ProfileDto) {
-    try {
-      return await this.profileService.updateProfile(profileUpdate);
     } catch (exception: any) {
       if (exception instanceof NoSuchProfileException) {
         this.logger.warn(`${exception}`);

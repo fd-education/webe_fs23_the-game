@@ -26,12 +26,7 @@ export const Match = <T>(
 @ValidatorConstraint({ name: "Match" })
 export class MatchConstraint implements ValidatorConstraintInterface {
     validate(value: any, args: ValidationArguments) {
-
-
         const [fn] = args.constraints;
-
-        console.log(fn(args.object), value);
-
         return fn(args.object) === value;
     }
 

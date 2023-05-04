@@ -1,11 +1,14 @@
+import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
 import {Field, Form, Formik} from 'formik';
 import React, {ChangeEvent, FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {User} from '../../common/types/user';
 import AuthService from '../../services/auth/auth.service';
+import preferenceService from '../../services/preference/preference.service';
+import profileService from '../../services/profile/profile.service';
 import UserService from '../../services/profile/profile.service';
-import {userValidation} from '../../services/validation/user.validation';
+import {profileValidation} from '../../services/validation/profile.validation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
@@ -39,8 +42,23 @@ export const Profile: FC = () => {
         });
     }, []);
 
-    const handleUpdate = () => {
-        console.log('update');
+    const handleUpdate = async (formValue: ProfileUpdate) => {
+        const formData = formValue;
+
+        if (formValue.password === '') {
+            delete formData.password;
+            delete formData.confirmPassword;
+        }
+
+        const profileData = {
+            ...formValue,
+            lang: preferenceService.getLanguage(),
+            theme: preferenceService.getTheme()
+        };
+
+        profileService.updateProfile(profileData).catch((err) => {
+            console.log(err);
+        });
     };
 
     const handleCancellation = () => {
@@ -55,10 +73,18 @@ export const Profile: FC = () => {
                 <Panel className="grow h-full justify-center">
                     <Formik
                         enableReinitialize={true}
-                        initialValues={user}
+                        initialValues={{
+                            uid: user.uid ?? '',
+                            firstname: user.firstname ?? '',
+                            lastname: user.lastname ?? '',
+                            username: user.username ?? '',
+                            email: user.email ?? '',
+                            password: '',
+                            confirmPassword: ''
+                        }}
                         onSubmit={handleUpdate}
                         onReset={handleCancellation}
-                        validationSchema={userValidation}
+                        validationSchema={profileValidation}
                     >
                         <Form className="flex flex-col space-y-5">
                             <div className="m-auto relative inline-flex items-center justify-center w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">

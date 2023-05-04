@@ -9,7 +9,7 @@ import {
 import { LoggerService } from '../../common/logger/logger.service';
 import { Error } from 'mongoose';
 import { RegistrationDto } from '../../common/dto/registration.dto';
-import {RequestPasswordResetTokenDto} from "../../common/dto/passwordResetTokenDto";
+import {RequestPasswordResetTokenDto} from "../../common/dto/passwordResetToken.dto";
 import {AccessTokenGuard} from "../../security/guards/accessToken.guard";
 import {RefreshTokenGuard} from "../../security/guards/refreshToken.guard";
 import {RefreshTokenDto} from "../../common/dto/refreshToken.dto";

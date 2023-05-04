@@ -6,12 +6,15 @@ import {
     IsEnum,
     IsNotEmpty,
     IsString,
-    IsStrongPassword,
+    IsStrongPassword, IsUUID, ValidateIf,
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import {Match} from '../decorators/match.decorator';
 
 export class ProfileUpdateDto implements ProfileUpdate{
+    @IsUUID(4)
+    readonly uid: string;
+
     @IsString()
     @IsNotEmpty()
     @Transform(({ value }: TransformFnParams) => value?.trim())
@@ -30,6 +33,7 @@ export class ProfileUpdateDto implements ProfileUpdate{
     @IsEmail()
     readonly email?: string;
 
+    @ValidateIf((o: ProfileUpdateDto) => o.password !== undefined)
     @IsStrongPassword({
         minLength: 8,
         minLowercase: 1,
@@ -39,11 +43,12 @@ export class ProfileUpdateDto implements ProfileUpdate{
     })
     readonly password?: string;
 
+    @ValidateIf((o: ProfileUpdateDto) => o.password !== undefined)
     @Match(ProfileUpdateDto, (r: ProfileUpdateDto) => r.password)
-    readonly confirmationPassword?: string;
+    readonly confirmPassword?: string;
 
     @IsEnum(Lang)
-    readonly language?: string;
+    readonly lang?: string;
 
     @IsEnum(Theme)
     readonly theme?: string;

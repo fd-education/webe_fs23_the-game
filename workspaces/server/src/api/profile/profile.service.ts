@@ -1,4 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
+import {ProfileUpdateDto} from '../../common/dto/profileUpdate.dto';
 import { UsersService } from '../../data/users/users.service';
 import { NoSuchProfileException } from '../../common/exceptions/profile.exceptions';
 import { PasswordDto, ProfileDto } from '../../common/dto/profile.dto';
@@ -35,7 +37,7 @@ export class ProfileService {
     return result;
   }
 
-  async updateProfile(profileUpdate: ProfileDto) {
+  async updateProfile(profileUpdate: ProfileUpdateDto) {
     const user = await this.userService.update(profileUpdate);
 
     if (user === null) {
