@@ -1,4 +1,5 @@
 import {useTranslation} from 'react-i18next';
+import {loginValidationSchema} from '../../services/validation/login.validation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
@@ -20,16 +21,6 @@ export const Login: FC = () => {
     const initialValues: LoginPayload = {
         email: '',
         password: ''
-    };
-    const validationSchema = () => {
-        return Yup.object().shape({
-            email: Yup.string()
-                .email(t('auth.common.errors.invalidEmail').toString())
-                .required(t('auth.common.errors.requiredEmail').toString()),
-            password: Yup.string().required(
-                t('auth.common.errors.requiredPassword').toString()
-            )
-        });
     };
 
     const handleLogin = (formValue: LoginPayload) => {
@@ -61,7 +52,7 @@ export const Login: FC = () => {
             <Formik
                 initialValues={initialValues}
                 onSubmit={handleLogin}
-                validationSchema={validationSchema}
+                validationSchema={loginValidationSchema}
             >
                 {() => (
                     <Form className="flex flex-col space-y-5 w-1/5">
