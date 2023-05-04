@@ -16,6 +16,7 @@ export const Profile: FC = () => {
     const navigate = useNavigate();
     const {t} = useTranslation();
     const [user, setUser] = useState({} as User);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const uid = localStorage.getItem('user_id');
@@ -28,10 +29,13 @@ export const Profile: FC = () => {
         UserService.getProfile(uid).then((res) => {
             const user = res.data;
 
-            if (user === undefined) return;
-
-            localStorage.setItem('user', JSON.stringify(user));
-            setUser(user);
+            if (user === undefined) {
+                setError(true);
+                console.log('No User found');
+            } else {
+                localStorage.setItem('user', JSON.stringify(user));
+                setUser(user);
+            }
         });
     }, []);
 

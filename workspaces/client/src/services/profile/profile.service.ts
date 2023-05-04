@@ -5,18 +5,15 @@ import authHeader from '../auth/auth-header';
 
 class ProfileService {
     getProfile(uid: string): Promise<AxiosResponse<User>> {
-        return authInterceptor.post(
-            '/profile/get-profile',
-            {
-                uid
+        return authInterceptor.get('/profile', {
+            params: {
+                uid: uid
             },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...authHeader()
-                }
+            headers: {
+                'Content-Type': 'application/json',
+                ...authHeader()
             }
-        );
+        });
     }
 }
 
