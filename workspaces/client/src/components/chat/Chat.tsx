@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import React, {useState, useEffect} from 'react';
 import {Message} from 'postcss';
 import {Panel} from '../util/panel/Panel';
-import {MessageWithKey} from '../../types/message';
+import {MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 let socket: any;
