@@ -1,10 +1,9 @@
 import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
-import {Field, Form, Formik} from 'formik';
-import React, {ChangeEvent, FC, useEffect, useState} from 'react';
+import {Form, Formik} from 'formik';
+import React, {FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {User} from '../../common/types/user';
-import AuthService from '../../services/auth/auth.service';
 import preferenceService from '../../services/preference/preference.service';
 import profileService from '../../services/profile/profile.service';
 import UserService from '../../services/profile/profile.service';
@@ -56,13 +55,13 @@ export const Profile: FC = () => {
             theme: preferenceService.getTheme()
         };
 
-        profileService.updateProfile(profileData).catch((err) => {
-            console.log(err);
-        });
-    };
-
-    const handleCancellation = () => {
-        console.log('cancel');
+        try {
+            const response = await profileService.updateProfile(profileData);
+            localStorage.setItem('user', JSON.stringify(response.data));
+            setUser(response.data);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -83,13 +82,12 @@ export const Profile: FC = () => {
                             confirmPassword: ''
                         }}
                         onSubmit={handleUpdate}
-                        onReset={handleCancellation}
                         validationSchema={profileValidation}
                     >
                         <Form className="flex flex-col space-y-5">
                             <div className="m-auto relative inline-flex items-center justify-center w-24 h-24 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
                                 <span className="font-medium text-gray-600 dark:text-gray-300">
-                                    {'user?.username'.slice(0, 2).toUpperCase()}
+                                    {user.username?.slice(0, 2).toUpperCase()}
                                 </span>
                             </div>
                             <div className="flex flex-col space-y-3">
