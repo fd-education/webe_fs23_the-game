@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import React, {useEffect, useState} from 'react';
 
-export default function useSwitchLang(): [string, React.Dispatch<any>] {
+export default function useSwitchLang(): [string, React.Dispatch<string>] {
     const [lang, setLang] = useState(localStorage.lang);
     const displayLang = lang === 'en' ? 'de' : 'en';
 

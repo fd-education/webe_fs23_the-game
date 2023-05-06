@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 import React, {useState, useEffect} from 'react';
 import {Message} from 'postcss';
 import {Panel} from '../util/panel/Panel';
-import {MessageWithKey} from '../../types/message';
+import {MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 let socket: any;
@@ -60,7 +60,7 @@ export const Chat = () => {
 
     return (
         <div className="flex items-center h-full justify-center bg-primaryLight dark:bg-primaryDark">
-            <Panel>
+            <Panel className="justify-end">
                 <div className="last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((message, key) => {
                         // TODO Replace with MessageWithKey

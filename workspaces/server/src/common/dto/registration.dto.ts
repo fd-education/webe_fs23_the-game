@@ -1,3 +1,6 @@
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import {RegistrationPayload} from '@the-game/common/dist/types/registrationPayload';
 import {
   IsEmail,
   IsEnum,
@@ -7,10 +10,8 @@ import {
 } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 import {Match} from '../decorators/match.decorator';
-import { Lang } from '../enum/lang.enum';
-import { Theme } from '../enum/theme.enum';
 
-export class RegistrationDto {
+export class RegistrationDto implements RegistrationPayload {
   @IsString()
   @IsNotEmpty()
   @Transform(({ value }: TransformFnParams) => value?.trim())

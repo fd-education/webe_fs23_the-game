@@ -17,6 +17,11 @@ class TokenService {
     getRefreshToken(): string | null {
         return localStorage.getItem(this.REFRESH_TOKEN_KEY);
     }
+
+    removeTokens() {
+        localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+        localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    }
 }
 
 export default new TokenService();

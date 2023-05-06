@@ -1,8 +1,8 @@
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import { HydratedDocument } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import { Lang } from '../../common/enum/lang.enum';
-import { Theme } from '../../common/enum/theme.enum';
 
 export type UserDocument = HydratedDocument<User>;
 

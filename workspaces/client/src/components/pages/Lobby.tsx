@@ -19,14 +19,19 @@ export const Lobby: FC = () => {
                     <Panel />
                 </div>
 
-                <div className="flex flex-col items-center space-y-4">
+                <div className="flex flex-col items-center space-y-6">
                     <RulesButton />
                     <PreferenceToggles
-                        togglesToDisplay={{screenMode: true, language: true}}
+                        togglesToDisplay={{
+                            screenMode: true,
+                            language: true,
+                            logout: true,
+                            profile: true
+                        }}
                     />
                 </div>
             </div>
-            <div className="flex flex-col justify-around w-full p-8 space-y-5">
+            <div className="flex flex-col justify-around w-full p-8 space-y-10">
                 <Panel />
                 <Panel />
             </div>

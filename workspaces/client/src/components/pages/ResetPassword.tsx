@@ -1,3 +1,4 @@
+import {AxiosError} from 'axios';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -55,15 +56,13 @@ export const ResetPassword: FC = () => {
             () => {
                 navigate('/login');
             },
-            (error: any) => {
+            (error: AxiosError) => {
                 const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                    (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
 
-                setMessage(resMessage);
+                setMessage(resMessage.toString());
             }
         );
     };

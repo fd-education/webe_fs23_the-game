@@ -1,13 +1,22 @@
-import {useState} from 'react';
-import {useTranslation} from 'react-i18next';
-import {Lang} from '../../../common/enum/lang.enum';
-import {Theme} from '../../../common/enum/theme.enum';
+import {Lang} from '@the-game/common/dist/enum/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import useSwitchLang from '../../../hooks/useSwitchLang';
 import useSwitchTheme from '../../../hooks/useSwitchTheme';
+import AuthService from '../../../services/auth/auth.service';
+import {HouseIcon} from '../../svg/house.icon';
+import {LogoutIcon} from '../../svg/logout.icon';
+import {MoonIcon} from '../../svg/moon.icon';
+import {ProfileIcon} from '../../svg/profile.icon';
+import {SunIcon} from '../../svg/sun.icon';
 
 interface TogglesToDisplay {
     screenMode?: boolean;
     language?: boolean;
+    logout?: boolean;
+    profile?: boolean;
+    home?: boolean;
 }
 
 interface PreferenceTogglesProps {
@@ -15,10 +24,11 @@ interface PreferenceTogglesProps {
 }
 
 export const PreferenceToggles = (props: PreferenceTogglesProps) => {
+    const navigate = useNavigate();
+
     const [colorTheme, setTheme] = useSwitchTheme();
     const [darkSide, setDarkSide] = useState(colorTheme === Theme.default);
 
-    const {i18n} = useTranslation();
     const [displayLanguage, setLanguage] = useSwitchLang();
     const [language, setLang] = useState(displayLanguage === Lang.default);
 
@@ -32,26 +42,39 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
         setLang(checked);
     };
 
+    const handleHomeClick = () => {
+        navigate('/lobby');
+    };
+
+    const handleProfileClick = () => {
+        navigate('/profile');
+    };
+
+    const handleLogout = () => {
+        AuthService.logout();
+        navigate('/login');
+    };
+
     return (
         <div className="flex flex-row h-max space-x-10">
             {props.togglesToDisplay.screenMode && (
-                <div className="bg-secondaryLight dark:bg-secondaryDark shadow-around p-0.5 rounded-xl w-max">
-                    <label className="flex flex-row justify-center items-center">
-                        <i className="bi bi-brightness-high-fill text-black dark:text-white icon-size-m px-2"></i>
+                <div className="bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl w-max cursor-pointer">
+                    <label className="flex flex-row justify-center items-center space-x-2 p-1">
+                        <SunIcon />
                         <input
                             type="checkbox"
                             checked={darkSide}
                             onChange={(e) => toggleDarkMode(e.target.checked)}
                             className="toggle toggle-md border-none bg-the_game_orange"
                         />
-                        <i className="bi bi-moon-stars-fill text-black dark:text-white icon-size-m px-2"></i>
+                        <MoonIcon />
                     </label>
                 </div>
             )}
 
             {props.togglesToDisplay.language && (
-                <div className="bg-secondaryLight dark:bg-secondaryDark shadow-around p-0.5 rounded-xl w-max">
-                    <label className="flex flex-row justify-center items-center">
+                <div className="bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl w-max cursor-pointer">
+                    <label className="flex flex-row justify-center items-center cursor-pointer">
                         <p className="font-bold text-black dark:text-white icon-size-m px-2">
                             DE
                         </p>
@@ -67,6 +90,39 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
                     </label>
                 </div>
             )}
+
+            {props.togglesToDisplay.logout ||
+            props.togglesToDisplay.home ||
+            props.togglesToDisplay.profile ? (
+                <div className="flex flex-row space-x-4 bg-secondaryLight dark:bg-secondaryDark shadow px-2 rounded-xl">
+                    {props.togglesToDisplay.logout && (
+                        <button
+                            className="flex items-center h-full px-2"
+                            onClick={handleLogout}
+                        >
+                            <LogoutIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                        </button>
+                    )}
+
+                    {props.togglesToDisplay.home && (
+                        <button
+                            className="flex items-center h-full px-2"
+                            onClick={handleHomeClick}
+                        >
+                            <HouseIcon />
+                        </button>
+                    )}
+
+                    {props.togglesToDisplay.profile && (
+                        <button
+                            className="flex items-center h-full px-2"
+                            onClick={handleProfileClick}
+                        >
+                            <ProfileIcon />
+                        </button>
+                    )}
+                </div>
+            ) : null}
         </div>
     );
 };

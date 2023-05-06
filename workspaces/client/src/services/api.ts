@@ -17,7 +17,7 @@ authInterceptor.interceptors.request.use(
         }
         return config;
     },
-    (error: any) => {
+    (error: Error) => {
         return Promise.reject(error);
     }
 );

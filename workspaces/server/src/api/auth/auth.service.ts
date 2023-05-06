@@ -9,7 +9,7 @@ import { LoggerService } from '../../common/logger/logger.service';
 import { MailService } from '../../common/mail/mail.service';
 import { randomBytes } from 'crypto';
 import {TokensService} from "../../data/token/tokens.service";
-import {RequestTokenDto} from "../../common/dto/token.dto";
+import {RequestPasswordResetTokenDto} from "../../common/dto/passwordResetToken.dto";
 import {ConfigService} from "../../common/config/config.service";
 
 @Injectable()
@@ -62,15 +62,8 @@ export class AuthService {
             ...strippedUser,
             password: await this.bcryptService.hash(strippedUser.password)
         }
-        const user = await this.usersService.create(secureUser);
-        const tokens = await this.getTokens(user.uid, user.username);
 
-        await this.updateRefreshToken(user.uid, tokens.refreshToken);
-
-        return {
-            uid: user.uid,
-            ...tokens
-        };
+        await this.usersService.create(secureUser);
     }
 
     async updateRefreshToken(uid: string, refreshToken: string) {
@@ -98,7 +91,7 @@ export class AuthService {
         };
     }
 
-    async sendPasswordResetCode(requestTokenDto: RequestTokenDto) {
+    async sendPasswordResetCode(requestTokenDto: RequestPasswordResetTokenDto) {
         const user = await this.usersService.findByEmail(requestTokenDto.email);
 
         if(user == null || user.username !== requestTokenDto.username ){

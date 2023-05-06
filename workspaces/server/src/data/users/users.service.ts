@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import {ProfileUpdateDto} from '../../common/dto/profileUpdate.dto';
 import { User } from './user.schema';
 import { Model } from 'mongoose';
 import { UserDto } from '../../common/dto/user.dto';
 import { BcryptService } from '../../security/bcrypt/bcrypt.service';
 import { LoggerService } from '../../common/logger/logger.service';
-import { ProfileDto } from '../../common/dto/profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -47,10 +47,14 @@ export class UsersService {
         return users.length > 0;
     }
 
-    async update(updateUserDto: ProfileDto): Promise<User | null> {
+    async update(updateUserDto: ProfileUpdateDto): Promise<User | null> {
+        const hashedPassword =
+            updateUserDto.password ?
+                await this.bcryptService.hash(updateUserDto.password) : null;
+
         return await this.userModel.findOneAndUpdate(
             { uid: updateUserDto.uid },
-            updateUserDto,
+            {...updateUserDto, password: hashedPassword},
             { new: true }
         );
     }

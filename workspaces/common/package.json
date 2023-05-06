@@ -1,0 +1,14 @@
+{
+  "name": "@the-game/common",
+  "version": "1.0.0",
+  "packageManager": "yarn@3.5.0",
+  "scripts": {
+    "build": "rimraf dist && rimraf tsconfig.tsbuildinfo && tsc",
+    "postinstall": "yarn build",
+    "watch": "tsc -w"
+  },
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4"
+  }
+}
