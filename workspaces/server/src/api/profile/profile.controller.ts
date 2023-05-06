@@ -1,8 +1,8 @@
 import {
   Body,
-  Controller, Get,
+  Controller, Delete, Get,
   HttpCode,
-  HttpStatus, ParseUUIDPipe, Patch,
+  HttpStatus, Param, ParseUUIDPipe, Patch,
   Post, Query,
   UseGuards,
 } from '@nestjs/common';
@@ -63,10 +63,12 @@ export class ProfileController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('delete-profile')
-  async deleteProfile(@Body() profileRequest: ProfileRequestDto) {
+  @Delete('/:uid')
+  async deleteProfile(@Param('uid', new ParseUUIDPipe({version: '4'})) uid: string) {
+    this.logger.log(`Delete Profile for: ${uid}`);
+
     try {
-      return await this.profileService.deleteProfile(profileRequest.uid);
+      return await this.profileService.deleteProfile(uid);
     } catch (exception: any) {
       if (exception instanceof NoSuchProfileException) {
         this.logger.warn(`${exception}`);

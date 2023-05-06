@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {User} from '../../common/types/user';
 import preferenceService from '../../services/preference/preference.service';
+import ProfileService from '../../services/profile/profile.service';
 import profileService from '../../services/profile/profile.service';
 import UserService from '../../services/profile/profile.service';
 import {profileValidation} from '../../services/validation/profile.validation';
@@ -72,7 +73,7 @@ export const Profile: FC = () => {
             return;
         }
 
-        UserService.deleteProfile(uid).then((res) => {
+        ProfileService.deleteProfile(uid).then((res) => {
             const user = res.data;
 
             if (user === undefined) {
@@ -84,7 +85,7 @@ export const Profile: FC = () => {
                 navigate('/login');
             }
         });
-    }
+    };
 
     return (
         <div className="flex flex-col items-center p-4 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
@@ -168,6 +169,7 @@ export const Profile: FC = () => {
 
                                 <button
                                     className={`btn bg-red-800 border-none hover:bg-gray-600 text-white rounded-full`}
+                                    type={'button'}
                                     onClick={handleDeletion}
                                 >
                                     {t('profile.delete')}

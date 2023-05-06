@@ -17,7 +17,8 @@ class ProfileService {
     }
 
     deleteProfile(uid: string): Promise<AxiosResponse<User>> {
-        return authInterceptor.delete('/profile' + uid);
+        console.log('deleteProfile');
+        return authInterceptor.delete('/profile' + '/' + uid);
     }
 }
 
