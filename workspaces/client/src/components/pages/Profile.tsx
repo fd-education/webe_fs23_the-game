@@ -64,6 +64,28 @@ export const Profile: FC = () => {
         }
     };
 
+    const handleDeletion = () => {
+        const uid = localStorage.getItem('user_id');
+
+        if (!uid) {
+            navigate('/login');
+            return;
+        }
+
+        UserService.deleteProfile(uid).then((res) => {
+            const user = res.data;
+
+            if (user === undefined) {
+                setError(true);
+                console.log('No User found');
+            } else {
+                localStorage.removeItem('user');
+                localStorage.removeItem('user_id');
+                navigate('/login');
+            }
+        });
+    }
+
     return (
         <div className="flex flex-col items-center p-4 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
             <SmallTitle />
@@ -142,6 +164,13 @@ export const Profile: FC = () => {
                                     type="reset"
                                 >
                                     {t('common.cancel')}
+                                </button>
+
+                                <button
+                                    className={`btn bg-red-800 border-none hover:bg-gray-600 text-white rounded-full`}
+                                    onClick={handleDeletion}
+                                >
+                                    {t('profile.delete')}
                                 </button>
                             </div>
                         </Form>

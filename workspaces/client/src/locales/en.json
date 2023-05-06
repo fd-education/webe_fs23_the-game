@@ -45,6 +45,7 @@
             "subtitle": "Play... as long as you can!"
         },
         "profile": {
+            "delete": "Delete Profile",
             "update": "Update"
         }
     }

@@ -15,6 +15,10 @@ class ProfileService {
     updateProfile(profileData: ProfileUpdate): Promise<AxiosResponse<User>> {
         return authInterceptor.patch('/profile', profileData);
     }
+
+    deleteProfile(uid: string): Promise<AxiosResponse<User>> {
+        return authInterceptor.delete('/profile' + uid);
+    }
 }
 
 export default new ProfileService();

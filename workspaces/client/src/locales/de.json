@@ -45,6 +45,7 @@
             "subtitle": "Spiel... solange du kannst!"
         },
         "profile": {
+            "delete": "Profil löschen",
             "update": "Speichern"
         }
     }
