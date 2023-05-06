@@ -62,15 +62,8 @@ export class AuthService {
             ...strippedUser,
             password: await this.bcryptService.hash(strippedUser.password)
         }
-        const user = await this.usersService.create(secureUser);
-        const tokens = await this.getTokens(user.uid, user.username);
 
-        await this.updateRefreshToken(user.uid, tokens.refreshToken);
-
-        return {
-            uid: user.uid,
-            ...tokens
-        };
+        await this.usersService.create(secureUser);
     }
 
     async updateRefreshToken(uid: string, refreshToken: string) {

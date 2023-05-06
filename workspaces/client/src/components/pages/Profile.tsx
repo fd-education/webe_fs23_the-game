@@ -19,7 +19,6 @@ export const Profile: FC = () => {
     const navigate = useNavigate();
     const {t} = useTranslation();
     const [user, setUser] = useState({} as User);
-    const [error, setError] = useState(false);
 
     useEffect(() => {
         const uid = localStorage.getItem('user_id');
@@ -33,14 +32,14 @@ export const Profile: FC = () => {
             const user = res.data;
 
             if (user === undefined) {
-                setError(true);
                 console.log('No User found');
+                navigate('/login');
             } else {
                 localStorage.setItem('user', JSON.stringify(user));
                 setUser(user);
             }
         });
-    }, []);
+    });
 
     const handleUpdate = async (formValue: ProfileUpdate) => {
         const formData = formValue;
@@ -77,8 +76,8 @@ export const Profile: FC = () => {
             const user = res.data;
 
             if (user === undefined) {
-                setError(true);
                 console.log('No User found');
+                navigate('/login');
             } else {
                 localStorage.removeItem('user');
                 localStorage.removeItem('user_id');

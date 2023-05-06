@@ -1,3 +1,4 @@
+import {AxiosError} from 'axios';
 import {useTranslation} from 'react-i18next';
 import {loginValidationSchema} from '../../services/validation/login.validation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
@@ -6,7 +7,6 @@ import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import * as Yup from 'yup';
 import {LoginPayload} from '../../common/types/loginPayload';
 import AuthService from '../../services/auth/auth.service';
 import {BigTitle} from '../util/title/BigTitle';
@@ -32,15 +32,13 @@ export const Login: FC = () => {
                 navigate('/lobby');
                 window.location.reload();
             },
-            (error: any) => {
+            (error: AxiosError) => {
                 const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                    (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
                 setLoading(false);
-                setMessage(resMessage);
+                setMessage(resMessage.toString());
             }
         );
     };

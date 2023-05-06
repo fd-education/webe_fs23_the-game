@@ -1,8 +1,8 @@
-import React from 'react';
+import React, {ReactElement} from 'react';
 
 interface PanelProps {
     className?: string;
-    children?: any;
+    children?: ReactElement | ReactElement[];
 }
 
 export const Panel = (props: PanelProps) => {

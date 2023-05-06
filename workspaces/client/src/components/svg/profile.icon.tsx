@@ -1,8 +1,4 @@
-interface ProfileIconProps {
-    strokeColor: string;
-}
-
-export const ProfileIcon = (props: ProfileIconProps) => {
+export const ProfileIcon = () => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

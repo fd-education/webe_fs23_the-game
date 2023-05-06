@@ -1,3 +1,4 @@
+import {AxiosError} from 'axios';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -14,7 +15,6 @@ export const RequestToken: FC = () => {
     const {t} = useTranslation();
 
     const [message, setMessage] = React.useState('');
-    const [_, setTokenRequested] = React.useState(false);
 
     const initialValues = {
         email: '',
@@ -37,17 +37,14 @@ export const RequestToken: FC = () => {
 
         AuthService.requestResetPasswordToken(values).then(
             () => {
-                setTokenRequested(true);
                 navigate('/reset-password');
             },
-            (error: any) => {
+            (error: AxiosError) => {
                 const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
+                    (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
-                setMessage(resMessage);
+                setMessage(resMessage.toString());
             }
         );
     };
@@ -104,9 +101,6 @@ export const RequestToken: FC = () => {
                             <Link
                                 className="text-sm text-the_game_purple"
                                 to={'/reset-password'}
-                                onClick={() => {
-                                    setTokenRequested(true);
-                                }}
                             >
                                 {t('auth.passwordReset.codeExists')}
                             </Link>

@@ -1,8 +1,4 @@
-interface HouseIconProps {
-    strokeColor: string;
-}
-
-export const HouseIcon = (props: HouseIconProps) => {
+export const HouseIcon = () => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"

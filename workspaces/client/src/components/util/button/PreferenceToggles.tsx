@@ -1,7 +1,6 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
 import React, {useState} from 'react';
-import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import useSwitchLang from '../../../hooks/useSwitchLang';
 import useSwitchTheme from '../../../hooks/useSwitchTheme';
@@ -30,7 +29,6 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
     const [colorTheme, setTheme] = useSwitchTheme();
     const [darkSide, setDarkSide] = useState(colorTheme === Theme.default);
 
-    const {i18n} = useTranslation();
     const [displayLanguage, setLanguage] = useSwitchLang();
     const [language, setLang] = useState(displayLanguage === Lang.default);
 
@@ -111,7 +109,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
                             className="flex items-center h-full px-2"
                             onClick={handleHomeClick}
                         >
-                            <HouseIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                            <HouseIcon />
                         </button>
                     )}
 
@@ -120,7 +118,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
                             className="flex items-center h-full px-2"
                             onClick={handleProfileClick}
                         >
-                            <ProfileIcon strokeColor="stroke-black dark:stroke-white fill-black dark:fill-white" />
+                            <ProfileIcon />
                         </button>
                     )}
                 </div>

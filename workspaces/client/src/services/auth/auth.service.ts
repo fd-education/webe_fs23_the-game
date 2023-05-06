@@ -1,3 +1,4 @@
+import {AxiosResponse} from 'axios';
 import {RegistrationPayload} from '../../common/types/registrationPayload';
 import {LoginPayload} from '../../common/types/loginPayload';
 import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
@@ -20,14 +21,18 @@ class AuthService {
     }
 
     logout() {
-        const uid = localStorage.getItem('user_id')!;
-        authInterceptor.post('/auth/signout', {uid});
+        const uid = localStorage.getItem('user_id');
+
+        if (uid) authInterceptor.post('/auth/signout', {uid});
+
         localStorage.removeItem('user');
         localStorage.removeItem('user_id');
         TokenService.removeTokens();
     }
 
-    register(registrationPayload: RegistrationPayload) {
+    register(
+        registrationPayload: RegistrationPayload
+    ): Promise<AxiosResponse<void>> {
         return authInterceptor.post('/auth/register', registrationPayload);
     }
 

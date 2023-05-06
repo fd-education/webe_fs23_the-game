@@ -1,5 +1,6 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import {AxiosError} from 'axios';
 import {useTranslation} from 'react-i18next';
 import {registrationValidation} from '../../services/validation/registrationValidation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
@@ -29,24 +30,26 @@ export const Register: FC = () => {
         theme: Theme.light
     };
 
-    const handleRegister = (formValue: RegistrationPayload) => {
-        AuthService.register(formValue).then(
-            (response: any) => {
-                setMessage(response.data.message);
+    const handleRegister = async (formValue: RegistrationPayload) => {
+        try {
+            const response = await AuthService.register(formValue);
+
+            if (response.status === 200) {
                 setSuccessful(true);
                 navigate('/login');
-            },
-            (error: any) => {
-                const resMessage =
-                    (error.response &&
-                        error.response.data &&
-                        error.response.data.message) ||
-                    error.message ||
-                    error.toString();
-                setMessage(resMessage);
+            } else {
+                // TO DO: Proper Error Handling
+                setMessage('Registration failed');
                 setSuccessful(false);
             }
-        );
+        } catch (error: any) {
+            const resMessage =
+                (error.response && error.response.data) ||
+                error.message ||
+                error.toString();
+            setMessage(resMessage.toString());
+            setSuccessful(false);
+        }
     };
 
     const handleCancellation = () => {
