@@ -1,30 +1,37 @@
+import {ChatEvent} from '@the-game/common/dist/enum/chat-event.enum';
 import io from 'socket.io-client';
-import React, {useState, useEffect} from 'react';
-import {Message} from 'postcss';
+import React, {useState, useEffect, KeyboardEvent} from 'react';
+import {User} from '../../common/types/user';
 import {Panel} from '../util/panel/Panel';
-import {MessageWithKey} from '../../common/types/message';
+import {Message, MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 let socket: any;
 
 export const Chat = () => {
     const [username, setUsername] = useState('');
-    const [chosenUsername, setChosenUsername] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<Message>>([]);
 
     useEffect(() => {
         socketInitializer();
 
+        const user = localStorage.getItem('user');
+
+        if (user === null) {
+            // TODO: Redirect to login
+        } else {
+            setUsername((JSON.parse(user) as User).username);
+        }
+
         return () => socket.disconnect();
     }, []);
 
     const socketInitializer = async () => {
-        socket = io('http://localhost:3000/');
+        socket = io('http://localhost:9000/chat');
 
-        socket.on('incomingChatMessage', (msg: Message) => {
-            // TODO exchange for Message[] as type
-            setMessages((currentMsg: any) => {
+        socket.on(ChatEvent.RECEIVE_GLOBAL_MESSAGE, (msg: Message) => {
+            setMessages((currentMsg: Message[]) => {
                 return [
                     {
                         author: msg.author,
@@ -34,24 +41,22 @@ export const Chat = () => {
                     ...currentMsg
                 ];
             });
-
-            console.log(messages);
         });
     };
 
     const sendMessage = async () => {
         if (message === '') return;
 
-        socket.emit('createChatMessage', {
-            author: chosenUsername,
+        socket.emit(ChatEvent.SEND_GLOBAL_MESSAGE, {
+            author: username,
             message,
             timestamp: Date.now()
         });
         setMessage('');
     };
 
-    const handleKeypress = (e: any) => {
-        if (e.keyCode === 13) {
+    const handleKeypress = (e: KeyboardEvent) => {
+        if (e.key === 'Enter') {
             if (message) {
                 sendMessage();
             }
@@ -63,11 +68,9 @@ export const Chat = () => {
             <Panel className="justify-end">
                 <div className="last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((message, key) => {
-                        // TODO Replace with MessageWithKey
-                        // const msg: MessageWithKey = {...message, key}
-                        const msg: any = {...message, key};
+                        const msg: MessageWithKey = {...message, key};
 
-                        return msg.author === chosenUsername ? (
+                        return msg.author === username ? (
                             <ChatBubbleOwn
                                 author={msg.author}
                                 message={msg.message}

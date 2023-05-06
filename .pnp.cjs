@@ -5456,6 +5456,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["pug", "npm:3.0.2"],\
             ["reflect-metadata", "npm:0.1.13"],\
             ["rxjs", "npm:7.8.0"],\
+            ["socket.io", "npm:4.6.1"],\
             ["source-map-support", "npm:0.5.21"],\
             ["supertest", "npm:6.3.3"],\
             ["ts-jest", "virtual:d17b96c190d3ebff50b814dfd38209921307aa7484485f0d410d105894df9a64c0e10a4140cfe480f66f4e98c1c63c30bf93a4ac014a832cea269380b31da80e#npm:29.0.3"],\

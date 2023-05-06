@@ -1,6 +1,5 @@
 import {Lang} from '@the-game/common/dist/enum/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/theme.enum';
-import {AxiosError} from 'axios';
 import {useTranslation} from 'react-i18next';
 import {registrationValidation} from '../../services/validation/registrationValidation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';

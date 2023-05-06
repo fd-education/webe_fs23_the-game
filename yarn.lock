@@ -3437,6 +3437,7 @@ __metadata:
     pug: ^3.0.2
     reflect-metadata: ^0.1.13
     rxjs: ^7.2.0
+    socket.io: ^4.6.1
     source-map-support: ^0.5.20
     supertest: ^6.1.3
     ts-jest: 29.0.3
@@ -16055,7 +16056,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"socket.io@npm:*, socket.io@npm:4.6.1":
+"socket.io@npm:*, socket.io@npm:4.6.1, socket.io@npm:^4.6.1":
   version: 4.6.1
   resolution: "socket.io@npm:4.6.1"
   dependencies:

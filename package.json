@@ -10,10 +10,13 @@
     ]
   },
   "scripts": {
+    "build-common": "yarn workspace @the-game/common build && yarn install",
     "start-client:dev": "yarn workspace @the-game/client start:dev",
     "start-server:dev": "yarn workspace @the-game/server start:dev",
+    "start:dev": "yarn start-server:dev && yarn start-client:dev",
     "start-client:prod": "yarn workspace @the-game/client start:prod",
-    "start-server:prod": "yarn workspace @the-game/server start:prod"
+    "start-server:prod": "yarn workspace @the-game/server start:prod",
+    "start:prod": "yarn start-server:prod && yarn start-client:prod"
   },
   "packageManager": "yarn@3.5.0"
 }
