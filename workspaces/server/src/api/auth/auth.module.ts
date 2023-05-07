@@ -8,7 +8,7 @@ import { ConfigService } from '../../common/config/config.service';
 import { JwtModule } from '@nestjs/jwt';
 import { BcryptModule } from '../../security/bcrypt/bcrypt.module';
 import { MailModule } from '../../common/mail/mail.module';
-import {TokensModule} from "../../data/token/tokens.module";
+import {TokensModule} from "../../data/tokens/tokens.module";
 import {AccessTokenStrategy} from "../../security/strategies/accessToken.strategy";
 import {RefreshTokenStrategy} from "../../security/strategies/refreshToken.strategy";
 
