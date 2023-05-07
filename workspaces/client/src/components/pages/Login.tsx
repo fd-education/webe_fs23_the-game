@@ -1,5 +1,6 @@
 import {AxiosError} from 'axios';
 import {useTranslation} from 'react-i18next';
+import ProfileService from '../../services/profile/profile.service';
 import {loginValidationSchema} from '../../services/validation/login.validation';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';

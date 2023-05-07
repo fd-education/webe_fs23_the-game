@@ -2,7 +2,7 @@ import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
 import io from 'socket.io-client';
-import React, {useState, useEffect, KeyboardEvent} from 'react';
+import React, {useState, useEffect, KeyboardEvent, useCallback} from 'react';
 import {User} from '../../common/types/user';
 import {refreshAccessToken} from '../../services/api';
 import {Panel} from '../util/panel/Panel';
@@ -16,18 +16,27 @@ export const Chat = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<Message>>([]);
 
+    const refreshAccessTokenCallback = useCallback(async () => {
+        await refreshAccessToken();
+    }, []);
+
     useEffect(() => {
-        socketInitializer();
+        refreshAccessTokenCallback().catch(console.error);
+        socketInitializer().catch(console.error);
 
         const user = localStorage.getItem('user');
+        console.log(user);
 
         if (user === null) {
             // TODO: Redirect to login
         } else {
+            console.log((JSON.parse(user) as User).username);
             setUsername((JSON.parse(user) as User).username);
         }
 
-        return () => socket.disconnect();
+        return () => {
+            socket.disconnect();
+        };
     }, []);
 
     const socketInitializer = async () => {
@@ -38,39 +47,6 @@ export const Chat = () => {
             extraHeaders: {
                 Authorization: 'Bearer ' + localStorage.getItem('token')
             }
-        });
-
-        socket.on('connect', () => {
-            console.log('connected to lobby namespace');
-        });
-
-        socket.on('message', async (msg: SystemEvent) => {
-            console.log(msg);
-
-            if (msg === SystemEvent.UNAUTHORIZED) {
-                await refreshAccessToken();
-
-                socket = io(
-                    'http://localhost:9000/' + WebsocketNamespaces.LOBBY,
-                    {
-                        auth: {
-                            token: localStorage.getItem('token')
-                        },
-                        extraHeaders: {
-                            Authorization:
-                                'Bearer ' + localStorage.getItem('token')
-                        }
-                    }
-                );
-            }
-        });
-
-        socket.on('connect_error', (err: any) => {
-            console.log(err);
-        });
-
-        socket.on('disconnect', (reason: string) => {
-            console.log('disconnected from lobby namespace due to ' + reason);
         });
 
         socket.on(ChatEvent.RECEIVE_GLOBAL_MESSAGE, (msg: Message) => {
