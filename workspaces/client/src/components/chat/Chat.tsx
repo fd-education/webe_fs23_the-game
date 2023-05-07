@@ -1,4 +1,5 @@
 import {ChatEvent} from '@the-game/common/dist/enum/chat-event.enum';
+import {WebsocketNamespaces} from '@the-game/common/dist/enum/websocket-namespaces.enum';
 import io from 'socket.io-client';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {User} from '../../common/types/user';
@@ -28,7 +29,26 @@ export const Chat = () => {
     }, []);
 
     const socketInitializer = async () => {
-        socket = io('http://localhost:9000/chat');
+        socket = io('http://localhost:9000/' + WebsocketNamespaces.LOBBY, {
+            auth: {
+                token: localStorage.getItem('token')
+            },
+            extraHeaders: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+
+        socket.on('connect', () => {
+            console.log('connected to lobby namespace');
+        });
+
+        socket.on('connect_error', (err: any) => {
+            console.log(err);
+        });
+
+        socket.on('disconnect', (reason: string) => {
+            console.log('disconnected from lobby namespace due to ' + reason);
+        });
 
         socket.on(ChatEvent.RECEIVE_GLOBAL_MESSAGE, (msg: Message) => {
             setMessages((currentMsg: Message[]) => {

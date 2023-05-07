@@ -39,7 +39,7 @@ export const Profile: FC = () => {
                 setUser(user);
             }
         });
-    });
+    }, [navigate]);
 
     const handleUpdate = async (formValue: ProfileUpdate) => {
         const formData = formValue;
