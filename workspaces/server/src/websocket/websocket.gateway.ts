@@ -10,7 +10,7 @@ import { LoggerService } from '../common/logger/logger.service';
 import {Server} from 'socket.io';
 
 @WebSocketGateway({
-  namespace: WebsocketNamespaces.CHAT,
+  namespace: WebsocketNamespaces.LOBBY,
   cors: {
     origin: '*',
   },
