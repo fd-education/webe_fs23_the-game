@@ -1,8 +1,10 @@
-import {ChatEvent} from '@the-game/common/dist/enum/chat-event.enum';
-import {WebsocketNamespaces} from '@the-game/common/dist/enum/websocket-namespaces.enum';
+import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
+import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
+import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
 import io from 'socket.io-client';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {User} from '../../common/types/user';
+import {refreshAccessToken} from '../../services/api';
 import {Panel} from '../util/panel/Panel';
 import {Message, MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
@@ -40,6 +42,27 @@ export const Chat = () => {
 
         socket.on('connect', () => {
             console.log('connected to lobby namespace');
+        });
+
+        socket.on('message', async (msg: SystemEvent) => {
+            console.log(msg);
+
+            if (msg === SystemEvent.UNAUTHORIZED) {
+                await refreshAccessToken();
+
+                socket = io(
+                    'http://localhost:9000/' + WebsocketNamespaces.LOBBY,
+                    {
+                        auth: {
+                            token: localStorage.getItem('token')
+                        },
+                        extraHeaders: {
+                            Authorization:
+                                'Bearer ' + localStorage.getItem('token')
+                        }
+                    }
+                );
+            }
         });
 
         socket.on('connect_error', (err: any) => {

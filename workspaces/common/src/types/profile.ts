@@ -1,5 +1,5 @@
-import {Lang} from '../enum/lang.enum';
-import {Theme} from '../enum/theme.enum';
+import {Lang} from '../enum/preferences/lang.enum';
+import {Theme} from '../enum/preferences/theme.enum';
 import {UserGameStats} from './gameStats';
 
 export type Profile = {
