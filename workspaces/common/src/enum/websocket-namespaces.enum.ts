@@ -1,3 +1,4 @@
 export enum WebsocketNamespaces {
-    CHAT = 'chat',
+    LOBBY = 'lobby',
+    GAME = 'game',
 }
