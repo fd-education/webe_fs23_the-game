@@ -90,7 +90,7 @@ export const Chat = () => {
                         );
                     })}
                 </div>
-                <div className="divider" />
+                <div className="divider dark:before:bg-the_game_gray dark:after:bg-the_game_gray" />
                 <div className="w-full flex space-x-3">
                     <input
                         id="chat-input"

@@ -29,7 +29,7 @@ export const LobbyOverview = () => {
 
                 <div className="flex-grow"></div>
 
-                <div className="divider font-title font-bold text-black dark:text-white">
+                <div className="divider font-title font-bold text-black dark:text-white dark:before:bg-the_game_gray dark:after:bg-the_game_gray">
                     {t('lobby.createTable')}
                 </div>
 
