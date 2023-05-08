@@ -14,14 +14,7 @@ export const Chat = () => {
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<Message>>([]);
 
-    const refreshAccessTokenCallback = useCallback(async () => {
-        await refreshAccessToken();
-    }, []);
-
     useEffect(() => {
-        refreshAccessTokenCallback().catch(console.error);
-        wsm.connect();
-
         const onChatMessage: WsListener<Message> = (msg: Message) => {
             setMessages((currentMsg: Message[]) => {
                 return [
@@ -46,7 +39,6 @@ export const Chat = () => {
         }
 
         return () => {
-            wsm.disconnect();
             wsm.removeListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
         };
     }, []);

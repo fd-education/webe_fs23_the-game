@@ -1,14 +1,22 @@
-import {FC, useEffect} from 'react';
+import {FC, useCallback, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
+import useWebSocket from '../../hooks/useWebSocket';
+import {refreshAccessToken} from '../../services/api';
 import UserService from '../../services/profile/profile.service';
 import {Chat} from '../chat/Chat';
+import {LobbyOverview} from '../lobby-overview/LobbyOverview';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
 import {RulesButton} from '../util/button/RulesButton';
 import {Panel} from '../util/panel/Panel';
 import {SmallTitle} from '../util/title/SmallTitle';
 
 export const Lobby: FC = () => {
+    const {wsm} = useWebSocket();
     const navigate = useNavigate();
+
+    const refreshAccessTokenCallback = useCallback(async () => {
+        await refreshAccessToken();
+    }, []);
 
     useEffect(() => {
         const uid = localStorage.getItem('user_id');
@@ -17,6 +25,9 @@ export const Lobby: FC = () => {
             navigate('/login');
             return;
         }
+
+        refreshAccessTokenCallback().catch(console.error);
+        wsm.connect();
 
         UserService.getProfile(uid).then((res) => {
             const user = res.data;
@@ -27,6 +38,10 @@ export const Lobby: FC = () => {
                 localStorage.setItem('user', JSON.stringify(user));
             }
         });
+
+        return () => {
+            wsm.disconnect();
+        };
     }, [navigate]);
 
     return (
@@ -39,7 +54,7 @@ export const Lobby: FC = () => {
                 <SmallTitle />
 
                 <div className="w-full h-full py-8 px-4">
-                    <Panel />
+                    <LobbyOverview />
                 </div>
 
                 <div className="flex flex-col items-center space-y-6">
