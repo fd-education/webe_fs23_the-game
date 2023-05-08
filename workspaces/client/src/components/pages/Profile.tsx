@@ -32,7 +32,6 @@ export const Profile: FC = () => {
             const user = res.data;
 
             if (user === undefined) {
-                console.log('No User found');
                 navigate('/login');
             } else {
                 localStorage.setItem('user', JSON.stringify(user));
@@ -76,7 +75,6 @@ export const Profile: FC = () => {
             const user = res.data;
 
             if (user === undefined) {
-                console.log('No User found');
                 navigate('/login');
             } else {
                 localStorage.removeItem('user');

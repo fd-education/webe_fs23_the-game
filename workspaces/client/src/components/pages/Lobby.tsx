@@ -1,6 +1,5 @@
-import {FC, useEffect, useState} from 'react';
+import {FC, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {User} from '../../common/types/user';
 import UserService from '../../services/profile/profile.service';
 import {Chat} from '../chat/Chat';
 import {PreferenceToggles} from '../util/button/PreferenceToggles';
@@ -23,7 +22,6 @@ export const Lobby: FC = () => {
             const user = res.data;
 
             if (user === undefined) {
-                console.log('No User found');
                 navigate('/login');
             } else {
                 localStorage.setItem('user', JSON.stringify(user));

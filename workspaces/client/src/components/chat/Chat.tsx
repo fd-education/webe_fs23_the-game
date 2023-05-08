@@ -1,17 +1,15 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
-import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
-import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
-import io from 'socket.io-client';
 import React, {useState, useEffect, KeyboardEvent, useCallback} from 'react';
 import {User} from '../../common/types/user';
+import {WsListener} from '../../common/websocket/websocket.manager';
+import useWebSocket from '../../hooks/useWebSocket';
 import {refreshAccessToken} from '../../services/api';
 import {Panel} from '../util/panel/Panel';
 import {Message, MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
-let socket: any;
-
 export const Chat = () => {
+    const {wsm} = useWebSocket();
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<Message>>([]);
@@ -22,34 +20,9 @@ export const Chat = () => {
 
     useEffect(() => {
         refreshAccessTokenCallback().catch(console.error);
-        socketInitializer().catch(console.error);
+        wsm.connect();
 
-        const user = localStorage.getItem('user');
-        console.log(user);
-
-        if (user === null) {
-            // TODO: Redirect to login
-        } else {
-            console.log((JSON.parse(user) as User).username);
-            setUsername((JSON.parse(user) as User).username);
-        }
-
-        return () => {
-            socket.disconnect();
-        };
-    }, []);
-
-    const socketInitializer = async () => {
-        socket = io('http://localhost:9000/' + WebsocketNamespaces.LOBBY, {
-            auth: {
-                token: localStorage.getItem('token')
-            },
-            extraHeaders: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        });
-
-        socket.on(ChatEvent.RECEIVE_GLOBAL_MESSAGE, (msg: Message) => {
+        const onChatMessage: WsListener<Message> = (msg: Message) => {
             setMessages((currentMsg: Message[]) => {
                 return [
                     {
@@ -60,17 +33,36 @@ export const Chat = () => {
                     ...currentMsg
                 ];
             });
-        });
-    };
+        };
 
-    const sendMessage = async () => {
+        wsm.registerListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
+
+        const user = localStorage.getItem('user');
+
+        if (user === null) {
+            // TODO: Redirect to login
+        } else {
+            setUsername((JSON.parse(user) as User).username);
+        }
+
+        return () => {
+            wsm.disconnect();
+            wsm.removeListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
+        };
+    }, []);
+
+    const sendMessage = () => {
         if (message === '') return;
 
-        socket.emit(ChatEvent.SEND_GLOBAL_MESSAGE, {
-            author: username,
-            message,
-            timestamp: Date.now()
+        wsm.emit<{author: string; message: string; timestamp: number}>({
+            event: ChatEvent.SEND_GLOBAL_MESSAGE,
+            data: {
+                author: username,
+                message,
+                timestamp: Date.now()
+            }
         });
+
         setMessage('');
     };
 
