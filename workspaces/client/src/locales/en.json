@@ -44,6 +44,11 @@
             "readRules": "Read the Rules",
             "subtitle": "Play... as long as you can!"
         },
+        "lobby": {
+            "createTable": "Create Table",
+            "numberOfPlayers": "Number of Players",
+            "title": "Open Tables"
+        },
         "profile": {
             "delete": "Delete Profile",
             "update": "Update"

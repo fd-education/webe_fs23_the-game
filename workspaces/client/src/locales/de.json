@@ -44,6 +44,11 @@
             "readRules": "Regeln lesen",
             "subtitle": "Spiel... solange du kannst!"
         },
+        "lobby": {
+            "createTable": "Tisch erstellen",
+            "numberOfPlayers": "Anzahl Spieler",
+            "title": "Verfügbare Tische"
+        },
         "profile": {
             "delete": "Profil löschen",
             "update": "Speichern"

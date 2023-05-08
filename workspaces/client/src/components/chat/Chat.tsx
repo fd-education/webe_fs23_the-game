@@ -3,6 +3,7 @@ import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {User} from '../../common/types/user';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
+import {SendIcon} from '../svg/send.icon';
 import {Panel} from '../util/panel/Panel';
 import {Message, MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
@@ -107,7 +108,7 @@ export const Chat = () => {
                             sendMessage();
                         }}
                     >
-                        <i className="bi bi-send-fill text-black icon-size-m"></i>
+                        <SendIcon />
                     </button>
                 </div>
             </Panel>
