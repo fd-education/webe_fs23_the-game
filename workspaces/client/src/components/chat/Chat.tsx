@@ -1,9 +1,8 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
-import React, {useState, useEffect, KeyboardEvent, useCallback} from 'react';
+import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {User} from '../../common/types/user';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
-import {refreshAccessToken} from '../../services/api';
 import {Panel} from '../util/panel/Panel';
 import {Message, MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
