@@ -1,23 +1,49 @@
+import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
+import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
+import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Field, Form, Formik} from 'formik';
 import * as yup from 'yup';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import {WsListener} from '../../common/websocket/websocket.manager';
+import useWebSocket from '../../hooks/useWebSocket';
 import {PlusIcon} from '../svg/plus.icon';
 import {Panel} from '../util/panel/Panel';
 
 export const LobbyOverview = () => {
     const {t} = useTranslation();
+    const {wsm} = useWebSocket();
+    const [lobbies, setLobbies] = useState<Array<NewLobby>>([]);
 
-    const initialValues = {
-        tableSize: 4
+    useEffect(() => {
+       const onNewLobbyCreated: WsListener<NewLobby> = (newLobby: NewLobby) => {
+           setLobbies((currentLobbies: NewLobby[]) => {
+               return [...currentLobbies, newLobby];
+           });
+       }
+
+       wsm.registerListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
+
+       return () => {
+              wsm.removeListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
+       }
+    });
+    
+    const initialValues: CreateLobby = {
+        numberOfPlayers: 4,
+        mode: GameMode.CLASSIC
     };
 
     const validationSchema = yup.object({
         tableSize: yup.number().min(2).max(5).required()
     });
 
-    const handleCreateTable = () => {
-        console.log('create table');
+    const handleCreateTable = (formValues: CreateLobby) => {
+        wsm.emit<CreateLobby>({
+            event: LobbyEvent.CREATE_LOBBY,
+            data: formValues
+        })
     };
 
     return (
