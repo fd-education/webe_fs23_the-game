@@ -1,7 +1,7 @@
 
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
-import {UserGameStats} from '@the-game/common/dist/types/gameStats';
+import {UserGameStats} from '@the-game/common/dist/types/profile/gameStats';
 import {
   IsEmail,
   IsEnum,

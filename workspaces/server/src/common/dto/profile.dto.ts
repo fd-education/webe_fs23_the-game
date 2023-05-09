@@ -1,11 +1,9 @@
-
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
 import { UserGameStatsDto } from './user.dto';
 import {IsEmail, IsEnum, IsNotEmpty, IsString, IsStrongPassword, IsUUID} from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
-import {Profile} from '@the-game/common/dist/types/profile';
-
+import {Profile} from '@the-game/common/dist/types/profile/profile';
 
 export class ProfileDto implements Profile {
   @IsUUID(4)

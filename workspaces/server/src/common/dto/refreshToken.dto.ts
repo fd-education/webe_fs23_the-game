@@ -1,4 +1,4 @@
-import {RefreshToken} from '@the-game/common/dist/types/refreshToken';
+import {RefreshToken} from '@the-game/common/dist/types/auth/refreshToken';
 import {IsString, IsUUID} from "class-validator";
 
 export class RefreshTokenDto implements RefreshToken{

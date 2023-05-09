@@ -1,7 +1,7 @@
 
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
-import {RegistrationPayload} from '@the-game/common/dist/types/registrationPayload';
+import {RegistrationPayload} from '@the-game/common/dist/types/auth/registrationPayload';
 import {
   IsEmail,
   IsEnum,

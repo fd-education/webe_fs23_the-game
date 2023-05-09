@@ -46,7 +46,7 @@ export const Chat = () => {
     const sendMessage = () => {
         if (message === '') return;
 
-        wsm.emit<{author: string; message: string; timestamp: number}>({
+        wsm.emit<Message>({
             event: ChatEvent.SEND_GLOBAL_MESSAGE,
             data: {
                 author: username,

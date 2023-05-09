@@ -1,4 +1,4 @@
-import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
+import {ProfileUpdate} from '@the-game/common/dist/types/profile/profileUpdate';
 import {Form, Formik} from 'formik';
 import React, {FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';

@@ -1,6 +1,6 @@
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
-import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
+import {ProfileUpdate} from '@the-game/common/dist/types/profile/profileUpdate';
 import {
     IsEmail,
     IsEnum,

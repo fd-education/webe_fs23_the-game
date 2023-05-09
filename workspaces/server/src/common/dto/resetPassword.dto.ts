@@ -1,4 +1,4 @@
-import {ResetPasswordPayload} from '@the-game/common/dist/types/resetPasswordPayload';
+import {ResetPasswordPayload} from '@the-game/common/dist/types/auth/resetPasswordPayload';
 import {Transform, TransformFnParams} from 'class-transformer';
 import {IsNotEmpty, IsString, IsStrongPassword} from 'class-validator';
 import {Match} from '../decorators/match.decorator';
