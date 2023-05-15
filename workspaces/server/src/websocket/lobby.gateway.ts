@@ -5,10 +5,13 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
+import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
+import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import { LoggerService } from '../common/logger/logger.service';
 import {Server} from 'socket.io';
+import {GamesService} from '../data/games/games.service';
 import {JwtVerifyService} from '../security/jwt/jwt.service';
 
 @WebSocketGateway({
@@ -21,7 +24,11 @@ export class LobbyGateway implements OnGatewayConnection {
   @WebSocketServer()
   server: Server;
 
-  constructor(private logger: LoggerService, private jwtVerifyService: JwtVerifyService) {
+  constructor(
+      private logger: LoggerService,
+      private jwtVerifyService: JwtVerifyService,
+      private gamesService: GamesService,
+      ) {
     this.logger.setContext(LobbyGateway.name);
   }
 
@@ -51,5 +58,12 @@ export class LobbyGateway implements OnGatewayConnection {
   handleMessage(@MessageBody() message: string): void {
     this.logger.info(message);
     this.server.emit(ChatEvent.RECEIVE_GLOBAL_MESSAGE, message);
+  }
+
+  @SubscribeMessage(LobbyEvent.CREATE_LOBBY)
+  async handleCreateLobby(@MessageBody() createLobby: CreateLobby): Promise<void> {
+    this.logger.info(`Creating lobby for mode ${createLobby.mode} with ${createLobby.numberOfPlayers} players`)
+    const lobby = await this.gamesService.create(createLobby);
+    this.server.emit(LobbyEvent.NEW_LOBBY, lobby);
   }
 }

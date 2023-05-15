@@ -39,6 +39,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   async signIn(@Body() signInDto: SigninDto) {
+    this.logger.info(`Signing in user: ${signInDto.email}`);
+
     try {
       return await this.authService.signIn(
         signInDto.email,
@@ -59,6 +61,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('refresh')
   async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
+    this.logger.log(`Refreshing tokens for user: ${refreshTokenDto.uid}`)
+
     return await this.authService.refreshTokens(refreshTokenDto.uid, refreshTokenDto.refreshToken);
   }
 
@@ -66,6 +70,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signout')
   async logout(@Body() uid: string) {
+    this.logger.log(`Signing out user: ${uid}`)
+
     await this.authService.signOut(uid);
   }
 

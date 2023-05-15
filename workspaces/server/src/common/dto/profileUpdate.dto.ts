@@ -41,7 +41,7 @@ export class ProfileUpdateDto implements ProfileUpdate{
         minNumbers: 1,
         minSymbols: 1,
     })
-    readonly password?: string;
+    password?: string;
 
     @ValidateIf((o: ProfileUpdateDto) => o.password !== undefined)
     @Match(ProfileUpdateDto, (r: ProfileUpdateDto) => r.password)

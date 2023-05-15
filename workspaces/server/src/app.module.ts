@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import {GamesModule} from './data/games/games.module';
 import {OwnJwtModule} from './security/jwt/jwt.module';
 import { WebsocketModule } from './websocket/websocket.module';
 import { LoggerModule } from './common/logger/logger.module';
@@ -22,6 +23,7 @@ import { ProfileModule } from "./api/profile/profile.module";
         ProfileModule,
         UsersModule,
         TokensModule,
+        GamesModule,
         MailModule,
         OwnJwtModule
     ],

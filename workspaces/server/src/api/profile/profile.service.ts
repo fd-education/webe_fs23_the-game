@@ -50,6 +50,7 @@ export class ProfileService {
     const hashedPassword = await this.bcryptService.hash(
       passwordUpdate.password,
     );
+
     const user = await this.userService.updatePassword(
       passwordUpdate.uid,
       hashedPassword,

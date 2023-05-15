@@ -3,7 +3,6 @@ import {JwtModule} from '@nestjs/jwt';
 import {ConfigModule} from '../../common/config/config.module';
 import {ConfigService} from '../../common/config/config.service';
 import {UsersModule} from '../../data/users/users.module';
-import {UsersService} from '../../data/users/users.service';
 import {JwtVerifyService} from './jwt.service';
 
 @Module({

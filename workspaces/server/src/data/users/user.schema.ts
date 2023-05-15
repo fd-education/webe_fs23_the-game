@@ -1,4 +1,3 @@
-
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
 import { HydratedDocument } from 'mongoose';
