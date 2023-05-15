@@ -10,14 +10,14 @@ export class BcryptService {
   }
 
   async hash(value: string): Promise<string> {
-    this.logger.debug(`Hashing ${value}`);
+    this.logger.debug(`Hashing value`);
 
     const saltRounds = this.configService.saltRounds;
     return await bcrypt.hash(value, saltRounds);
   }
 
   async compare(plain: string, hash: string): Promise<boolean> {
-    this.logger.debug(`Comparing ${plain} to ${hash}`);
+    this.logger.debug(`Comparing plain and hash`);
 
     return await bcrypt.compare(plain, hash);
   }

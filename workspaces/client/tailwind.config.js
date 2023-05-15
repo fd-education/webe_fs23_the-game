@@ -24,6 +24,7 @@ module.exports = {
                 the_game_orange: '#BF7160',
                 the_game_darkOrange: '#814d41',
                 the_game_gray: '#847C7C',
+                the_game_gray_light: '#ABA7A7',
 
                 chatBubbleForeign: '#262628',
                 chatBubbleOwn: '#E9E9EB',

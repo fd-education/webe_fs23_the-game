@@ -69,7 +69,7 @@ export const Chat = () => {
     return (
         <div className="flex items-center h-full justify-center bg-primaryLight dark:bg-primaryDark">
             <Panel className="justify-end">
-                <div className="last:border-b-0 overflow-y-auto pr-3 flex flex-col-reverse">
+                <div className="last:border-b-0 h-full overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((message, key) => {
                         const msg: MessageWithKey = {...message, key};
 

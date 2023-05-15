@@ -50,10 +50,10 @@ export const Lobby: FC = () => {
                 <Chat />
             </div>
 
-            <div className="flex flex-col items-center p-4 min-h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
+            <div className="flex flex-col content-start items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
                 <SmallTitle />
 
-                <div className="w-full h-full py-8 px-4">
+                <div className="w-full h-[65%] px-4">
                     <LobbyOverview />
                 </div>
 
@@ -69,7 +69,7 @@ export const Lobby: FC = () => {
                     />
                 </div>
             </div>
-            <div className="flex flex-col justify-around w-full p-8 space-y-10">
+            <div className="flex flex-col justify-around w-full h-screen p-8 space-y-10">
                 <Panel />
                 <Panel />
             </div>

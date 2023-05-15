@@ -1,57 +1,64 @@
 {
-    "translation": {
-        "auth": {
-            "common": {
-                "confirmPassword": "Confirm Password",
-                "email": "Email",
-                "errors": {
-                    "invalidConfirmPassword": "Passwords must match.",
-                    "invalidEmail": "This email address is not valid.",
-                    "invalidLengthUsername": "Username must be between 5 and 30 characters.",
-                    "invalidPassword": "Password must be at least 8 characters long and contain upper and lower case letters, numbers and special characters.",
-                    "requiredConfirmPassword": "Confirmation Password is required.",
-                    "requiredEmail": "Email address is required.",
-                    "requiredFirstname": "Firstname is required.",
-                    "requiredLastname": "Lastname ist required.",
-                    "requiredPassword": "Password is required.",
-                    "requiredUsername": "Username is required."
-                },
-                "firstname": "Firstname",
-                "lastname": "Lastname",
-                "password": "Password",
-                "username": "Username"
-            },
-            "login": {
-                "forgotPassword": "Forgot password?",
-                "loggingIn": "Loading...",
-                "login": "Log in",
-                "noAccount": "No account? Register!"
-            },
-            "passwordReset": {
-                "codeExists": "I already have a code.",
-                "getCode": "Get reset code",
-                "info": "Enter your email address and your username to get a reset code for your password.",
-                "resetCode": "Reset Code",
-                "resetInfo": "Enter your reset code and set a new password.",
-                "resetPassword": "Reset Password"
-            },
-            "register": {
-                "register": "Register"
-            }
+  "translation": {
+    "auth": {
+      "common": {
+        "confirmPassword": "Confirm Password",
+        "email": "Email",
+        "errors": {
+          "invalidConfirmPassword": "Passwords must match.",
+          "invalidEmail": "This email address is not valid.",
+          "invalidLengthUsername": "Username must be between 5 and 30 characters.",
+          "invalidPassword": "Password must be at least 8 characters long and contain upper and lower case letters, numbers and special characters.",
+          "requiredConfirmPassword": "Confirmation Password is required.",
+          "requiredEmail": "Email address is required.",
+          "requiredFirstname": "Firstname is required.",
+          "requiredLastname": "Lastname ist required.",
+          "requiredPassword": "Password is required.",
+          "requiredUsername": "Username is required."
         },
-        "common": {
-            "cancel": "Cancel",
-            "readRules": "Read the Rules",
-            "subtitle": "Play... as long as you can!"
-        },
-        "lobby": {
-            "createTable": "Create Table",
-            "numberOfPlayers": "Number of Players",
-            "title": "Open Tables"
-        },
-        "profile": {
-            "delete": "Delete Profile",
-            "update": "Update"
-        }
+        "firstname": "Firstname",
+        "lastname": "Lastname",
+        "password": "Password",
+        "username": "Username"
+      },
+      "login": {
+        "forgotPassword": "Forgot password?",
+        "loggingIn": "Loading...",
+        "login": "Log in",
+        "noAccount": "No account? Register!"
+      },
+      "passwordReset": {
+        "codeExists": "I already have a code.",
+        "getCode": "Get reset code",
+        "info": "Enter your email address and your username to get a reset code for your password.",
+        "resetCode": "Reset Code",
+        "resetInfo": "Enter your reset code and set a new password.",
+        "resetPassword": "Reset Password"
+      },
+      "register": {
+        "register": "Register"
+      }
+    },
+    "common": {
+      "cancel": "Cancel",
+      "readRules": "Read the Rules",
+      "subtitle": "Play... as long as you can!"
+    },
+    "game": {
+      "mode": {
+        "classic": "Classic",
+        "onfire": "On Fire"
+      }
+    },
+    "lobby": {
+      "createTable": "Create Table",
+      "join": "Join",
+      "numberOfPlayers": "Number of Players",
+      "title": "Open Tables"
+    },
+    "profile": {
+      "delete": "Delete Profile",
+      "update": "Update"
     }
+  }
 }
