@@ -9,6 +9,7 @@ import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-eve
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
+import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
 import { LoggerService } from '../common/logger/logger.service';
 import {Server} from 'socket.io';
 import {GamesService} from '../data/games/games.service';
@@ -62,8 +63,15 @@ export class LobbyGateway implements OnGatewayConnection {
 
   @SubscribeMessage(LobbyEvent.CREATE_LOBBY)
   async handleCreateLobby(@MessageBody() createLobby: CreateLobby): Promise<void> {
-    this.logger.info(`Creating lobby for mode ${createLobby.mode} with ${createLobby.numberOfPlayers} players`)
+    this.logger.info(`Creating lobby for mode ${createLobby.mode} with ${createLobby.numberOfPlayers} players`);
     const lobby = await this.gamesService.create(createLobby);
     this.server.emit(LobbyEvent.NEW_LOBBY, lobby);
+  }
+
+  @SubscribeMessage(LobbyEvent.JOIN_LOBBY)
+  async handleJoinLobby(@MessageBody() joinLobby: JoinLobby): Promise<void> {
+    this.logger.info(`Trying to add player ${joinLobby.user_uid} to lobby ${joinLobby.lobby_uid}`);
+    const lobby = await this.gamesService.join(joinLobby);
+    this.server.emit(LobbyEvent.UPDATE_LOBBY, lobby);
   }
 }

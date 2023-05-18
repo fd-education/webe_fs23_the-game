@@ -5,7 +5,7 @@ import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
 import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
 import {User} from '../../common/types/user';
 import authInterceptor from '../api';
-import TokenService from './token.service';
+import TokenService from '../../common/localstorage/token.repository';
 
 class AuthService {
     login(loginPayload: LoginPayload) {

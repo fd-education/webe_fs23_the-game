@@ -1,11 +1,14 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
+import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
+import {Lobby} from '@the-game/common/dist/types/lobby/lobby';
 import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Field, Form, Formik} from 'formik';
 import * as yup from 'yup';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
+import UserRepository from '../../common/localstorage/user.repository';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
 import {PlusIcon} from '../svg/plus.icon';
@@ -14,18 +17,33 @@ import {Panel} from '../util/panel/Panel';
 export const LobbyOverview = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
-    const [lobbies, setLobbies] = useState<Array<NewLobby>>([]);
+    const [lobbies, setLobbies] = useState<Array<Lobby>>([]);
 
     useEffect(() => {
-        const onNewLobbyCreated: WsListener<NewLobby> = (
-            newLobby: NewLobby
-        ) => {
-            setLobbies((currentLobbies: NewLobby[]) => {
-                return [...currentLobbies, newLobby];
+        const onNewLobbyCreated: WsListener<Lobby> = (lobby: Lobby) => {
+            setLobbies((currentLobbies: Lobby[]) => {
+                return [...currentLobbies, lobby];
+            });
+        };
+
+        const onUpdateLobby: WsListener<Lobby> = (lobby: Lobby) => {
+            setLobbies((currentLobbies: Lobby[]) => {
+                const index = currentLobbies.findIndex(
+                    (currentLobby: NewLobby) => currentLobby.uid === lobby.uid
+                );
+
+                if (index === -1) return currentLobbies;
+
+                const newLobbies = [...currentLobbies];
+                newLobbies[index] = {...newLobbies[index], ...lobby};
+
+                return newLobbies;
             });
         };
 
         wsm.registerListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
+
+        wsm.registerListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
 
         return () => {
             wsm.removeListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
@@ -33,6 +51,7 @@ export const LobbyOverview = () => {
     });
 
     const initialValues: CreateLobby = {
+        creator: '',
         numberOfPlayers: 4,
         mode: GameMode.CLASSIC
     };
@@ -42,11 +61,32 @@ export const LobbyOverview = () => {
     });
 
     const handleCreateTable = (formValues: CreateLobby) => {
-        console.log(formValues);
+        const userUid = UserRepository.getUserId();
+
+        // TODO: Show error message
+        if (!userUid) return;
 
         wsm.emit<CreateLobby>({
             event: LobbyEvent.CREATE_LOBBY,
-            data: formValues
+            data: {
+                ...formValues,
+                creator: userUid
+            }
+        });
+    };
+
+    const handleJoinLobby = (uid: string) => {
+        const userUid = UserRepository.getUserId();
+
+        // TODO: Show error message
+        if (!userUid) return;
+
+        wsm.emit<JoinLobby>({
+            event: LobbyEvent.JOIN_LOBBY,
+            data: {
+                user_uid: userUid,
+                lobby_uid: uid
+            }
         });
     };
 
@@ -59,7 +99,7 @@ export const LobbyOverview = () => {
 
                 <div className="h-full content-start overflow-y-auto">
                     <div className="flex flex-col space-y-3">
-                        {lobbies.map((lobby: NewLobby) => {
+                        {lobbies.map((lobby: Lobby) => {
                             return (
                                 <div
                                     key={lobby.uid}
@@ -71,8 +111,17 @@ export const LobbyOverview = () => {
                                                 ? t('game.mode.classic')
                                                 : t('game.mode.onfire')}
                                         </p>
-                                        <p>{'0 / ' + lobby.numberOfPlayers}</p>
-                                        <button className="rounded-md bg-the_game_orange py-1 px-2">
+                                        <p>
+                                            {lobby.players.length +
+                                                ' / ' +
+                                                lobby.numberOfPlayers}
+                                        </p>
+                                        <button
+                                            className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
+                                            onClick={() =>
+                                                handleJoinLobby(lobby.uid)
+                                            }
+                                        >
                                             {t('lobby.join')}
                                         </button>
                                     </div>

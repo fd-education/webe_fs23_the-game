@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 import {config} from '../common/config/config';
-import TokenService from './auth/token.service';
+import TokenService from '../common/localstorage/token.repository';
 
 const authInterceptor: AxiosInstance = axios.create({
     baseURL: config.backendUrl,

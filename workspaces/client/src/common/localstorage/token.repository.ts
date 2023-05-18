@@ -1,4 +1,4 @@
-class TokenService {
+class TokenRepository {
     private ACCESS_TOKEN_KEY = 'token';
     private REFRESH_TOKEN_KEY = 'refreshToken';
 
@@ -24,4 +24,4 @@ class TokenService {
     }
 }
 
-export default new TokenService();
+export default new TokenRepository();

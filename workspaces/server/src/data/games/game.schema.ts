@@ -17,6 +17,11 @@ export class Game {
     uid: string;
 
     @Prop({
+        required: true
+    })
+    creator: string;
+
+    @Prop({
         required: true,
     })
     mode: GameMode;
@@ -25,6 +30,11 @@ export class Game {
         required: true,
     })
     numberOfPlayers: number;
+
+    @Prop({
+        required: true,
+    })
+    players: string[];
 }
 
 export const GamesSchema = SchemaFactory.createForClass(Game);
