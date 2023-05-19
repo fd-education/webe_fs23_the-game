@@ -1,39 +1,34 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
-import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {Message} from '@the-game/common/dist/types/chat/message';
 import {HydratedDocument} from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-export type GameDocument = HydratedDocument<Game>;
+export type ChatDocument = HydratedDocument<Chat>;
 
 @Schema()
-export class Game {
+export class Chat implements Message {
     @Prop({
         unique: true,
         default: function genUUID() {
             return uuidv4();
-        },
+        }
     })
     uid: string;
 
     @Prop({
-        required: true
+        required: true,
     })
-    creator: string;
+    author: string;
 
     @Prop({
         required: true,
     })
-    mode: GameMode;
+    message: string;
 
     @Prop({
         required: true,
     })
-    numberOfPlayers: number;
-
-    @Prop({
-        required: true,
-    })
-    players: string[];
+    timestamp: number;
 }
 
-export const GamesSchema = SchemaFactory.createForClass(Game);
+export const ChatsSchema = SchemaFactory.createForClass(Chat);

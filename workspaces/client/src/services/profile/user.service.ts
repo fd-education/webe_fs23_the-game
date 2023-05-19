@@ -1,4 +1,4 @@
-import {User} from '@the-game/common/dist/types/profile/profile';
+import {User} from '@the-game/common/dist/types/auth/user';
 import {ProfileUpdate} from '@the-game/common/dist/types/profile/profileUpdate';
 import {AxiosResponse} from 'axios';
 import authInterceptor from '../api';

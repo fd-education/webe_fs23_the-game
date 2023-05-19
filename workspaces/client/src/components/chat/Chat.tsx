@@ -1,11 +1,10 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
-import {
-    MessageWithKey,
-    Message
-} from '@the-game/common/dist/types/chat/message';
+import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
+import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
+import {Message} from 'yup';
 import userState from '../../common/states/user.state';
 import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
@@ -21,7 +20,7 @@ export const Chat = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState<Array<Message>>([]);
+    const [messages, setMessages] = useState<Array<MessageWithKey>>([]);
 
     useEffect(() => {
         if (!user) {
@@ -31,13 +30,16 @@ export const Chat = () => {
 
         setUsername(user.username);
 
-        const onChatMessage: WsListener<Message> = (msg: Message) => {
-            setMessages((currentMsg: Message[]) => {
+        const onChatMessage: WsListener<MessageWithKey> = (
+            msg: MessageWithKey
+        ) => {
+            setMessages((currentMsg: MessageWithKey[]) => {
                 return [
                     {
                         author: msg.author,
                         message: msg.message,
-                        timestamp: msg.timestamp
+                        timestamp: msg.timestamp,
+                        uid: msg.uid
                     },
                     ...currentMsg
                 ];
@@ -55,6 +57,28 @@ export const Chat = () => {
             wsm.removeListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
         };
     });
+
+    useEffect(() => {
+        const onChatHistory: WsListener<MessageWithKey[]> = (
+            messages: MessageWithKey[]
+        ) => {
+            setMessages(messages);
+        };
+
+        if (webSocketState.connected) {
+            wsm.registerListener(SystemEvent.CHAT_HISTORY, onChatHistory);
+
+            setTimeout(() => {
+                wsm.emit<void>({
+                    event: SystemEvent.GET_CHAT_HISTORY
+                });
+            }, 1);
+        }
+
+        return () => {
+            wsm.removeListener(SystemEvent.CHAT_HISTORY, onChatHistory);
+        };
+    }, [webSocketState]);
 
     const sendMessage = () => {
         if (message === '') return;
@@ -83,22 +107,22 @@ export const Chat = () => {
         <div className="flex items-center h-full justify-center bg-primaryLight dark:bg-primaryDark">
             <Panel className="justify-end">
                 <div className="last:border-b-0 h-full overflow-y-auto pr-3 flex flex-col-reverse">
-                    {messages.map((message, key) => {
-                        const msg: MessageWithKey = {...message, key};
-
+                    {messages.map((msg, index) => {
                         return msg.author === username ? (
                             <ChatBubbleOwn
                                 author={msg.author}
                                 message={msg.message}
                                 timestamp={msg.timestamp}
-                                key={msg.key}
+                                uid={msg.uid}
+                                key={index}
                             />
                         ) : (
                             <ChatBubbleForeign
                                 author={msg.author}
                                 message={msg.message}
                                 timestamp={msg.timestamp}
-                                key={msg.key}
+                                uid={msg.uid}
+                                key={index}
                             />
                         );
                     })}

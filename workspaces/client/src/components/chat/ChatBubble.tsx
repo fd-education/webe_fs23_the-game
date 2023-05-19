@@ -8,10 +8,7 @@ import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 export const ChatBubbleOwn = (msg: MessageWithKey) => {
     return (
         <div className="chat chat-end">
-            <div
-                className="chat-bubble bg-chatBubbleOwn text-black"
-                key={msg.key}
-            >
+            <div className="chat-bubble bg-chatBubbleOwn text-black">
                 <div className="chat-header opacity-50">
                     <time className="text-xs opacity-50">
                         {' '}
@@ -35,10 +32,7 @@ export const ChatBubbleOwn = (msg: MessageWithKey) => {
 export const ChatBubbleForeign = (msg: MessageWithKey) => {
     return (
         <div className="chat chat-start">
-            <div
-                className="chat-bubble bg-chatBubbleForeign text-white"
-                key={msg.key}
-            >
+            <div className="chat-bubble bg-chatBubbleForeign text-white">
                 <div className="chat-header opacity-50">
                     {msg.author}
                     <time className="text-xs opacity-50">

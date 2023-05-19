@@ -2,7 +2,7 @@ import {PasswordResetTokenPayload} from '@the-game/common/dist/types/auth/passwo
 import {RegistrationPayload} from '@the-game/common/dist/types/auth/registrationPayload';
 import {ResetPasswordPayload} from '@the-game/common/dist/types/auth/resetPasswordPayload';
 import {SignInPayload} from '@the-game/common/dist/types/auth/signInPayload';
-import {User} from '@the-game/common/dist/types/profile/profile';
+import {User} from '@the-game/common/dist/types/auth/user';
 import {AxiosResponse} from 'axios';
 import TokenRepository from '../../common/localstorage/token.repository';
 import UserRepository from '../../common/localstorage/user.repository';

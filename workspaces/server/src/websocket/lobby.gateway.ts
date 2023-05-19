@@ -10,10 +10,12 @@ import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-eve
 import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
+import {Message} from '@the-game/common/dist/types/chat/message';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
 import {LobbyManager} from '../common/managers/lobby.manager';
 import { LoggerService } from '../common/logger/logger.service';
+import {ChatsService} from '../data/chats/chats.service';
 import {GamesService} from '../data/games/games.service';
 import {Server, Socket} from 'socket.io';
 import {JwtVerifyService} from '../security/jwt/jwt.service';
@@ -33,6 +35,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
       private logger: LoggerService,
       private jwtVerifyService: JwtVerifyService,
       private gamesService: GamesService,
+      private chatsService: ChatsService,
       private lobbyManager: LobbyManager,
       ) {
     this.logger.setContext(LobbyGateway.name);
@@ -73,9 +76,11 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage(ChatEvent.SEND_GLOBAL_MESSAGE)
-  handleMessage(@MessageBody() message: string): void {
-    this.logger.info(message);
+  async handleMessage(@MessageBody() message: Message): Promise<void> {
+    this.logger.info(`Received message ${message.message} from ${message.author}`);
     this.server.emit(ChatEvent.RECEIVE_GLOBAL_MESSAGE, message);
+
+    await this.chatsService.create(message);
   }
 
   @SubscribeMessage(LobbyEvent.GET_LOBBYS)
@@ -102,13 +107,15 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage(SystemEvent.GET_CHAT_HISTORY)
   async handleChatHistory(@ConnectedSocket() client: Socket): Promise<void> {
-    // this.server.emit(SystemEvent.CHAT_HISTORY, this.chatManager.getChatHistory());
+    const chatHistory = await this.chatsService.findAll();
+    this.logger.info(`Sending ${chatHistory.length} chat messages to client ${client.id}`)
+    client.emit(SystemEvent.CHAT_HISTORY, chatHistory);
   }
 
   @SubscribeMessage(PlayerEvent.GET_CONNECTED_PLAYERS)
   async handleLobbyHistory(@ConnectedSocket() client: Socket): Promise<void> {
     const clients = this.lobbyManager.getClients();
     this.logger.info(`Sending ${clients.length} connected players to client ${client.id}`)
-    this.server.emit(PlayerEvent.CONNECTED_PLAYERS, clients);
+    client.emit(PlayerEvent.CONNECTED_PLAYERS, clients);
   }
 }

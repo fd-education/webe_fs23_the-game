@@ -6,8 +6,6 @@ import {Lobby} from '@the-game/common/dist/types/lobby/lobby';
 import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Model} from 'mongoose';
 import {LoggerService} from '../../common/logger/logger.service';
-import {BcryptService} from '../../security/bcrypt/bcrypt.service';
-import {User} from '../users/user.schema';
 import {Game} from './game.schema';
 
 @Injectable()

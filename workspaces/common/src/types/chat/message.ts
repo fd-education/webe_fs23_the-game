@@ -4,8 +4,6 @@ export type Message = {
     timestamp: number;
 };
 
-type Key = {
-    key: number;
+export type MessageWithKey = Message & {
+    uid: string;
 };
-
-export type MessageWithKey = Message & Key;
