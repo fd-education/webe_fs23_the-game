@@ -1,12 +1,12 @@
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
+import {RegistrationPayload} from '@the-game/common/dist/types/auth/registrationPayload';
 import {useTranslation} from 'react-i18next';
 import {registrationValidation} from '../services/validation/registrationValidation';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
 import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
-import {RegistrationPayload} from '../common/types/registrationPayload';
 import React, {FC} from 'react';
 import AuthService from '../services/auth/auth.service';
 import {useNavigate} from 'react-router-dom';

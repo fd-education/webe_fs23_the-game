@@ -1,4 +1,4 @@
-import {MessageWithKey} from '../../common/types/message';
+import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 
 /**
  * Brighter chat bubble to display messages sent by this client.

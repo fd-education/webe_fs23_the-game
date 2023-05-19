@@ -1,9 +1,9 @@
+import {PasswordResetTokenPayload} from '@the-game/common/dist/types/auth/passwordResetTokenPayload';
 import {AxiosError} from 'axios';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {useTranslation} from 'react-i18next';
 import {Link, useNavigate} from 'react-router-dom';
-import {RequestTokenPayload} from '../common/types/requestTokenPayload';
 import AuthService from '../services/auth/auth.service';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
@@ -32,7 +32,7 @@ export const RequestToken: FC = () => {
         });
     };
 
-    const handleSubmit = (values: RequestTokenPayload) => {
+    const handleSubmit = (values: PasswordResetTokenPayload) => {
         setMessage('');
 
         AuthService.requestResetPasswordToken(values).then(

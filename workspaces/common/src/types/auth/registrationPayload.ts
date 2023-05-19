@@ -7,5 +7,4 @@ export type RegistrationPayload = {
     confirmPassword: string;
     language: string;
     theme: string;
-    profile_picture: string;
 }

@@ -1,5 +1,5 @@
+import {User} from '@the-game/common/dist/types/profile/profile';
 import {atom} from 'recoil';
-import {User} from '../types/user';
 
 const localStorageEffect =
     (key: string) =>

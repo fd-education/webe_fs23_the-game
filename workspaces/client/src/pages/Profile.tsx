@@ -1,9 +1,9 @@
+import {User} from '@the-game/common/dist/types/profile/profile';
 import {ProfileUpdate} from '@the-game/common/dist/types/profile/profileUpdate';
 import {Form, Formik} from 'formik';
 import React, {FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-import {User} from '../common/types/user';
 import preferenceService from '../services/preference/preference.service';
 import ProfileService from '../services/profile/user.service';
 import profileService from '../services/profile/user.service';

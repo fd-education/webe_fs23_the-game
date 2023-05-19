@@ -1,4 +1,4 @@
-import {User} from '../types/user';
+import {User} from '@the-game/common/dist/types/profile/profile';
 
 class UserRepository {
     private USER_KEY = 'user';

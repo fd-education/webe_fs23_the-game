@@ -1,8 +1,8 @@
+import {User} from '@the-game/common/dist/types/profile/profile';
 import {SetterOrUpdater} from 'recoil';
 import io, {Socket} from 'socket.io-client';
 import {config} from '../config/config';
 import TokenRepository from '../localstorage/token.repository';
-import {User} from '../types/user';
 import {WebsocketState} from '../states/websocket.state';
 
 export type WsListener<T> = (data: T) => void;

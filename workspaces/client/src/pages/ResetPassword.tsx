@@ -1,9 +1,9 @@
+import {ResetPasswordPayload} from '@the-game/common/dist/types/auth/resetPasswordPayload';
 import {AxiosError} from 'axios';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-import {ResetPasswordPayload} from '../common/types/resetPasswordPayload';
 import AuthService from '../services/auth/auth.service';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';

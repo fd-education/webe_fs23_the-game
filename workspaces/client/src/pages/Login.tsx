@@ -1,3 +1,4 @@
+import {SignInPayload} from '@the-game/common/dist/types/auth/signInPayload';
 import {useTranslation} from 'react-i18next';
 import {useSetRecoilState} from 'recoil';
 import userState from '../common/states/user.state';
@@ -8,7 +9,6 @@ import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
 import React, {FC, useCallback} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {LoginPayload} from '../common/types/loginPayload';
 import AuthService from '../services/auth/auth.service';
 import {BigTitle} from '../components/util/title/BigTitle';
 
@@ -19,8 +19,8 @@ export const Login: FC = () => {
     const [message, setMessage] = React.useState('');
     const setUser = useSetRecoilState(userState);
 
-    const loginCallback = useCallback(async (loginPayload: LoginPayload) => {
-        const user = await AuthService.login(loginPayload);
+    const loginCallback = useCallback(async (signInPayload: SignInPayload) => {
+        const user = await AuthService.login(signInPayload);
 
         if (!user) {
             setMessage('Invalid credentials');
@@ -31,16 +31,16 @@ export const Login: FC = () => {
         navigate('/lobby');
     }, []);
 
-    const initialValues: LoginPayload = {
+    const initialValues: SignInPayload = {
         email: '',
         password: ''
     };
 
-    const handleLogin = (formValue: LoginPayload) => {
+    const handleLogin = (signInPayload: SignInPayload) => {
         setMessage('');
         setLoading(true);
 
-        loginCallback(formValue).catch(console.error);
+        loginCallback(signInPayload).catch(console.error);
     };
 
     return (

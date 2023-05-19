@@ -1,15 +1,15 @@
+import {PasswordResetTokenPayload} from '@the-game/common/dist/types/auth/passwordResetTokenPayload';
+import {RegistrationPayload} from '@the-game/common/dist/types/auth/registrationPayload';
+import {ResetPasswordPayload} from '@the-game/common/dist/types/auth/resetPasswordPayload';
+import {SignInPayload} from '@the-game/common/dist/types/auth/signInPayload';
+import {User} from '@the-game/common/dist/types/profile/profile';
 import {AxiosResponse} from 'axios';
 import TokenRepository from '../../common/localstorage/token.repository';
 import UserRepository from '../../common/localstorage/user.repository';
-import {RegistrationPayload} from '../../common/types/registrationPayload';
-import {LoginPayload} from '../../common/types/loginPayload';
-import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
-import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
-import {User} from '../../common/types/user';
 import authInterceptor from '../api';
 
 class AuthService {
-    async login(loginPayload: LoginPayload) {
+    async login(loginPayload: SignInPayload) {
         const userResponse = await authInterceptor.post(
             '/auth/signin',
             loginPayload
@@ -48,7 +48,7 @@ class AuthService {
         return authInterceptor.post('/auth/register', registrationPayload);
     }
 
-    requestResetPasswordToken(requestTokenPayload: RequestTokenPayload) {
+    requestResetPasswordToken(requestTokenPayload: PasswordResetTokenPayload) {
         return authInterceptor.post('/auth/request-token', requestTokenPayload);
     }
 

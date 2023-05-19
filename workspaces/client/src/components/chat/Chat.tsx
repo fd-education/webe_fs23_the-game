@@ -1,15 +1,17 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
+import {
+    MessageWithKey,
+    Message
+} from '@the-game/common/dist/types/chat/message';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
 import userState from '../../common/states/user.state';
 import websocketState from '../../common/states/websocket.state';
-import {User} from '../../common/types/user';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
 import {SendIcon} from '../svg/send.icon';
 import {Panel} from '../util/panel/Panel';
-import {Message, MessageWithKey} from '../../common/types/message';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 export const Chat = () => {

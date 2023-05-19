@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {ManagersModule} from './common/managers/managers.module';
+import {ChatsModule} from './data/chats/chats.module';
 import {GamesModule} from './data/games/games.module';
 import {OwnJwtModule} from './security/jwt/jwt.module';
 import { WebsocketModule } from './websocket/websocket.module';
@@ -24,6 +24,7 @@ import { ProfileModule } from "./api/profile/profile.module";
         ProfileModule,
         UsersModule,
         TokensModule,
+        ChatsModule,
         GamesModule,
         MailModule,
         OwnJwtModule
