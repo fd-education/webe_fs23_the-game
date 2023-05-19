@@ -30,9 +30,15 @@ class AuthService {
     async logout() {
         const uid = localStorage.getItem('user_id');
 
-        if (uid) await authInterceptor.post('/auth/signout', {uid});
+        if (uid)
+            await authInterceptor.get('/auth/signout', {
+                params: {
+                    uid: uid
+                }
+            });
 
         UserRepository.removeUserId();
+        UserRepository.removeUser();
         TokenRepository.removeTokens();
     }
 

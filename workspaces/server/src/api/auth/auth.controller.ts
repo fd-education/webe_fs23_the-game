@@ -1,4 +1,4 @@
-import {Body, Controller, HttpCode, HttpStatus, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, ParseUUIDPipe, Post, Query, UseGuards} from '@nestjs/common';
 import {ResetPasswordDto} from '../../common/dto/resetPassword.dto';
 import { AuthService } from './auth.service';
 import { SigninDto } from '../../common/dto/signin.dto';
@@ -68,8 +68,8 @@ export class AuthController {
 
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
-  @Post('signout')
-  async logout(@Body() uid: string) {
+  @Get('signout')
+  async logout(@Query('uid', new ParseUUIDPipe({version: '4'})) uid: string) {
     this.logger.log(`Signing out user: ${uid}`)
 
     await this.authService.signOut(uid);

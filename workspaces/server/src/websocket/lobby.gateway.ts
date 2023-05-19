@@ -98,7 +98,6 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage(PlayerEvent.GET_CONNECTED_PLAYERS)
   async handleLobbyHistory(@ConnectedSocket() client: Socket): Promise<void> {
     const clients = this.lobbyManager.getClients();
-
     this.logger.info(`Sending ${clients.length} connected players to client ${client.id}`)
     this.server.emit(PlayerEvent.CONNECTED_PLAYERS, clients);
   }
