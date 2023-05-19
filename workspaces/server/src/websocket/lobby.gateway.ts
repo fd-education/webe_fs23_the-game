@@ -50,9 +50,11 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
         return client.disconnect();
       } else {
         const clientQuery = client.handshake.query;
-        this.lobbyManager.addClient(client.id, {uid: clientQuery.userId, username: clientQuery.userName});
-        console.log(this.lobbyManager.getClients());
+        const user = {uid: clientQuery.userId, username: clientQuery.userName}
 
+        this.lobbyManager.addClient(client.id, user);
+
+        console.log(this.lobbyManager.getClients());
         client.send(`${SystemEvent.AUTHORIZED}`);
 
         this.logger.info(`Client ${client.id} has valid token and is connected`);
@@ -65,10 +67,10 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
   }
 
-    async handleDisconnect(client: any): Promise<any> {
-      this.lobbyManager.removeClient(client.id);
-      this.logger.info(`Client ${client.id} disconnected from ${WebsocketNamespaces.LOBBY}-namespace`);
-    }
+  async handleDisconnect(client: any): Promise<any> {
+    this.lobbyManager.removeClient(client.id);
+    this.logger.info(`Client ${client.id} disconnected from ${WebsocketNamespaces.LOBBY}-namespace`);
+  }
 
   @SubscribeMessage(ChatEvent.SEND_GLOBAL_MESSAGE)
   handleMessage(@MessageBody() message: string): void {

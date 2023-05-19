@@ -13,7 +13,7 @@ export class LobbyManager {
 
     }
 
-    public addClient(socketId: string, clientData: playerData): void {
+    public addClient(socketId: string, clientData: playerData) {
         this.globalLobby.set(socketId, clientData);
     }
 

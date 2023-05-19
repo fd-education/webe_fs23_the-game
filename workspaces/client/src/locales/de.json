@@ -56,6 +56,11 @@
             "numberOfPlayers": "Anzahl Spieler",
             "title": "Verfügbare Tische"
         },
+        "players": {
+            "title": {
+                "global": "Global"
+            }
+        },
         "profile": {
             "delete": "Profil löschen",
             "update": "Speichern"

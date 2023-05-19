@@ -56,6 +56,11 @@
             "numberOfPlayers": "Number of Players",
             "title": "Open Tables"
         },
+        "players": {
+            "title": {
+                "global": "Global"
+            }
+        },
         "profile": {
             "delete": "Delete Profile",
             "update": "Update"
