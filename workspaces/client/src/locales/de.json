@@ -1,72 +1,72 @@
 {
-  "translation": {
-    "auth": {
-      "common": {
-        "confirmPassword": "Passwort bestätigen",
-        "email": "E-Mail",
-        "errors": {
-          "invalidConfirmPassword": "Passwörter müssen übereinstimmen.",
-          "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
-          "invalidLengthUsername": "Benutzername muss mind. 5 und max. 30 Buchstaben lang sein.",
-          "invalidPassword": "Passwort muss mind. 8 Zeichen lang sein und Gross- und Kleinbuchstaben, Zahlen und Sonderzeichen enthalten.",
-          "requiredConfirmPassword": "Kein Bestätigungspasswort eingetragen.",
-          "requiredEmail": "Keine E-Mail Adresse eingetragen.",
-          "requiredFirstname": "Kein Vorname eingetragen.",
-          "requiredLastname": "Kein Nachname eingetragen.",
-          "requiredPassword": "Kein Passwort eingetragen.",
-          "requiredUsername": "Kein Benutzername eingetragen."
+    "translation": {
+        "auth": {
+            "common": {
+                "confirmPassword": "Passwort bestätigen",
+                "email": "E-Mail",
+                "errors": {
+                    "invalidConfirmPassword": "Passwörter müssen übereinstimmen.",
+                    "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
+                    "invalidLengthUsername": "Benutzername muss mind. 5 und max. 30 Buchstaben lang sein.",
+                    "invalidPassword": "Passwort muss mind. 8 Zeichen lang sein und Gross- und Kleinbuchstaben, Zahlen und Sonderzeichen enthalten.",
+                    "requiredConfirmPassword": "Kein Bestätigungspasswort eingetragen.",
+                    "requiredEmail": "Keine E-Mail Adresse eingetragen.",
+                    "requiredFirstname": "Kein Vorname eingetragen.",
+                    "requiredLastname": "Kein Nachname eingetragen.",
+                    "requiredPassword": "Kein Passwort eingetragen.",
+                    "requiredUsername": "Kein Benutzername eingetragen."
+                },
+                "firstname": "Vorname",
+                "lastname": "Nachname",
+                "password": "Passwort",
+                "username": "Benutzername"
+            },
+            "login": {
+                "forgotPassword": "Passwort vergessen?",
+                "loggingIn": "Anmeldung...",
+                "login": "Anmelden",
+                "noAccount": "Noch kein Konto? Jetzt registrieren!"
+            },
+            "passwordReset": {
+                "codeExists": "Ich habe bereits einen Code.",
+                "getCode": "Code erhalten",
+                "info": "Gib deine E-Mail Adresse und deinen Benutzernamen an, um einen Code für die Rücksetzung deines Passworts zu erhalten.",
+                "resetCode": "Code",
+                "resetInfo": "Gib deinen Code ein und setze ein neues Passwort.",
+                "resetPassword": "Passwort zurücksetzen"
+            },
+            "register": {
+                "register": "Registrieren"
+            }
         },
-        "firstname": "Vorname",
-        "lastname": "Nachname",
-        "password": "Passwort",
-        "username": "Benutzername"
-      },
-      "login": {
-        "forgotPassword": "Passwort vergessen?",
-        "loggingIn": "Anmeldung...",
-        "login": "Anmelden",
-        "noAccount": "Noch kein Konto? Jetzt registrieren!"
-      },
-      "passwordReset": {
-        "codeExists": "Ich habe bereits einen Code.",
-        "getCode": "Code erhalten",
-        "info": "Gib deine E-Mail Adresse und deinen Benutzernamen an, um einen Code für die Rücksetzung deines Passworts zu erhalten.",
-        "resetCode": "Code",
-        "resetInfo": "Gib deinen Code ein und setze ein neues Passwort.",
-        "resetPassword": "Passwort zurücksetzen"
-      },
-      "register": {
-        "register": "Registrieren"
-      }
-    },
-    "chat": {
-      "inputPlaceholder": "Hier schreiben ..."
-    },
-    "common": {
-      "cancel": "Abbrechen",
-      "readRules": "Regeln lesen",
-      "subtitle": "Spiel... solange du kannst!"
-    },
-    "game": {
-      "mode": {
-        "classic": "Klassisch",
-        "onfire": "On Fire"
-      }
-    },
-    "lobby": {
-      "createTable": "Tisch erstellen",
-      "join": "Beitreten",
-      "numberOfPlayers": "Anzahl Spieler",
-      "title": "Verfügbare Tische"
-    },
-    "players": {
-      "title": {
-        "global": "Global"
-      }
-    },
-    "profile": {
-      "delete": "Profil löschen",
-      "update": "Speichern"
+        "chat": {
+            "inputPlaceholder": "Hier schreiben ..."
+        },
+        "common": {
+            "cancel": "Abbrechen",
+            "readRules": "Regeln lesen",
+            "subtitle": "Spiel... solange du kannst!"
+        },
+        "game": {
+            "mode": {
+                "classic": "Klassisch",
+                "onfire": "On Fire"
+            }
+        },
+        "lobby": {
+            "createTable": "Tisch erstellen",
+            "join": "Beitreten",
+            "numberOfPlayers": "Anzahl Spieler",
+            "title": "Verfügbare Tische"
+        },
+        "players": {
+            "title": {
+                "global": "Global"
+            }
+        },
+        "profile": {
+            "delete": "Profil löschen",
+            "update": "Speichern"
+        }
     }
-  }
 }

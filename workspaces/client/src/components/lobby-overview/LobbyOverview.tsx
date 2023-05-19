@@ -109,6 +109,8 @@ export const LobbyOverview = () => {
                 lobby_uid: uid
             }
         });
+
+        navigate('/game');
     };
 
     return (
