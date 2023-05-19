@@ -2,6 +2,7 @@ import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
+import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
 import {Message} from 'yup';
@@ -14,6 +15,7 @@ import {Panel} from '../util/panel/Panel';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 export const Chat = () => {
+    const {t} = useTranslation();
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
     const user = useRecoilValue(userState);
@@ -133,7 +135,7 @@ export const Chat = () => {
                         id="chat-input"
                         type="text"
                         value={message}
-                        placeholder="Write here ..."
+                        placeholder={t('chat.inputPlaceholder') || ''}
                         className="input w-full flex-1 h-10 rounded-full bg-white"
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyUp={handleKeypress}
