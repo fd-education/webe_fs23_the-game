@@ -22,8 +22,6 @@ export const GlobalPlayerOverview = () => {
         const onConnectedPlayers: WsListener<ActivePlayer[]> = (
             players: ActivePlayer[]
         ) => {
-            console.log(`Got players: ${players}`);
-
             setPlayers(players);
         };
 
@@ -42,6 +40,7 @@ export const GlobalPlayerOverview = () => {
                 PlayerEvent.CONNECTED_PLAYERS,
                 onConnectedPlayers
             );
+
             wsm.registerListener(
                 PlayerEvent.NEW_CONNECTED_PLAYER,
                 onNewConnectedPlayer

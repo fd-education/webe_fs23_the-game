@@ -78,6 +78,14 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.emit(ChatEvent.RECEIVE_GLOBAL_MESSAGE, message);
   }
 
+  @SubscribeMessage(LobbyEvent.GET_LOBBYS)
+  async handleGetLobbys(@MessageBody() message: string): Promise<void> {
+    const lobbys = await this.gamesService.findAll();
+
+    this.logger.info(`Sending ${lobbys.length} lobbys`);
+    this.server.emit(LobbyEvent.LOBBYS, lobbys);
+  }
+
   @SubscribeMessage(LobbyEvent.CREATE_LOBBY)
   async handleCreateLobby(@MessageBody() createLobby: CreateLobby): Promise<void> {
     this.logger.info(`Creating lobby for mode ${createLobby.mode} with ${createLobby.numberOfPlayers} players`);

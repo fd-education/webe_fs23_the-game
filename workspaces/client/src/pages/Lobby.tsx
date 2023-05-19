@@ -53,8 +53,6 @@ export const Lobby: FC = () => {
         refreshAccessTokenCallback().catch(console.error);
         wsm.connect(WebsocketNamespaces.LOBBY, user);
 
-        console.log('Websocket Connection: ' + webSocketState.connected);
-
         return () => {
             wsm.disconnect();
         };

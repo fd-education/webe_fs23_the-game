@@ -1,10 +1,7 @@
-import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
-import * as querystring from 'querystring';
 import {SetterOrUpdater} from 'recoil';
 import io, {Socket} from 'socket.io-client';
 import {config} from '../config/config';
 import TokenRepository from '../localstorage/token.repository';
-import UserRepository from '../localstorage/user.repository';
 import {User} from '../types/user';
 import {WebsocketState} from '../states/websocket.state';
 
@@ -76,8 +73,6 @@ export default class WebSocketManager {
 
     private onConnect(): void {
         this.socket.on('connect', () => {
-            console.log('Connected');
-
             this.setWebsocketState((prevState) => ({
                 ...prevState,
                 connected: true
@@ -89,8 +84,6 @@ export default class WebSocketManager {
         this.socket.on(
             'disconnect',
             async (reason: Socket.DisconnectReason) => {
-                console.log('Disconnected');
-
                 this.setWebsocketState((prevState) => ({
                     ...prevState,
                     connected: false

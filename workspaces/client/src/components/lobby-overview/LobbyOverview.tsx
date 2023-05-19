@@ -6,7 +6,7 @@ import {Lobby} from '@the-game/common/dist/types/lobby/lobby';
 import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Field, Form, Formik} from 'formik';
 import {useNavigate} from 'react-router-dom';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilValue} from 'recoil';
 import * as yup from 'yup';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -27,6 +27,10 @@ export const LobbyOverview = () => {
     const webSocketState = useRecoilValue(websocketState);
 
     useEffect(() => {
+        const onLobbyList: WsListener<Lobby[]> = (lobbyList: Lobby[]) => {
+            setLobbies(lobbyList);
+        };
+
         const onNewLobbyCreated: WsListener<Lobby> = (lobby: Lobby) => {
             setLobbies((currentLobbies: Lobby[]) => {
                 return [...currentLobbies, lobby];
@@ -49,14 +53,23 @@ export const LobbyOverview = () => {
         };
 
         if (webSocketState.connected) {
+            wsm.registerListener(LobbyEvent.LOBBYS, onLobbyList);
             wsm.registerListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
             wsm.registerListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
+
+            setTimeout(() => {
+                wsm.emit<void>({
+                    event: LobbyEvent.GET_LOBBYS
+                });
+            }, 1);
         }
 
         return () => {
             wsm.removeListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
+            wsm.removeListener(LobbyEvent.LOBBYS, onLobbyList);
+            wsm.removeListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
         };
-    });
+    }, [webSocketState]);
 
     const initialValues: CreateLobby = {
         creator: '',

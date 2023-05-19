@@ -23,6 +23,13 @@ export class GamesService{
         return await this.gameModel.create(createGameDto);
     }
 
+    async findAll(): Promise<Lobby[]> {
+        return await this.gameModel
+            .find()
+            .lean()
+            .select(['-__v', '-_id']);
+    }
+
     async join(joinGameDto: JoinLobby): Promise<Lobby> {
         const lobby = await this.gameModel.findOne({uid: joinGameDto.lobby_uid});
 
