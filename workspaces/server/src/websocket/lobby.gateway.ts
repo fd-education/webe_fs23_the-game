@@ -20,6 +20,7 @@ import {JwtVerifyService} from '../security/jwt/jwt.service';
 
 @WebSocketGateway({
   namespace: WebsocketNamespaces.LOBBY,
+  port: 9000,
   cors: {
     origin: '*',
   },
@@ -54,7 +55,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
         client.send(`${SystemEvent.AUTHORIZED}`);
 
-        this.logger.info(`Client ${client.id} has valid token`);
+        this.logger.info(`Client ${client.id} has valid token and is connected`);
       }
     } catch(err: any){
       this.logger.warn(`Client ${client.id} has no valid token: ${err}`);
@@ -91,7 +92,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage(SystemEvent.GET_CHAT_HISTORY)
   async handleChatHistory(@ConnectedSocket() client: Socket): Promise<void> {
-    // socket.send(SystemEvent.CHAT_HISTORY, this.chatManager.getChatHistory());
+    // this.server.emit(SystemEvent.CHAT_HISTORY, this.chatManager.getChatHistory());
   }
 
   @SubscribeMessage(PlayerEvent.GET_CONNECTED_PLAYERS)
@@ -99,6 +100,6 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const clients = this.lobbyManager.getClients();
 
     this.logger.info(`Sending ${clients.length} connected players to client ${client.id}`)
-    client.send(PlayerEvent.CONNECTED_PLAYERS, clients);
+    this.server.emit(PlayerEvent.CONNECTED_PLAYERS, clients);
   }
 }

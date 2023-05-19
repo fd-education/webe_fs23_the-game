@@ -1,5 +1,9 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {useRecoilValue} from 'recoil';
+import userState from '../../common/states/user.state';
+import websocketState from '../../common/states/websocket.state';
 import {User} from '../../common/types/user';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
@@ -10,11 +14,21 @@ import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
 export const Chat = () => {
     const {wsm} = useWebSocket();
+    const webSocketState = useRecoilValue(websocketState);
+    const user = useRecoilValue(userState);
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<Message>>([]);
 
     useEffect(() => {
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+
+        setUsername(user.username);
+
         const onChatMessage: WsListener<Message> = (msg: Message) => {
             setMessages((currentMsg: Message[]) => {
                 return [
@@ -28,20 +42,17 @@ export const Chat = () => {
             });
         };
 
-        wsm.registerListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
-
-        const user = localStorage.getItem('user');
-
-        if (user === null) {
-            // TODO: Redirect to login
-        } else {
-            setUsername((JSON.parse(user) as User).username);
+        if (webSocketState.connected) {
+            wsm.registerListener(
+                ChatEvent.RECEIVE_GLOBAL_MESSAGE,
+                onChatMessage
+            );
         }
 
         return () => {
             wsm.removeListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
         };
-    }, []);
+    });
 
     const sendMessage = () => {
         if (message === '') return;

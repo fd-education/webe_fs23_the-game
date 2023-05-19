@@ -16,18 +16,12 @@ type WsEmitOptions<T> = {
 };
 
 export default class WebSocketManager {
-    public socket: Socket;
+    public socket!: Socket;
 
     public setWebsocketState!: SetterOrUpdater<WebsocketState>;
 
-    private retry = true;
-
     constructor() {
-        this.socket = io();
-
-        this.onConnect();
-        this.onDisconnect();
-        this.onException();
+        //es
     }
 
     emit<T>(options: WsEmitOptions<T>): this {
@@ -46,6 +40,7 @@ export default class WebSocketManager {
 
     connect(namespace: string, user: User): void {
         this.socket = io(config.backendUrl + '/' + namespace, {
+            port: 9000,
             autoConnect: false,
             transports: ['websocket'],
             withCredentials: true,
@@ -57,6 +52,10 @@ export default class WebSocketManager {
                 userName: user.username
             }
         });
+
+        this.onConnect();
+        this.onDisconnect();
+        this.onException();
 
         this.socket.connect();
     }
@@ -77,6 +76,8 @@ export default class WebSocketManager {
 
     private onConnect(): void {
         this.socket.on('connect', () => {
+            console.log('Connected');
+
             this.setWebsocketState((prevState) => ({
                 ...prevState,
                 connected: true
@@ -88,6 +89,8 @@ export default class WebSocketManager {
         this.socket.on(
             'disconnect',
             async (reason: Socket.DisconnectReason) => {
+                console.log('Disconnected');
+
                 this.setWebsocketState((prevState) => ({
                     ...prevState,
                     connected: false

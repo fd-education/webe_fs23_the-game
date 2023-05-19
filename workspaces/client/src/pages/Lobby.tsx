@@ -1,9 +1,11 @@
+import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
 import {FC, useCallback, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {useRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue} from 'recoil';
 import UserRepository from '../common/localstorage/user.repository';
 import userState from '../common/states/user.state';
+import websocketState from '../common/states/websocket.state';
 import {WebSocketProvider} from '../common/websocket/websocket.provider';
 import {GlobalPlayerOverview} from '../components/players-overview/GlobalPlayerOverview';
 import useWebSocket from '../hooks/useWebSocket';
@@ -19,6 +21,7 @@ export const Lobby: FC = () => {
     const {wsm} = useWebSocket();
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
+    const webSocketState = useRecoilValue(websocketState);
 
     const refreshAccessTokenCallback = useCallback(async () => {
         await refreshAccessToken();
@@ -40,16 +43,22 @@ export const Lobby: FC = () => {
     useEffect(() => {
         if (!user) {
             fetchUser().catch(console.error);
+        }
+
+        if (!user) {
+            navigate('/login');
             return;
         }
 
         refreshAccessTokenCallback().catch(console.error);
         wsm.connect(WebsocketNamespaces.LOBBY, user);
 
+        console.log('Websocket Connection: ' + webSocketState.connected);
+
         return () => {
             wsm.disconnect();
         };
-    }, [navigate]);
+    }, [fetchUser]);
 
     return (
         <WebSocketProvider>

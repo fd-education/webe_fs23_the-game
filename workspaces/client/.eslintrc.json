@@ -16,7 +16,7 @@
     "plugins": ["import", "react", "react-hooks", "prettier"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
+        "react-hooks/exhaustive-deps": "off",
         "import/prefer-default-export": "off",
         "import/extensions": [
             "error",
@@ -29,6 +29,10 @@
         "prettier/prettier": "error",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "react/jsx-one-expression-per-line": "off",
+        "no-unsafe-call": "off",
+        "no-unsafe-member-access": "off",
+        "no-unsafe-return": "off",
+        "no-unsafe-argument": "off",
         "no-use-before-define": "off",
         "react/react-in-jsx-scope": "off",
         "react/jsx-uses-react": "off",
