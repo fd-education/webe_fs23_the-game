@@ -19,9 +19,7 @@ root.render(
     <React.StrictMode>
         <RecoilRoot>
             <BrowserRouter>
-                <WebSocketProvider>
-                    <App />
-                </WebSocketProvider>
+                <App />
             </BrowserRouter>
         </RecoilRoot>
     </React.StrictMode>

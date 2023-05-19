@@ -3,17 +3,17 @@ import {Form, Formik} from 'formik';
 import React, {FC, useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-import {User} from '../../common/types/user';
-import preferenceService from '../../services/preference/preference.service';
-import ProfileService from '../../services/profile/profile.service';
-import profileService from '../../services/profile/profile.service';
-import UserService from '../../services/profile/profile.service';
-import {profileValidation} from '../../services/validation/profile.validation';
-import {PreferenceToggles} from '../util/button/PreferenceToggles';
-import {RulesButton} from '../util/button/RulesButton';
-import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
-import {Panel} from '../util/panel/Panel';
-import {SmallTitle} from '../util/title/SmallTitle';
+import {User} from '../common/types/user';
+import preferenceService from '../services/preference/preference.service';
+import ProfileService from '../services/profile/user.service';
+import profileService from '../services/profile/user.service';
+import UserService from '../services/profile/user.service';
+import {profileValidation} from '../services/validation/profile.validation';
+import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
+import {RulesButton} from '../components/util/button/RulesButton';
+import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
+import {Panel} from '../components/util/panel/Panel';
+import {SmallTitle} from '../components/util/title/SmallTitle';
 
 export const Profile: FC = () => {
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ export const Profile: FC = () => {
             return;
         }
 
-        UserService.getProfile(uid).then((res) => {
+        UserService.getUser(uid).then((res) => {
             const user = res.data;
 
             if (user === undefined) {
@@ -55,7 +55,7 @@ export const Profile: FC = () => {
         };
 
         try {
-            const response = await profileService.updateProfile(profileData);
+            const response = await profileService.updateUser(profileData);
             localStorage.setItem('user', JSON.stringify(response.data));
             setUser(response.data);
         } catch (error) {
@@ -71,7 +71,7 @@ export const Profile: FC = () => {
             return;
         }
 
-        ProfileService.deleteProfile(uid).then((res) => {
+        ProfileService.deleteUser(uid).then((res) => {
             const user = res.data;
 
             if (user === undefined) {

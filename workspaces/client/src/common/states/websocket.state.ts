@@ -4,11 +4,11 @@ export type WebsocketState = {
     connected: boolean;
 };
 
-const state = atom<WebsocketState>({
+const websocketState = atom<WebsocketState>({
     key: 'websocketState',
     default: {
         connected: false
     }
 });
 
-export default state;
+export default websocketState;

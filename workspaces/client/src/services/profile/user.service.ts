@@ -3,8 +3,8 @@ import {AxiosResponse} from 'axios';
 import {User} from '../../common/types/user';
 import authInterceptor from '../api';
 
-class ProfileService {
-    getProfile(uid: string): Promise<AxiosResponse<User>> {
+class UserService {
+    getUser(uid: string): Promise<AxiosResponse<User>> {
         return authInterceptor.get('/profile', {
             params: {
                 uid: uid
@@ -12,13 +12,13 @@ class ProfileService {
         });
     }
 
-    updateProfile(profileData: ProfileUpdate): Promise<AxiosResponse<User>> {
+    updateUser(profileData: ProfileUpdate): Promise<AxiosResponse<User>> {
         return authInterceptor.patch('/profile', profileData);
     }
 
-    deleteProfile(uid: string): Promise<AxiosResponse<User>> {
+    deleteUser(uid: string): Promise<AxiosResponse<User>> {
         return authInterceptor.delete('/profile' + '/' + uid);
     }
 }
 
-export default new ProfileService();
+export default new UserService();

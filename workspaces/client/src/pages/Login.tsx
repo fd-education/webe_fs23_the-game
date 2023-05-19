@@ -1,22 +1,35 @@
-import {AxiosError} from 'axios';
 import {useTranslation} from 'react-i18next';
-import {loginValidationSchema} from '../../services/validation/login.validation';
-import {PreferenceToggles} from '../util/button/PreferenceToggles';
-import {RulesButton} from '../util/button/RulesButton';
-import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
+import {useSetRecoilState} from 'recoil';
+import userState from '../common/states/user.state';
+import {loginValidationSchema} from '../services/validation/login.validation';
+import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
+import {RulesButton} from '../components/util/button/RulesButton';
+import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import {LoginPayload} from '../../common/types/loginPayload';
-import AuthService from '../../services/auth/auth.service';
-import {BigTitle} from '../util/title/BigTitle';
+import {LoginPayload} from '../common/types/loginPayload';
+import AuthService from '../services/auth/auth.service';
+import {BigTitle} from '../components/util/title/BigTitle';
 
 export const Login: FC = () => {
-    const navigate = useNavigate();
     const {t} = useTranslation();
-
+    const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [message, setMessage] = React.useState('');
+    const setUser = useSetRecoilState(userState);
+
+    const loginCallback = useCallback(async (loginPayload: LoginPayload) => {
+        const user = await AuthService.login(loginPayload);
+
+        if (!user) {
+            setMessage('Invalid credentials');
+            return;
+        }
+
+        setUser(user);
+        navigate('/lobby');
+    }, []);
 
     const initialValues: LoginPayload = {
         email: '',
@@ -27,20 +40,7 @@ export const Login: FC = () => {
         setMessage('');
         setLoading(true);
 
-        AuthService.login(formValue).then(
-            () => {
-                navigate('/lobby');
-                window.location.reload();
-            },
-            (error: AxiosError) => {
-                const resMessage =
-                    (error.response && error.response.data) ||
-                    error.message ||
-                    error.toString();
-                setLoading(false);
-                setMessage(resMessage.toString());
-            }
-        );
+        loginCallback(formValue).catch(console.error);
     };
 
     return (

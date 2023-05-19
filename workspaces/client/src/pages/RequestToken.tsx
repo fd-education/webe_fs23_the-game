@@ -2,66 +2,48 @@ import {AxiosError} from 'axios';
 import {Form, Formik} from 'formik';
 import React, {FC} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useNavigate} from 'react-router-dom';
-import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
-import AuthService from '../../services/auth/auth.service';
-import {PreferenceToggles} from '../util/button/PreferenceToggles';
-import {FloatingLabelInput} from '../util/input/FloatingLabelInput';
-import {BigTitle} from '../util/title/BigTitle';
+import {Link, useNavigate} from 'react-router-dom';
+import {RequestTokenPayload} from '../common/types/requestTokenPayload';
+import AuthService from '../services/auth/auth.service';
+import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
+import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
+import {BigTitle} from '../components/util/title/BigTitle';
 import * as Yup from 'yup';
 
-export const ResetPassword: FC = () => {
+export const RequestToken: FC = () => {
     const navigate = useNavigate();
     const {t} = useTranslation();
 
     const [message, setMessage] = React.useState('');
 
     const initialValues = {
-        resetCode: '',
-        password: '',
-        confirmPassword: ''
+        email: '',
+        username: ''
     };
 
     const validationSchema = () => {
-        const passwordInvalid = t(
-            'auth.common.errors.invalidPassword'
-        ).toString();
-
         return Yup.object().shape({
-            resetCode: Yup.string().required(
-                t('auth.common.errors.requiredResetCode').toString()
-            ),
-            password: Yup.string()
-                .min(8, passwordInvalid)
-                .matches(/[0-9]/, passwordInvalid)
-                .matches(/[a-z]/, passwordInvalid)
-                .matches(/[A-Z]/, passwordInvalid)
-                .matches(/\W/, passwordInvalid)
-                .required(t('auth.common.errors.requiredPassword').toString()),
-            confirmPassword: Yup.string()
-                .oneOf(
-                    [Yup.ref('password')],
-                    t('auth.common.errors.invalidConfirmPassword').toString()
-                )
-                .required(
-                    t('auth.common.errors.requiredConfirmPassword').toString()
-                )
+            email: Yup.string()
+                .email(t('auth.common.errors.invalidEmail').toString())
+                .required(t('auth.common.errors.requiredEmail').toString()),
+            username: Yup.string().required(
+                t('auth.common.errors.requiredUsername').toString()
+            )
         });
     };
 
-    const handleSubmit = (values: ResetPasswordPayload) => {
+    const handleSubmit = (values: RequestTokenPayload) => {
         setMessage('');
 
-        AuthService.resetPassword(values).then(
+        AuthService.requestResetPasswordToken(values).then(
             () => {
-                navigate('/login');
+                navigate('/reset-password');
             },
             (error: AxiosError) => {
                 const resMessage =
                     (error.response && error.response.data) ||
                     error.message ||
                     error.toString();
-
                 setMessage(resMessage.toString());
             }
         );
@@ -77,7 +59,7 @@ export const ResetPassword: FC = () => {
 
             <div className="flex flex-col space-y-5 w-1/5">
                 <p className="font-title  text-black dark:text-white text-center">
-                    {t('auth.passwordReset.resetInfo')}
+                    {t('auth.passwordReset.info')}
                 </p>
 
                 <Formik
@@ -89,20 +71,17 @@ export const ResetPassword: FC = () => {
                     <Form className="flex flex-col space-y-5">
                         <div className="flex flex-col space-y-3">
                             <FloatingLabelInput
-                                name={'resetCode'}
+                                name={'email'}
                                 type={'text'}
-                                label={t('auth.passwordReset.resetCode')}
+                                label={t('auth.common.email')}
                             />
-                            <FloatingLabelInput
-                                name={'password'}
-                                type={'password'}
-                                label={t('auth.common.password')}
-                            />
-                            <FloatingLabelInput
-                                name={'confirmPassword'}
-                                type={'password'}
-                                label={t('auth.common.confirmPassword')}
-                            />
+                            <div>
+                                <FloatingLabelInput
+                                    name={'username'}
+                                    type={'username'}
+                                    label={t('auth.common.username')}
+                                />
+                            </div>
                         </div>
                         <div className="flex flex-col space-y-2">
                             <button
@@ -111,7 +90,7 @@ export const ResetPassword: FC = () => {
                                 }
                                 type="submit"
                             >
-                                {t('auth.passwordReset.resetPassword')}
+                                {t('auth.passwordReset.getCode')}
                             </button>
                             <button
                                 className={`btn bg-the_game_gray border-none hover:bg-gray-600 text-white rounded-full`}
@@ -119,6 +98,12 @@ export const ResetPassword: FC = () => {
                             >
                                 {t('common.cancel')}
                             </button>
+                            <Link
+                                className="text-sm text-the_game_purple"
+                                to={'/reset-password'}
+                            >
+                                {t('auth.passwordReset.codeExists')}
+                            </Link>
                         </div>
 
                         {message && (

@@ -1,8 +1,12 @@
 import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
+import * as querystring from 'querystring';
 import {SetterOrUpdater} from 'recoil';
 import io, {Socket} from 'socket.io-client';
 import {config} from '../config/config';
-import {WebsocketState} from './websocket.state';
+import TokenRepository from '../localstorage/token.repository';
+import UserRepository from '../localstorage/user.repository';
+import {User} from '../types/user';
+import {WebsocketState} from '../states/websocket.state';
 
 export type WsListener<T> = (data: T) => void;
 
@@ -12,21 +16,14 @@ type WsEmitOptions<T> = {
 };
 
 export default class WebSocketManager {
-    public readonly socket: Socket;
+    public socket: Socket;
 
     public setWebsocketState!: SetterOrUpdater<WebsocketState>;
 
     private retry = true;
 
-    constructor(namespace: WebsocketNamespaces) {
-        this.socket = io(config.backendUrl + '/' + namespace, {
-            autoConnect: false,
-            transports: ['websocket'],
-            withCredentials: true,
-            auth: {
-                token: localStorage.getItem('token')
-            }
-        });
+    constructor() {
+        this.socket = io();
 
         this.onConnect();
         this.onDisconnect();
@@ -47,7 +44,20 @@ export default class WebSocketManager {
         return this.socket.id;
     }
 
-    connect(): void {
+    connect(namespace: string, user: User): void {
+        this.socket = io(config.backendUrl + '/' + namespace, {
+            autoConnect: false,
+            transports: ['websocket'],
+            withCredentials: true,
+            auth: {
+                token: TokenRepository.getAccessToken()
+            },
+            query: {
+                userId: user.uid,
+                userName: user.username
+            }
+        });
+
         this.socket.connect();
     }
 

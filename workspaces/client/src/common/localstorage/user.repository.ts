@@ -8,12 +8,8 @@ class UserRepository {
         localStorage.setItem(this.USER_KEY, JSON.stringify(user));
     }
 
-    getUser(): User | null {
-        const user = localStorage.getItem(this.USER_KEY);
-
-        if (!user) return null;
-
-        return user as unknown as User;
+    removeUser(): void {
+        localStorage.removeItem(this.USER_KEY);
     }
 
     setUserId(userId: string): void {
@@ -22,6 +18,10 @@ class UserRepository {
 
     getUserId(): string | null {
         return localStorage.getItem(this.USER_ID_KEY);
+    }
+
+    removeUserId(): void {
+        localStorage.removeItem(this.USER_ID_KEY);
     }
 }
 

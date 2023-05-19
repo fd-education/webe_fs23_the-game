@@ -40,7 +40,7 @@ export class AuthService {
         await this.updateRefreshToken(user.uid, tokens.refreshToken);
 
         return {
-            uid: user.uid,
+            user,
             ...tokens
         };
     }

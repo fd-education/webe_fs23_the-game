@@ -4,15 +4,15 @@ import {Chat} from './components/chat/Chat';
 import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import {Game} from './components/pages/Game';
-import {Lobby} from './components/pages/Lobby';
-import {RequestToken} from './components/pages/RequestToken';
-import {ResetPassword} from './components/pages/ResetPassword';
+import {Game} from './pages/Game';
+import {Lobby} from './pages/Lobby';
+import {RequestToken} from './pages/RequestToken';
+import {ResetPassword} from './pages/ResetPassword';
 import AuthService from './services/auth/auth.service';
 import {Route, Routes} from 'react-router-dom';
-import {Profile} from './components/pages/Profile';
-import {Register} from './components/pages/Registration';
-import {Login} from './components/pages/Login';
+import {Profile} from './pages/Profile';
+import {Register} from './pages/Registration';
+import {Login} from './pages/Login';
 import PreferenceService from './services/preference/preference.service';
 
 const App: FC = () => {

@@ -1,6 +1,6 @@
 import {FC} from 'react';
-import {Chat} from '../chat/Chat';
-import {PreferenceToggles} from '../util/button/PreferenceToggles';
+import {Chat} from '../components/chat/Chat';
+import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 
 export const Game: FC = () => {
     return (

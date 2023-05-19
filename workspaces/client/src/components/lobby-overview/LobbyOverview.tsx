@@ -5,10 +5,13 @@ import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
 import {Lobby} from '@the-game/common/dist/types/lobby/lobby';
 import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Field, Form, Formik} from 'formik';
+import {useNavigate} from 'react-router-dom';
+import {useRecoilState} from 'recoil';
 import * as yup from 'yup';
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import UserRepository from '../../common/localstorage/user.repository';
+import userState from '../../common/states/user.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
 import {PlusIcon} from '../svg/plus.icon';
@@ -16,8 +19,10 @@ import {Panel} from '../util/panel/Panel';
 
 export const LobbyOverview = () => {
     const {t} = useTranslation();
+    const navigate = useNavigate();
     const {wsm} = useWebSocket();
     const [lobbies, setLobbies] = useState<Array<Lobby>>([]);
+    const [user, setUser] = useRecoilState(userState);
 
     useEffect(() => {
         const onNewLobbyCreated: WsListener<Lobby> = (lobby: Lobby) => {
@@ -42,7 +47,6 @@ export const LobbyOverview = () => {
         };
 
         wsm.registerListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
-
         wsm.registerListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
 
         return () => {
@@ -61,16 +65,16 @@ export const LobbyOverview = () => {
     });
 
     const handleCreateTable = (formValues: CreateLobby) => {
-        const userUid = UserRepository.getUserId();
-
-        // TODO: Show error message
-        if (!userUid) return;
+        if (!user) {
+            navigate('/');
+            return;
+        }
 
         wsm.emit<CreateLobby>({
             event: LobbyEvent.CREATE_LOBBY,
             data: {
                 ...formValues,
-                creator: userUid
+                creator: user.uid
             }
         });
     };
