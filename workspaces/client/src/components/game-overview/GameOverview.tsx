@@ -1,6 +1,8 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import React, {useEffect, useState} from 'react';
 import {Card} from './Card';
+import {CardClassicBack} from './card-utils/CardClassicBack';
+import {CardOnFireBack} from './card-utils/CardOnFireBack';
 
 export const GameOverview = () => {
     const [otherPlayers, setOtherPlayers] = useState<
@@ -112,20 +114,23 @@ export const GameOverview = () => {
             </div>
 
             <div className="flex flex-row justify-between h-[26%] border-b border-black px-16">
-                {hasPickupStack && (
-                    <div className="flex flex-col w-[10%] bg-red-300"></div>
-                )}
+                {hasPickupStack &&
+                    (gameMode === GameMode.CLASSIC ? (
+                        <CardClassicBack />
+                    ) : (
+                        <CardOnFireBack />
+                    ))}
 
                 {player && (
                     <div className="flex flex-row justify-between w-[75%] px-4 py-4 space-x-2">
                         {player.stack.map((card, index) => {
                             return (
-                                <div
+                                <Card
+                                    gameMode={gameMode}
+                                    value={card}
+                                    isFlipped={true}
                                     key={index}
-                                    className="flex-grow bg-red-300"
-                                >
-                                    {card}
-                                </div>
+                                />
                             );
                         })}
                     </div>
