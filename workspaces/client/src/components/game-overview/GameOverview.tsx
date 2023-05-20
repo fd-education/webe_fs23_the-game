@@ -1,9 +1,13 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import React, {useEffect, useState} from 'react';
+import {UserTag} from '../util/misc/UserTag';
+import {BottomUpIcon} from './BottomUpIcon';
 import {BottomUpStack} from './BottomUpStack';
 import {Card} from './Card';
 import {CardClassicBack} from './card-utils/CardClassicBack';
 import {CardOnFireBack} from './card-utils/CardOnFireBack';
+import {StackIndex} from './StackIndex';
+import {TopDownIcon} from './TopDownIcon';
 import {TopDownStack} from './TopDownStack';
 
 export const GameOverview = () => {
@@ -38,13 +42,7 @@ export const GameOverview = () => {
                             className="flex flex-col w-[30%] bg-the_game_gray_light rounded-3xl"
                         >
                             <div className="h-[30%] space-x-4 flex flex-row justify-center items-center">
-                                <div className="relative inline-flex items-center justify-center w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
-                                    <span className="font-medium text-gray-600 dark:text-gray-300">
-                                        {player.username
-                                            .slice(0, 2)
-                                            .toUpperCase()}
-                                    </span>
-                                </div>
+                                <UserTag username={player.username} />
                                 <p className="font-medium">{player.username}</p>
                             </div>
                             <div className="flex flex-row px-4 py-4 space-x-1 justify-around">
@@ -53,7 +51,7 @@ export const GameOverview = () => {
                                         <Card
                                             gameMode={gameMode}
                                             value={card}
-                                            isFlipped={true}
+                                            isFlipped={false}
                                             key={index}
                                         />
                                     );
@@ -64,49 +62,41 @@ export const GameOverview = () => {
                 })}
             </div>
 
-            <div className="flex flex-col justify-between h-[55%] border-b border-black ">
-                <div className="flex flex-row h-1/2 border-b border-black py-4">
+            <div className="flex flex-col justify-between h-[55%] border-b border-black">
+                <div className="flex flex-row h-1/2 border-b border-black py-4 space-x-10">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                         <TopDownStack />
                         <div className="flex flex-col space-y-2 g-amber-200">
-                            <div className="bg-red-300">1</div>
+                            <StackIndex value={1} />
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
-                        <div className="bg-red-300">
-                            Down <br /> Icon
-                        </div>
+                        <TopDownIcon className="h-1/2 self-center" />
                     </div>
                     <div className="flex flex-row justify-start w-1/2 space-x-4 px-4 h-full">
-                        <div className="bg-red-300">
-                            Up <br /> Icon
-                        </div>
+                        <BottomUpIcon className="h-1/2 self-center" />
                         <div className="flex flex-col space-y-2">
-                            <div className="bg-red-300">1</div>
+                            <StackIndex value={2} />
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
                         <BottomUpStack />
                     </div>
                 </div>
-                <div className="flex flex-row h-1/2 border-b border-black py-4">
+                <div className="flex flex-row h-1/2 border-b border-black py-4 space-x-10">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                         <TopDownStack />
                         <div className="flex flex-col space-y-2 g-amber-200">
-                            <div className="bg-red-300">1</div>
+                            <StackIndex value={3} />
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
-                        <div className="bg-red-300">
-                            Down <br /> Icon
-                        </div>
+                        <TopDownIcon className="h-1/2 self-center" />
                     </div>
                     <div className="flex flex-row justify-start w-1/2 space-x-4 px-4 h-full">
-                        <div className="bg-red-300">
-                            Up <br /> Icon
-                        </div>
+                        <BottomUpIcon className="h-1/2 self-center" />
                         <div className="flex flex-col space-y-2">
-                            <div className="bg-red-300">1</div>
+                            <StackIndex value={4} />
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
