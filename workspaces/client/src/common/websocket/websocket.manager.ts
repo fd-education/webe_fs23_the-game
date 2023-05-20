@@ -1,6 +1,6 @@
 import {SetterOrUpdater} from 'recoil';
 import {Socket} from 'socket.io-client';
-import {LobbyWebsocketState} from '../states/lobby-websocket.state';
+import {WebsocketState} from '../states/websocket.state';
 
 export type WsListener<T> = (data: T) => void;
 
@@ -12,7 +12,7 @@ type WsEmitOptions<T> = {
 export default class WebSocketManager {
     public socket: Socket;
 
-    public setWebsocketState!: SetterOrUpdater<LobbyWebsocketState>;
+    public setWebsocketState!: SetterOrUpdater<WebsocketState>;
 
     constructor(io: Socket) {
         this.socket = io;

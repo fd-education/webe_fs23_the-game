@@ -1,16 +1,12 @@
-import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
-import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
 import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
 import {FC, useCallback, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {useRecoilState, useRecoilValue} from 'recoil';
+import {useRecoilState} from 'recoil';
 import UserRepository from '../common/localstorage/user.repository';
 import userState from '../common/states/user.state';
-import lobbyWebsocketState from '../common/states/lobby-websocket.state';
-import {LobbyWebsocketProvider} from '../common/websocket/lobby-websocket.provider';
 import {GlobalPlayerOverview} from '../components/players-overview/GlobalPlayerOverview';
-import useWebSocket from '../hooks/useLobbyWebSocket';
+import useWebSocket from '../hooks/useWebSocket';
 import {refreshAccessToken} from '../services/api';
 import {Chat} from '../components/chat/Chat';
 import {LobbyOverview} from '../components/lobby-overview/LobbyOverview';
@@ -23,7 +19,6 @@ export const Lobby: FC = () => {
     const {wsm} = useWebSocket();
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
-    const webSocketState = useRecoilValue(lobbyWebsocketState);
 
     const refreshAccessTokenCallback = useCallback(async () => {
         await refreshAccessToken();
@@ -52,12 +47,7 @@ export const Lobby: FC = () => {
             return;
         }
 
-        refreshAccessTokenCallback().catch(console.error);
-        wsm.connect();
-
-        wsm.registerListener('connect', () => {
-            console.log('Announcing user!');
-
+        const announceUser = () => {
             wsm.emit<UserAnnouncement>({
                 event: SystemEvent.ANNOUNCE_USER,
                 data: {
@@ -65,43 +55,46 @@ export const Lobby: FC = () => {
                     username: user.username
                 }
             });
-        });
+        };
+
+        refreshAccessTokenCallback().catch(console.error);
+        wsm.connect();
+
+        wsm.registerListener('connect', announceUser);
 
         return () => {
-            wsm.disconnect();
+            wsm.removeListener('connect', announceUser);
         };
-    }, [fetchUser]);
+    }, []);
 
     return (
-        <LobbyWebsocketProvider>
-            <div className="flex flex-row bg-primaryLight dark:bg-primaryDark">
-                <div className="w-full h-screen p-8">
-                    <Chat />
+        <div className="flex flex-row bg-primaryLight dark:bg-primaryDark">
+            <div className="w-full h-screen p-8">
+                <Chat />
+            </div>
+
+            <div className="flex flex-col content-start items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
+                <SmallTitle />
+
+                <div className="w-full h-[65%] px-4">
+                    <LobbyOverview />
                 </div>
 
-                <div className="flex flex-col content-start items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
-                    <SmallTitle />
-
-                    <div className="w-full h-[65%] px-4">
-                        <LobbyOverview />
-                    </div>
-
-                    <div className="flex flex-col items-center space-y-6">
-                        <RulesButton />
-                        <PreferenceToggles
-                            togglesToDisplay={{
-                                screenMode: true,
-                                language: true,
-                                logout: true,
-                                profile: true
-                            }}
-                        />
-                    </div>
-                </div>
-                <div className="flex flex-col justify-around w-full h-screen p-8 space-y-10">
-                    <GlobalPlayerOverview />
+                <div className="flex flex-col items-center space-y-6">
+                    <RulesButton />
+                    <PreferenceToggles
+                        togglesToDisplay={{
+                            screenMode: true,
+                            language: true,
+                            logout: true,
+                            profile: true
+                        }}
+                    />
                 </div>
             </div>
-        </LobbyWebsocketProvider>
+            <div className="flex flex-col justify-around w-full h-screen p-8 space-y-10">
+                <GlobalPlayerOverview />
+            </div>
+        </div>
     );
 };

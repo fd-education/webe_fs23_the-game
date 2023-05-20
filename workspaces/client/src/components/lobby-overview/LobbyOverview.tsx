@@ -12,9 +12,9 @@ import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import UserRepository from '../../common/localstorage/user.repository';
 import userState from '../../common/states/user.state';
-import lobbyWebsocketState from '../../common/states/lobby-websocket.state';
+import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
-import useWebSocket from '../../hooks/useLobbyWebSocket';
+import useWebSocket from '../../hooks/useWebSocket';
 import {PlusIcon} from '../svg/plus.icon';
 import {Panel} from '../util/panel/Panel';
 
@@ -24,7 +24,7 @@ export const LobbyOverview = () => {
     const {wsm} = useWebSocket();
     const [lobbies, setLobbies] = useState<Array<Lobby>>([]);
     const user = useRecoilValue(userState);
-    const webSocketState = useRecoilValue(lobbyWebsocketState);
+    const webSocketState = useRecoilValue(websocketState);
 
     useEffect(() => {
         const onLobbyList: WsListener<Lobby[]> = (lobbyList: Lobby[]) => {
@@ -56,11 +56,13 @@ export const LobbyOverview = () => {
         wsm.registerListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
         wsm.registerListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
 
-        wsm.registerListener('connect', () => {
-            wsm.emit<void>({
-                event: LobbyEvent.GET_LOBBYS
-            });
-        });
+        if (webSocketState.connected) {
+            setTimeout(() => {
+                wsm.emit<void>({
+                    event: LobbyEvent.GET_LOBBYS
+                });
+            }, 1);
+        }
 
         return () => {
             wsm.removeListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);

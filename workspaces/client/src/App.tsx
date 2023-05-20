@@ -4,6 +4,7 @@ import {Chat} from './components/chat/Chat';
 import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import useWebSocket from './hooks/useWebSocket';
 import {Game} from './pages/Game';
 import {Lobby} from './pages/Lobby';
 import {RequestToken} from './pages/RequestToken';
@@ -16,6 +17,8 @@ import {Login} from './pages/Login';
 import PreferenceService from './services/preference/preference.service';
 
 const App: FC = () => {
+    const {wsm} = useWebSocket();
+
     useEffect(() => {
         const user = AuthService.getCurrentUser();
         if (user) {
@@ -25,6 +28,10 @@ const App: FC = () => {
             PreferenceService.setLanguage(Lang.default);
             PreferenceService.setTheme(Theme.default);
         }
+
+        return () => {
+            wsm.disconnect();
+        };
     }, []);
 
     return (

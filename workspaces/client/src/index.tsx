@@ -9,7 +9,7 @@ import './styles/scrollbar.css';
 import './styles/index.css';
 
 import './i18n';
-import {LobbyWebsocketProvider} from './common/websocket/lobby-websocket.provider';
+import {WebsocketProvider} from './common/websocket/websocket.provider';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
@@ -19,7 +19,9 @@ root.render(
     <React.StrictMode>
         <RecoilRoot>
             <BrowserRouter>
-                <App />
+                <WebsocketProvider>
+                    <App />
+                </WebsocketProvider>
             </BrowserRouter>
         </RecoilRoot>
     </React.StrictMode>

@@ -1,12 +1,13 @@
+import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
 import {useEffect, useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useRecoilValue} from 'recoil';
-import lobbyWebsocketState from '../../common/states/lobby-websocket.state';
+import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
-import useWebSocket from '../../hooks/useLobbyWebSocket';
+import useWebSocket from '../../hooks/useWebSocket';
 import {Panel} from '../util/panel/Panel';
 
 type ActivePlayer = {
@@ -17,16 +18,23 @@ type ActivePlayer = {
 export const GlobalPlayerOverview = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
-    const webSocketState = useRecoilValue(lobbyWebsocketState);
+    const webSocketState = useRecoilValue(websocketState);
     const [players, setPlayers] = useState<Array<ActivePlayer>>([]);
 
     useLayoutEffect(() => {
         const onConnectedPlayers: WsListener<ActivePlayer[]> = (
             players: ActivePlayer[]
         ) => {
-            console.log('Got players');
             if (players.length > 0) setPlayers(players);
         };
+
+        if (webSocketState.connected) {
+            setTimeout(() => {
+                wsm.emit<void>({
+                    event: SystemEvent.GET_USERS
+                });
+            }, 1);
+        }
 
         wsm.registerListener(SystemEvent.USER_UPDATE, onConnectedPlayers);
 

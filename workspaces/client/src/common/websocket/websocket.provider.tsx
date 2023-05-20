@@ -1,14 +1,14 @@
-import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
+import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {createContext, ReactNode} from 'react';
 import {useSetRecoilState} from 'recoil';
 import io from 'socket.io-client';
 import {config} from '../config/config';
 import TokenRepository from '../localstorage/token.repository';
 import WebSocketManager from './websocket.manager';
-import lobbyWebsocketState from '../states/lobby-websocket.state';
+import websocketState from '../states/websocket.state';
 
-const lobbySocketManager = new WebSocketManager(
-    io(config.backendUrl + '/' + WebsocketNamespaces.LOBBY, {
+const socketManager = new WebSocketManager(
+    io(config.backendUrl + '/' + WebsocketNamespace.THE_GAME, {
         port: 9000,
         autoConnect: false,
         transports: ['websocket'],
@@ -19,21 +19,20 @@ const lobbySocketManager = new WebSocketManager(
     })
 );
 
-export const LobbyWebsocketProviderCtx =
-    createContext<WebSocketManager>(lobbySocketManager);
+export const WebsocketProviderCtx =
+    createContext<WebSocketManager>(socketManager);
 
 type WebsocketProviderProps = {
     children: ReactNode;
 };
 
-export function LobbyWebsocketProvider({
+export function WebsocketProvider({
     children
 }: WebsocketProviderProps): JSX.Element {
-    lobbySocketManager.setWebsocketState =
-        useSetRecoilState(lobbyWebsocketState);
+    socketManager.setWebsocketState = useSetRecoilState(websocketState);
     return (
-        <LobbyWebsocketProviderCtx.Provider value={lobbySocketManager}>
+        <WebsocketProviderCtx.Provider value={socketManager}>
             {children}
-        </LobbyWebsocketProviderCtx.Provider>
+        </WebsocketProviderCtx.Provider>
     );
 }

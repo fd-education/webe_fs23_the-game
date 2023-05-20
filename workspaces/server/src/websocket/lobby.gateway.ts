@@ -9,7 +9,7 @@ import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event
 import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
-import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websocket-namespaces.enum';
+import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {Message} from '@the-game/common/dist/types/chat/message';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
@@ -22,7 +22,7 @@ import {Server, Socket} from 'socket.io';
 import {JwtVerifyService} from '../security/jwt/jwt.service';
 
 @WebSocketGateway({
-  namespace: WebsocketNamespaces.LOBBY,
+  namespace: WebsocketNamespace.THE_GAME,
   port: 9000,
   cors: {
     origin: '*',
@@ -43,7 +43,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   async handleConnection(client: any, ...args: any[]): Promise<any> {
-    this.logger.info(`Client ${client.id} connected to ${WebsocketNamespaces.LOBBY}-namespace`);
+    this.logger.info(`Client ${client.id} connected to ${WebsocketNamespace.THE_GAME}-namespace`);
 
     try{
       const verifiedToken = await this.jwtVerifyService.verify(client.handshake.auth.token);
@@ -66,7 +66,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleDisconnect(client: any): Promise<any> {
     this.lobbyManager.removeClient(client.id);
-    this.logger.info(`Client ${client.id} disconnected from ${WebsocketNamespaces.LOBBY}-namespace`);
+    this.logger.info(`Client ${client.id} disconnected from ${WebsocketNamespace.THE_GAME}-namespace`);
 
     this.server.emit(SystemEvent.USER_UPDATE, this.lobbyManager.getClients());
   }
@@ -116,10 +116,10 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
     client.emit(SystemEvent.CHAT_HISTORY, chatHistory);
   }
 
-  @SubscribeMessage(PlayerEvent.GET_CONNECTED_PLAYERS)
+  @SubscribeMessage(SystemEvent.GET_USERS)
   async handleLobbyHistory(@ConnectedSocket() client: Socket): Promise<void> {
     const clients = this.lobbyManager.getClients();
     this.logger.info(`Sending ${clients.length} connected players to client ${client.id}`)
-    client.emit(PlayerEvent.CONNECTED_PLAYERS, clients);
+    client.emit(SystemEvent.USER_UPDATE, clients);
   }
 }
