@@ -85,10 +85,10 @@ export const Profile: FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">
+        <div className="flex flex-col items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full space-y-10">
             <SmallTitle />
 
-            <div className="grow flex flex-row w-full space-x-8">
+            <div className="flex grow flex-row w-full space-x-8">
                 <Panel className="grow h-full justify-center">
                     <Formik
                         enableReinitialize={true}
