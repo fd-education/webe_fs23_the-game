@@ -1,6 +1,6 @@
 import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
-import {Chat} from './components/chat/Chat';
+import {LobbyChat} from './components/chat/LobbyChat';
 import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -49,7 +49,7 @@ const App: FC = () => {
                     <Route path={'/profile'} element={<Profile />} />
                     <Route path={'/lobby'} element={<Lobby />} />
                     <Route path={'/game'} element={<Game />} />
-                    <Route path={'/chat'} element={<Chat />} />
+                    <Route path={'/chat'} element={<LobbyChat />} />
                 </Routes>
             </div>
         </div>

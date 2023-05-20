@@ -8,7 +8,7 @@ import userState from '../common/states/user.state';
 import {GlobalPlayerOverview} from '../components/players-overview/GlobalPlayerOverview';
 import useWebSocket from '../hooks/useWebSocket';
 import {refreshAccessToken} from '../services/api';
-import {Chat} from '../components/chat/Chat';
+import {LobbyChat} from '../components/chat/LobbyChat';
 import {LobbyOverview} from '../components/lobby-overview/LobbyOverview';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
@@ -70,7 +70,7 @@ export const Lobby: FC = () => {
     return (
         <div className="flex flex-row bg-primaryLight dark:bg-primaryDark">
             <div className="w-full h-screen p-8">
-                <Chat />
+                <LobbyChat />
             </div>
 
             <div className="flex flex-col content-start items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full">

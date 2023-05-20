@@ -38,7 +38,7 @@ export const GameOverview = () => {
 
     return (
         <div className="flex flex-col h-full w-[75%] p-8">
-            <div className="flex flex-row justify-around h-[19%] border-b border-black px-36">
+            <div className="flex flex-row justify-around h-[19%] px-36">
                 {otherPlayers.map((player, index) => {
                     return (
                         <div
@@ -66,8 +66,8 @@ export const GameOverview = () => {
                 })}
             </div>
 
-            <div className="flex flex-col justify-between h-[55%] border-b border-black">
-                <div className="flex flex-row h-1/2 border-b border-black py-4 space-x-10">
+            <div className="flex flex-col justify-between h-[55%]">
+                <div className="flex flex-row h-1/2 py-4 space-x-10">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                         <div className="flex flex-col items-center space-y-2">
                             <StackIndex value={1} />
@@ -87,7 +87,7 @@ export const GameOverview = () => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-row h-1/2 border-b border-black py-4 space-x-10">
+                <div className="flex flex-row h-1/2 py-4 space-x-10">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                         <div className="flex flex-col items-center space-y-2">
                             <StackIndex value={3} />
@@ -110,7 +110,7 @@ export const GameOverview = () => {
                 </div>
             </div>
 
-            <div className="flex flex-row justify-around h-[26%] border-b border-black px-16 py-4">
+            <div className="flex flex-row justify-around h-[26%] px-16 py-4">
                 {hasPickupStack &&
                     (gameMode === GameMode.CLASSIC ? (
                         <CardClassicBack />

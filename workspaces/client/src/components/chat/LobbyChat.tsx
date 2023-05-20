@@ -14,7 +14,7 @@ import {SendIcon} from '../svg/send.icon';
 import {Panel} from '../util/panel/Panel';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
 
-export const Chat = () => {
+export const LobbyChat = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
