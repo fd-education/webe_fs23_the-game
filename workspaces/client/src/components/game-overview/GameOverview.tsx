@@ -10,6 +10,7 @@ import {CardOnFireBack} from './card-utils/CardOnFireBack';
 import {SaveDownButton} from './SaveDownButton';
 import {SaveUpButton} from './SaveUpButton';
 import {StackIndex} from './StackIndex';
+import {StopButton} from './StopButton';
 import {TopDownIcon} from './TopDownIcon';
 import {TopDownStack} from './TopDownStack';
 
@@ -70,7 +71,7 @@ export const GameOverview = () => {
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                         <div className="flex flex-col items-center space-y-2">
                             <StackIndex value={1} />
-                            <div className="bg-red-300">Stop</div>
+                            <StopButton />
                             <SaveUpButton />
                         </div>
                         <TopDownStack />
@@ -81,7 +82,7 @@ export const GameOverview = () => {
                         <BottomUpStack />
                         <div className="flex flex-col items-center space-y-2">
                             <StackIndex value={2} />
-                            <div className="bg-red-300">Stop</div>
+                            <StopButton />
                             <SaveDownButton />
                         </div>
                     </div>
@@ -90,7 +91,7 @@ export const GameOverview = () => {
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                         <div className="flex flex-col items-center space-y-2">
                             <StackIndex value={3} />
-                            <div className="bg-red-300">Stop</div>
+                            <StopButton />
                             <SaveUpButton />
                         </div>
                         <TopDownStack />
@@ -102,7 +103,7 @@ export const GameOverview = () => {
                         <BottomUpStack />{' '}
                         <div className="flex flex-col items-center space-y-2">
                             <StackIndex value={4} />
-                            <div className="bg-red-300">Stop</div>
+                            <StopButton />
                             <SaveDownButton />
                         </div>
                     </div>
