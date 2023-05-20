@@ -57,7 +57,6 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
         this.lobbyManager.addClient(client.id, user);
 
-        console.log(this.lobbyManager.getClients());
         client.send(`${SystemEvent.AUTHORIZED}`);
 
         this.logger.info(`Client ${client.id} has valid token and is connected`);
@@ -77,7 +76,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage(ChatEvent.SEND_GLOBAL_MESSAGE)
   async handleMessage(@MessageBody() message: Message): Promise<void> {
-    this.logger.info(`Received message ${message.message} from ${message.author}`);
+    this.logger.info(`Received message ${message.message} from ${message.authorName}`);
     this.server.emit(ChatEvent.RECEIVE_GLOBAL_MESSAGE, message);
 
     await this.chatsService.create(message);

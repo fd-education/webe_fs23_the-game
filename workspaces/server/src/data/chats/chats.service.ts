@@ -13,8 +13,6 @@ export class ChatsService {
     ) {}
 
     async create(chat: Message): Promise<void> {
-        this.logger.info(`Creating chat: ${JSON.stringify(chat)}`);
-
         await this.chatModel.create(chat);
     }
 

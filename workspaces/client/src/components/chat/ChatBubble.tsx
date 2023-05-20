@@ -1,24 +1,31 @@
 import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 
+type ChatBubbleProps = {
+    msg: MessageWithKey;
+};
+
 /**
  * Brighter chat bubble to display messages sent by this client.
  * Displays the sending time of the message and the content.
- * @param msg the message to display
+ * @param chatProps
  */
-export const ChatBubbleOwn = (msg: MessageWithKey) => {
+export const ChatBubbleOwn = (chatProps: ChatBubbleProps) => {
     return (
         <div className="chat chat-end">
             <div className="chat-bubble bg-chatBubbleOwn text-black">
                 <div className="chat-header opacity-50">
                     <time className="text-xs opacity-50">
                         {' '}
-                        {new Date(msg.timestamp).toLocaleTimeString('de-CH', {
-                            hour: 'numeric',
-                            minute: 'numeric'
-                        })}
+                        {new Date(chatProps.msg.timestamp).toLocaleTimeString(
+                            'de-CH',
+                            {
+                                hour: 'numeric',
+                                minute: 'numeric'
+                            }
+                        )}
                     </time>
                 </div>
-                {msg.message}
+                {chatProps.msg.message}
             </div>
         </div>
     );
@@ -27,23 +34,26 @@ export const ChatBubbleOwn = (msg: MessageWithKey) => {
 /**
  * Darker chat bubble to display messages sent by other clients, received by this client.
  * Displays the name of the sender, the sending time and the content.
- * @param msg the message to display.
+ * @param chatProps
  */
-export const ChatBubbleForeign = (msg: MessageWithKey) => {
+export const ChatBubbleForeign = (chatProps: ChatBubbleProps) => {
     return (
         <div className="chat chat-start">
             <div className="chat-bubble bg-chatBubbleForeign text-white">
                 <div className="chat-header opacity-50">
-                    {msg.author}
+                    {chatProps.msg.authorName}
                     <time className="text-xs opacity-50">
                         {' '}
-                        {new Date(msg.timestamp).toLocaleTimeString('de-CH', {
-                            hour: 'numeric',
-                            minute: 'numeric'
-                        })}
+                        {new Date(chatProps.msg.timestamp).toLocaleTimeString(
+                            'de-CH',
+                            {
+                                hour: 'numeric',
+                                minute: 'numeric'
+                            }
+                        )}
                     </time>
                 </div>
-                {msg.message}
+                {chatProps.msg.message}
             </div>
         </div>
     );

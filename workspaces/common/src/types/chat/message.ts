@@ -1,5 +1,6 @@
 export type Message = {
-    author: string;
+    authorUid: string;
+    authorName: string;
     message: string;
     timestamp: number;
 };
@@ -7,3 +8,5 @@ export type Message = {
 export type MessageWithKey = Message & {
     uid: string;
 };
+
+

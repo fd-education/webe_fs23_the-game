@@ -18,7 +18,12 @@ export class Chat implements Message {
     @Prop({
         required: true,
     })
-    author: string;
+    authorUid: string;
+
+    @Prop({
+        required: true,
+    })
+    authorName: string;
 
     @Prop({
         required: true,

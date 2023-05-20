@@ -20,7 +20,6 @@ export const Chat = () => {
     const webSocketState = useRecoilValue(websocketState);
     const user = useRecoilValue(userState);
     const navigate = useNavigate();
-    const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<MessageWithKey>>([]);
 
@@ -30,15 +29,14 @@ export const Chat = () => {
             return;
         }
 
-        setUsername(user.username);
-
         const onChatMessage: WsListener<MessageWithKey> = (
             msg: MessageWithKey
         ) => {
             setMessages((currentMsg: MessageWithKey[]) => {
                 return [
                     {
-                        author: msg.author,
+                        authorUid: msg.authorUid,
+                        authorName: msg.authorName,
                         message: msg.message,
                         timestamp: msg.timestamp,
                         uid: msg.uid
@@ -88,7 +86,8 @@ export const Chat = () => {
         wsm.emit<Message>({
             event: ChatEvent.SEND_GLOBAL_MESSAGE,
             data: {
-                author: username,
+                authorUid: user!.uid,
+                authorName: user!.username,
                 message,
                 timestamp: Date.now()
             }
@@ -110,22 +109,10 @@ export const Chat = () => {
             <Panel className="justify-end">
                 <div className="last:border-b-0 h-full overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((msg, index) => {
-                        return msg.author === username ? (
-                            <ChatBubbleOwn
-                                author={msg.author}
-                                message={msg.message}
-                                timestamp={msg.timestamp}
-                                uid={msg.uid}
-                                key={index}
-                            />
+                        return msg.authorUid === user!.uid ? (
+                            <ChatBubbleOwn msg={msg} key={index} />
                         ) : (
-                            <ChatBubbleForeign
-                                author={msg.author}
-                                message={msg.message}
-                                timestamp={msg.timestamp}
-                                uid={msg.uid}
-                                key={index}
-                            />
+                            <ChatBubbleForeign msg={msg} key={index} />
                         );
                     })}
                 </div>
