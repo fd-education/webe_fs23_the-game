@@ -180,6 +180,7 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
                 x="20%"
                 y="15%"
                 fill="#FFFFFF"
+                fontFamily="Impact, sans-serif"
                 dominantBaseline="middle"
                 textAnchor="middle"
             >
@@ -190,6 +191,7 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
                 x="80%"
                 y="15%"
                 fill="#FFFFFF"
+                fontFamily="Impact, sans-serif"
                 dominantBaseline="middle"
                 textAnchor="middle"
             >
@@ -200,6 +202,7 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
                 x="20%"
                 y="85%"
                 fill="#FFFFFF"
+                fontFamily="Impact, sans-serif"
                 dominantBaseline="middle"
                 textAnchor="middle"
             >
@@ -210,6 +213,7 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
                 x="80%"
                 y="85%"
                 fill="#FFFFFF"
+                fontFamily="Impact, sans-serif"
                 dominantBaseline="middle"
                 textAnchor="middle"
             >
@@ -220,6 +224,7 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
                 x="50%"
                 y="50%"
                 fill="#FFFFFF"
+                fontFamily="Impact, sans-serif"
                 dominantBaseline="middle"
                 textAnchor="middle"
             >

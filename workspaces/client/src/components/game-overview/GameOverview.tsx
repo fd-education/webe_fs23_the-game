@@ -108,7 +108,7 @@ export const GameOverview = () => {
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
-                        <div className="bg-red-300">Up Stack</div>
+                        <div className="bg-red-300 font-rounded">Up Stack</div>
                     </div>
                 </div>
             </div>
