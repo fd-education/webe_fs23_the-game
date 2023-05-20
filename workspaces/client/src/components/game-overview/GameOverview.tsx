@@ -1,6 +1,6 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import React, {useEffect, useState} from 'react';
-import {Card} from './cards/Card';
+import {Card} from './Card';
 
 export const GameOverview = () => {
     const [otherPlayers, setOtherPlayers] = useState<
