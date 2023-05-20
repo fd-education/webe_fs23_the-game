@@ -29,8 +29,11 @@ module.exports = {
                 chatBubbleForeign: '#262628',
                 chatBubbleOwn: '#E9E9EB',
             },
+            aspectRatio: {
+              'card': '1 / 1.5',
+            },
             backgroundImage: {
-                'cards': "url('/public/svg/background-cards.svg')",
+                'cards': "url('/public/svg/background-cards.svg')"
             },
             backgroundPosition: {
                 'cards-background': '-10rem -45rem',

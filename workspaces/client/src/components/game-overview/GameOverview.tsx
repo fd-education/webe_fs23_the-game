@@ -1,4 +1,6 @@
-import {useEffect, useState} from 'react';
+import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import React, {useEffect, useState} from 'react';
+import {Card} from './cards/Card';
 
 export const GameOverview = () => {
     const [otherPlayers, setOtherPlayers] = useState<
@@ -6,18 +8,21 @@ export const GameOverview = () => {
     >([]);
     const [player, setPlayer] = useState<{username: string; stack: number[]}>();
     const [hasPickupStack, setHasPickupStack] = useState<boolean>(true);
+    const [gameMode, setGameMode] = useState<GameMode>(GameMode.CLASSIC);
 
     useEffect(() => {
         setOtherPlayers([
-            {username: 'ogplayer98', stack: [1, 2, 3, 4, 5, 6]},
-            {username: 'otherfriend', stack: [1, 2, 3, 4, 5, 6]},
-            {username: 'afriend', stack: [1, 2, 3, 4, 5, 6]}
+            {username: 'ogplayer98', stack: [1, 77, 3, 4, 5, 6]},
+            {username: 'otherfriend', stack: [1, 2, 3, 33, 5, 6]},
+            {username: 'afriend', stack: [1, 11, 3, 4, 5, 6]}
         ]);
 
         setPlayer({username: 'me', stack: [1, 2, 3, 4, 5, 6]});
 
+        setGameMode(GameMode.ONFIRE);
+
         setHasPickupStack(true);
-    });
+    }, []);
 
     return (
         <div className="flex flex-col h-full w-[75%] p-8">
@@ -38,15 +43,15 @@ export const GameOverview = () => {
                                 </div>
                                 <p className="font-medium">{player.username}</p>
                             </div>
-                            <div className="flex flex-row h-[70%] justify-between px-4 py-4 space-x-2">
+                            <div className="flex flex-row px-4 py-4 justify-around">
                                 {player.stack.map((card, index) => {
                                     return (
-                                        <div
+                                        <Card
+                                            gameMode={gameMode}
+                                            value={card}
+                                            isFlipped={false}
                                             key={index}
-                                            className="flex-grow bg-red-300"
-                                        >
-                                            {card}
-                                        </div>
+                                        />
                                     );
                                 })}
                             </div>
