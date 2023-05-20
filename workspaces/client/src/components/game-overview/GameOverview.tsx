@@ -1,8 +1,10 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import React, {useEffect, useState} from 'react';
+import {BottomUpStack} from './BottomUpStack';
 import {Card} from './Card';
 import {CardClassicBack} from './card-utils/CardClassicBack';
 import {CardOnFireBack} from './card-utils/CardOnFireBack';
+import {TopDownStack} from './TopDownStack';
 
 export const GameOverview = () => {
     const [otherPlayers, setOtherPlayers] = useState<
@@ -65,7 +67,7 @@ export const GameOverview = () => {
             <div className="flex flex-col justify-between h-[55%] border-b border-black ">
                 <div className="flex flex-row h-1/2 border-b border-black py-4">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
-                        <div className="bg-red-300">Down Stack</div>
+                        <TopDownStack />
                         <div className="flex flex-col space-y-2 g-amber-200">
                             <div className="bg-red-300">1</div>
                             <div className="bg-red-300">Stop</div>
@@ -84,12 +86,12 @@ export const GameOverview = () => {
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
-                        <div className="bg-red-300">Up Stack</div>
+                        <BottomUpStack />
                     </div>
                 </div>
                 <div className="flex flex-row h-1/2 border-b border-black py-4">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
-                        <div className="bg-red-300">Down Stack</div>
+                        <TopDownStack />
                         <div className="flex flex-col space-y-2 g-amber-200">
                             <div className="bg-red-300">1</div>
                             <div className="bg-red-300">Stop</div>
@@ -108,7 +110,7 @@ export const GameOverview = () => {
                             <div className="bg-red-300">Stop</div>
                             <div className="bg-red-300">Up</div>
                         </div>
-                        <div className="bg-red-300 font-rounded">Up Stack</div>
+                        <BottomUpStack />
                     </div>
                 </div>
             </div>
