@@ -18,7 +18,9 @@ export class ChatsService {
 
     async findAll(): Promise<Chat[]> {
         return await this.chatModel
-            .find()
+            .find({})
+            .limit(250)
+            .sort({timestamp: -1})
             .lean()
             .select(['-__v', '-_id']);
     }

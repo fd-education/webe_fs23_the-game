@@ -107,6 +107,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage(SystemEvent.GET_CHAT_HISTORY)
   async handleChatHistory(@ConnectedSocket() client: Socket): Promise<void> {
     const chatHistory = await this.chatsService.findAll();
+    console.log(chatHistory);
     this.logger.info(`Sending ${chatHistory.length} chat messages to client ${client.id}`)
     client.emit(SystemEvent.CHAT_HISTORY, chatHistory);
   }
