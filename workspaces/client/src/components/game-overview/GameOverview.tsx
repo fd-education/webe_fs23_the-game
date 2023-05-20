@@ -1,18 +1,17 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import React, {useEffect, useState} from 'react';
 import {UserTag} from '../util/misc/UserTag';
-import {BottomUpIcon} from './BottomUpIcon';
-import {BottomUpStack} from './BottomUpStack';
-import {SaveDownIcon} from './button-utils/SaveDownIcon';
-import {Card} from './Card';
+import {
+    InterventionButtons,
+    StackDirection
+} from './buttons/InterventionButtons';
 import {CardClassicBack} from './card-utils/CardClassicBack';
 import {CardOnFireBack} from './card-utils/CardOnFireBack';
-import {SaveDownButton} from './SaveDownButton';
-import {SaveUpButton} from './SaveUpButton';
-import {StackIndex} from './StackIndex';
-import {StopButton} from './StopButton';
-import {TopDownIcon} from './TopDownIcon';
-import {TopDownStack} from './TopDownStack';
+import {Card} from './cards/Card';
+import {BottomUpIcon} from './layout/BottomUpIcon';
+import {BottomUpStack} from './layout/BottomUpStack';
+import {TopDownIcon} from './layout/TopDownIcon';
+import {TopDownStack} from './layout/TopDownStack';
 
 export const GameOverview = () => {
     const [otherPlayers, setOtherPlayers] = useState<
@@ -69,31 +68,28 @@ export const GameOverview = () => {
             <div className="flex flex-col justify-between h-[55%]">
                 <div className="flex flex-row h-1/2 py-4 space-x-10">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
-                        <div className="flex flex-col items-center space-y-2">
-                            <StackIndex value={1} />
-                            <StopButton />
-                            <SaveUpButton />
-                        </div>
+                        <InterventionButtons
+                            stackIndex={1}
+                            stackDirection={StackDirection.DOWN}
+                        />
                         <TopDownStack />
                         <TopDownIcon className="h-1/2 self-center" />
                     </div>
                     <div className="flex flex-row justify-start w-1/2 space-x-4 px-4 h-full">
                         <BottomUpIcon className="h-1/2 self-center" />
                         <BottomUpStack />
-                        <div className="flex flex-col items-center space-y-2">
-                            <StackIndex value={2} />
-                            <StopButton />
-                            <SaveDownButton />
-                        </div>
+                        <InterventionButtons
+                            stackIndex={2}
+                            stackDirection={StackDirection.UP}
+                        />
                     </div>
                 </div>
                 <div className="flex flex-row h-1/2 py-4 space-x-10">
                     <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
-                        <div className="flex flex-col items-center space-y-2">
-                            <StackIndex value={3} />
-                            <StopButton />
-                            <SaveUpButton />
-                        </div>
+                        <InterventionButtons
+                            stackIndex={3}
+                            stackDirection={StackDirection.DOWN}
+                        />
                         <TopDownStack />
 
                         <TopDownIcon className="h-1/2 self-center" />
@@ -101,11 +97,10 @@ export const GameOverview = () => {
                     <div className="flex flex-row justify-start w-1/2 space-x-4 px-4 h-full">
                         <BottomUpIcon className="h-1/2 self-center" />
                         <BottomUpStack />{' '}
-                        <div className="flex flex-col items-center space-y-2">
-                            <StackIndex value={4} />
-                            <StopButton />
-                            <SaveDownButton />
-                        </div>
+                        <InterventionButtons
+                            stackIndex={4}
+                            stackDirection={StackDirection.UP}
+                        />
                     </div>
                 </div>
             </div>

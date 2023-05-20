@@ -1,8 +1,8 @@
-import {CardClassicFront} from './CardClassicFront';
-import {CardOnFireBack} from './CardOnFireBack';
-import {CardOnFireFrontSpecial} from './CardOnFireFrontSpecial';
-import {CardOnFireFrontStandard} from './CardOnFireFrontStandard';
-import {CardProps} from './cardProps.type';
+import {CardClassicFront} from '../card-utils/CardClassicFront';
+import {CardOnFireBack} from '../card-utils/CardOnFireBack';
+import {CardOnFireFrontSpecial} from '../card-utils/CardOnFireFrontSpecial';
+import {CardOnFireFrontStandard} from '../card-utils/CardOnFireFrontStandard';
+import {CardProps} from '../card-utils/cardProps.type';
 
 export const OnFireCard = (props: CardProps) => {
     const specialCards = [22, 33, 44, 55, 66, 77];
