@@ -13,6 +13,7 @@ import {WebsocketNamespaces} from '@the-game/common/dist/enum/websockets/websock
 import {Message} from '@the-game/common/dist/types/chat/message';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
+import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
 import {LobbyManager} from '../common/managers/lobby.manager';
 import { LoggerService } from '../common/logger/logger.service';
 import {ChatsService} from '../data/chats/chats.service';
@@ -52,13 +53,7 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
         client.send(`${SystemEvent.UNAUTHORIZED}`);
         return client.disconnect();
       } else {
-        const clientQuery = client.handshake.query;
-        const user = {uid: clientQuery.userId, username: clientQuery.userName}
-
-        this.lobbyManager.addClient(client.id, user);
-
         client.send(`${SystemEvent.AUTHORIZED}`);
-
         this.logger.info(`Client ${client.id} has valid token and is connected`);
       }
     } catch(err: any){
@@ -72,6 +67,16 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   async handleDisconnect(client: any): Promise<any> {
     this.lobbyManager.removeClient(client.id);
     this.logger.info(`Client ${client.id} disconnected from ${WebsocketNamespaces.LOBBY}-namespace`);
+
+    this.server.emit(SystemEvent.USER_UPDATE, this.lobbyManager.getClients());
+  }
+
+  @SubscribeMessage(SystemEvent.ANNOUNCE_USER)
+  handleUserAnnouncement(@ConnectedSocket() client: Socket, @MessageBody() message: UserAnnouncement): void {
+    this.lobbyManager.addClient(client.id, message);
+    this.logger.info(`Client ${client.id} announced itself as ${message.username}`);
+
+    this.server.emit(SystemEvent.USER_UPDATE, this.lobbyManager.getClients());
   }
 
   @SubscribeMessage(ChatEvent.SEND_GLOBAL_MESSAGE)
@@ -107,7 +112,6 @@ export class LobbyGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage(SystemEvent.GET_CHAT_HISTORY)
   async handleChatHistory(@ConnectedSocket() client: Socket): Promise<void> {
     const chatHistory = await this.chatsService.findAll();
-    console.log(chatHistory);
     this.logger.info(`Sending ${chatHistory.length} chat messages to client ${client.id}`)
     client.emit(SystemEvent.CHAT_HISTORY, chatHistory);
   }

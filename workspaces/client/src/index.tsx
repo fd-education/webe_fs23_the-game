@@ -9,7 +9,7 @@ import './styles/scrollbar.css';
 import './styles/index.css';
 
 import './i18n';
-import {WebSocketProvider} from './common/websocket/websocket.provider';
+import {LobbyWebsocketProvider} from './common/websocket/lobby-websocket.provider';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

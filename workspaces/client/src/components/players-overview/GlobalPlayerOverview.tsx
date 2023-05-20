@@ -1,10 +1,12 @@
 import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
+import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
+import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
 import {useEffect, useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useRecoilValue} from 'recoil';
-import websocketState from '../../common/states/websocket.state';
+import lobbyWebsocketState from '../../common/states/lobby-websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
-import useWebSocket from '../../hooks/useWebSocket';
+import useWebSocket from '../../hooks/useLobbyWebSocket';
 import {Panel} from '../util/panel/Panel';
 
 type ActivePlayer = {
@@ -15,55 +17,21 @@ type ActivePlayer = {
 export const GlobalPlayerOverview = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
-    const webSocketState = useRecoilValue(websocketState);
+    const webSocketState = useRecoilValue(lobbyWebsocketState);
     const [players, setPlayers] = useState<Array<ActivePlayer>>([]);
 
     useLayoutEffect(() => {
         const onConnectedPlayers: WsListener<ActivePlayer[]> = (
             players: ActivePlayer[]
         ) => {
-            setPlayers(players);
+            console.log('Got players');
+            if (players.length > 0) setPlayers(players);
         };
 
-        const onNewConnectedPlayer: WsListener<ActivePlayer> = (
-            player: ActivePlayer
-        ) => {
-            setPlayers((currentPlayers: Array<ActivePlayer>) => {
-                return [player, ...currentPlayers];
-            });
-        };
-
-        let playerUpdateInterval: NodeJS.Timeout;
-
-        if (webSocketState.connected) {
-            wsm.registerListener(
-                PlayerEvent.CONNECTED_PLAYERS,
-                onConnectedPlayers
-            );
-
-            wsm.registerListener(
-                PlayerEvent.NEW_CONNECTED_PLAYER,
-                onNewConnectedPlayer
-            );
-
-            playerUpdateInterval = setInterval(() => {
-                wsm.emit<void>({
-                    event: PlayerEvent.GET_CONNECTED_PLAYERS
-                });
-            }, 5000);
-        }
+        wsm.registerListener(SystemEvent.USER_UPDATE, onConnectedPlayers);
 
         return () => {
-            wsm.removeListener(
-                PlayerEvent.CONNECTED_PLAYERS,
-                onConnectedPlayers
-            );
-            wsm.removeListener(
-                PlayerEvent.NEW_CONNECTED_PLAYER,
-                onNewConnectedPlayer
-            );
-
-            clearInterval(playerUpdateInterval);
+            wsm.removeListener(SystemEvent.USER_UPDATE, onConnectedPlayers);
         };
     }, [webSocketState]);
 

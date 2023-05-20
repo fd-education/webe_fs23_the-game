@@ -1,9 +1,6 @@
-import {User} from '@the-game/common/dist/types/auth/user';
 import {SetterOrUpdater} from 'recoil';
-import io, {Socket} from 'socket.io-client';
-import {config} from '../config/config';
-import TokenRepository from '../localstorage/token.repository';
-import {WebsocketState} from '../states/websocket.state';
+import {Socket} from 'socket.io-client';
+import {LobbyWebsocketState} from '../states/lobby-websocket.state';
 
 export type WsListener<T> = (data: T) => void;
 
@@ -13,12 +10,16 @@ type WsEmitOptions<T> = {
 };
 
 export default class WebSocketManager {
-    public socket!: Socket;
+    public socket: Socket;
 
-    public setWebsocketState!: SetterOrUpdater<WebsocketState>;
+    public setWebsocketState!: SetterOrUpdater<LobbyWebsocketState>;
 
-    constructor() {
-        //es
+    constructor(io: Socket) {
+        this.socket = io;
+
+        this.onConnect();
+        this.onDisconnect();
+        this.onException();
     }
 
     emit<T>(options: WsEmitOptions<T>): this {
@@ -35,25 +36,7 @@ export default class WebSocketManager {
         return this.socket.id;
     }
 
-    connect(namespace: string, user: User): void {
-        this.socket = io(config.backendUrl + '/' + namespace, {
-            port: 9000,
-            autoConnect: false,
-            transports: ['websocket'],
-            withCredentials: true,
-            auth: {
-                token: TokenRepository.getAccessToken()
-            },
-            query: {
-                userId: user.uid,
-                userName: user.username
-            }
-        });
-
-        this.onConnect();
-        this.onDisconnect();
-        this.onException();
-
+    connect(): void {
         this.socket.connect();
     }
 
