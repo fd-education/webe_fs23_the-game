@@ -5,7 +5,7 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
         <svg
             viewBox="0 0 240 370"
             fill="none"
-            className={props.className}
+            className={props.className + ' h-full'}
             xmlns="http://www.w3.org/2000/svg"
         >
             <rect width="240" height="370" rx="10" fill="black" />

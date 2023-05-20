@@ -19,7 +19,7 @@ export const GameOverview = () => {
             {username: 'afriend', stack: [1, 11, 3, 4, 5, 6]}
         ]);
 
-        setPlayer({username: 'me', stack: [1, 2, 3, 4, 5, 6]});
+        setPlayer({username: 'me', stack: [2, 3, 4, 77, 78, 79]});
 
         setGameMode(GameMode.ONFIRE);
 
@@ -45,13 +45,13 @@ export const GameOverview = () => {
                                 </div>
                                 <p className="font-medium">{player.username}</p>
                             </div>
-                            <div className="flex flex-row px-4 py-4 justify-around">
+                            <div className="flex flex-row px-4 py-4 space-x-1 justify-around">
                                 {player.stack.map((card, index) => {
                                     return (
                                         <Card
                                             gameMode={gameMode}
                                             value={card}
-                                            isFlipped={false}
+                                            isFlipped={true}
                                             key={index}
                                         />
                                     );
@@ -113,7 +113,7 @@ export const GameOverview = () => {
                 </div>
             </div>
 
-            <div className="flex flex-row justify-between h-[26%] border-b border-black px-16">
+            <div className="flex flex-row justify-around h-[26%] border-b border-black px-16 py-4">
                 {hasPickupStack &&
                     (gameMode === GameMode.CLASSIC ? (
                         <CardClassicBack />
@@ -122,15 +122,17 @@ export const GameOverview = () => {
                     ))}
 
                 {player && (
-                    <div className="flex flex-row justify-between w-[75%] px-4 py-4 space-x-2">
+                    <div className="flex flex-row w-[75%] px-4 -space-x-4">
                         {player.stack.map((card, index) => {
                             return (
-                                <Card
-                                    gameMode={gameMode}
-                                    value={card}
-                                    isFlipped={true}
-                                    key={index}
-                                />
+                                <div className="h-full rotate-3" key={index}>
+                                    <Card
+                                        gameMode={gameMode}
+                                        value={card}
+                                        isFlipped={true}
+                                        key={index}
+                                    />
+                                </div>
                             );
                         })}
                     </div>
