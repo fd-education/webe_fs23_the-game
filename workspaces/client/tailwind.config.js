@@ -64,5 +64,5 @@ module.exports = {
     },
     variants: {},
     darkMode: 'class',
-    plugins: [require('daisyui')]
+    plugins: [require('daisyui'), require('@tailwindcss/aspect-ratio'),]
 };

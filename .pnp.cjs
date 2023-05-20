@@ -5286,6 +5286,28 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@tailwindcss/aspect-ratio", [\
+        ["npm:0.4.2", {\
+          "packageLocation": "./.yarn/cache/@tailwindcss-aspect-ratio-npm-0.4.2-f690711eea-e998fcb0c1.zip/node_modules/@tailwindcss/aspect-ratio/",\
+          "packageDependencies": [\
+            ["@tailwindcss/aspect-ratio", "npm:0.4.2"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:f4b1896499c7eb875b9754199f3e7bff090c28ac5bc276d25388c9e7b54044cba5884278f7c4b2fcdfce27569272f634f2df09b51a078ec57d32e90cd6bf08ff#npm:0.4.2", {\
+          "packageLocation": "./.yarn/__virtual__/@tailwindcss-aspect-ratio-virtual-627cab5cee/0/cache/@tailwindcss-aspect-ratio-npm-0.4.2-f690711eea-e998fcb0c1.zip/node_modules/@tailwindcss/aspect-ratio/",\
+          "packageDependencies": [\
+            ["@tailwindcss/aspect-ratio", "virtual:f4b1896499c7eb875b9754199f3e7bff090c28ac5bc276d25388c9e7b54044cba5884278f7c4b2fcdfce27569272f634f2df09b51a078ec57d32e90cd6bf08ff#npm:0.4.2"],\
+            ["@types/tailwindcss", null],\
+            ["tailwindcss", "virtual:f4b1896499c7eb875b9754199f3e7bff090c28ac5bc276d25388c9e7b54044cba5884278f7c4b2fcdfce27569272f634f2df09b51a078ec57d32e90cd6bf08ff#npm:3.3.1"]\
+          ],\
+          "packagePeers": [\
+            "@types/tailwindcss",\
+            "tailwindcss"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@testing-library/dom", [\
         ["npm:8.20.0", {\
           "packageLocation": "./.yarn/cache/@testing-library-dom-npm-8.20.0-afe79da119-1e599129a2.zip/node_modules/@testing-library/dom/",\
@@ -5355,6 +5377,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@the-game/client", "workspace:workspaces/client"],\
             ["@popperjs/core", "npm:2.11.7"],\
+            ["@tailwindcss/aspect-ratio", "virtual:f4b1896499c7eb875b9754199f3e7bff090c28ac5bc276d25388c9e7b54044cba5884278f7c4b2fcdfce27569272f634f2df09b51a078ec57d32e90cd6bf08ff#npm:0.4.2"],\
             ["@testing-library/jest-dom", "npm:5.16.5"],\
             ["@testing-library/react", "virtual:f4b1896499c7eb875b9754199f3e7bff090c28ac5bc276d25388c9e7b54044cba5884278f7c4b2fcdfce27569272f634f2df09b51a078ec57d32e90cd6bf08ff#npm:13.4.0"],\
             ["@the-game/common", "workspace:workspaces/common"],\
