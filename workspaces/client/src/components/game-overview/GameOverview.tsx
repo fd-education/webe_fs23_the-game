@@ -24,6 +24,7 @@ import {TopDownStack} from './layout/TopDownStack';
 export const GameOverview = () => {
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
+    const user = useRecoilValue(userState);
 
     const [started, setStarted] = useState<boolean>(false);
     const [otherPlayers, setOtherPlayers] = useState<
@@ -36,10 +37,6 @@ export const GameOverview = () => {
     }>();
     const [hasPickupStack, setHasPickupStack] = useState<boolean>(true);
     const [gameMode, setGameMode] = useState<GameMode>(GameMode.CLASSIC);
-    const [players, setPlayers] = useState<Array<{uid: string; name: string}>>(
-        []
-    );
-    const user = useRecoilValue(userState);
 
     useEffect(() => {
         if (!user) {
@@ -51,19 +48,33 @@ export const GameOverview = () => {
             name: string;
             handCards: number[];
         }> = (player: {uid: string; name: string; handCards: number[]}) => {
+            console.log(player);
+
             if (player.uid === user.uid) {
                 setPlayer(player);
                 return;
             }
+        };
 
-            setOtherPlayers((players) => [...players, player]);
+        const onAllPlayers: WsListener<
+            {
+                uid: string;
+                name: string;
+                handCards: number[];
+            }[]
+        > = (players: {uid: string; name: string; handCards: number[]}[]) => {
+            const otherPlayers = players.filter((p) => p.uid !== user.uid);
+            const player = players.filter((p) => p.uid === user.uid)[0];
+
+            console.log(players);
+
+            setOtherPlayers(otherPlayers);
+            setPlayer(player);
         };
 
         if (webSocketState.connected) {
             wsm.registerListener(GameEvent.NEW_PLAYER, onNewPlayer);
-            wsm.registerListener('room', (room) => {
-                console.log(room);
-            });
+            wsm.registerListener(GameEvent.ALL_PLAYERS, onAllPlayers);
         }
 
         // setPlayer({uid: '4', name: 'me', handCards: [2, 3, 4, 77, 78, 79]});
@@ -80,6 +91,7 @@ export const GameOverview = () => {
 
         return () => {
             wsm.removeListener(GameEvent.NEW_PLAYER, onNewPlayer);
+            wsm.removeListener(GameEvent.NEW_PLAYER, onAllPlayers);
         };
     }, []);
 

@@ -9,11 +9,14 @@ import {GlobalPlayerOverview} from '../components/players-overview/GlobalPlayerO
 import useWebSocket from '../hooks/useWebSocket';
 import {refreshAccessToken} from '../services/api';
 import {LobbyChat} from '../components/chat/LobbyChat';
-import {GamesOverview} from '../components/lobby-overview/GamesOverview';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
 import {SmallTitle} from '../components/util/title/SmallTitle';
 import UserService from '../services/profile/user.service';
+
+function GamesOverview() {
+    return null;
+}
 
 export const Lobby: FC = () => {
     const {wsm} = useWebSocket();

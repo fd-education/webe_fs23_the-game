@@ -60,6 +60,7 @@
             "title": "Verfügbare Tische"
         },
         "players": {
+            "others": "Andere",
             "title": {
                 "global": "Global"
             }
