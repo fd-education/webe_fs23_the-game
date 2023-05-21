@@ -4,7 +4,7 @@ import {CardProps} from '../card-utils/cardProps.type';
 
 export const ClassicCard = (props: CardProps) => {
     return props.isFlipped ? (
-        <CardClassicFront value={props.value} />
+        <CardClassicFront {...props} />
     ) : (
         <CardClassicBack />
     );

@@ -4,5 +4,6 @@ export type CardProps = {
     className?: string;
     gameMode?: GameMode;
     isFlipped?: boolean;
+    canDrag: boolean;
     value: number;
 };

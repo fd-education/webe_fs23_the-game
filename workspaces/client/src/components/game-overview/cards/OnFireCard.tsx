@@ -10,8 +10,8 @@ export const OnFireCard = (props: CardProps) => {
     return !props.isFlipped ? (
         <CardOnFireBack />
     ) : specialCards.includes(props.value) ? (
-        <CardOnFireFrontSpecial value={props.value} />
+        <CardOnFireFrontSpecial {...props} />
     ) : (
-        <CardOnFireFrontStandard value={props.value} />
+        <CardOnFireFrontStandard {...props} />
     );
 };

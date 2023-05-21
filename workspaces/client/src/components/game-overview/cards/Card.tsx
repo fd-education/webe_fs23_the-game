@@ -5,8 +5,8 @@ import {OnFireCard} from './OnFireCard';
 
 export const Card = (props: CardProps) => {
     return props.gameMode === GameMode.CLASSIC ? (
-        <ClassicCard value={props.value} isFlipped={props.isFlipped} />
+        <ClassicCard {...props} />
     ) : (
-        <OnFireCard value={props.value} isFlipped={props.isFlipped} />
+        <OnFireCard {...props} />
     );
 };
