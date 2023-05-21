@@ -13,7 +13,12 @@ export const CardOnFireFrontSpecial = (props: CardProps) => {
     }));
 
     return (
-        <div ref={drag} className="h-full w-max">
+        <div
+            ref={drag}
+            className={`h-full w-max ${props.canDrag ? '!cursor-grab' : ''} ${
+                isDragging ? '!cursor-grabbing' : ''
+            }`}
+        >
             <svg
                 viewBox="0 0 240 370"
                 fill="none"
