@@ -4,7 +4,7 @@ export const BigTitle = () => {
     const {t} = useTranslation();
 
     return (
-        <div className="font-title flex flex-col items-center text-black dark:text-white">
+        <div className="font-title flex flex-col items-center text-black dark:text-white select-none">
             <p className="flex flex-row items-center">
                 <span className="text-7xl">THE</span>
                 <span className="text-10xl font-extrabold leading-none">
