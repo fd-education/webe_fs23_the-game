@@ -1,9 +1,14 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
+import {
+    GameCreateDto,
+    GameCreateResponseDto
+} from '@the-game/common/dist/types/game/GameCreateDto';
+import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
 import {Lobby} from '@the-game/common/dist/types/lobby/lobby';
-import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Field, Form, Formik} from 'formik';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
@@ -18,56 +23,33 @@ import useWebSocket from '../../hooks/useWebSocket';
 import {PlusIcon} from '../svg/plus.icon';
 import {Panel} from '../util/panel/Panel';
 
-export const LobbyOverview = () => {
+export const GamesOverview = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {wsm} = useWebSocket();
-    const [lobbies, setLobbies] = useState<Array<Lobby>>([]);
+    const [games, setGames] = useState<Array<GameCreateResponseDto>>([]);
     const user = useRecoilValue(userState);
     const webSocketState = useRecoilValue(websocketState);
 
     useEffect(() => {
-        const onLobbyList: WsListener<Lobby[]> = (lobbyList: Lobby[]) => {
-            setLobbies(lobbyList);
+        const onGameUpdate: WsListener<GameCreateResponseDto[]> = (
+            gamesList: GameCreateResponseDto[]
+        ) => {
+            setGames(gamesList);
         };
 
-        const onNewLobbyCreated: WsListener<Lobby> = (lobby: Lobby) => {
-            setLobbies((currentLobbies: Lobby[]) => {
-                return [...currentLobbies, lobby];
-            });
-        };
-
-        const onUpdateLobby: WsListener<Lobby> = (lobby: Lobby) => {
-            setLobbies((currentLobbies: Lobby[]) => {
-                const index = currentLobbies.findIndex(
-                    (currentLobby: NewLobby) => currentLobby.uid === lobby.uid
-                );
-
-                if (index === -1) return currentLobbies;
-
-                const newLobbies = [...currentLobbies];
-                newLobbies[index] = {...newLobbies[index], ...lobby};
-
-                return newLobbies;
-            });
-        };
-
-        wsm.registerListener(LobbyEvent.LOBBYS, onLobbyList);
-        wsm.registerListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
-        wsm.registerListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
+        wsm.registerListener(GameEvent.GAMES_UPDATE, onGameUpdate);
 
         if (webSocketState.connected) {
             setTimeout(() => {
                 wsm.emit<void>({
-                    event: LobbyEvent.GET_LOBBYS
+                    event: GameEvent.GET_GAMES
                 });
             }, 1);
         }
 
         return () => {
-            wsm.removeListener(LobbyEvent.NEW_LOBBY, onNewLobbyCreated);
-            wsm.removeListener(LobbyEvent.LOBBYS, onLobbyList);
-            wsm.removeListener(LobbyEvent.UPDATE_LOBBY, onUpdateLobby);
+            wsm.removeListener(GameEvent.GET_GAMES, onGameUpdate);
         };
     }, [webSocketState]);
 
@@ -81,14 +63,14 @@ export const LobbyOverview = () => {
         numberOfPlayers: yup.number().min(2).max(5).required()
     });
 
-    const handleCreateTable = (formValues: CreateLobby) => {
+    const handleCreateGame = (formValues: CreateLobby) => {
         if (!user) {
             navigate('/');
             return;
         }
 
-        wsm.emit<CreateLobby>({
-            event: LobbyEvent.CREATE_LOBBY,
+        wsm.emit<GameCreateDto>({
+            event: GameEvent.CREATE_GAME,
             data: {
                 ...formValues,
                 creator: user.uid
@@ -96,17 +78,16 @@ export const LobbyOverview = () => {
         });
     };
 
-    const handleJoinLobby = (uid: string) => {
-        const userUid = UserRepository.getUserId();
-
+    const handleJoinGame = (uid: string) => {
         // TODO: Show error message
-        if (!userUid) return;
+        if (!user) return;
 
-        wsm.emit<JoinLobby>({
-            event: LobbyEvent.JOIN_LOBBY,
+        wsm.emit<GameJoinDto>({
+            event: GameEvent.JOIN_GAME,
             data: {
-                user_uid: userUid,
-                lobby_uid: uid
+                gameUid: uid,
+                userUid: user.uid,
+                userName: user.username
             }
         });
 
@@ -122,27 +103,27 @@ export const LobbyOverview = () => {
 
                 <div className="h-full content-start overflow-y-auto">
                     <div className="flex flex-col space-y-3">
-                        {lobbies.map((lobby: Lobby) => {
+                        {games.map((game: GameCreateResponseDto) => {
                             return (
                                 <div
-                                    key={lobby.uid}
+                                    key={game.uid}
                                     className="rounded-lg p-2 bg-the_game_gray_light"
                                 >
                                     <div className="flex flex-row justify-between items-center">
                                         <p className="font-bold">
-                                            {lobby.mode === GameMode.CLASSIC
+                                            {game.mode === GameMode.CLASSIC
                                                 ? t('game.mode.classic')
                                                 : t('game.mode.onfire')}
                                         </p>
                                         <p>
-                                            {lobby.players.length +
+                                            {game.connectedPlayers +
                                                 ' / ' +
-                                                lobby.numberOfPlayers}
+                                                game.numberOfPlayers}
                                         </p>
                                         <button
                                             className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
                                             onClick={() =>
-                                                handleJoinLobby(lobby.uid)
+                                                handleJoinGame(game.uid)
                                             }
                                         >
                                             {t('lobby.join')}
@@ -161,7 +142,7 @@ export const LobbyOverview = () => {
                 <div className="flex w-full justify-center items-center space-x-10 text-black dark:text-white">
                     <Formik
                         initialValues={initialValues}
-                        onSubmit={handleCreateTable}
+                        onSubmit={handleCreateGame}
                         validationSchema={validationSchema}
                     >
                         <Form className="flex w-full justify-center items-center space-x-10">

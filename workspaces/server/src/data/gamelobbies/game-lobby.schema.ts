@@ -3,10 +3,10 @@ import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {HydratedDocument} from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
-export type GameDocument = HydratedDocument<Game>;
+export type GameLobbyDocument = HydratedDocument<GameLobby>;
 
 @Schema()
-export class Game {
+export class GameLobby {
     @Prop({
         unique: true,
         default: function genUUID() {
@@ -36,4 +36,4 @@ export class Game {
     players: string[];
 }
 
-export const GamesSchema = SchemaFactory.createForClass(Game);
+export const GameLobbiesSchema = SchemaFactory.createForClass(GameLobby);

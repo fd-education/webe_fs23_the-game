@@ -9,7 +9,7 @@ import {GlobalPlayerOverview} from '../components/players-overview/GlobalPlayerO
 import useWebSocket from '../hooks/useWebSocket';
 import {refreshAccessToken} from '../services/api';
 import {LobbyChat} from '../components/chat/LobbyChat';
-import {LobbyOverview} from '../components/lobby-overview/LobbyOverview';
+import {GamesOverview} from '../components/lobby-overview/GamesOverview';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
 import {SmallTitle} from '../components/util/title/SmallTitle';
@@ -77,7 +77,7 @@ export const Lobby: FC = () => {
                 <SmallTitle />
 
                 <div className="w-full h-[65%] px-4">
-                    <LobbyOverview />
+                    <GamesOverview />
                 </div>
 
                 <div className="flex flex-col items-center space-y-6">

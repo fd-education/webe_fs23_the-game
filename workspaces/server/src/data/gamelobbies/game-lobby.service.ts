@@ -6,38 +6,38 @@ import {Lobby} from '@the-game/common/dist/types/lobby/lobby';
 import {NewLobby} from '@the-game/common/dist/types/lobby/newLobby';
 import {Model} from 'mongoose';
 import {LoggerService} from '../../common/logger/logger.service';
-import {Game} from './game.schema';
+import {GameLobby} from './game-lobby.schema';
 
 @Injectable()
-export class GamesService{
+export class GameLobbyService {
     constructor(
-        @InjectModel(Game.name) private gameModel: Model<Game>,
+        @InjectModel(GameLobby.name) private gameLobbyModel: Model<GameLobby>,
         private logger: LoggerService,
     ) {
-        this.logger.setContext(GamesService.name);
+        this.logger.setContext(GameLobbyService.name);
     }
 
-    async create(createGameDto: CreateLobby): Promise<NewLobby> {
-        return await this.gameModel.create(createGameDto);
+    async create(createLobbyDto: CreateLobby): Promise<NewLobby> {
+        return await this.gameLobbyModel.create(createLobbyDto);
     }
 
     async findAll(): Promise<Lobby[]> {
-        return await this.gameModel
+        return await this.gameLobbyModel
             .find()
             .lean()
             .select(['-__v', '-_id']);
     }
 
-    async join(joinGameDto: JoinLobby): Promise<Lobby> {
-        const lobby = await this.gameModel.findOne({uid: joinGameDto.lobby_uid});
+    async join(joinLobby: JoinLobby): Promise<Lobby> {
+        const lobby = await this.gameLobbyModel.findOne({uid: joinLobby.lobby_uid});
 
         if(!lobby) throw new Error('Lobby not found');
         if(lobby.players.length >= lobby.numberOfPlayers) throw new Error('Lobby is full');
-        if(lobby.players.includes(joinGameDto.user_uid)) throw new Error('User already in lobby');
+        if(lobby.players.includes(joinLobby.user_uid)) throw new Error('User already in lobby');
 
-        lobby.players.push(joinGameDto.user_uid);
+        lobby.players.push(joinLobby.user_uid);
 
-        const updatedLobby = await this.gameModel.findOneAndUpdate({uid: joinGameDto.lobby_uid}, lobby, {new: true})
+        const updatedLobby = await this.gameLobbyModel.findOneAndUpdate({uid: joinLobby.lobby_uid}, lobby, {new: true})
         if(!updatedLobby) throw new Error('Lobby not found');
 
         return updatedLobby;

@@ -1,5 +1,3 @@
-// noinspection UnnecessaryLocalVariableJS,ES6ConvertVarToLetConst,JSUnusedAssignment
-
 import { URL as URL$1, fileURLToPath, pathToFileURL } from 'url';
 import fs from 'fs';
 import path from 'path';
