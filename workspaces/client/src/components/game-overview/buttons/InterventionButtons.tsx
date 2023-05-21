@@ -2,7 +2,7 @@ import React from 'react';
 import {useRecoilValue} from 'recoil';
 import userState from '../../../common/states/user.state';
 import useWebSocket from '../../../hooks/useWebSocket';
-import {StackIndex} from '../layout/StackIndex';
+import {StackIndex} from '../layout/utils/StackIndex';
 import {SaveDownButton} from './SaveDownButton';
 import {SaveUpButton} from './SaveUpButton';
 import {StopButton} from './StopButton';

@@ -5,8 +5,8 @@ import {useNavigate} from 'react-router-dom';
 import {useRecoilState} from 'recoil';
 import UserRepository from '../common/localstorage/user.repository';
 import userState from '../common/states/user.state';
-import {GlobalPlayerOverview} from '../components/players-overview/GlobalPlayerOverview';
-import {TablesOverview} from '../components/table-overview/TablesOverview';
+import {TablesView} from '../components/tables/TablesView';
+import {GlobalPlayerView} from '../components/users/GlobalPlayerView';
 import useWebSocket from '../hooks/useWebSocket';
 import {refreshAccessToken} from '../services/api';
 import {LobbyChat} from '../components/chat/LobbyChat';
@@ -14,10 +14,6 @@ import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
 import {SmallTitle} from '../components/util/title/SmallTitle';
 import UserService from '../services/profile/user.service';
-
-function GamesOverview() {
-    return null;
-}
 
 export const Lobby: FC = () => {
     const {wsm} = useWebSocket();
@@ -81,7 +77,7 @@ export const Lobby: FC = () => {
                 <SmallTitle />
 
                 <div className="w-full h-[65%] px-4">
-                    <TablesOverview />
+                    <TablesView />
                 </div>
 
                 <div className="flex flex-col items-center space-y-6">
@@ -97,7 +93,7 @@ export const Lobby: FC = () => {
                 </div>
             </div>
             <div className="flex flex-col justify-around w-full h-screen p-8 space-y-10">
-                <GlobalPlayerOverview />
+                <GlobalPlayerView />
             </div>
         </div>
     );

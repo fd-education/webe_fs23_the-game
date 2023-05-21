@@ -14,7 +14,7 @@ type ActivePlayer = {
     username: string;
 };
 
-export const GlobalPlayerOverview = () => {
+export const GlobalPlayerView = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);

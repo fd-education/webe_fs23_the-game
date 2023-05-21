@@ -1,4 +1,4 @@
-import {StopIcon} from '../button-utils/StopIcon';
+import {StopIcon} from './utils/StopIcon';
 
 type StopButtonProps = {
     onClick: () => void;
