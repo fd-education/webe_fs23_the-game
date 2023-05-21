@@ -51,7 +51,8 @@
             "mode": {
                 "classic": "Classic",
                 "onfire": "On Fire"
-            }
+            },
+            "ready": "Ready to challenge the game?"
         },
         "lobby": {
             "createTable": "Create Table",

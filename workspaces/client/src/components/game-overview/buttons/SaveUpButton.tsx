@@ -1,4 +1,4 @@
-import {SaveUpIcon} from '../button-utils/SaveUpIcon';
+import {SaveUpIcon} from './utils/SaveUpIcon';
 
 type SaveUpButtonProps = {
     onClick: () => void;

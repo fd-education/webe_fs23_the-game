@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {GameChat} from '../components/chat/GameChat';
-import {GameOverview} from '../components/game-overview/GameOverview';
+import {GameView} from '../components/game-overview/GameView';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 
 export const Game: FC = () => {
@@ -22,7 +22,7 @@ export const Game: FC = () => {
                 </div>
             </div>
 
-            <GameOverview />
+            <GameView />
         </div>
     );
 };

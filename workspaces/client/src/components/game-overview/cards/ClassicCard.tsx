@@ -1,6 +1,6 @@
-import {CardClassicBack} from '../card-utils/CardClassicBack';
-import {CardClassicFront} from '../card-utils/CardClassicFront';
-import {CardProps} from '../card-utils/cardProps.type';
+import {CardClassicBack} from './utils/CardClassicBack';
+import {CardClassicFront} from './utils/CardClassicFront';
+import {CardProps} from './utils/cardProps.type';
 
 export const ClassicCard = (props: CardProps) => {
     return props.isFlipped ? (

@@ -1,5 +1,5 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
-import {CardProps} from '../card-utils/cardProps.type';
+import {CardProps} from './utils/cardProps.type';
 import {ClassicCard} from './ClassicCard';
 import {OnFireCard} from './OnFireCard';
 

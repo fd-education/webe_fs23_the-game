@@ -1,4 +1,4 @@
-import {SaveDownIcon} from '../button-utils/SaveDownIcon';
+import {SaveDownIcon} from './utils/SaveDownIcon';
 
 type SaveDownButtonProps = {
     onClick: () => void;
