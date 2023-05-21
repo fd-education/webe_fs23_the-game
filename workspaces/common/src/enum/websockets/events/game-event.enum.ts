@@ -15,4 +15,13 @@ export enum GameEvent {
     JOIN_GAME = 'join-game',
     NEW_PLAYER = 'new-player',
     ALL_PLAYERS = 'all-players',
+
+    // Game Flow
+    START_GAME = 'start-game',
+
+    // Game State
+    GAME_STATE = 'game-state',
+
+    // Hand Cards
+    HAND_CARDS = 'hand-cards',
 }

@@ -52,9 +52,9 @@
                 "classic": "Classic",
                 "onfire": "On Fire"
             },
-            "ready_button": "I'm ready!",
-            "ready_message": "You are ready!",
-            "ready_question": "Ready to challenge the game?"
+            "start": "Start",
+            "start_question": "Would you like to start the game?",
+            "starting": "Starting"
         },
         "lobby": {
             "createTable": "Create Table",

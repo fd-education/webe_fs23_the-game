@@ -13,7 +13,7 @@ import {GameContext} from '../../pages/Game';
 import {StackDirection} from './buttons/InterventionButtons';
 import {OtherPlayersRow} from './layout/OtherPlayersRow';
 import {PlayerRow} from './layout/PlayerRow';
-import {ReadyDialogue} from './layout/ReadyDialogue';
+import {StartDialogue} from './layout/StartDialogue';
 import {StackGroup} from './layout/StackGroup';
 
 export const GameView = () => {
@@ -100,10 +100,14 @@ export const GameView = () => {
 
     return (
         <>
-            <ReadyDialogue
-                display={true}
-                numberOfPlayers={otherPlayers ? otherPlayers.length + 1 : 1}
-            />
+            {user && user.uid === gameContext.creator ? (
+                <StartDialogue
+                    display={true}
+                    numberOfPlayers={otherPlayers ? otherPlayers.length + 1 : 1}
+                />
+            ) : (
+                <></>
+            )}
             <DndProvider backend={HTML5Backend}>
                 <div className="flex flex-col h-full w-[75%] p-8">
                     {otherPlayers ? (

@@ -3,6 +3,7 @@ import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event
 import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
 import React, {FC, useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
+import {string} from 'yup';
 import gameidState from '../common/states/gameid.state';
 import {WsListener} from '../common/websocket/websocket.manager';
 import {GameChat} from '../components/chat/GameChat';
@@ -10,7 +11,14 @@ import {GameView} from '../components/game/GameView';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import useWebSocket from '../hooks/useWebSocket';
 
-export const GameContext = React.createContext({});
+export const GameContext = React.createContext(
+    {} as {
+        gameId: string;
+        creator: string;
+        gameMode: GameMode;
+        numberOfPlayers: number;
+    }
+);
 
 export const Game: FC = () => {
     const gameId = useRecoilValue(gameidState);
@@ -28,8 +36,6 @@ export const Game: FC = () => {
         }
 
         const onGameInfo: WsListener<GameInfoDto> = (gameInfo: GameInfoDto) => {
-            // console.log(gameInfo);
-
             setCreator(gameInfo.creator);
             setGameMode(gameInfo.gameMode);
             setNumberOfPlayers(gameInfo.numberOfPlayers);
