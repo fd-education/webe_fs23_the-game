@@ -4,14 +4,12 @@ export class Player{
     private _uid: string;
     private _username: string;
     private _handCards: number[] = [];
-    private socket: Socket;
 
     private isReady: boolean;
 
-    constructor(uid: string, username: string, socket: Socket){
+    constructor(uid: string, username: string){
         this._uid = uid;
         this._username = username;
-        this.socket = socket;
     }
 
     public setHandCards(cards: number[]){
@@ -24,10 +22,6 @@ export class Player{
 
     public getReady(){
         return this.isReady;
-    }
-
-    public emit(event: string, data: any){
-        this.socket.emit(event, data);
     }
 
     get uid(): string {

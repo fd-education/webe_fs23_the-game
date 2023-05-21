@@ -1,5 +1,4 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
-import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {Player} from './player';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -30,7 +29,6 @@ export class Game{
         if(this._players.length >= this._playerLimit) throw new Error('Game is full');
 
         this._players.push(player);
-        this.announceNewPlayer(player);
     }
 
     public startGame(){
@@ -44,12 +42,6 @@ export class Game{
         this.pullStack = this.generateCards();
         this.dealCards();
 
-    }
-
-    private announceNewPlayer(player: Player){
-        for(let p of this._players){
-            p.emit(GameEvent.NEW_PLAYER, {uid: player.uid, name: player.username, handCards: player.handCards});
-        }
     }
 
     private generateCards(): number[]{

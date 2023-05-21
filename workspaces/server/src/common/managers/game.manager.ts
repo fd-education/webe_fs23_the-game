@@ -38,13 +38,15 @@ export class GameManager{
         return gamesToReturn;
     }
 
-    public addPlayerToGame(gjd: GameJoinDto, socket: Socket){
+    public addPlayerToGame(gjd: GameJoinDto){
         const game = this.openGames.find(game => game.uid === gjd.gameUid);
 
         if(!game) throw new Error('Game not found');
 
-        const player = new Player(gjd.userUid, gjd.userName, socket);
+        const player = new Player(gjd.userUid, gjd.userName);
         game.joinPlayer(player);
+
+        return player;
     }
 
     public startGame(gameId: string){

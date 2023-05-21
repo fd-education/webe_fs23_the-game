@@ -25,6 +25,7 @@ export const GameOverview = () => {
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
 
+    const [started, setStarted] = useState<boolean>(false);
     const [otherPlayers, setOtherPlayers] = useState<
         Array<{uid: string; name: string; handCards: number[]}>
     >([]);
@@ -60,15 +61,18 @@ export const GameOverview = () => {
 
         if (webSocketState.connected) {
             wsm.registerListener(GameEvent.NEW_PLAYER, onNewPlayer);
+            wsm.registerListener('room', (room) => {
+                console.log(room);
+            });
         }
 
+        // setPlayer({uid: '4', name: 'me', handCards: [2, 3, 4, 77, 78, 79]});
+        // setStarted(true);
         // setOtherPlayers([
         //     {uid: '1', name: 'ogplayer98', handCards: [1, 77, 3, 4, 5, 6]},
         //     {uid: '2', name: 'otherfriend', handCards: [1, 2, 3, 33, 5, 6]},
         //     {uid: '3', name: 'afriend', handCards: [1, 11, 3, 4, 5, 6]}
         // ]);
-
-        setPlayer({uid: '4', name: 'me', handCards: [2, 3, 4, 77, 78, 79]});
 
         setGameMode(GameMode.CLASSIC);
 
@@ -156,7 +160,8 @@ export const GameOverview = () => {
                 </div>
 
                 <div className="flex flex-row justify-around h-[26%] px-16 py-4">
-                    {hasPickupStack &&
+                    {started &&
+                        hasPickupStack &&
                         (gameMode === GameMode.CLASSIC ? (
                             <CardClassicBack />
                         ) : (

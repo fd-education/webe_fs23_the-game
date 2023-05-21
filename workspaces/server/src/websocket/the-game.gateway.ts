@@ -143,7 +143,12 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   @SubscribeMessage(GameEvent.JOIN_GAME)
   handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto): void {
-    this.gameManager.addPlayerToGame(gjd, client);
+    this.gameManager.addPlayerToGame(gjd);
+    client.join(gjd.gameUid);
+    client.join(gjd.userUid);
+
+    this.server.to(gjd.gameUid).emit('room', 'hello from room to game');
+    this.server.to(gjd.userUid).emit('room', 'hello from room to player');
 
     this.logger.info(`Player ${gjd.userName} joined game ${gjd.gameUid}`);
 
