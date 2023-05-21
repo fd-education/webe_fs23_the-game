@@ -22,9 +22,8 @@ export const GameView = () => {
     const user = useRecoilValue(userState);
 
     const [started, setStarted] = useState<boolean>(false);
-    const [otherPlayers, setOtherPlayers] = useState<
-        Array<{uid: string; name: string; handCards: number[]}>
-    >([]);
+    const [otherPlayers, setOtherPlayers] =
+        useState<Array<{uid: string; name: string; handCards: number[]}>>();
     const [player, setPlayer] = useState<{
         uid: string;
         name: string;
@@ -46,6 +45,15 @@ export const GameView = () => {
             if (player.uid === user.uid) {
                 setPlayer(player);
                 return;
+            }
+
+            console.log(otherPlayers);
+            console.log(player);
+
+            if (otherPlayers) {
+                setOtherPlayers([...otherPlayers, player]);
+            } else {
+                setOtherPlayers([player]);
             }
         };
 
@@ -91,10 +99,14 @@ export const GameView = () => {
             <ReadyDialogue display={false} />
             <DndProvider backend={HTML5Backend}>
                 <div className="flex flex-col h-full w-[75%] p-8">
-                    <OtherPlayersRow
-                        players={otherPlayers}
-                        gameMode={gameMode}
-                    />
+                    {otherPlayers ? (
+                        <OtherPlayersRow
+                            players={otherPlayers}
+                            gameMode={gameMode}
+                        />
+                    ) : (
+                        <OtherPlayersRow players={[]} gameMode={gameMode} />
+                    )}
 
                     <div className="flex flex-col justify-between h-[55%]">
                         <div className="flex flex-row h-1/2 py-4 space-x-10">
