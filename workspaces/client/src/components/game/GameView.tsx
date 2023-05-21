@@ -1,6 +1,6 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
 import {useTranslation} from 'react-i18next';
@@ -9,6 +9,7 @@ import userState from '../../common/states/user.state';
 import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
+import {GameContext} from '../../pages/Game';
 import {StackDirection} from './buttons/InterventionButtons';
 import {OtherPlayersRow} from './layout/OtherPlayersRow';
 import {PlayerRow} from './layout/PlayerRow';
@@ -20,6 +21,8 @@ export const GameView = () => {
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
     const user = useRecoilValue(userState);
+
+    const gameContext = useContext(GameContext);
 
     const [started, setStarted] = useState<boolean>(false);
     const [otherPlayers, setOtherPlayers] =
@@ -37,6 +40,7 @@ export const GameView = () => {
             // TODO Handle no user
             return;
         }
+
         const onNewPlayer: WsListener<{
             uid: string;
             name: string;
@@ -96,7 +100,10 @@ export const GameView = () => {
 
     return (
         <>
-            <ReadyDialogue display={false} />
+            <ReadyDialogue
+                display={true}
+                numberOfPlayers={otherPlayers ? otherPlayers.length + 1 : 1}
+            />
             <DndProvider backend={HTML5Backend}>
                 <div className="flex flex-col h-full w-[75%] p-8">
                     {otherPlayers ? (

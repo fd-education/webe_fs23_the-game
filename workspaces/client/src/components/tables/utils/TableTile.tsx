@@ -4,7 +4,8 @@ import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreate
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-import {useRecoilValue} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import gameidState from '../../../common/states/gameid.state';
 import userState from '../../../common/states/user.state';
 import useWebSocket from '../../../hooks/useWebSocket';
 
@@ -17,6 +18,8 @@ export const TableTile = (props: TableTileProps) => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
     const user = useRecoilValue(userState);
+    const setGameId = useSetRecoilState(gameidState);
+
     const game = props.game;
 
     const handleJoinGame = (uid: string) => {
@@ -44,6 +47,7 @@ export const TableTile = (props: TableTileProps) => {
                     }
                 });
 
+                setGameId(uid);
                 navigate('/game');
             }
         );

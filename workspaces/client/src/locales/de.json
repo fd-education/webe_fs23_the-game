@@ -52,7 +52,9 @@
                 "classic": "Klassisch",
                 "onfire": "On Fire"
             },
-            "ready": "Bereit das Spiel herauszufordern?"
+            "ready_button": "Ich bin bereit!",
+            "ready_message": "Du bist bereit!",
+            "ready_question": "Bereit das Spiel herauszufordern?"
         },
         "lobby": {
             "createTable": "Tisch erstellen",

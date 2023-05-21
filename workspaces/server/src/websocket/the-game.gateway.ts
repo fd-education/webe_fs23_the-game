@@ -12,6 +12,7 @@ import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-e
 import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {Message} from '@the-game/common/dist/types/chat/message';
 import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
+import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
@@ -163,5 +164,21 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
     client.join(gjd.gameUid);
     this.server.to(gjd.gameUid).emit(GameEvent.ALL_PLAYERS, players);
+  }
+
+  @SubscribeMessage(GameEvent.GAME_INFO)
+  handleGameInfo(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameId: string}) {
+    const game = this.gameManager.getOpenGames().find(g => g.uid === gameUid.gameId);
+
+    if(!game) throw new Error(`Game ${gameUid.gameId} not found`);
+
+    const gameInfo: GameInfoDto = {
+        gameId: game.uid,
+        gameMode: game.mode,
+        creator: game.creator,
+        numberOfPlayers: game.numberOfPlayers,
+    }
+
+    client.emit(GameEvent.GAME_INFO, gameInfo);
   }
 }

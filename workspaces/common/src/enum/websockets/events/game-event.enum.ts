@@ -7,6 +7,9 @@ export enum GameEvent {
     GET_GAMES = 'get-games',
     GAMES_UPDATE = 'games',
 
+    // Game Metadata
+    GAME_INFO = 'game-info',
+
     // Game Joining
     JOIN_REQUEST = 'join-request',
     JOIN_GAME = 'join-game',
