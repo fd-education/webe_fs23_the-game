@@ -11,6 +11,8 @@ export class GameManager{
     private openGames: Game[] = [];
     private runningGames: Game[] = [];
 
+    private playersInGame: Map<string, string> = new Map<string, string>();
+
     constructor(){
 
     }
@@ -38,15 +40,43 @@ export class GameManager{
         return gamesToReturn;
     }
 
+    public validateJoinRequest(gjd: GameJoinDto): void{
+        const game = this.openGames.find(game => game.uid === gjd.gameUid);
+
+        if(!game) throw new Error('Game not found');
+
+        const gameUid = this.playersInGame.get(gjd.userUid);
+        if(gameUid && gameUid != gjd.gameUid) throw new Error('Player already in another game');
+    }
+
     public addPlayerToGame(gjd: GameJoinDto){
         const game = this.openGames.find(game => game.uid === gjd.gameUid);
 
         if(!game) throw new Error('Game not found');
 
-        const player = new Player(gjd.userUid, gjd.userName);
-        game.joinPlayer(player);
+        const gameUid = this.playersInGame.get(gjd.userUid);
+        if(gameUid && gameUid != gjd.gameUid) throw new Error('Player already in another game');
 
-        return player;
+        this.playersInGame.set(gjd.userUid, gjd.gameUid);
+        return game.joinPlayer(new Player(gjd.userUid, gjd.userName));
+    }
+
+    public getPlayersFromGame(gameId: string): any[]{
+        const game = this.openGames.find(game => game.uid === gameId);
+
+        if(!game) throw new Error('Game not found');
+
+        const players = [];
+
+        for(let p of game.players){
+            players.push({
+                uid: p.uid,
+                name: p.username,
+                handCards: p.handCards
+            });
+        }
+
+        return players;
     }
 
     public startGame(gameId: string){

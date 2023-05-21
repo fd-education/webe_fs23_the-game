@@ -24,11 +24,17 @@ export class Game{
     }
 
     public joinPlayer(player: Player){
-        if(this._players.findIndex(p => p.uid === player.uid) !== -1) throw new Error('Player already in game');
         if(this.started) throw new Error('Game already started');
         if(this._players.length >= this._playerLimit) throw new Error('Game is full');
 
+        const playerIndex = this._players.findIndex(p => p.uid === player.uid);
+
+        if(playerIndex !== -1){
+            return this._players[playerIndex];
+        }
+
         this._players.push(player);
+        return player;
     }
 
     public startGame(){

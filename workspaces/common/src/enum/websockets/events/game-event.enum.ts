@@ -8,6 +8,8 @@ export enum GameEvent {
     GAMES_UPDATE = 'games',
 
     // Game Joining
+    JOIN_REQUEST = 'join-request',
     JOIN_GAME = 'join-game',
     NEW_PLAYER = 'new-player',
+    ALL_PLAYERS = 'all-players',
 }

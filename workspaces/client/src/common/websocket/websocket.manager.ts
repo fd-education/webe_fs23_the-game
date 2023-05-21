@@ -28,6 +28,12 @@ export default class WebSocketManager {
         return this;
     }
 
+    emitWithAck<T>(options: WsEmitOptions<T>, callback?): this {
+        this.socket.emit(options.event, options.data, callback);
+
+        return this;
+    }
+
     getSocketId(): string | null {
         if (!this.socket.connected) {
             return null;

@@ -23,7 +23,7 @@ import useWebSocket from '../../hooks/useWebSocket';
 import {PlusIcon} from '../svg/plus.icon';
 import {Panel} from '../util/panel/Panel';
 
-export const GamesOverview = () => {
+export const TablesOverview = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
     const {wsm} = useWebSocket();
@@ -82,16 +82,30 @@ export const GamesOverview = () => {
         // TODO: Show error message
         if (!user) return;
 
-        wsm.emit<GameJoinDto>({
-            event: GameEvent.JOIN_GAME,
-            data: {
-                gameUid: uid,
-                userUid: user.uid,
-                userName: user.username
-            }
-        });
+        wsm.emitWithAck<GameJoinDto>(
+            {
+                event: GameEvent.JOIN_REQUEST,
+                data: {
+                    gameUid: uid,
+                    userUid: user.uid,
+                    userName: user.username
+                }
+            },
+            (success: boolean) => {
+                if (!success) return;
 
-        navigate('/game');
+                wsm.emit<GameJoinDto>({
+                    event: GameEvent.JOIN_GAME,
+                    data: {
+                        gameUid: uid,
+                        userUid: user.uid,
+                        userName: user.username
+                    }
+                });
+
+                navigate('/game');
+            }
+        );
     };
 
     return (

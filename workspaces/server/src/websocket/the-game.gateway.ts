@@ -141,17 +141,28 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     client.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
   }
 
+  @SubscribeMessage(GameEvent.JOIN_REQUEST)
+  handleJoinRequest(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto): boolean {
+    try{
+      this.gameManager.validateJoinRequest(gjd);
+      return true;
+    } catch(e){
+      this.logger.warn(`Player ${gjd.userName} could not join game ${gjd.gameUid}: ${e}`);
+      return false;
+    }
+  }
+
   @SubscribeMessage(GameEvent.JOIN_GAME)
-  handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto): void {
-    this.gameManager.addPlayerToGame(gjd);
-    client.join(gjd.gameUid);
-    client.join(gjd.userUid);
-
-    this.server.to(gjd.gameUid).emit('room', 'hello from room to game');
-    this.server.to(gjd.userUid).emit('room', 'hello from room to player');
-
+  handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto) {
     this.logger.info(`Player ${gjd.userName} joined game ${gjd.gameUid}`);
 
+    const player = this.gameManager.addPlayerToGame(gjd);
+    const players = this.gameManager.getPlayersFromGame(gjd.gameUid);
+
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+    this.server.to(gjd.gameUid).emit(GameEvent.NEW_PLAYER, {uid: player.uid, name: player.username, handCards: player.handCards});
+
+    client.join(gjd.gameUid);
+    client.emit(GameEvent.ALL_PLAYERS, players);
   }
 }
