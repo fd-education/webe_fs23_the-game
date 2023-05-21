@@ -1,7 +1,7 @@
 import {useDrag} from 'react-dnd';
 import {CardProps} from './cardProps.type';
 
-export const CardOnFireFrontStandard = (props: CardProps, key: number) => {
+export const CardOnFireFrontStandard = (props: CardProps) => {
     const [{isDragging}, drag] = useDrag(() => ({
         type: 'Card',
         item: {value: props.value},

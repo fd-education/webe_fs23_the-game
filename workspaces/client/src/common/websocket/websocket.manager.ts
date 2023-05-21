@@ -64,15 +64,12 @@ export default class WebSocketManager {
     }
 
     private onDisconnect(): void {
-        this.socket.on(
-            'disconnect',
-            async (reason: Socket.DisconnectReason) => {
-                this.setWebsocketState((prevState) => ({
-                    ...prevState,
-                    connected: false
-                }));
-            }
-        );
+        this.socket.on('disconnect', async () => {
+            this.setWebsocketState((prevState) => ({
+                ...prevState,
+                connected: false
+            }));
+        });
     }
 
     private onException(): void {

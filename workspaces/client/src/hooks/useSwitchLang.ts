@@ -6,6 +6,7 @@ export default function useSwitchLang(): [string, React.Dispatch<string>] {
     const displayLang = lang === 'en' ? 'de' : 'en';
 
     useEffect(() => {
+        // noinspection JSIgnoredPromiseFromCall
         i18n.changeLanguage(displayLang);
         localStorage.setItem('lang', lang);
     }, [lang, displayLang]);

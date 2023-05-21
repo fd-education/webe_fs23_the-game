@@ -51,6 +51,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
     };
 
     const handleLogout = () => {
+        // noinspection JSIgnoredPromiseFromCall
         AuthService.logout();
         navigate('/login');
     };

@@ -1,5 +1,4 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
-import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useTranslation} from 'react-i18next';

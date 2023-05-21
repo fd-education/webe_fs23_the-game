@@ -1,4 +1,3 @@
-import {CardClassicFront} from '../card-utils/CardClassicFront';
 import {CardOnFireBack} from '../card-utils/CardOnFireBack';
 import {CardOnFireFrontSpecial} from '../card-utils/CardOnFireFrontSpecial';
 import {CardOnFireFrontStandard} from '../card-utils/CardOnFireFrontStandard';

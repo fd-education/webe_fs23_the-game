@@ -7,7 +7,6 @@ import {
 } from '@nestjs/websockets';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
 import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
-import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {Message} from '@the-game/common/dist/types/chat/message';

@@ -13,10 +13,12 @@ export class ChatsService {
     ) {}
 
     async create(chat: Message): Promise<void> {
+        this.logger.debug(`Creating chat: ${JSON.stringify(chat)}`);
         await this.chatModel.create(chat);
     }
 
     async findAll(): Promise<Chat[]> {
+        this.logger.debug(`Finding all chats`);
         return await this.chatModel
             .find({})
             .limit(250)

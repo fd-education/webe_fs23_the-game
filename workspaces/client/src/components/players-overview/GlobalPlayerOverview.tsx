@@ -1,8 +1,5 @@
-import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
-import {PlayerEvent} from '@the-game/common/dist/enum/websockets/events/player-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
-import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
-import {useEffect, useLayoutEffect, useState} from 'react';
+import {useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useRecoilValue} from 'recoil';
 import websocketState from '../../common/states/websocket.state';
