@@ -156,14 +156,12 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   @SubscribeMessage(GameEvent.JOIN_GAME)
   handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto) {
     this.logger.info(`Player ${gjd.userName} joined game ${gjd.gameUid}`);
-
     this.gameManager.addPlayerToGame(gjd);
     const players = this.gameManager.getPlayersFromGame(gjd.gameUid);
+    this.server.to(gjd.gameUid).emit(GameEvent.ALL_PLAYERS, players);
 
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
-
     client.join(gjd.gameUid);
-    this.server.to(gjd.gameUid).emit(GameEvent.ALL_PLAYERS, players);
   }
 
   @SubscribeMessage(GameEvent.GAME_INFO)
@@ -180,5 +178,13 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     }
 
     client.emit(GameEvent.GAME_INFO, gameInfo);
+  }
+
+  @SubscribeMessage(GameEvent.START_GAME)
+  handleStartGame(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameId: string}) {
+    this.logger.info(`Starting game ${gameUid.gameId}`);
+
+    const gameState = this.gameManager.startGame(gameUid.gameId);
+    this.server.to(gameUid.gameId).emit(GameEvent.GAME_STATE, gameState);
   }
 }

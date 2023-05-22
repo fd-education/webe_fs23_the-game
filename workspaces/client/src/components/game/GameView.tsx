@@ -1,5 +1,6 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
+import {GameState, Player} from '@the-game/common/dist/types/game/GameState';
 import React, {useContext, useEffect, useState} from 'react';
 import {DndProvider} from 'react-dnd';
 import {HTML5Backend} from 'react-dnd-html5-backend';
@@ -25,15 +26,11 @@ export const GameView = () => {
     const gameContext = useContext(GameContext);
 
     const [started, setStarted] = useState<boolean>(false);
-    const [otherPlayers, setOtherPlayers] =
-        useState<Array<{uid: string; name: string; handCards: number[]}>>();
-    const [player, setPlayer] = useState<{
-        uid: string;
-        name: string;
-        handCards: number[];
-    }>();
+    const [otherPlayers, setOtherPlayers] = useState<Array<Player>>();
+    const [player, setPlayer] = useState<Player>();
     const [hasPickupStack, setHasPickupStack] = useState<boolean>(true);
     const [gameMode, setGameMode] = useState<GameMode>(GameMode.CLASSIC);
+    const [stacks, setStacks] = useState<number[]>([-1, -1, -1, -1]);
 
     useEffect(() => {
         if (!user) {
@@ -41,12 +38,8 @@ export const GameView = () => {
             return;
         }
 
-        const onNewPlayer: WsListener<{
-            uid: string;
-            name: string;
-            handCards: number[];
-        }> = (player: {uid: string; name: string; handCards: number[]}) => {
-            if (player.uid === user.uid) {
+        const onNewPlayer: WsListener<Player> = (player: Player) => {
+            if (player.playerId === user.uid) {
                 setPlayer(player);
                 return;
             }
@@ -61,25 +54,36 @@ export const GameView = () => {
             }
         };
 
-        const onAllPlayers: WsListener<
-            {
-                uid: string;
-                name: string;
-                handCards: number[];
-            }[]
-        > = (players: {uid: string; name: string; handCards: number[]}[]) => {
-            const otherPlayers = players.filter((p) => p.uid !== user.uid);
-            const player = players.filter((p) => p.uid === user.uid)[0];
+        const onAllPlayers: WsListener<Player[]> = (players: Player[]) => {
+            const otherPlayers = players.filter((p) => p.playerId !== user.uid);
+            const player = players.filter((p) => p.playerId === user.uid)[0];
 
             setOtherPlayers(otherPlayers);
             setPlayer(player);
         };
 
+        const onGameState: WsListener<GameState> = (gameState: GameState) => {
+            console.log(gameState);
+
+            const otherPlayers = gameState.players.filter(
+                (p) => p.playerId !== user.uid
+            );
+            const player = gameState.players.filter(
+                (p) => p.playerId === user.uid
+            )[0];
+
+            setOtherPlayers(otherPlayers);
+            setPlayer(player);
+
+            setStarted(true);
+            setHasPickupStack(gameState.pickupStack > 0);
+        };
+
         if (webSocketState.connected) {
             wsm.registerListener(GameEvent.NEW_PLAYER, onNewPlayer);
             wsm.registerListener(GameEvent.ALL_PLAYERS, onAllPlayers);
+            wsm.registerListener(GameEvent.GAME_STATE, onGameState);
         }
-
         // setPlayer({uid: '4', name: 'me', handCards: [2, 3, 4, 77, 78, 79]});
         // setStarted(true);
         // setOtherPlayers([
@@ -95,12 +99,13 @@ export const GameView = () => {
         return () => {
             wsm.removeListener(GameEvent.NEW_PLAYER, onNewPlayer);
             wsm.removeListener(GameEvent.NEW_PLAYER, onAllPlayers);
+            wsm.removeListener(GameEvent.GAME_STATE, onGameState);
         };
     }, []);
 
     return (
         <>
-            {user && user.uid === gameContext.creator ? (
+            {!started && user && user.uid === gameContext.creator ? (
                 <StartDialogue
                     display={true}
                     numberOfPlayers={otherPlayers ? otherPlayers.length + 1 : 1}
@@ -125,13 +130,15 @@ export const GameView = () => {
                             <StackGroup
                                 stackDirection={StackDirection.DOWN}
                                 stackIndex={1}
-                                currentCard={100}
+                                currentCard={-1}
+                                gameMode={gameMode}
                             />
                             {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.UP}
                                 stackIndex={2}
-                                currentCard={1}
+                                currentCard={-1}
+                                gameMode={gameMode}
                             />
                         </div>
                         <div className="flex flex-row h-1/2 py-4 space-x-10">
@@ -139,13 +146,15 @@ export const GameView = () => {
                             <StackGroup
                                 stackDirection={StackDirection.DOWN}
                                 stackIndex={3}
-                                currentCard={100}
+                                currentCard={-1}
+                                gameMode={gameMode}
                             />
                             {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.UP}
                                 stackIndex={4}
-                                currentCard={1}
+                                currentCard={-1}
+                                gameMode={gameMode}
                             />
                         </div>
                     </div>

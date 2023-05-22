@@ -1,4 +1,4 @@
-class Stack{
+export class Stack{
     private id: number;
     private cards: number[];
     constructor(id: number){

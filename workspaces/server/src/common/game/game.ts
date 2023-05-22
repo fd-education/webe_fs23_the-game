@@ -1,5 +1,7 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {GameState} from '@the-game/common/dist/types/game/GameState';
 import {Player} from './player';
+import {Stack} from './stack';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Game{
@@ -9,7 +11,7 @@ export class Game{
     private _playerLimit: number;
     private _players: Player[];
     private stacks: Stack[];
-    private started = false;
+    private _started = false;
 
     private pullStack: number[];
     private numberOfHandcards: number;
@@ -21,10 +23,11 @@ export class Game{
         this._mode = gameMode;
 
         this._players = [];
+        this.stacks = [];
     }
 
     public joinPlayer(player: Player){
-        if(this.started) throw new Error('Game already started');
+        if(this._started) throw new Error('Game already started');
         if(this._players.length >= this._playerLimit) throw new Error('Game is full');
 
         const playerIndex = this._players.findIndex(p => p.uid === player.uid);
@@ -38,7 +41,7 @@ export class Game{
     }
 
     public startGame(){
-        this.started = true;
+        this._started = true;
         this.numberOfHandcards = this._players.length === 1 ? 8 : this._players.length === 2? 7 : 6;
 
         for(let i = 1; i <= 4; i++){
@@ -47,7 +50,30 @@ export class Game{
 
         this.pullStack = this.generateCards();
         this.dealCards();
+    }
 
+    public getGameState(): GameState {
+        const players = []
+
+        for(let player of this._players){
+            players.push({
+                playerId: player.uid,
+                name: player.username,
+                handCards: player.handCards
+            });
+        }
+
+        return {
+            gameId: this.uid,
+            pickupStack: this.pullStack.length,
+
+            stack1: this.stacks[0].getTopCard(),
+            stack2: this.stacks[1].getTopCard(),
+            stack3: this.stacks[2].getTopCard(),
+            stack4: this.stacks[3].getTopCard(),
+
+            players: players
+        }
     }
 
     private generateCards(): number[]{
@@ -86,5 +112,9 @@ export class Game{
 
     get players(): Player[] {
         return this._players;
+    }
+
+    get started(): boolean {
+        return this._started;
     }
 }

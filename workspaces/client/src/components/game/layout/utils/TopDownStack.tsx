@@ -1,34 +1,9 @@
-import {useDrop} from 'react-dnd';
-
-type TopDownStackProps = {
-    index: number;
-    currentCard: number;
-};
-
-export const TopDownStack = (props: TopDownStackProps) => {
-    const [{isOver}, drop] = useDrop(() => ({
-        accept: 'Card',
-        drop: (item: {value: number}) => {
-            // TODO: Implement drop logic
-            console.log(`Dropped ${item.value} to stack ${props.index}`);
-        },
-        canDrop: (item: {value: number}) =>
-            canDropCard(item.value, props.currentCard),
-        collect: (monitor) => ({
-            isOver: monitor.isOver(),
-            canDrop: monitor.canDrop()
-        })
-    }));
-
-    const canDropCard = (cardValue: number, stackValue: number) => {
-        return cardValue < stackValue || cardValue === stackValue + 10;
-    };
-
+export const TopDownStack = () => {
     return (
         <svg
-            ref={drop}
+            className="h-full w-max"
             viewBox="0 0 240 370"
-            fill={isOver ? '#FFFFFF' : 'none'}
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
         >
             <g clipPath="url(#clip0_24_5524)">

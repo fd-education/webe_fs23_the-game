@@ -72,8 +72,7 @@ export const Game: FC = () => {
                         <PreferenceToggles
                             togglesToDisplay={{
                                 screenMode: true,
-                                language: true,
-                                home: true
+                                language: true
                             }}
                         />
                     </div>

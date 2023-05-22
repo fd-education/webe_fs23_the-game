@@ -7,14 +7,15 @@ export type GameState = {
     stack3: number | null;
     stack4: number | null;
 
-    handUpdate: HandUpdate[];
+    players: Player[];
 }
 
 export type HandCards = {
     handCards: number[];
 }
 
-export type HandUpdate = {
+export type Player = {
     playerId: string;
-    handCards: number;
+    name: string;
+    handCards: number[];
 }

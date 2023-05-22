@@ -86,6 +86,24 @@ export class GameManager{
 
         gameToStart.startGame();
         this.runningGames.push(gameToStart);
+
+        return gameToStart.getGameState();
+    }
+
+    public getGameState(gameId: string){
+        const game = this.runningGames.find(game => game.uid === gameId);
+
+        if(!game) throw new Error('Game not found');
+
+        return game.getGameState();
+    }
+
+    public isPlayerInRunningGame(playerId: string): string | undefined{
+        const game =  this.runningGames.find(game => game.players.some(player => player.uid === playerId));
+
+        if(!game) return '';
+
+        return game.uid;
     }
 }
 
