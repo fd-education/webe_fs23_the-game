@@ -5,6 +5,7 @@ import {useNavigate} from 'react-router-dom';
 import {useRecoilState} from 'recoil';
 import UserRepository from '../common/localstorage/user.repository';
 import userState from '../common/states/user.state';
+import websocketState from '../common/states/websocket.state';
 import {TablesView} from '../components/tables/TablesView';
 import {GlobalPlayerView} from '../components/users/GlobalPlayerView';
 import useWebSocket from '../hooks/useWebSocket';
@@ -16,9 +17,10 @@ import {SmallTitle} from '../components/util/title/SmallTitle';
 import UserService from '../services/profile/user.service';
 
 export const Lobby: FC = () => {
-    const {wsm} = useWebSocket();
+    const {wsm, websocket} = useWebSocket();
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
+    const webSocketState = useWebSocket();
 
     const refreshAccessTokenCallback = useCallback(async () => {
         await refreshAccessToken();
@@ -57,8 +59,10 @@ export const Lobby: FC = () => {
             });
         };
 
-        refreshAccessTokenCallback().catch(console.error);
-        wsm.connect();
+        if (!websocket.connected) {
+            refreshAccessTokenCallback().catch(console.error);
+            wsm.connect();
+        }
 
         wsm.registerListener('connect', announceUser);
 
