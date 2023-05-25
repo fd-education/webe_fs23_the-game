@@ -15,8 +15,8 @@ module.exports = {
                 shadowLight: 'rgba(239, 224, 239, 0.33)',
 
                 primaryDark: '#3D3A3A',
-                secondaryDark: '#3A3737',
-                shadowDark: 'rgba(33,33,33,0.25)',
+                secondaryDark: 'rgba(58,55,55,0)',
+                shadowDark: 'rgba(33,33,33,0)',
 
                 the_game_purple: '#6B4EFF',
                 the_game_darkPurple: '#6f65a0',
@@ -43,7 +43,8 @@ module.exports = {
                 '6': '4rem',
             },
             boxShadow: {
-                around: '0 0 7px 11px',
+                'dark-around': '12px 12px 29px #2e2c2c, -12px -12px 29px #464242;',
+                'light-around': '12px 12px 29px #e2d6d6, -12px -12px 29px #fff6f6;'
             },
             borderRadius: {
                 '2lg': '1rem'

@@ -8,7 +8,7 @@ interface PanelProps {
 export const Panel = (props: PanelProps) => {
     return (
         <div
-            className={`flex flex-col bg-secondaryLight dark:bg-secondaryDark h-full w-full rounded-2lg shadow p-3 ${props.className}`}
+            className={`flex flex-col shadow-light-around dark:shadow-dark-around h-full w-full rounded-2lg p-3 ${props.className}`}
         >
             {props.children}
         </div>
