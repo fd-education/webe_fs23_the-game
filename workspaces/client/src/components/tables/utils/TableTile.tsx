@@ -8,6 +8,7 @@ import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import gameidState from '../../../common/states/gameid.state';
 import userState from '../../../common/states/user.state';
 import useWebSocket from '../../../hooks/useWebSocket';
+import {TrashIcon} from '../../svg/trash.icon';
 
 type TableTileProps = {
     game: GameCreateResponseDto;
@@ -53,6 +54,10 @@ export const TableTile = (props: TableTileProps) => {
         );
     };
 
+    const handleDeleteLobby = (uid: any) => {
+        console.log('Delete Lobby' + uid);
+    };
+
     return (
         <div key={game.uid} className="rounded-lg p-2 bg-the_game_gray_light">
             <div className="flex flex-row justify-between items-center">
@@ -62,12 +67,21 @@ export const TableTile = (props: TableTileProps) => {
                         : t('game.mode.onfire')}
                 </p>
                 <p>{game.connectedPlayers + ' / ' + game.numberOfPlayers}</p>
-                <button
-                    className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
-                    onClick={() => handleJoinGame(game.uid)}
-                >
-                    {t('lobby.join')}
-                </button>
+
+                <div className="flex flex-row space-x-4 mx-2">
+                    <button
+                        className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
+                        onClick={() => handleJoinGame(game.uid)}
+                    >
+                        {t('lobby.join')}
+                    </button>
+
+                    {game.creator === user?.uid && (
+                        <button onClick={() => handleDeleteLobby(game.uid)}>
+                            <TrashIcon />
+                        </button>
+                    )}
+                </div>
             </div>
         </div>
     );
