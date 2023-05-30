@@ -49,26 +49,13 @@ export const Lobby: FC = () => {
             return;
         }
 
-        const announceUser = () => {
-            wsm.emit<UserAnnouncement>({
-                event: SystemEvent.ANNOUNCE_USER,
-                data: {
-                    uid: user.uid,
-                    username: user.username
-                }
-            });
-        };
-
-        if (!websocket.connected) {
-            refreshAccessTokenCallback().catch(console.error);
-            wsm.connect();
-        }
-
-        wsm.registerListener('connect', announceUser);
-
-        return () => {
-            wsm.removeListener('connect', announceUser);
-        };
+        wsm.emit<UserAnnouncement>({
+            event: SystemEvent.ANNOUNCE_USER,
+            data: {
+                uid: user.uid,
+                username: user.username
+            }
+        });
     }, []);
 
     return (

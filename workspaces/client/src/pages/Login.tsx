@@ -1,13 +1,16 @@
 import {SignInPayload} from '@the-game/common/dist/types/auth/signInPayload';
 import {useTranslation} from 'react-i18next';
 import {useSetRecoilState} from 'recoil';
+import TokenRepository from '../common/localstorage/token.repository';
+import UserRepository from '../common/localstorage/user.repository';
+import accessTokenState from '../common/states/accessToken.state';
 import userState from '../common/states/user.state';
 import {loginValidationSchema} from '../services/validation/login.validation';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
 import {FloatingLabelInput} from '../components/util/input/FloatingLabelInput';
 import {Form, Formik} from 'formik';
-import React, {FC, useCallback} from 'react';
+import React, {FC, useCallback, useEffect} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import AuthService from '../services/auth/auth.service';
 import {BigTitle} from '../components/util/title/BigTitle';
@@ -18,15 +21,23 @@ export const Login: FC = () => {
     const [loading, setLoading] = React.useState(false);
     const [message, setMessage] = React.useState('');
     const setUser = useSetRecoilState(userState);
+    const setAccessToken = useSetRecoilState(accessTokenState);
+
+    useEffect(() => {
+        UserRepository.removeUser();
+        UserRepository.removeUserId();
+        TokenRepository.removeTokens();
+    }, []);
 
     const loginCallback = useCallback(async (signInPayload: SignInPayload) => {
-        const user = await AuthService.login(signInPayload);
+        const [user, accessToken] = await AuthService.login(signInPayload);
 
-        if (!user) {
+        if (!user || !accessToken) {
             setMessage('Invalid credentials');
             return;
         }
 
+        setAccessToken(accessToken);
         setUser(user);
         navigate('/lobby');
     }, []);

@@ -9,22 +9,26 @@ import UserRepository from '../../common/localstorage/user.repository';
 import authInterceptor from '../api';
 
 class AuthService {
-    async login(loginPayload: SignInPayload) {
+    async login(
+        loginPayload: SignInPayload
+    ): Promise<[User | null, string | null]> {
         const userResponse = await authInterceptor.post(
             '/auth/signin',
             loginPayload
         );
 
-        if (userResponse.data.accessToken) {
+        if (userResponse.data.accessToken && userResponse.data.user) {
             TokenRepository.setAccessToken(userResponse.data.accessToken);
             TokenRepository.setRefreshToken(userResponse.data.refreshToken);
-        }
-
-        if (userResponse.data.user) {
             UserRepository.setUserId(userResponse.data.user.uid);
 
-            return userResponse.data.user as User;
+            return [
+                userResponse.data.user as User,
+                userResponse.data.accessToken as string
+            ];
         }
+
+        return [null, null];
     }
 
     async logout() {
