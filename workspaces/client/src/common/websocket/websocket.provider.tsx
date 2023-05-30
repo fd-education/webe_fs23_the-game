@@ -1,6 +1,6 @@
 import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {createContext, ReactNode, useEffect} from 'react';
-import {useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import io from 'socket.io-client';
 import useWebSocket from '../../hooks/useWebSocket';
 import {config} from '../config/config';
@@ -14,11 +14,7 @@ const socketManager = new WebSocketManager(
     io(config.backendUrl + '/' + WebsocketNamespace.THE_GAME, {
         port: 9000,
         autoConnect: false,
-        transports: ['websocket'],
-        withCredentials: true,
-        auth: {
-            token: TokenRepository.getAccessToken()
-        }
+        transports: ['websocket']
     })
 );
 
@@ -35,10 +31,10 @@ export function WebsocketProvider({
     socketManager.setWebsocketState = useSetRecoilState(websocketState);
 
     const {wsm, websocket} = useWebSocket();
-    const accessToken = useRecoilValue(accessTokenState);
+    const [user] = useRecoilState(userState);
 
     useEffect(() => {
-        if (!accessToken) {
+        if (!user) {
             return;
         }
 
@@ -47,7 +43,7 @@ export function WebsocketProvider({
         return () => {
             wsm.disconnect();
         };
-    }, [accessTokenState]);
+    }, [user]);
 
     return (
         <WebsocketProviderCtx.Provider value={socketManager}>

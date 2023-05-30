@@ -57,6 +57,13 @@ export class AuthController {
     }
   }
 
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('validate')
+  async validateAccessToken(@Body() uid: string) {
+    this.logger.log(`Validating access token for user: ${uid}`)
+  }
+
   @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @Post('refresh')

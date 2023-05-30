@@ -23,7 +23,6 @@ import { LoggerService } from '../common/logger/logger.service';
 import {ChatsService} from '../data/chats/chats.service';
 import {Server, Socket} from 'socket.io';
 import {GameLobbyService} from '../data/gamelobbies/game-lobby.service';
-import {JwtVerifyService} from '../security/jwt/jwt.service';
 
 @WebSocketGateway({
   namespace: WebsocketNamespace.THE_GAME,
@@ -38,7 +37,6 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   constructor(
       private logger: LoggerService,
-      private jwtVerifyService: JwtVerifyService,
       private gamesLobbyService: GameLobbyService,
       private chatsService: ChatsService,
       private lobbyManager: LobbyManager,
@@ -49,24 +47,6 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   async handleConnection(client: any, ...args: any[]): Promise<any> {
     this.logger.info(`Client ${client.id} connected to ${WebsocketNamespace.THE_GAME}-namespace`);
-
-    try{
-      const verifiedToken = await this.jwtVerifyService.verify(client.handshake.auth.token);
-      if(!verifiedToken) {
-        this.logger.warn(`Client ${client.id} has no valid token and will be disconnected`);
-
-        client.send(`${SystemEvent.UNAUTHORIZED}`);
-        return client.disconnect();
-      } else {
-        client.send(`${SystemEvent.AUTHORIZED}`);
-        this.logger.info(`Client ${client.id} has valid token and is connected`);
-      }
-    } catch(err: any){
-      this.logger.warn(`Client ${client.id} has no valid token: ${err}`);
-
-      client.send(SystemEvent.UNAUTHORIZED.toString());
-      return client.disconnect();
-    }
   }
 
   async handleDisconnect(client: any): Promise<any> {

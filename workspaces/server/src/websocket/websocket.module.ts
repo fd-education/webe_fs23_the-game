@@ -12,6 +12,6 @@ import { LoggerService } from '../common/logger/logger.service';
 
 @Module({
   imports: [ConfigModule, OwnJwtModule, UsersModule, GameLobbiesModule, ChatsModule],
-  providers: [TheGameGateway, LoggerService, JwtVerifyService, LobbyManager, GameManager],
+  providers: [TheGameGateway, LoggerService, LobbyManager, GameManager],
 })
 export class WebsocketModule {}

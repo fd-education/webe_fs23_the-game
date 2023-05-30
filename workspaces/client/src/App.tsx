@@ -4,6 +4,7 @@ import {LobbyChat} from './components/chat/LobbyChat';
 import React, {FC, useEffect} from 'react';
 
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import ProtectedRoute from './components/util/routes/ProtectedRoute';
 import useWebSocket from './hooks/useWebSocket';
 import {Game} from './pages/Game';
 import {Lobby} from './pages/Lobby';
@@ -17,8 +18,6 @@ import {Login} from './pages/Login';
 import PreferenceService from './services/preference/preference.service';
 
 const App: FC = () => {
-    const {wsm} = useWebSocket();
-
     useEffect(() => {
         const user = AuthService.getCurrentUser();
         if (user) {
@@ -28,10 +27,6 @@ const App: FC = () => {
             PreferenceService.setLanguage(Lang.default);
             PreferenceService.setTheme(Theme.default);
         }
-
-        return () => {
-            wsm.disconnect();
-        };
     }, []);
 
     return (
@@ -46,10 +41,38 @@ const App: FC = () => {
                         path={'/reset-password'}
                         element={<ResetPassword />}
                     />
-                    <Route path={'/profile'} element={<Profile />} />
-                    <Route path={'/lobby'} element={<Lobby />} />
-                    <Route path={'/game'} element={<Game />} />
-                    <Route path={'/chat'} element={<LobbyChat />} />
+                    <Route
+                        path={'/profile'}
+                        element={
+                            <ProtectedRoute>
+                                <Profile />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={'/lobby'}
+                        element={
+                            <ProtectedRoute>
+                                <Lobby />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={'/game'}
+                        element={
+                            <ProtectedRoute>
+                                <Game />
+                            </ProtectedRoute>
+                        }
+                    />
+                    <Route
+                        path={'/chat'}
+                        element={
+                            <ProtectedRoute>
+                                <LobbyChat />
+                            </ProtectedRoute>
+                        }
+                    />
                 </Routes>
             </div>
         </div>
