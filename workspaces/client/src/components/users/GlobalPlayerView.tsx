@@ -61,6 +61,9 @@ export const GlobalPlayerView = () => {
                 <div className="flex flex-col space-y-3">
                     {player && (
                         <>
+                            <div className="divider font-title font-bold text-black dark:text-white dark:before:bg-the_game_gray dark:after:bg-the_game_gray">
+                                {t('players.yourself')}
+                            </div>
                             <div
                                 key={player.uid}
                                 className="flex flex-row items-center justify-start space-x-4 rounded-lg p-2 my-2 bg-green-200"
