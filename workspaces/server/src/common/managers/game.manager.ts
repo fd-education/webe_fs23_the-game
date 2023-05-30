@@ -24,6 +24,14 @@ export class GameManager{
         return game;
     }
 
+    public deleteGame(gameId: string): void{
+        const gameToDelete = this.openGames.find(game => game.uid === gameId);
+
+        if(!gameToDelete) throw new Error('Game not found');
+
+        this.openGames = this.openGames.filter(game => game.uid !== gameId);
+    }
+
     public getOpenGames(): GameCreateResponseDto[]{
         const gamesToReturn = [];
 

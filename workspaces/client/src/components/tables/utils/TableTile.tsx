@@ -1,6 +1,7 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
+import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
@@ -54,8 +55,22 @@ export const TableTile = (props: TableTileProps) => {
         );
     };
 
-    const handleDeleteLobby = (uid: any) => {
-        console.log('Delete Lobby' + uid);
+    const handleDeleteLobby = (uid: string) => {
+        wsm.emitWithAck<GameDeleteDto>(
+            {
+                event: GameEvent.DELETE_GAME,
+                data: {
+                    gameUid: uid
+                }
+            },
+            (success: boolean) => {
+                if (success) return;
+                else {
+                    // TODO Handle Error on Game Deletion
+                    console.log('Game could not be deleted');
+                }
+            }
+        );
     };
 
     return (

@@ -1,6 +1,7 @@
 export enum GameEvent {
     // Game Creation
     CREATE_GAME = 'create-game',
+    DELETE_GAME = 'delete-game',
     NEW_GAME = 'new-game',
 
     // Game Listing

@@ -12,6 +12,7 @@ import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-e
 import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {Message} from '@the-game/common/dist/types/chat/message';
 import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
+import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
@@ -114,6 +115,21 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     this.logger.info(`Creating game for mode ${gcd.mode} with ${gcd.numberOfPlayers} players`);
 
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+  }
+
+  @SubscribeMessage(GameEvent.DELETE_GAME)
+  handleDeleteGame(@MessageBody() gdd: GameDeleteDto): boolean {
+    try{
+      this.gameManager.deleteGame(gdd.gameUid);
+      this.logger.info(`Deleting game ${gdd.gameUid}`);
+
+      this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+
+      return true;
+    } catch(e){
+      this.logger.warn(`Could not delete game ${gdd.gameUid}: ${e}`);
+      return false;
+    }
   }
 
   @SubscribeMessage(GameEvent.GET_GAMES)
