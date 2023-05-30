@@ -28,7 +28,7 @@ export const StartDialogue = (props: StartDialogProps) => {
     };
 
     return props.display ? (
-        <div className="flex flex-col items-center p-8 rounded-2xl shadow dark:shadow-shadowDark shadow-shadowLight absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50 bg-secondaryLight dark:bg-secondaryDark">
+        <div className="flex flex-col items-center p-8 rounded-2xl dark:shadow-dark-around shadow-light-around absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50 bg-secondaryLight dark:bg-secondaryDark">
             <p className="font-title font-bold text-lg text-black dark:text-white">
                 {t('game.start_question')}
             </p>

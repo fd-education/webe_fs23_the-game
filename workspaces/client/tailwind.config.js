@@ -15,7 +15,7 @@ module.exports = {
                 shadowLight: 'rgba(239, 224, 239, 0.33)',
 
                 primaryDark: '#3D3A3A',
-                secondaryDark: 'rgba(58,55,55,0)',
+                secondaryDark: 'rgb(58,55,55)',
                 shadowDark: 'rgba(33,33,33,0)',
 
                 the_game_purple: '#6B4EFF',
