@@ -27,4 +27,6 @@ export enum GameEvent {
     HAND_CARDS = 'hand-cards',
 
     LAY_CARD = 'lay-card',
+
+    END_ROUND = 'end-round',
 }

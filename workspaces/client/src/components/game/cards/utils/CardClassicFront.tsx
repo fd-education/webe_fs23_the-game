@@ -1,7 +1,7 @@
 import {useDrag} from 'react-dnd';
-import {CardProps} from './cardProps.type';
+import {CardFrontProps} from './cardFrontProps.type';
 
-export const CardClassicFront = (props: CardProps) => {
+export const CardClassicFront = (props: CardFrontProps) => {
     const [{isDragging}, drag] = useDrag(
         () => ({
             type: 'Card',

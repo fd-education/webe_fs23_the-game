@@ -2,6 +2,7 @@ import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
 import React, {FC, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
 import {string} from 'yup';
 import gameidState from '../common/states/gameid.state';
@@ -22,6 +23,7 @@ export const GameContext = React.createContext(
 
 export const Game: FC = () => {
     const gameId = useRecoilValue(gameidState);
+    const navigate = useNavigate();
     const {wsm} = useWebSocket();
     const webSocketState = useWebSocket();
 
@@ -32,6 +34,7 @@ export const Game: FC = () => {
     useEffect(() => {
         if (!gameId) {
             // TODO Handle no game id
+            navigate('/lobby');
             return;
         }
 

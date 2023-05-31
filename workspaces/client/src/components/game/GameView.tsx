@@ -112,13 +112,11 @@ export const GameView = () => {
 
     return (
         <>
-            {!started && user && user.uid === gameContext.creator ? (
+            {!started && user && user.uid === gameContext.creator && (
                 <StartDialogue
                     display={true}
                     numberOfPlayers={otherPlayers ? otherPlayers.length + 1 : 1}
                 />
-            ) : (
-                <></>
             )}
             <DndProvider backend={HTML5Backend}>
                 <div className="flex flex-col h-full w-[75%] p-8">
@@ -133,14 +131,12 @@ export const GameView = () => {
 
                     <div className="flex flex-col justify-between h-[55%]">
                         <div className="flex flex-row h-1/2 py-4 space-x-10">
-                            {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.DOWN}
                                 stackIndex={1}
                                 currentCard={stacks[0]}
                                 gameMode={gameMode}
                             />
-                            {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.UP}
                                 stackIndex={2}
@@ -149,14 +145,12 @@ export const GameView = () => {
                             />
                         </div>
                         <div className="flex flex-row h-1/2 py-4 space-x-10">
-                            {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.DOWN}
                                 stackIndex={3}
                                 currentCard={stacks[2]}
                                 gameMode={gameMode}
                             />
-                            {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.UP}
                                 stackIndex={4}

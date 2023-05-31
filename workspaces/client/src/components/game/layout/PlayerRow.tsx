@@ -12,14 +12,25 @@ type PlayerRowProps = {
 };
 
 export const PlayerRow = (props: PlayerRowProps) => {
+    const handleEndRound = () => {
+        // TODO
+        console.log('End round');
+    };
+
     return (
         <div className="flex flex-row justify-around h-[26%] px-16 py-4">
             {props.started &&
                 props.hasPickupStack &&
                 (props.gameMode === GameMode.CLASSIC ? (
-                    <CardClassicBack />
+                    <CardClassicBack
+                        onClick={handleEndRound}
+                        className="hover:cursor-pointer"
+                    />
                 ) : (
-                    <CardOnFireBack />
+                    <CardOnFireBack
+                        onClick={handleEndRound}
+                        className="hover:cursor-pointer"
+                    />
                 ))}
 
             {props.player && (

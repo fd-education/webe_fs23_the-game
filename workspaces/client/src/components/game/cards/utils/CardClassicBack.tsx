@@ -1,9 +1,13 @@
-export const CardClassicBack = () => {
+import {CardBackProps} from './cardBackProps.type';
+
+export const CardClassicBack = (props: CardBackProps) => {
     return (
         <svg
             viewBox="0 0 240 370"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            onClick={props.onClick}
+            className={props.className}
         >
             <g clipPath="url(#clip0_18_3752)">
                 <rect width="240" height="370" rx="10" fill="black" />
