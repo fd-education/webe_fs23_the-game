@@ -117,9 +117,6 @@ export class Game{
         const hasPullStackCondition = this.pullStack.length > 0 && this.cardsLaidInRound >= 2;
         const noPullStackCondition = this.pullStack.length === 0 && this.cardsLaidInRound >= 1;
 
-        console.log('Pull Stack: ' + this.pullStack.length);
-        console.log('Cards Laid: ' + this.cardsLaidInRound);
-
         return !this.isNewRound && (hasPullStackCondition || noPullStackCondition);
     }
 
