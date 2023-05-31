@@ -1,4 +1,10 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
+import {GameRoundEndDto} from '@the-game/common/dist/types/game/GameRoundEndDto';
+import {useRecoilValue} from 'recoil';
+import gameidState from '../../../common/states/gameid.state';
+import userState from '../../../common/states/user.state';
+import useWebSocket from '../../../hooks/useWebSocket';
 import {Card} from '../cards/Card';
 import {CardClassicBack} from '../cards/utils/CardClassicBack';
 import {CardOnFireBack} from '../cards/utils/CardOnFireBack';
@@ -12,9 +18,30 @@ type PlayerRowProps = {
 };
 
 export const PlayerRow = (props: PlayerRowProps) => {
+    const {wsm} = useWebSocket();
+    const user = useRecoilValue(userState);
+    const gameId = useRecoilValue(gameidState);
+
     const handleEndRound = () => {
+        if (!user) return;
+        if (!gameId) return;
+
         // TODO
         console.log('End round');
+        wsm.emitWithAck<GameRoundEndDto>(
+            {
+                event: GameEvent.END_ROUND,
+                data: {
+                    gameUid: gameId,
+                    userUid: user.uid
+                }
+            },
+            (success) => {
+                if (!success) {
+                    console.log('Failed to end round');
+                }
+            }
+        );
     };
 
     return (
@@ -42,7 +69,7 @@ export const PlayerRow = (props: PlayerRowProps) => {
                                     gameMode={props.gameMode}
                                     value={card}
                                     isFlipped={true}
-                                    canDrag={true}
+                                    canDrag={props.isAtTurn}
                                     key={index}
                                 />
                             </div>

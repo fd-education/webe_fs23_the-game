@@ -6,16 +6,22 @@ import {Stack} from './stack';
 import { v4 as uuidv4 } from 'uuid';
 
 export class Game{
-    private _uid: string;
-    private _creator: string;
-    private _mode: GameMode;
-    private _playerLimit: number;
-    private _players: Player[];
-    private stacks: Stack[];
-    private _started = false;
+    private readonly _uid: string;
+    private readonly _creator: string;
+    private readonly _mode: GameMode;
+    private readonly _playerLimit: number;
+    private readonly _players: Player[];
+    private readonly stacks: Stack[];
+    private _started: boolean = false;
 
     private pullStack: number[];
     private numberOfHandcards: number;
+
+    private isNewRound: boolean;
+    private cardsLaidInRound: number;
+    private roundCounter: number;
+
+    private playerAtTurn: string;
 
     constructor(creator: string, gameMode: GameMode, playerLimit: number){
         this._uid = uuidv4();
@@ -50,6 +56,10 @@ export class Game{
         this.stacks.push(new Stack(2, StackDirection.DOWN));
         this.stacks.push(new Stack(3, StackDirection.UP));
 
+        this.roundCounter = 0;
+        this.cardsLaidInRound = 0;
+        this.isNewRound = true;
+
         this.pullStack = this.generateCards();
         this.dealCards();
     }
@@ -67,12 +77,18 @@ export class Game{
 
         return {
             gameId: this.uid,
+            gameMode: this._mode,
+
             pickupStack: this.pullStack.length,
 
             stack1: this.stacks[0].getTopCard(),
             stack2: this.stacks[1].getTopCard(),
             stack3: this.stacks[2].getTopCard(),
             stack4: this.stacks[3].getTopCard(),
+
+            canRoundEnd: this.canRoundEnd(),
+
+            playerAtTurn: this._players[this.roundCounter % this._players.length].uid,
 
             players: players
         }
@@ -90,10 +106,48 @@ export class Game{
         const stack = this.stacks[stackIndex];
         if(!stack.canLayCard(card)) throw new Error('Invalid card for stack');
 
+        this.cardsLaidInRound++;
+        this.isNewRound = false;
+
         stack.addCard(card);
         player.removeCard(card);
+    }
 
-        console.log(player.handCards);
+    public canRoundEnd(): boolean{
+        const hasPullStackCondition = this.pullStack.length > 0 && this.cardsLaidInRound >= 2;
+        const noPullStackCondition = this.pullStack.length === 0 && this.cardsLaidInRound >= 1;
+
+        console.log('Pull Stack: ' + this.pullStack.length);
+        console.log('Cards Laid: ' + this.cardsLaidInRound);
+
+        return !this.isNewRound && (hasPullStackCondition || noPullStackCondition);
+    }
+
+    public endRoundOfPlayer(playerUid: string){
+        if(!this.canRoundEnd()) throw new Error('Round cannot end');
+
+        if(this.isGameOver()){
+            // TODO Handle Game Over
+        }
+
+        const player = this._players.find(p => p.uid === playerUid);
+        if(!player) throw new Error('Player not in game');
+
+        const remainingCards = player.handCards;
+        const newCards = this.pullStack.splice(0, this.numberOfHandcards - remainingCards.length);
+        player.setHandCards(remainingCards.concat(newCards));
+
+        this.cardsLaidInRound = 0;
+        this.roundCounter++;
+        this.isNewRound = true;
+
+        return this.getGameState();
+    }
+
+    private isGameOver(): boolean{
+        // TODO check if game is over
+
+        return false;
     }
 
     private generateCards(): number[]{

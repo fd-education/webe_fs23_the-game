@@ -31,6 +31,8 @@ export const GameView = () => {
     const [hasPickupStack, setHasPickupStack] = useState<boolean>(true);
     const [gameMode, setGameMode] = useState<GameMode>(GameMode.CLASSIC);
     const [stacks, setStacks] = useState<number[]>([-1, -1, -1, -1]);
+    const [isAtTurn, setIsAtTurn] = useState<boolean>(false);
+    const [canEndRound, setCanEndRound] = useState<boolean>(false);
 
     useEffect(() => {
         if (!user) {
@@ -77,6 +79,10 @@ export const GameView = () => {
 
             setStarted(true);
             setHasPickupStack(gameState.pickupStack > 0);
+            setGameMode(gameState.gameMode);
+
+            setIsAtTurn(gameState.playerAtTurn === user.uid);
+            setCanEndRound(gameState.canRoundEnd);
 
             setStacks([
                 gameState.stack1 || -1,
@@ -91,17 +97,6 @@ export const GameView = () => {
             wsm.registerListener(GameEvent.ALL_PLAYERS, onAllPlayers);
             wsm.registerListener(GameEvent.GAME_STATE, onGameState);
         }
-        // setPlayer({uid: '4', name: 'me', handCards: [2, 3, 4, 77, 78, 79]});
-        // setStarted(true);
-        // setOtherPlayers([
-        //     {uid: '1', name: 'ogplayer98', handCards: [1, 77, 3, 4, 5, 6]},
-        //     {uid: '2', name: 'otherfriend', handCards: [1, 2, 3, 33, 5, 6]},
-        //     {uid: '3', name: 'afriend', handCards: [1, 11, 3, 4, 5, 6]}
-        // ]);
-
-        setGameMode(GameMode.CLASSIC);
-
-        setHasPickupStack(true);
 
         return () => {
             wsm.removeListener(GameEvent.NEW_PLAYER, onNewPlayer);
@@ -165,7 +160,7 @@ export const GameView = () => {
                             started={started}
                             hasPickupStack={hasPickupStack}
                             gameMode={gameMode}
-                            isAtTurn={true}
+                            isAtTurn={isAtTurn}
                             player={{
                                 name: player.name,
                                 handCards: player.handCards

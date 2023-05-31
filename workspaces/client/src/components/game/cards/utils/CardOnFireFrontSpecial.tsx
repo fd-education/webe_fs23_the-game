@@ -12,7 +12,7 @@ export const CardOnFireFrontSpecial = (props: CardFrontProps) => {
                 isDragging: monitor.isDragging()
             })
         }),
-        [props.value]
+        [props.value, props.canDrag]
     );
 
     return (

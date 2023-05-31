@@ -1,11 +1,19 @@
+import {GameMode} from '../../enum/game/gameMode.enum';
+
 export type GameState = {
     gameId: string;
+    gameMode: GameMode;
+
     pickupStack: number;
 
     stack1: number | null;
     stack2: number | null;
     stack3: number | null;
     stack4: number | null;
+
+    canRoundEnd: boolean;
+
+    playerAtTurn: string;
 
     players: Player[];
 }
