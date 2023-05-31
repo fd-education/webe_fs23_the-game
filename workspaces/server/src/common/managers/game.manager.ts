@@ -24,12 +24,17 @@ export class GameManager{
         return game;
     }
 
-    public deleteGame(gameId: string): void{
+    public deleteGame(gameId: string): Game{
         const gameToDelete = this.openGames.find(game => game.uid === gameId);
-
         if(!gameToDelete) throw new Error('Game not found');
 
+        for(const player of gameToDelete.players){
+            this.removePlayerFromGame(player.uid);
+        }
+
         this.openGames = this.openGames.filter(game => game.uid !== gameId);
+
+        return gameToDelete;
     }
 
     public getOpenGames(): GameCreateResponseDto[]{
@@ -69,6 +74,16 @@ export class GameManager{
         return game.joinPlayer(new Player(gjd.userUid, gjd.userName));
     }
 
+    public removePlayerFromGame(playerId: string){
+        const gameUid = this.playersInGame.get(playerId);
+        if(!gameUid) throw new Error('Player not found');
+
+        const game = this.openGames.find(game => game.uid === gameUid);
+        if(!game) throw new Error('Game not found');
+
+        this.playersInGame.delete(playerId);
+    }
+
     public getPlayersFromGame(gameId: string): any[]{
         const game = this.openGames.find(game => game.uid === gameId);
 
@@ -96,6 +111,14 @@ export class GameManager{
         this.runningGames.push(gameToStart);
 
         return gameToStart.getGameState();
+    }
+
+    public getRunningGame(gameId: string){
+        const game = this.runningGames.find(game => game.uid === gameId);
+
+        if(!game) throw new Error('Game not found');
+
+        return game;
     }
 
     public getGameState(gameId: string){

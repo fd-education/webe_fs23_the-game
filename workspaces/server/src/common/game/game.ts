@@ -1,4 +1,5 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
 import {Player} from './player';
 import {Stack} from './stack';
@@ -44,9 +45,10 @@ export class Game{
         this._started = true;
         this.numberOfHandcards = this._players.length === 1 ? 8 : this._players.length === 2? 7 : 6;
 
-        for(let i = 1; i <= 4; i++){
-            this.stacks.push(new Stack(i));
-        }
+        this.stacks.push(new Stack(0, StackDirection.DOWN));
+        this.stacks.push(new Stack(1, StackDirection.UP));
+        this.stacks.push(new Stack(2, StackDirection.DOWN));
+        this.stacks.push(new Stack(3, StackDirection.UP));
 
         this.pullStack = this.generateCards();
         this.dealCards();
@@ -74,6 +76,24 @@ export class Game{
 
             players: players
         }
+    }
+
+    public layCard(playerUid: string, card: number, stackIndex: number){
+        if(stackIndex < 0 || stackIndex > 3) throw new Error('Invalid stack index');
+        if(card < 2 || card > 99) throw new Error('Invalid card');
+        if(!this._started) throw new Error('Game not started');
+
+        const player = this._players.find(p => p.uid === playerUid);
+        if(!player) throw new Error('Player not in game');
+        if(player.handCards.findIndex(c => c === card) === -1) throw new Error('Player has not this card');
+
+        const stack = this.stacks[stackIndex];
+        if(!stack.canLayCard(card)) throw new Error('Invalid card for stack');
+
+        stack.addCard(card);
+        player.removeCard(card);
+
+        console.log(player.handCards);
     }
 
     private generateCards(): number[]{

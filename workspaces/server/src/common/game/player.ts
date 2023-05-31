@@ -16,6 +16,14 @@ export class Player{
         this._handCards = cards;
     }
 
+    public addCard(card: number){
+        this._handCards.push(card);
+    }
+
+    public removeCard(card: number){
+        this._handCards = this._handCards.filter(c => c !== card);
+    }
+
     public setReady(){
         this.isReady = true;
     }

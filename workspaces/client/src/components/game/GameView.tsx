@@ -77,6 +77,13 @@ export const GameView = () => {
 
             setStarted(true);
             setHasPickupStack(gameState.pickupStack > 0);
+
+            setStacks([
+                gameState.stack1 || -1,
+                gameState.stack2 || -1,
+                gameState.stack3 || -1,
+                gameState.stack4 || -1
+            ]);
         };
 
         if (webSocketState.connected) {
@@ -101,7 +108,7 @@ export const GameView = () => {
             wsm.removeListener(GameEvent.NEW_PLAYER, onAllPlayers);
             wsm.removeListener(GameEvent.GAME_STATE, onGameState);
         };
-    }, []);
+    }, [player]);
 
     return (
         <>
@@ -130,14 +137,14 @@ export const GameView = () => {
                             <StackGroup
                                 stackDirection={StackDirection.DOWN}
                                 stackIndex={1}
-                                currentCard={-1}
+                                currentCard={stacks[0]}
                                 gameMode={gameMode}
                             />
                             {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.UP}
                                 stackIndex={2}
-                                currentCard={-1}
+                                currentCard={stacks[1]}
                                 gameMode={gameMode}
                             />
                         </div>
@@ -146,14 +153,14 @@ export const GameView = () => {
                             <StackGroup
                                 stackDirection={StackDirection.DOWN}
                                 stackIndex={3}
-                                currentCard={-1}
+                                currentCard={stacks[2]}
                                 gameMode={gameMode}
                             />
                             {/*TODO make currentCard value dynamic*/}
                             <StackGroup
                                 stackDirection={StackDirection.UP}
                                 stackIndex={4}
-                                currentCard={-1}
+                                currentCard={stacks[3]}
                                 gameMode={gameMode}
                             />
                         </div>

@@ -2,15 +2,17 @@ import {useDrag} from 'react-dnd';
 import {CardProps} from './cardProps.type';
 
 export const CardClassicFront = (props: CardProps) => {
-    const [{isDragging}, drag] = useDrag(() => ({
-        type: 'Card',
-        item: {value: props.value},
-        options: {dropEffect: 'move'},
-        canDrag: props.canDrag,
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging()
-        })
-    }));
+    const [{isDragging}, drag] = useDrag(
+        () => ({
+            type: 'Card',
+            item: {value: props.value},
+            canDrag: props.canDrag,
+            collect: (monitor) => ({
+                isDragging: monitor.isDragging()
+            })
+        }),
+        [props.value]
+    );
 
     return (
         <div

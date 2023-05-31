@@ -25,4 +25,6 @@ export enum GameEvent {
 
     // Hand Cards
     HAND_CARDS = 'hand-cards',
+
+    LAY_CARD = 'lay-card',
 }

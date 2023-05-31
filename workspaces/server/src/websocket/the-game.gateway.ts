@@ -15,6 +15,7 @@ import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
+import {GameLayCardDto} from '@the-game/common/dist/types/game/GameLayCardDto';
 import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
 import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
@@ -182,5 +183,23 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
     const gameState = this.gameManager.startGame(gameUid.gameId);
     this.server.to(gameUid.gameId).emit(GameEvent.GAME_STATE, gameState);
+  }
+
+  @SubscribeMessage(GameEvent.LAY_CARD)
+  handleLayCard(@MessageBody() lcd: GameLayCardDto){
+    this.logger.info(`Player ${lcd.userUid} lays card ${lcd.card} in game ${lcd.gameUid}`);
+
+    console.log(lcd);
+
+    try{
+      const game = this.gameManager.getRunningGame(lcd.gameUid);
+      game.layCard(lcd.userUid, lcd.card, lcd.stack);
+
+      console.log(game.getGameState());
+
+      this.server.to(lcd.gameUid).emit(GameEvent.GAME_STATE, game.getGameState());
+    } catch(e){
+        this.logger.warn(`Could not lay card ${lcd.card} in game ${lcd.gameUid}: ${e}`);
+    }
   }
 }
