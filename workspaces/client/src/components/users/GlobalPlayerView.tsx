@@ -58,7 +58,7 @@ export const GlobalPlayerView = () => {
                 {t('players.title.global')}
             </div>
             <div className="h-full content-start overflow-y-auto">
-                <div className="flex flex-col space-y-3">
+                <div className="flex flex-col">
                     {player && (
                         <>
                             <div className="divider font-title font-bold text-black dark:text-white dark:before:bg-the_game_gray dark:after:bg-the_game_gray">
