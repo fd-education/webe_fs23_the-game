@@ -6,7 +6,6 @@ export const CardOnFireFrontStandard = (props: CardFrontProps) => {
         () => ({
             type: 'Card',
             item: {value: props.value},
-            options: {dropEffect: 'move'},
             canDrag: props.canDrag,
             collect: (monitor) => ({
                 isDragging: monitor.isDragging()
