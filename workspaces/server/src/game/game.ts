@@ -123,16 +123,15 @@ export class Game{
     public endRoundOfPlayer(playerUid: string){
         if(!this.canRoundEnd()) throw new Error('Round cannot end');
 
-        if(this.isGameOver()){
-            // TODO Handle Game Over
-        }
-
         const player = this._players.find(p => p.uid === playerUid);
         if(!player) throw new Error('Player not in game');
 
         const remainingCards = player.handCards;
         const newCards = this.pullStack.splice(0, this.numberOfHandcards - remainingCards.length);
         player.setHandCards(remainingCards.concat(newCards));
+
+        // in singles games, cards must be dealt before checking for a game over
+        if(this.isGameOver()) throw new Error('Game is over');
 
         this.cardsLaidInRound = 0;
         this.roundCounter++;
@@ -142,7 +141,36 @@ export class Game{
     }
 
     private isGameOver(): boolean{
-        // TODO check if game is over
+        if(this._mode === GameMode.CLASSIC){
+            return this.isGameOverClassic();
+        } else {
+            return this.isGameOverOnFire();
+        }
+    }
+
+    private isGameOverClassic(): boolean{
+        const nextPlayer =  this._players[(this.roundCounter + 1) % this._players.length];
+        if(nextPlayer.handCards.length === 0) return true;
+
+        const bottomUpStacks = this.stacks.filter(s => s.getDirection() === StackDirection.UP);
+        const topDownStacks = this.stacks.filter(s => s.getDirection() === StackDirection.DOWN);
+
+        const maxHandCard = Math.max(...nextPlayer.handCards);
+        const minHandCard = Math.min(...nextPlayer.handCards);
+        const minBottomUpStackCard = Math.min(...bottomUpStacks.map(s => s.getTopCard()));
+        const maxTopDownStackCard = Math.max(...topDownStacks.map(s => s.getTopCard()));
+
+        const bottomUpStacksDead = maxHandCard < minBottomUpStackCard;
+        const topDownStacksDead = minHandCard > maxTopDownStackCard;
+
+        const bottomUpSavePossible = bottomUpStacks.map(s => s.getTopCard()).some(c => nextPlayer.handCards.some(h => h === c - 10));
+        const topDownSavePossible = topDownStacks.map(s => s.getTopCard()).some(c => nextPlayer.handCards.some(h => h === c + 10));
+
+        return bottomUpStacksDead && topDownStacksDead && !bottomUpSavePossible && !topDownSavePossible;
+    }
+
+    private isGameOverOnFire(): boolean{
+        // TODO Check Game Over OnFire
 
         return false;
     }

@@ -18,6 +18,10 @@ export class Stack{
         return this.cards;
     }
 
+    public getDirection(): StackDirection{
+        return this.direction;
+    }
+
     public getTopCard(): number{
         const topCard = this.cards[this.cards.length - 1];
         if(topCard === undefined) return -1;
