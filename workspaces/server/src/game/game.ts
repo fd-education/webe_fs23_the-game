@@ -1,3 +1,4 @@
+import {specialCards} from '@the-game/common/dist/constants/special-cards';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
@@ -21,7 +22,7 @@ export class Game{
     private cardsLaidInRound: number;
     private roundCounter: number;
 
-    private playerAtTurn: string;
+    private dangerRound: boolean;
 
     constructor(creator: string, gameMode: GameMode, playerLimit: number){
         this._uid = uuidv4();
@@ -137,6 +138,8 @@ export class Game{
         this.roundCounter++;
         this.isNewRound = true;
 
+        this.dangerRound = this._mode === GameMode.ONFIRE && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
+
         return this.getGameState();
     }
 
@@ -170,9 +173,10 @@ export class Game{
     }
 
     private isGameOverOnFire(): boolean{
-        // TODO Check Game Over OnFire
+        const classicGameOver = this.isGameOverClassic();
+        const specialCardsLeft = this.dangerRound && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
 
-        return false;
+        return classicGameOver || specialCardsLeft;
     }
 
     private generateCards(): number[]{

@@ -21,7 +21,7 @@ export const CreateTableForm = () => {
     const initialValues: CreateLobby = {
         creator: '',
         numberOfPlayers: 4,
-        mode: GameMode.CLASSIC
+        mode: GameMode.ONFIRE
     };
 
     const validationSchema = yup.object({
