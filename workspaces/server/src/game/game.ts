@@ -84,9 +84,7 @@ export class Game{
 
         return {
             gameId: this.uid,
-            // TODO uncomment after testing
-            // progress: this._progress,
-            progress: GameProgress.WON,
+            progress: this._progress,
 
             gameMode: this._mode,
 
