@@ -1,6 +1,3 @@
-import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
-import {useContext, useEffect, useState} from 'react';
-import {GameContext} from '../../../../pages/Game';
 import {UserTag} from '../../../util/misc/UserTag';
 import {Card} from '../../cards/Card';
 
@@ -9,15 +6,6 @@ type PlayerTileProps = {
 };
 
 export const PlayerTile = (props: PlayerTileProps) => {
-    const gameContext = useContext(GameContext);
-
-    const [gameMode, setGameMode] = useState<GameMode>();
-
-    useEffect(() => {
-        if (!gameContext) return;
-        setGameMode(gameContext.gameMode);
-    }, [gameContext]);
-
     return (
         <div className="flex flex-col justify-center p-2 space-y-4 w-[30%] bg-the_game_gray_light rounded-3xl">
             <div className="space-x-2 flex flex-row justify-center items-center">
