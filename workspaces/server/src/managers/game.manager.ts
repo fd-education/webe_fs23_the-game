@@ -121,6 +121,15 @@ export class GameManager{
         return game;
     }
 
+    public getAnyGame(gameId: string): Game{
+        const games= this.openGames.concat(this.runningGames);
+
+        const game = games.find(game => game.uid === gameId);
+        if(!game) throw new Error('Game not found');
+
+        return game;
+    }
+
     public getGameState(gameId: string){
         const game = this.runningGames.find(game => game.uid === gameId);
 

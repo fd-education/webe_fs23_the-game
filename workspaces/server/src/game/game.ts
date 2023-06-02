@@ -2,6 +2,7 @@ import {specialCards} from '@the-game/common/dist/constants/special-cards';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
+import {Message} from '@the-game/common/dist/types/chat/message';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
 import {Player} from './player';
 import {Stack} from './stack';
@@ -27,6 +28,8 @@ export class Game{
 
     private dangerRound: boolean;
 
+    private readonly inGameChat: Message[];
+
     constructor(creator: string, gameMode: GameMode, playerLimit: number){
         this._uid = uuidv4();
         this._creator = creator;
@@ -37,6 +40,7 @@ export class Game{
 
         this._players = [];
         this.stacks = [];
+        this.inGameChat = [];
     }
 
     public joinPlayer(player: Player){
@@ -152,6 +156,14 @@ export class Game{
         this.dangerRound = this._mode === GameMode.ONFIRE && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
 
         return this.getGameState();
+    }
+
+    public getChat(): Message[]{
+        return this.inGameChat;
+    }
+
+    public newMessage(message: Message){
+        this.inGameChat.push(message);
     }
 
     private canRoundEnd(): boolean{

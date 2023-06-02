@@ -4,4 +4,5 @@ export enum ChatEvent {
     SEND_PRIVATE_MESSAGE = 'sendPrivateMessage',
     RECEIVE_PRIVATE_MESSAGE = 'receivePrivateMessage',
     INGAME_MESSAGE = 'INGAME_MESSAGE',
+    INGAME_CHAT_HISTORY = 'INGAME_CHAT_HISTORY',
 }

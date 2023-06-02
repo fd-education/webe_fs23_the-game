@@ -41,6 +41,7 @@ export const GameChat = () => {
             msg: MessageWithKey
         ) => {
             setMessages((currentMsg: MessageWithKey[]) => {
+                console.log('CHAT MESSAGE');
                 return [
                     {
                         authorUid: msg.authorUid,
@@ -62,6 +63,28 @@ export const GameChat = () => {
             wsm.removeListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
         };
     });
+
+    useEffect(() => {
+        wsm.emit<{gameUid: string}>({
+            event: ChatEvent.INGAME_CHAT_HISTORY,
+            data: {
+                gameUid: game!
+            }
+        });
+
+        const onChatHistory: WsListener<MessageWithKey[]> = (
+            messages: MessageWithKey[]
+        ) => {
+            console.log('Get History');
+            setMessages(messages);
+        };
+
+        wsm.registerListener(ChatEvent.INGAME_CHAT_HISTORY, onChatHistory);
+
+        return () => {
+            wsm.removeListener(ChatEvent.INGAME_CHAT_HISTORY, onChatHistory);
+        };
+    }, [webSocketState]);
 
     const sendMessage = () => {
         if (message === '') return;

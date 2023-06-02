@@ -2,7 +2,6 @@ export enum GameEvent {
     // Game Creation
     CREATE_GAME = 'create-game',
     DELETE_GAME = 'delete-game',
-    NEW_GAME = 'new-game',
 
     // Game Listing
     GET_GAMES = 'get-games',
@@ -14,7 +13,6 @@ export enum GameEvent {
     // Game Joining
     JOIN_REQUEST = 'join-request',
     JOIN_GAME = 'join-game',
-    NEW_PLAYER = 'new-player',
     ALL_PLAYERS = 'all-players',
 
     // Game Flow
@@ -22,9 +20,6 @@ export enum GameEvent {
 
     // Game State
     GAME_STATE = 'game-state',
-
-    // Hand Cards
-    HAND_CARDS = 'hand-cards',
 
     LAY_CARD = 'lay-card',
 

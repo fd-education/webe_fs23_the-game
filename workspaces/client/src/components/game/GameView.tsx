@@ -109,14 +109,12 @@ export const GameView = () => {
         };
 
         if (webSocketState.connected) {
-            wsm.registerListener(GameEvent.NEW_PLAYER, onNewPlayer);
             wsm.registerListener(GameEvent.ALL_PLAYERS, onAllPlayers);
             wsm.registerListener(GameEvent.GAME_STATE, onGameState);
         }
 
         return () => {
-            wsm.removeListener(GameEvent.NEW_PLAYER, onNewPlayer);
-            wsm.removeListener(GameEvent.NEW_PLAYER, onAllPlayers);
+            wsm.removeListener(GameEvent.ALL_PLAYERS, onAllPlayers);
             wsm.removeListener(GameEvent.GAME_STATE, onGameState);
         };
     }, [player]);
