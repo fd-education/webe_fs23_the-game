@@ -32,7 +32,8 @@ export const GameView = () => {
     const [gameMode, setGameMode] = useState<GameMode>(GameMode.CLASSIC);
     const [stacks, setStacks] = useState<number[]>([-1, -1, -1, -1]);
     const [isAtTurn, setIsAtTurn] = useState<boolean>(false);
-    const [canEndRound, setCanEndRound] = useState<boolean>(false);
+    const [canRoundEnd, setCanRoundEnd] = useState<boolean>(false);
+    const [pickUpStack, setPickUpStack] = useState<number>(0);
 
     useEffect(() => {
         if (!user) {
@@ -82,7 +83,8 @@ export const GameView = () => {
             setGameMode(gameState.gameMode);
 
             setIsAtTurn(gameState.playerAtTurn === user.uid);
-            setCanEndRound(gameState.canRoundEnd);
+            setCanRoundEnd(gameState.canRoundEnd);
+            setPickUpStack(gameState.pickupStack);
 
             setStacks([
                 gameState.stack1 || -1,
@@ -161,9 +163,11 @@ export const GameView = () => {
                             hasPickupStack={hasPickupStack}
                             gameMode={gameMode}
                             isAtTurn={isAtTurn}
+                            pickupStack={pickUpStack}
+                            canRoundEnd={canRoundEnd}
                             player={{
                                 name: player.name,
-                                handCards: player.handCards
+                                handCards: player.handCards.sort()
                             }}
                         />
                     )}

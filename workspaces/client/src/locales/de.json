@@ -48,10 +48,12 @@
             "subtitle": "Spiel... solange du kannst!"
         },
         "game": {
+            "endRound": "Zug beenden",
             "mode": {
                 "classic": "Klassisch",
                 "onfire": "On Fire"
             },
+            "pickupCardsRemaining": "übrig",
             "start": "Starten",
             "start_question": "Möchtest du das Spiel starten?",
             "starting": "Starten"

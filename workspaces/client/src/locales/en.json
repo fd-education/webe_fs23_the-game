@@ -48,10 +48,12 @@
             "subtitle": "Play... as long as you can!"
         },
         "game": {
+            "endRound": "End Round",
             "mode": {
                 "classic": "Classic",
                 "onfire": "On Fire"
             },
+            "pickupCardsRemaining": "remaining",
             "start": "Start",
             "start_question": "Would you like to start the game?",
             "starting": "Starting"

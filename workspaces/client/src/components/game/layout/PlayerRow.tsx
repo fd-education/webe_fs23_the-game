@@ -8,12 +8,15 @@ import useWebSocket from '../../../hooks/useWebSocket';
 import {Card} from '../cards/Card';
 import {CardClassicBack} from '../cards/utils/CardClassicBack';
 import {CardOnFireBack} from '../cards/utils/CardOnFireBack';
+import {PickUpStack} from './utils/PickUpStack';
 
 type PlayerRowProps = {
     started: boolean;
     hasPickupStack: boolean;
     gameMode: GameMode;
     isAtTurn: boolean;
+    pickupStack: number;
+    canRoundEnd: boolean;
     player: {name: string; handCards: number[]};
 };
 
@@ -26,8 +29,6 @@ export const PlayerRow = (props: PlayerRowProps) => {
         if (!user) return;
         if (!gameId) return;
 
-        // TODO
-        console.log('End round');
         wsm.emitWithAck<GameRoundEndDto>(
             {
                 event: GameEvent.END_ROUND,
@@ -46,19 +47,20 @@ export const PlayerRow = (props: PlayerRowProps) => {
 
     return (
         <div className="flex flex-row justify-around h-[26%] px-16 py-4">
-            {props.started &&
-                props.hasPickupStack &&
-                (props.gameMode === GameMode.CLASSIC ? (
-                    <CardClassicBack
-                        onClick={handleEndRound}
-                        className="hover:cursor-pointer"
-                    />
-                ) : (
-                    <CardOnFireBack
-                        onClick={handleEndRound}
-                        className="hover:cursor-pointer"
-                    />
-                ))}
+            {props.started && (
+                <PickUpStack
+                    hasPickupStack={props.hasPickupStack}
+                    gameMode={props.gameMode}
+                    cardsOnStack={props.pickupStack}
+                    canRoundEnd={props.canRoundEnd}
+                    className={`${
+                        !(props.isAtTurn && props.canRoundEnd)
+                            ? 'pointer-events-none'
+                            : 'hover:cursor-pointer'
+                    }`}
+                    onClick={handleEndRound}
+                />
+            )}
 
             {props.player && (
                 <div className="flex flex-row w-[75%] px-4 -space-x-4">

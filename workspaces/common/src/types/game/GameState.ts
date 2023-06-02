@@ -1,7 +1,9 @@
 import {GameMode} from '../../enum/game/gameMode.enum';
+import {GameProgress} from '../../enum/game/gameProgress.enum';
 
 export type GameState = {
     gameId: string;
+    progress: GameProgress;
     gameMode: GameMode;
 
     pickupStack: number;

@@ -1,0 +1,26 @@
+{
+  "gameId": "02a55551-2aea-485f-b3d7-deef6ebed372",
+  "progress": "STARTED",
+  "gameMode": "CLASSIC",
+  "pickupStack": 0,
+  "stack1": 5,
+  "stack2": 18,
+  "stack3": 64,
+  "stack4": 87,
+  "canRoundEnd": true,
+  "playerAtTurn": "1352ebba-398f-4e09-a305-566488dd69f9",
+  "players": [
+    {
+      "playerId": "22f49048-8ddb-4169-bdcc-0aa5338b8afc",
+      "name": "Jahndoe1",
+      "handCards": []
+    },
+    {
+      "playerId": "1352ebba-398f-4e09-a305-566488dd69f9",
+      "name": "test1",
+      "handCards": [
+        4
+      ]
+    }
+  ]
+}
