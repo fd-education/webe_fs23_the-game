@@ -33,7 +33,7 @@ import {GameLobbyService} from '../data/gamelobbies/game-lobby.service';
     origin: '*',
   },
 })
-export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect {
+export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @WebSocketServer() server: Server;
 
@@ -44,7 +44,7 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
       private lobbyManager: LobbyManager,
       private gameManager: GameManager,
       ) {
-    this.logger.setContext(TheGameGateway.name);
+    this.logger.setContext(ThegameGateway.name);
   }
 
   async handleConnection(client: any, ...args: any[]): Promise<any> {
@@ -153,6 +153,7 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   @SubscribeMessage(GameEvent.JOIN_GAME)
   handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto) {
     this.logger.info(`Player ${gjd.userName} joined game ${gjd.gameUid}`);
+
     this.gameManager.addPlayerToGame(gjd);
 
     const gameState = this.gameManager.getAnyGame(gjd.gameUid).getGameState();

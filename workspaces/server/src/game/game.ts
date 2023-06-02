@@ -46,6 +46,8 @@ export class Game{
     }
 
     public joinPlayer(player: Player){
+        if(this._players.some(p => p.uid === player.uid)) return player;
+
         if(this._started) throw new Error('Game already started');
         if(this._players.length >= this._playerLimit) throw new Error('Game is full');
 

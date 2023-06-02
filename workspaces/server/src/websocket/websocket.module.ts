@@ -7,11 +7,11 @@ import {GameLobbiesModule} from '../data/gamelobbies/game-lobbies.module';
 import {UsersModule} from '../data/users/users.module';
 import {OwnJwtModule} from '../security/jwt/jwt.module';
 import {JwtVerifyService} from '../security/jwt/jwt.service';
-import { TheGameGateway } from './the-game.gateway';
+import { ThegameGateway } from './thegame.gateway';
 import { LoggerService } from '../common/logger/logger.service';
 
 @Module({
   imports: [ConfigModule, OwnJwtModule, UsersModule, GameLobbiesModule, ChatsModule],
-  providers: [TheGameGateway, LoggerService, LobbyManager, GameManager],
+  providers: [ThegameGateway, LoggerService, LobbyManager, GameManager],
 })
 export class WebsocketModule {}
