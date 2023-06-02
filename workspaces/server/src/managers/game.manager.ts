@@ -3,6 +3,7 @@ import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
+import {Socket} from 'socket.io';
 import {Game} from '../game/game';
 import {Player} from '../game/player';
 
