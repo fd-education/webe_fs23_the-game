@@ -10,7 +10,7 @@ import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event
 import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
-import {Message} from '@the-game/common/dist/types/chat/message';
+import {IngameMessage, Message} from '@the-game/common/dist/types/chat/message';
 import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
@@ -215,5 +215,10 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
         this.logger.warn(`Could not end round in game ${red.gameUid}: ${e}`);
         return false;
     }
+  }
+
+  @SubscribeMessage(ChatEvent.INGAME_MESSAGE)
+  handleIngameMessage(@MessageBody() message: IngameMessage){
+    this.server.to(message.gameUid).emit(ChatEvent.INGAME_MESSAGE, message);
   }
 }

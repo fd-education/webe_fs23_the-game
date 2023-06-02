@@ -1,10 +1,13 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
-import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
+import {
+    IngameMessage,
+    MessageWithKey
+} from '@the-game/common/dist/types/chat/message';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
-import {Message} from 'yup';
+import gameidState from '../../common/states/gameid.state';
 import userState from '../../common/states/user.state';
 import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
@@ -18,6 +21,7 @@ export const GameChat = () => {
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
     const user = useRecoilValue(userState);
+    const game = useRecoilValue(gameidState);
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<MessageWithKey>>([]);
@@ -25,6 +29,11 @@ export const GameChat = () => {
     useEffect(() => {
         if (!user) {
             navigate('/login');
+            return;
+        }
+
+        if (!game) {
+            navigate('/lobby');
             return;
         }
 
@@ -46,23 +55,21 @@ export const GameChat = () => {
         };
 
         if (webSocketState.connected) {
-            wsm.registerListener(
-                ChatEvent.RECEIVE_INGAME_MESSAGE,
-                onChatMessage
-            );
+            wsm.registerListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
         }
 
         return () => {
-            wsm.removeListener(ChatEvent.RECEIVE_INGAME_MESSAGE, onChatMessage);
+            wsm.removeListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
         };
     });
 
     const sendMessage = () => {
         if (message === '') return;
 
-        wsm.emit<Message>({
-            event: ChatEvent.SEND_INGAME_MESSAGE,
+        wsm.emit<IngameMessage>({
+            event: ChatEvent.INGAME_MESSAGE,
             data: {
+                gameUid: game!,
                 authorUid: user!.uid,
                 authorName: user!.username,
                 message,

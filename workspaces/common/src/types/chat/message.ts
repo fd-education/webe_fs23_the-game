@@ -5,6 +5,10 @@ export type Message = {
     timestamp: number;
 };
 
+export type IngameMessage = Message & {
+    gameUid: string
+}
+
 export type MessageWithKey = Message & {
     uid: string;
 };

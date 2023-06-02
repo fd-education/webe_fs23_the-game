@@ -3,6 +3,5 @@ export enum ChatEvent {
     RECEIVE_GLOBAL_MESSAGE = 'receiveGlobalMessage',
     SEND_PRIVATE_MESSAGE = 'sendPrivateMessage',
     RECEIVE_PRIVATE_MESSAGE = 'receivePrivateMessage',
-    RECEIVE_INGAME_MESSAGE = 'receiveIngameMessage',
-    SEND_INGAME_MESSAGE = 'sendIngameMessage',
+    INGAME_MESSAGE = 'INGAME_MESSAGE',
 }
