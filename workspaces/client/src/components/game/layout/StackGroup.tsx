@@ -1,4 +1,3 @@
-import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {
     InterventionButtons,
     StackDirection
@@ -15,7 +14,6 @@ type StackGroupProps = {
     stackDirection: StackDirection;
     stackIndex: number;
     currentCard: number;
-    gameMode: GameMode;
 };
 
 export const StackGroup = (props: StackGroupProps) => {
@@ -38,7 +36,6 @@ export const StackGroup = (props: StackGroupProps) => {
                             <Card
                                 canDrag={false}
                                 isFlipped={true}
-                                gameMode={props.gameMode}
                                 value={props.currentCard}
                             />
                         )}
@@ -58,7 +55,6 @@ export const StackGroup = (props: StackGroupProps) => {
                             <Card
                                 canDrag={false}
                                 isFlipped={true}
-                                gameMode={props.gameMode}
                                 value={props.currentCard}
                             />
                         )}

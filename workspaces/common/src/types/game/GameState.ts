@@ -6,6 +6,9 @@ export type GameState = {
     progress: GameProgress;
     gameMode: GameMode;
 
+    creator: string;
+    numberOfPlayers: number;
+
     pickupStack: number;
 
     stack1: number | null;

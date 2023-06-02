@@ -2,6 +2,7 @@ import {Injectable} from '@nestjs/common';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
+import {GameState} from '@the-game/common/dist/types/game/GameState';
 import {Socket} from 'socket.io';
 import {Game} from '../game/game';
 import {Player} from '../game/player';
@@ -138,8 +139,18 @@ export class GameManager{
         return game.getGameState();
     }
 
+    public getGameStateByPlayer(playerId: string): GameState{
+        const games = this.openGames.concat(this.runningGames);
+        const game = games.find(game => game.players.some(player => player.uid === playerId));
+
+        if(!game) throw new Error('Game not found');
+
+        return game.getGameState();
+    }
+
     public isPlayerInRunningGame(playerId: string): string | undefined{
-        const game =  this.runningGames.find(game => game.players.some(player => player.uid === playerId));
+        const games = this.openGames.concat(this.runningGames);
+        const game =  games.find(game => game.players.some(player => player.uid === playerId));
 
         if(!game) return '';
 

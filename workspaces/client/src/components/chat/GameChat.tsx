@@ -41,7 +41,6 @@ export const GameChat = () => {
             msg: MessageWithKey
         ) => {
             setMessages((currentMsg: MessageWithKey[]) => {
-                console.log('CHAT MESSAGE');
                 return [
                     {
                         authorUid: msg.authorUid,
@@ -75,7 +74,6 @@ export const GameChat = () => {
         const onChatHistory: WsListener<MessageWithKey[]> = (
             messages: MessageWithKey[]
         ) => {
-            console.log('Get History');
             setMessages(messages);
         };
 

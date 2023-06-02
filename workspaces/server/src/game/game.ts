@@ -38,6 +38,8 @@ export class Game{
 
         this._progress = GameProgress.OPEN;
 
+        this.pullStack = [];
+
         this._players = [];
         this.stacks = [];
         this.inGameChat = [];
@@ -90,18 +92,21 @@ export class Game{
             gameId: this.uid,
             progress: this._progress,
 
+            creator: this._creator,
+            numberOfPlayers: this._playerLimit,
+
             gameMode: this._mode,
 
             pickupStack: this.pullStack.length,
 
-            stack1: this.stacks[0].getTopCard(),
-            stack2: this.stacks[1].getTopCard(),
-            stack3: this.stacks[2].getTopCard(),
-            stack4: this.stacks[3].getTopCard(),
+            stack1: this.stacks[0]?.getTopCard(),
+            stack2: this.stacks[1]?.getTopCard(),
+            stack3: this.stacks[2]?.getTopCard(),
+            stack4: this.stacks[3]?.getTopCard(),
 
             canRoundEnd: this.canRoundEnd(),
 
-            playerAtTurn: this._players[this.roundCounter % this._players.length].uid,
+            playerAtTurn: this._players[this.roundCounter % this._players.length]?.uid,
 
             players: players
         }
