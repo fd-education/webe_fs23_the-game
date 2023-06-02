@@ -1,10 +1,11 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {useContext, useEffect, useState} from 'react';
+import {GameContext} from '../../../../pages/Game';
 import {UserTag} from '../../../util/misc/UserTag';
 import {Card} from '../../cards/Card';
 
 type PlayerTileProps = {
     player: {name: string; handCards: number[]};
-    gameMode: GameMode;
 };
 
 export const PlayerTile = (props: PlayerTileProps) => {
@@ -18,7 +19,6 @@ export const PlayerTile = (props: PlayerTileProps) => {
                 {props.player.handCards.map((card, index) => {
                     return (
                         <Card
-                            gameMode={props.gameMode}
                             value={card}
                             isFlipped={false}
                             canDrag={false}

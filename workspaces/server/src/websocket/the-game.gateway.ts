@@ -13,7 +13,6 @@ import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocke
 import {IngameMessage, Message} from '@the-game/common/dist/types/chat/message';
 import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
-import {GameInfoDto} from '@the-game/common/dist/types/game/GameInfoDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameLayCardDto} from '@the-game/common/dist/types/game/GameLayCardDto';
 import {GameRoundEndDto} from '@the-game/common/dist/types/game/GameRoundEndDto';
@@ -155,26 +154,21 @@ export class TheGameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto) {
     this.logger.info(`Player ${gjd.userName} joined game ${gjd.gameUid}`);
     this.gameManager.addPlayerToGame(gjd);
-    const players = this.gameManager.getPlayersFromGame(gjd.gameUid);
-    this.server.to(gjd.gameUid).emit(GameEvent.ALL_PLAYERS, players);
+
+    const gameState = this.gameManager.getAnyGame(gjd.gameUid).getGameState();
+
+    this.server.to(gjd.gameUid).emit(GameEvent.GAME_STATE, gameState);
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
     client.join(gjd.gameUid);
   }
 
   @SubscribeMessage(GameEvent.GAME_INFO)
-  handleGameInfo(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameId: string}) {
-    const game = this.gameManager.getOpenGames().find(g => g.uid === gameUid.gameId);
+  handleGameInfo(@ConnectedSocket() client: Socket, @MessageBody() playerUid: {playerUid: string}) {
+    const gameState = this.gameManager.getGameStateByPlayer(playerUid.playerUid);
 
-    if(!game) throw new Error(`Game ${gameUid.gameId} not found`);
+    if(!gameState) throw new Error(`Player ${playerUid.playerUid} not in a game`);
 
-    const gameInfo: GameInfoDto = {
-        gameId: game.uid,
-        gameMode: game.mode,
-        creator: game.creator,
-        numberOfPlayers: game.numberOfPlayers,
-    }
-
-    client.emit(GameEvent.GAME_INFO, gameInfo);
+    client.emit(GameEvent.GAME_INFO, gameState);
   }
 
   @SubscribeMessage(GameEvent.START_GAME)

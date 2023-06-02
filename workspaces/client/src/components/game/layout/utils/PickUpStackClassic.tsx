@@ -9,7 +9,7 @@ export const PickUpStackClassic = (props: PickUpStackProps) => {
             viewBox="0 0 241 370"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            onClick={props.onClick}
+            onClick={props.onclick}
             className={props.className}
         >
             <g clipPath="url(#clip0_325_4534)">
