@@ -4,12 +4,7 @@ import {useTranslation} from 'react-i18next';
 import useWebSocket from '../../../hooks/useWebSocket';
 import {GameContext} from '../../../pages/Game';
 
-type StartDialogProps = {
-    display: boolean;
-    numberOfPlayers: number;
-};
-
-export const StartDialogue = (props: StartDialogProps) => {
+export const StartDialogue = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
     const gameContext = useContext(GameContext);
@@ -27,8 +22,8 @@ export const StartDialogue = (props: StartDialogProps) => {
         setReady(true);
     };
 
-    return props.display ? (
-        <div className="flex flex-col items-center p-8 rounded-2xl dark:shadow-dark-around shadow-light-around absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-50 bg-secondaryLight dark:bg-secondaryDark">
+    return (
+        <div className="flex flex-col items-center p-8 rounded-2xl dark:shadow-dark-around shadow-light-around absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 z-10 bg-secondaryLight dark:bg-secondaryDark">
             <p className="font-title font-bold text-lg text-black dark:text-white">
                 {t('game.start_question')}
             </p>
@@ -49,7 +44,5 @@ export const StartDialogue = (props: StartDialogProps) => {
                 </p>
             )}
         </div>
-    ) : (
-        <></>
     );
 };

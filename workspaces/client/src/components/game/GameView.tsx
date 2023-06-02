@@ -1,4 +1,5 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {GameState, Player} from '@the-game/common/dist/types/game/GameState';
 import React, {useContext, useEffect, useState} from 'react';
@@ -12,10 +13,12 @@ import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
 import {GameContext} from '../../pages/Game';
 import {StackDirection} from './buttons/InterventionButtons';
+import {LooseDialogue} from './layout/LooseDialogue';
 import {OtherPlayersRow} from './layout/OtherPlayersRow';
 import {PlayerRow} from './layout/PlayerRow';
 import {StartDialogue} from './layout/StartDialogue';
 import {StackGroup} from './layout/StackGroup';
+import {WinDialogue} from './layout/WinDialogue';
 
 export const GameView = () => {
     const {t} = useTranslation();
@@ -34,6 +37,8 @@ export const GameView = () => {
     const [isAtTurn, setIsAtTurn] = useState<boolean>(false);
     const [canRoundEnd, setCanRoundEnd] = useState<boolean>(false);
     const [pickUpStack, setPickUpStack] = useState<number>(0);
+    const [gameWon, setGameWon] = useState<boolean>(false);
+    const [gameLost, setGameLost] = useState<boolean>(false);
 
     useEffect(() => {
         if (!user) {
@@ -92,6 +97,15 @@ export const GameView = () => {
                 gameState.stack3 || -1,
                 gameState.stack4 || -1
             ]);
+
+            switch (gameState.progress) {
+                case GameProgress.WON:
+                    setGameWon(true);
+                    break;
+                case GameProgress.LOST:
+                    setGameLost(true);
+                    break;
+            }
         };
 
         if (webSocketState.connected) {
@@ -110,11 +124,13 @@ export const GameView = () => {
     return (
         <>
             {!started && user && user.uid === gameContext.creator && (
-                <StartDialogue
-                    display={true}
-                    numberOfPlayers={otherPlayers ? otherPlayers.length + 1 : 1}
-                />
+                <StartDialogue />
             )}
+
+            {gameWon && <WinDialogue />}
+
+            {gameLost && <LooseDialogue />}
+
             <DndProvider backend={HTML5Backend}>
                 <div className="flex flex-col h-full w-[75%] p-8">
                     {otherPlayers ? (

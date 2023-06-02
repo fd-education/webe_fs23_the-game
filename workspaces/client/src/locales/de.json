@@ -48,7 +48,11 @@
             "subtitle": "Spiel... solange du kannst!"
         },
         "game": {
+            "backToLobby": "Zurück zur Lobby",
+            "congrats": "Gratulation!",
             "endRound": "Zug beenden",
+            "loose": "Verloren!",
+            "looseMessage": "THE GAME hat dich besiegt!",
             "mode": {
                 "classic": "Klassisch",
                 "onfire": "On Fire"
@@ -56,7 +60,8 @@
             "pickupCardsRemaining": "übrig",
             "start": "Starten",
             "start_question": "Möchtest du das Spiel starten?",
-            "starting": "Starten"
+            "starting": "Starten",
+            "winMessage": "Gut gemacht! Du hast THE GAME besiegt!"
         },
         "lobby": {
             "createTable": "Tisch erstellen",

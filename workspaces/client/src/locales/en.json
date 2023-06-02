@@ -48,7 +48,11 @@
             "subtitle": "Play... as long as you can!"
         },
         "game": {
+            "backToLobby": "Back to the lobby",
+            "congrats": "Congrats!",
             "endRound": "End Round",
+            "loose": "You lost!",
+            "looseMessage": "THE GAME beat you!",
             "mode": {
                 "classic": "Classic",
                 "onfire": "On Fire"
@@ -56,7 +60,8 @@
             "pickupCardsRemaining": "remaining",
             "start": "Start",
             "start_question": "Would you like to start the game?",
-            "starting": "Starting"
+            "starting": "Starting",
+            "winMessage": "Well done! You beat THE GAME!"
         },
         "lobby": {
             "createTable": "Create Table",
