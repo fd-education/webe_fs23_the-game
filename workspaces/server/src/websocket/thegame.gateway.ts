@@ -12,6 +12,7 @@ import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocke
 import {IngameMessage, Message} from '@the-game/common/dist/types/chat/message';
 import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
+import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameLayCardDto} from '@the-game/common/dist/types/game/GameLayCardDto';
 import {GameRoundEndDto} from '@the-game/common/dist/types/game/GameRoundEndDto';
@@ -213,5 +214,16 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     this.server.to(gameUid).emit(ChatEvent.INGAME_MESSAGE, message);
 
     await this.ingameChatsService.create(ingameMessage);
+  }
+
+  @SubscribeMessage(GameEvent.SAVE_INTERVENTION)
+  async handleSaveIntervention(@MessageBody() intervention: GameInterventionDto){
+    this.logger.info(`Save Intervention from player ${intervention.playerUid} in game ${intervention.gameUid} for stack ${intervention.stackIndex}`);
+
+  }
+
+  @SubscribeMessage(GameEvent.BLOCK_INTERVENTION)
+  async handleBlockIntervention(@MessageBody() intervention: GameInterventionDto){
+    this.logger.info(`Block Intervention from player ${intervention.playerUid} in game ${intervention.gameUid} for stack ${intervention.stackIndex}`);
   }
 }

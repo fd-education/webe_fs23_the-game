@@ -1,3 +1,5 @@
+import {IngameMessageType} from '../../enum/game/ingameMessageType.enum';
+
 export type Message = {
     authorUid: string;
     authorName: string;
@@ -6,6 +8,7 @@ export type Message = {
 };
 
 export type IngameMessage = Message & {
+    type: IngameMessageType;
     gameUid: string
 }
 

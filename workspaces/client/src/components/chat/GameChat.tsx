@@ -1,3 +1,4 @@
+import {IngameMessageType} from '@the-game/common/dist/enum/game/ingameMessageType.enum';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
 import {
     IngameMessage,
@@ -21,7 +22,7 @@ export const GameChat = () => {
     const {wsm} = useWebSocket();
     const webSocketState = useRecoilValue(websocketState);
     const user = useRecoilValue(userState);
-    const game = useRecoilValue(gameidState);
+    const gameId = useRecoilValue(gameidState);
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<MessageWithKey>>([]);
@@ -32,7 +33,7 @@ export const GameChat = () => {
             return;
         }
 
-        if (!game) {
+        if (!gameId) {
             navigate('/lobby');
             return;
         }
@@ -67,7 +68,7 @@ export const GameChat = () => {
         wsm.emit<{gameUid: string}>({
             event: ChatEvent.INGAME_CHAT_HISTORY,
             data: {
-                gameUid: game!
+                gameUid: gameId
             }
         });
 
@@ -90,11 +91,12 @@ export const GameChat = () => {
         wsm.emit<IngameMessage>({
             event: ChatEvent.INGAME_MESSAGE,
             data: {
-                gameUid: game!,
+                gameUid: gameId,
                 authorUid: user!.uid,
                 authorName: user!.username,
                 message,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                type: IngameMessageType.CHAT
             }
         });
 

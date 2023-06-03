@@ -24,4 +24,8 @@ export enum GameEvent {
     LAY_CARD = 'lay-card',
 
     END_ROUND = 'end-round',
+
+    SAVE_INTERVENTION= 'save-intervention',
+
+    BLOCK_INTERVENTION = 'block-intervention',
 }
