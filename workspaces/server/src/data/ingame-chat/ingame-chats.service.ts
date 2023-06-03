@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {IngameMessage, Message} from '@the-game/common/dist/types/chat/message';
+import {IngameMessage} from '@the-game/common/dist/types/chat/message';
 import {Model} from 'mongoose';
 import {LoggerService} from '../../common/logger/logger.service';
 import {IngameChat} from './ingame-chat.schema';
@@ -8,8 +8,7 @@ import {IngameChat} from './ingame-chat.schema';
 @Injectable()
 export class IngameChatsService {
     constructor(
-        @InjectModel(IngameChat.name) private ingameChatModel: Model<IngameChat>,
-        private logger: LoggerService,
+        @InjectModel(IngameChat.name) private ingameChatModel: Model<IngameChat>
     ) {}
 
     async create(chat: IngameMessage): Promise<void> {

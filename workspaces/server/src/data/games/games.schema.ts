@@ -4,8 +4,6 @@ import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {HydratedDocument} from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import {Player} from '../../game/player';
-import {Stack} from '../../game/stack';
 
 export type GameDocument = HydratedDocument<GameSchema>;
 
