@@ -2,7 +2,6 @@ import {specialCards} from '@the-game/common/dist/constants/special-cards';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
-import {Message} from '@the-game/common/dist/types/chat/message';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
 import {GameSchema} from '../data/games/games.schema';
 import {Player} from './player';
@@ -18,7 +17,6 @@ export class Game{
     private readonly stacks: Stack[];
 
     private _progress: GameProgress;
-    private _started: boolean = false;
 
     private pullStack: number[];
     private numberOfHandcards: number;
@@ -28,8 +26,6 @@ export class Game{
     private roundCounter: number;
 
     private dangerRound: boolean;
-
-    private readonly inGameChat: Message[];
 
     constructor(creator: string, gameMode: GameMode, playerLimit: number){
         this._uid = uuidv4();
@@ -43,13 +39,12 @@ export class Game{
 
         this._players = [];
         this.stacks = [];
-        this.inGameChat = [];
     }
 
     public joinPlayer(player: Player){
         if(this._players.some(p => p.uid === player.uid)) return player;
 
-        if(this._started) throw new Error('Game already started');
+        if(this._progress !== GameProgress.OPEN) throw new Error('Game already started');
         if(this._players.length >= this._playerLimit) throw new Error('Game is full');
 
         const playerIndex = this._players.findIndex(p => p.uid === player.uid);
@@ -63,7 +58,6 @@ export class Game{
     }
 
     public startGame(){
-        this._started = true;
         this._progress = GameProgress.STARTED;
         this.numberOfHandcards = this._players.length === 1 ? 8 : this._players.length === 2? 7 : 6;
 
@@ -118,7 +112,8 @@ export class Game{
     public layCard(playerUid: string, card: number, stackIndex: number){
         if(stackIndex < 0 || stackIndex > 3) throw new Error('Invalid stack index');
         if(card < 2 || card > 99) throw new Error('Invalid card');
-        if(!this._started) throw new Error('Game not started');
+        if(this._progress === GameProgress.OPEN) throw new Error('Game not started');
+        if(this._progress === GameProgress.WON || this._progress === GameProgress.LOST) throw new Error('Game already ended');
 
         const player = this._players.find(p => p.uid === playerUid);
         if(!player) throw new Error('Player not in game');
@@ -164,14 +159,6 @@ export class Game{
         this.dangerRound = this._mode === GameMode.ONFIRE && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
 
         return this.getGameState();
-    }
-
-    public getChat(): Message[]{
-        return this.inGameChat;
-    }
-
-    public newMessage(message: Message){
-        this.inGameChat.push(message);
     }
 
     public getPersistableGameState(): GameSchema{
@@ -276,10 +263,6 @@ export class Game{
 
     get players(): Player[] {
         return this._players;
-    }
-
-    get started(): boolean {
-        return this._started;
     }
 
     get progress(): GameProgress{

@@ -1,6 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {Message} from '@the-game/common/dist/types/chat/message';
+import {IngameMessage, Message} from '@the-game/common/dist/types/chat/message';
 import {Model} from 'mongoose';
 import {LoggerService} from '../../common/logger/logger.service';
 import {IngameChat} from './ingame-chat.schema';
@@ -12,15 +12,13 @@ export class IngameChatsService {
         private logger: LoggerService,
     ) {}
 
-    async create(chat: Message): Promise<void> {
-        this.logger.debug(`Creating chat: ${JSON.stringify(chat)}`);
+    async create(chat: IngameMessage): Promise<void> {
         await this.ingameChatModel.create(chat);
     }
 
-    async findAll(): Promise<IngameChat[]> {
-        this.logger.debug(`Finding all chats`);
+    async findAllForGame(gameUid: string): Promise<IngameChat[]> {
         return await this.ingameChatModel
-            .find({})
+            .find({gameUid: gameUid})
             .limit(250)
             .sort({timestamp: -1})
             .lean()

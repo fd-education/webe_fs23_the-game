@@ -17,6 +17,7 @@ import {GameLayCardDto} from '@the-game/common/dist/types/game/GameLayCardDto';
 import {GameRoundEndDto} from '@the-game/common/dist/types/game/GameRoundEndDto';
 import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
 import {GamesService} from '../data/games/games.service';
+import {IngameChatsService} from '../data/ingame-chat/ingame-chats.service';
 import {GameManager} from '../managers/game.manager';
 import {LobbyManager} from '../managers/lobby.manager';
 import { LoggerService } from '../common/logger/logger.service';
@@ -40,6 +41,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
       private chatsService: ChatsService,
       private lobbyManager: LobbyManager,
       private gameManager: GameManager,
+      private ingameChatsService: IngameChatsService,
       ) {
     this.logger.setContext(ThegameGateway.name);
   }
@@ -197,19 +199,19 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   }
 
   @SubscribeMessage(ChatEvent.INGAME_CHAT_HISTORY)
-  handleIngameChatHistory(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameUid: string}){
+  async handleIngameChatHistory(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameUid: string}){
     const game = this.gameManager.getAnyGame(gameUid.gameUid);
-    const chatHistory = game.getChat();
+    const chatHistory = await this.ingameChatsService.findAllForGame(game.uid);
     client.emit(ChatEvent.INGAME_CHAT_HISTORY, chatHistory);
   }
 
   @SubscribeMessage(ChatEvent.INGAME_MESSAGE)
-  handleIngameMessage(@MessageBody() ingameMessage: IngameMessage){
+  async handleIngameMessage(@MessageBody() ingameMessage: IngameMessage){
     const {gameUid, ...message} = ingameMessage;
-
-    const game = this.gameManager.getAnyGame(gameUid);
-    game.newMessage(message);
+    this.gameManager.getAnyGame(gameUid);
 
     this.server.to(gameUid).emit(ChatEvent.INGAME_MESSAGE, message);
+
+    await this.ingameChatsService.create(ingameMessage);
   }
 }
