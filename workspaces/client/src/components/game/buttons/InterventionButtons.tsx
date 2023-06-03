@@ -25,7 +25,7 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
     const user = useRecoilValue(userState);
     const gameContext = useContext(GameContext);
 
-    const handleStopIntervention = () => {
+    const handleBlockIntervention = () => {
         // TODO Handle Stopbutton Click
         if (!user) return;
         if (!gameContext) return;
@@ -44,7 +44,7 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
         });
     };
 
-    const handleDownSaveIntervention = () => {
+    const handleSaveIntervention = () => {
         // TODO Handle DownSaveIntervention Click
         if (!user) return;
         if (!gameContext) return;
@@ -63,23 +63,14 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
         });
     };
 
-    const handleUpSaveIntervention = () => {
-        // TODO Handle UpSaveIntervention Click
-        if (!user) return;
-
-        console.log(
-            `Save Up Intervention for ${user.uid} on stack ${props.stackIndex}`
-        );
-    };
-
     return (
         <div className="flex flex-col items-center space-y-2">
             <StackIndex value={props.stackIndex} />
-            <StopButton onClick={handleStopIntervention} />
+            <StopButton onClick={handleBlockIntervention} />
             {props.stackDirection === StackDirection.UP ? (
-                <SaveDownButton onClick={handleDownSaveIntervention} />
+                <SaveDownButton onClick={handleSaveIntervention} />
             ) : (
-                <SaveUpButton onClick={handleUpSaveIntervention} />
+                <SaveUpButton onClick={handleSaveIntervention} />
             )}
         </div>
     );
