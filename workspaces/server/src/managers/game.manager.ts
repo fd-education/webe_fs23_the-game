@@ -18,10 +18,9 @@ export class GameManager{
 
     }
 
-    public async createGame(creator: string, mode: GameMode, maxPlayers: number): Promise<Game>{
+    public createGame(creator: string, mode: GameMode, maxPlayers: number): Game{
         const game = new Game(creator, mode, maxPlayers);
         this.openGames.push(game);
-        await this.gamesService.create(game.getPersistableGameState());
 
         return game;
     }
@@ -112,7 +111,7 @@ export class GameManager{
         gameToStart.startGame();
         this.runningGames.push(gameToStart);
 
-        return gameToStart.getGameState();
+        return gameToStart;
     }
 
     public getRunningGame(gameId: string){

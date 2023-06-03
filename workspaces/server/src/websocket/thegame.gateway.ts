@@ -87,19 +87,23 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   @SubscribeMessage(GameEvent.CREATE_GAME)
   async handleCreateGame(@MessageBody() gcd: GameCreateDto): Promise<void> {
-    await this.gameManager.createGame(gcd.creator, gcd.mode, gcd.numberOfPlayers);
+    const game = this.gameManager.createGame(gcd.creator, gcd.mode, gcd.numberOfPlayers);
     this.logger.info(`Creating game for mode ${gcd.mode} with ${gcd.numberOfPlayers} players`);
 
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+
+    await this.gamesService.create(game.getPersistableGameState());
   }
 
   @SubscribeMessage(GameEvent.DELETE_GAME)
-  handleDeleteGame(@MessageBody() gdd: GameDeleteDto): boolean {
+  async handleDeleteGame(@MessageBody() gdd: GameDeleteDto): Promise<boolean> {
     try{
-      this.gameManager.deleteGame(gdd.gameUid);
+      const game = this.gameManager.deleteGame(gdd.gameUid);
       this.logger.info(`Deleting game ${gdd.gameUid}`);
 
       this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+
+      await this.gamesService.delete(game.uid);
 
       return true;
     } catch(e){
@@ -126,16 +130,18 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   }
 
   @SubscribeMessage(GameEvent.JOIN_GAME)
-  handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto) {
+  async handleJoinGame(@ConnectedSocket() client: Socket, @MessageBody() gjd: GameJoinDto) {
     this.logger.info(`Player ${gjd.userName} joined game ${gjd.gameUid}`);
 
     this.gameManager.addPlayerToGame(gjd);
 
-    const gameState = this.gameManager.getAnyGame(gjd.gameUid).getGameState();
+    const game = this.gameManager.getAnyGame(gjd.gameUid);
 
-    this.server.to(gjd.gameUid).emit(GameEvent.GAME_STATE, gameState);
+    this.server.to(gjd.gameUid).emit(GameEvent.GAME_STATE, game.getGameState());
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
     client.join(gjd.gameUid);
+
+    await this.gamesService.update(game.getPersistableGameState());
   }
 
   @SubscribeMessage(GameEvent.GAME_INFO)
@@ -148,15 +154,16 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   }
 
   @SubscribeMessage(GameEvent.START_GAME)
-  handleStartGame(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameId: string}) {
+  async handleStartGame(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameId: string}) {
     this.logger.info(`Starting game ${gameUid.gameId}`);
 
-    const gameState = this.gameManager.startGame(gameUid.gameId);
-    this.server.to(gameUid.gameId).emit(GameEvent.GAME_STATE, gameState);
+    const game = this.gameManager.startGame(gameUid.gameId);
+    this.server.to(gameUid.gameId).emit(GameEvent.GAME_STATE, game.getGameState());
+    await this.gamesService.update(game.getPersistableGameState());
   }
 
   @SubscribeMessage(GameEvent.LAY_CARD)
-  handleLayCard(@MessageBody() lcd: GameLayCardDto){
+  async handleLayCard(@MessageBody() lcd: GameLayCardDto){
     this.logger.info(`Player ${lcd.userUid} lays card ${lcd.card} in game ${lcd.gameUid}`);
 
     try{
@@ -164,13 +171,15 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
       game.layCard(lcd.userUid, lcd.card, lcd.stack);
 
       this.server.to(lcd.gameUid).emit(GameEvent.GAME_STATE, game.getGameState());
+
+      await this.gamesService.update(game.getPersistableGameState());
     } catch(e){
         this.logger.warn(`Could not lay card ${lcd.card} in game ${lcd.gameUid}: ${e}`);
     }
   }
 
   @SubscribeMessage(GameEvent.END_ROUND)
-  handleRoundEnd(@MessageBody() red: GameRoundEndDto){
+  async handleRoundEnd(@MessageBody() red: GameRoundEndDto): Promise<Boolean>{
     this.logger.info(`Player ${red.userUid} ends round in game ${red.gameUid}`);
 
     try{
@@ -179,6 +188,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
         const gameState = game.endRoundOfPlayer(red.userUid);
 
         this.server.to(red.gameUid).emit(GameEvent.GAME_STATE, gameState);
+        await this.gamesService.update(game.getPersistableGameState());
         return true;
     } catch (e) {
         this.logger.warn(`Could not end round in game ${red.gameUid}: ${e}`);
