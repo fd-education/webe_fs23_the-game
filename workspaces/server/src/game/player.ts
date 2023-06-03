@@ -1,15 +1,15 @@
-import {Socket} from 'socket.io';
-
 export class Player{
     private _uid: string;
     private _username: string;
-    private _handCards: number[] = [];
+    private _handCards: number[];
 
     private isReady: boolean;
 
-    constructor(uid: string, username: string){
+    constructor(uid: string, username: string, handCards?: number[]){
         this._uid = uid;
         this._username = username;
+
+        this._handCards = handCards || [];
     }
 
     public setHandCards(cards: number[]){

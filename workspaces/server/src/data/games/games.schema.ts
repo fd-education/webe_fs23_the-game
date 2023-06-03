@@ -35,6 +35,11 @@ export class GameSchema{
     @Prop({
         required: true,
     })
+    numberOfHandcards: number;
+
+    @Prop({
+        required: true,
+    })
     progress: GameProgress;
 
     @Prop({
@@ -50,17 +55,27 @@ export class GameSchema{
     @Prop({
         required: true,
     })
+    roundCounter: number;
+
+    @Prop({
+        required: true,
+    })
     canRoundEnd: boolean;
+
+    @Prop({
+        required: true,
+    })
+    isNewRound: boolean;
+
+    @Prop({
+        required: true,
+    })
+    cardsLaidInRound: number;
 
     @Prop({
         required: false,
     })
     dangerRound: boolean;
-
-    @Prop({
-        required: false,
-    })
-    playerAtTurn: string;
 
     @Prop({
         required: true,

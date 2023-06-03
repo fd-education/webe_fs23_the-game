@@ -6,11 +6,11 @@ export class Stack{
     private _id: number;
     private _cards: number[];
     private _direction: StackDirection;
-    constructor(id: number, direction: StackDirection){
+    constructor(id: number, direction: StackDirection, cards?: number[]){
         this._id = id;
         this._direction = direction;
 
-        this._cards = [];
+        this._cards = cards || [];
     }
     public addCard(card: number){
         this._cards.push(card);

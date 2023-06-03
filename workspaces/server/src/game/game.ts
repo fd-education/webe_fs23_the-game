@@ -25,20 +25,44 @@ export class Game{
     private cardsLaidInRound: number;
     private roundCounter: number;
 
+    private canRoundEnd: boolean;
     private dangerRound: boolean;
 
-    constructor(creator: string, gameMode: GameMode, playerLimit: number){
-        this._uid = uuidv4();
+    constructor(
+        creator: string,
+        gameMode: GameMode,
+        playerLimit: number,
+        gameId?: string,
+        numberOfHandcards?: number,
+        progress?: GameProgress,
+        stacks?: Stack[],
+        roundCounter?: number,
+        isNewRound?: boolean,
+        canRoundEnd?: boolean,
+        cardsLaidInRound?: number,
+        dangerRound?: boolean,
+        players?: Player[]
+        )
+    {
+        this._uid = gameId || uuidv4();
         this._creator = creator;
         this._playerLimit = playerLimit;
         this._mode = gameMode;
+        this.numberOfHandcards = numberOfHandcards || 0;
 
-        this._progress = GameProgress.OPEN;
+        this._progress = progress || GameProgress.OPEN;
 
         this.pullStack = [];
 
         this._players = [];
-        this.stacks = [];
+        this.stacks = stacks || [];
+        this.roundCounter = roundCounter || 0;
+        this.isNewRound = isNewRound || true;
+        this.canRoundEnd = canRoundEnd || false;
+        this.cardsLaidInRound = cardsLaidInRound || 0;
+        this.dangerRound = dangerRound || false;
+
+        this._players = players || [];
     }
 
     public joinPlayer(player: Player){
@@ -101,7 +125,7 @@ export class Game{
             stack3: this.stacks[2]?.getTopCard(),
             stack4: this.stacks[3]?.getTopCard(),
 
-            canRoundEnd: this.canRoundEnd(),
+            canRoundEnd: this.canRoundEnd,
 
             playerAtTurn: this._players[this.roundCounter % this._players.length]?.uid,
 
@@ -124,13 +148,14 @@ export class Game{
 
         this.cardsLaidInRound++;
         this.isNewRound = false;
+        this.canRoundEnd = this.checkCanRoundEnd();
 
         stack.addCard(card);
         player.removeCard(card);
     }
 
     public endRoundOfPlayer(playerUid: string){
-        if(!this.canRoundEnd()) throw new Error('Round cannot end');
+        if(!this.checkCanRoundEnd) throw new Error('Round cannot end');
         if(this._progress !== GameProgress.STARTED) throw new Error('Game not started');
 
         const player = this._players.find(p => p.uid === playerUid);
@@ -167,17 +192,20 @@ export class Game{
             creator: this._creator,
             numberOfPlayers: this._playerLimit,
             gameMode: this._mode,
+            numberOfHandcards: this.numberOfHandcards,
             progress: this._progress,
             pickupStack: this.pullStack,
             stacks: this.stacks,
-            canRoundEnd: this.canRoundEnd(),
+            roundCounter: this.roundCounter,
+            canRoundEnd: this.canRoundEnd,
+            isNewRound: this.isNewRound,
+            cardsLaidInRound: this.cardsLaidInRound,
             dangerRound: this.dangerRound,
-            playerAtTurn: this._players[this.roundCounter % this._players.length]?.uid,
             players: this._players
         }
     }
 
-    private canRoundEnd(): boolean{
+    private checkCanRoundEnd(): boolean{
         const hasPullStackCondition = this.pullStack.length > 0 && this.cardsLaidInRound >= 2;
         const noPullStackCondition = this.pullStack.length === 0 && this.cardsLaidInRound >= 1;
 

@@ -3,9 +3,11 @@ import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
+import {GameSchema} from '../data/games/games.schema';
 import {GamesService} from '../data/games/games.service';
 import {Game} from '../game/game';
 import {Player} from '../game/player';
+import {Stack} from '../game/stack';
 
 @Injectable()
 export class GameManager{
@@ -15,7 +17,8 @@ export class GameManager{
     private playersInGame: Map<string, string> = new Map<string, string>();
 
     constructor(private gamesService: GamesService){
-
+        this.buildOpenGames();
+        this.buildRunningGames();
     }
 
     public createGame(creator: string, mode: GameMode, maxPlayers: number): Game{
@@ -155,6 +158,47 @@ export class GameManager{
         if(!game) return '';
 
         return game.uid;
+    }
+
+    private async buildOpenGames(){
+        const persistedOpenGames = await this.gamesService.findOpenGames();
+        const openGames = this.buildGames(persistedOpenGames);
+        this.openGames = this.openGames.concat(openGames);
+    }
+
+    private async buildRunningGames(){
+        const persistedRunningGames = await this.gamesService.findRunningGames();
+        this.runningGames = this.runningGames.concat(this.buildGames(persistedRunningGames));
+    }
+
+    private buildGames(games: GameSchema[]): Game[]{
+        if(!games || games.length === 0) return [];
+
+        const gamesToReturn: Game[] = [];
+
+        for(let game of games){
+            const stacks = game.stacks.map(s => new Stack(s.id, s.direction, s.cards));
+            const players = game.players.map(p => new Player(p.uid, p.username, p.handCards));
+
+            gamesToReturn.push(new Game(
+                game.creator,
+                game.gameMode,
+                game.numberOfPlayers,
+                game.gameId,
+                game.numberOfHandcards,
+                game.progress,
+                stacks,
+                game.roundCounter,
+                game.isNewRound,
+                game.canRoundEnd,
+                game.cardsLaidInRound,
+                game.dangerRound,
+                players
+                )
+            )
+        }
+
+        return gamesToReturn;
     }
 }
 
