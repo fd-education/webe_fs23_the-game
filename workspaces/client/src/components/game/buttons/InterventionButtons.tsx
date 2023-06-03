@@ -33,8 +33,10 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
             event: GameEvent.BLOCK_INTERVENTION,
             data: {
                 playerUid: user.uid,
+                playerName: user.username,
                 gameUid: gameContext.gameId,
-                stackIndex: props.stackIndex
+                stackIndex: props.stackIndex,
+                timestamp: Date.now()
             }
         });
     };
@@ -47,8 +49,10 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
             event: GameEvent.SAVE_INTERVENTION,
             data: {
                 playerUid: user.uid,
+                playerName: user.username,
                 gameUid: gameContext.gameId,
-                stackIndex: props.stackIndex
+                stackIndex: props.stackIndex,
+                timestamp: Date.now()
             }
         });
     };

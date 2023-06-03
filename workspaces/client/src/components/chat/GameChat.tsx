@@ -1,9 +1,11 @@
 import {IngameMessageType} from '@the-game/common/dist/enum/game/ingameMessageType.enum';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
+import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {
     IngameMessage,
     MessageWithKey
 } from '@the-game/common/dist/types/chat/message';
+import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
@@ -26,6 +28,9 @@ export const GameChat = () => {
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState<Array<MessageWithKey>>([]);
+    const [interventions, setInterventions] = useState<
+        Array<GameInterventionDto>
+    >([]);
 
     useEffect(() => {
         if (!user) {
@@ -55,12 +60,26 @@ export const GameChat = () => {
             });
         };
 
+        const onIntervention: WsListener<GameInterventionDto> = (
+            intervention: GameInterventionDto
+        ) => {
+            setInterventions((currentInterventions: GameInterventionDto[]) => {
+                return [intervention, ...currentInterventions];
+            });
+
+            console.log(interventions);
+        };
+
         if (webSocketState.connected) {
             wsm.registerListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
+            wsm.registerListener(GameEvent.BLOCK_INTERVENTION, onIntervention);
+            wsm.registerListener(GameEvent.SAVE_INTERVENTION, onIntervention);
         }
 
         return () => {
             wsm.removeListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
+            wsm.removeListener(GameEvent.BLOCK_INTERVENTION, onIntervention);
+            wsm.removeListener(GameEvent.SAVE_INTERVENTION, onIntervention);
         };
     });
 

@@ -1,5 +1,7 @@
 export type GameInterventionDto = {
     playerUid: string,
+    playerName: string,
     gameUid: string,
-    stackIndex,
+    stackIndex: number,
+    timestamp: number,
 }
