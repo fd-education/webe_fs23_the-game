@@ -1,9 +1,43 @@
-export const SaveDownIcon = () => {
+import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
+import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
+import {useEffect, useState} from 'react';
+import {WsListener} from '../../../../common/websocket/websocket.manager';
+import useWebSocket from '../../../../hooks/useWebSocket';
+
+type SaveDownIconProps = {
+    stackIndex: number;
+};
+
+export const SaveDownIcon = (props: SaveDownIconProps) => {
+    const {wsm} = useWebSocket();
+    const [animation, setAnimation] = useState(false);
+
+    useEffect(() => {
+        const onBlockIntervention: WsListener<GameInterventionDto> = (
+            intervention: GameInterventionDto
+        ) => {
+            if (intervention.stackIndex !== props.stackIndex) return;
+            setAnimation(true);
+        };
+
+        wsm.registerListener(GameEvent.SAVE_INTERVENTION, onBlockIntervention);
+
+        return () => {
+            wsm.removeListener(
+                GameEvent.SAVE_INTERVENTION,
+                onBlockIntervention
+            );
+        };
+    });
+
     return (
         <svg
             viewBox="0 0 115 131"
             fill="none"
-            className="h-full m-auto p-0.5 dark:fill-white fill-black"
+            className={`h-full m-auto p-0.5 dark:fill-white fill-black ${
+                animation && 'animate-grow'
+            }`}
+            onAnimationEnd={() => setAnimation(false)}
             xmlns="http://www.w3.org/2000/svg"
         >
             <path d="M35.7049 13.0181C27.9071 15.1672 20.1622 17.5041 12.477 20.0266C11.7752 20.2539 11.1514 20.6738 10.6766 21.2383C10.2018 21.8029 9.89514 22.4894 9.79148 23.2197C5.25561 57.2552 15.7356 82.0879 28.2379 98.4465C33.5313 105.442 39.8429 111.604 46.9627 116.729C49.7956 118.727 52.301 120.168 54.2742 121.093C55.2567 121.56 56.059 121.871 56.6731 122.059C56.9417 122.153 57.2185 122.222 57.5 122.264C57.7782 122.219 58.0521 122.15 58.3188 122.059C58.941 121.871 59.7434 121.56 60.7259 121.093C62.6909 120.168 65.2045 118.719 68.0374 116.729C75.1571 111.604 81.4687 105.442 86.7622 98.4465C99.2645 82.0961 109.744 57.2552 105.209 23.2197C105.106 22.4891 104.8 21.8021 104.325 21.2374C103.85 20.6727 103.225 20.2531 102.523 20.0266C97.193 18.2827 88.195 15.4416 79.2952 13.0263C70.207 10.5619 61.8476 8.73606 57.5 8.73606C53.1607 8.73606 44.793 10.5537 35.7049 13.0181ZM33.527 4.585C42.4105 2.16969 51.8507 0 57.5 0C63.1494 0 72.5896 2.16969 81.4731 4.585C90.5612 7.04125 99.723 9.94781 105.11 11.7081C107.363 12.452 109.36 13.8161 110.872 15.6439C112.384 17.4716 113.35 19.6888 113.658 22.0407C118.538 58.6962 107.215 85.8623 93.4759 103.834C87.65 111.522 80.7034 118.292 72.868 123.918C70.1587 125.865 67.2881 127.577 64.2875 129.035C61.995 130.116 59.5305 131 57.5 131C55.4695 131 53.0133 130.116 50.7126 129.035C47.712 127.577 44.8414 125.865 42.1321 123.918C34.2969 118.292 27.3502 111.522 21.5242 103.834C7.78554 85.8623 -3.53777 58.6962 1.34198 22.0407C1.65055 19.6888 2.61631 17.4716 4.12833 15.6439C5.64034 13.8161 7.63728 12.452 9.88973 11.7081C17.7104 9.14387 25.5918 6.76881 33.527 4.585Z" />

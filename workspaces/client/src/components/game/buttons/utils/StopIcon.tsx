@@ -1,9 +1,43 @@
-export const StopIcon = () => {
+import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
+import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
+import {useEffect, useState} from 'react';
+import {WsListener} from '../../../../common/websocket/websocket.manager';
+import useWebSocket from '../../../../hooks/useWebSocket';
+
+type StopIconProps = {
+    stackIndex: number;
+};
+
+export const StopIcon = (props: StopIconProps) => {
+    const {wsm} = useWebSocket();
+    const [animation, setAnimation] = useState(false);
+
+    useEffect(() => {
+        const onBlockIntervention: WsListener<GameInterventionDto> = (
+            intervention: GameInterventionDto
+        ) => {
+            if (intervention.stackIndex !== props.stackIndex) return;
+            setAnimation(true);
+        };
+
+        wsm.registerListener(GameEvent.BLOCK_INTERVENTION, onBlockIntervention);
+
+        return () => {
+            wsm.removeListener(
+                GameEvent.BLOCK_INTERVENTION,
+                onBlockIntervention
+            );
+        };
+    });
+
     return (
         <svg
             viewBox="0 0 131 131"
             fill="none"
-            className="h-full m-auto p-0.5 dark:fill-white fill-black"
+            className={`h-full m-auto p-0.5 dark:fill-white fill-black ${
+                animation && 'animate-grow'
+            }`}
+            onAnimationEnd={() => setAnimation(false)}
             xmlns="http://www.w3.org/2000/svg"
         >
             <g clipPath="url(#clip0_320_7950)">

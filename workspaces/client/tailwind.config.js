@@ -51,6 +51,15 @@ module.exports = {
             },
             fontSize:{
                 '10xl': '10rem',
+            },
+            keyframes: {
+                'grow': {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(2)' },
+                }
+            },
+            animation: {
+                'grow': 'grow 1s ease-in-out 1',
             }
         }
     },

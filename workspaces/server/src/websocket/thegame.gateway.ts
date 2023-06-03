@@ -220,10 +220,19 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   async handleSaveIntervention(@MessageBody() intervention: GameInterventionDto){
     this.logger.info(`Save Intervention from player ${intervention.playerUid} in game ${intervention.gameUid} for stack ${intervention.stackIndex}`);
 
+    const game = this.gameManager.getRunningGame(intervention.gameUid);
+    if(!game) throw new Error(`Game ${intervention.gameUid} not running`);
+
+    this.server.to(intervention.gameUid).emit(GameEvent.SAVE_INTERVENTION, intervention);
   }
 
   @SubscribeMessage(GameEvent.BLOCK_INTERVENTION)
   async handleBlockIntervention(@MessageBody() intervention: GameInterventionDto){
     this.logger.info(`Block Intervention from player ${intervention.playerUid} in game ${intervention.gameUid} for stack ${intervention.stackIndex}`);
+
+    const game = this.gameManager.getRunningGame(intervention.gameUid);
+    if(!game) throw new Error(`Game ${intervention.gameUid} not running`);
+
+    this.server.to(intervention.gameUid).emit(GameEvent.BLOCK_INTERVENTION, intervention);
   }
 }

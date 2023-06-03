@@ -26,13 +26,8 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
     const gameContext = useContext(GameContext);
 
     const handleBlockIntervention = () => {
-        // TODO Handle Stopbutton Click
         if (!user) return;
         if (!gameContext) return;
-
-        console.log(
-            `Stop Intervention for ${user.uid} on stack ${props.stackIndex}`
-        );
 
         wsm.emit<GameInterventionDto>({
             event: GameEvent.BLOCK_INTERVENTION,
@@ -45,13 +40,8 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
     };
 
     const handleSaveIntervention = () => {
-        // TODO Handle DownSaveIntervention Click
         if (!user) return;
         if (!gameContext) return;
-
-        console.log(
-            `Save Down Intervention for ${user.uid} on stack ${props.stackIndex}`
-        );
 
         wsm.emit<GameInterventionDto>({
             event: GameEvent.SAVE_INTERVENTION,
@@ -66,11 +56,20 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
     return (
         <div className="flex flex-col items-center space-y-2">
             <StackIndex value={props.stackIndex} />
-            <StopButton onClick={handleBlockIntervention} />
+            <StopButton
+                stackIndex={props.stackIndex}
+                onClick={handleBlockIntervention}
+            />
             {props.stackDirection === StackDirection.UP ? (
-                <SaveDownButton onClick={handleSaveIntervention} />
+                <SaveDownButton
+                    stackIndex={props.stackIndex}
+                    onClick={handleSaveIntervention}
+                />
             ) : (
-                <SaveUpButton onClick={handleSaveIntervention} />
+                <SaveUpButton
+                    stackIndex={props.stackIndex}
+                    onClick={handleSaveIntervention}
+                />
             )}
         </div>
     );

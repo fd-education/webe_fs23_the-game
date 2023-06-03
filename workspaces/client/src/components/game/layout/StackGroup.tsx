@@ -19,7 +19,6 @@ type StackGroupProps = {
 export const StackGroup = (props: StackGroupProps) => {
     return (
         <>
-            {/*TODO make currentCard value dynamic*/}
             {props.stackDirection === StackDirection.DOWN ? (
                 <div className="flex flex-row justify-end w-1/2 space-x-4 px-4 h-full">
                     <InterventionButtons
