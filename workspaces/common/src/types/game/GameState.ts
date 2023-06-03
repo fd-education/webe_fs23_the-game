@@ -3,11 +3,11 @@ import {GameProgress} from '../../enum/game/gameProgress.enum';
 
 export type GameState = {
     gameId: string;
-    progress: GameProgress;
-    gameMode: GameMode;
-
     creator: string;
     numberOfPlayers: number;
+    gameMode: GameMode;
+
+    progress: GameProgress;
 
     pickupStack: number;
 

@@ -4,6 +4,7 @@ import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {Message} from '@the-game/common/dist/types/chat/message';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
+import {GameSchema} from '../data/games/games.schema';
 import {Player} from './player';
 import {Stack} from './stack';
 import { v4 as uuidv4 } from 'uuid';
@@ -171,6 +172,22 @@ export class Game{
 
     public newMessage(message: Message){
         this.inGameChat.push(message);
+    }
+
+    public getPersistableGameState(): GameSchema{
+        return {
+            gameId: this.uid,
+            creator: this._creator,
+            numberOfPlayers: this._playerLimit,
+            gameMode: this._mode,
+            progress: this._progress,
+            pickupStack: this.pullStack,
+            stacks: this.stacks,
+            canRoundEnd: this.canRoundEnd(),
+            dangerRound: this.dangerRound,
+            playerAtTurn: this._players[this.roundCounter % this._players.length]?.uid,
+            players: this._players
+        }
     }
 
     private canRoundEnd(): boolean{

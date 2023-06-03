@@ -7,7 +7,6 @@ import {
 } from '@nestjs/websockets';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
-import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {WebsocketNamespace} from '@the-game/common/dist/enum/websockets/websocket-namespace.enum';
 import {IngameMessage, Message} from '@the-game/common/dist/types/chat/message';
@@ -16,15 +15,13 @@ import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameLayCardDto} from '@the-game/common/dist/types/game/GameLayCardDto';
 import {GameRoundEndDto} from '@the-game/common/dist/types/game/GameRoundEndDto';
-import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
-import {JoinLobby} from '@the-game/common/dist/types/lobby/joinLobby';
 import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
+import {GamesService} from '../data/games/games.service';
 import {GameManager} from '../managers/game.manager';
 import {LobbyManager} from '../managers/lobby.manager';
 import { LoggerService } from '../common/logger/logger.service';
 import {ChatsService} from '../data/chats/chats.service';
 import {Server, Socket} from 'socket.io';
-import {GameLobbyService} from '../data/gamelobbies/game-lobby.service';
 
 @WebSocketGateway({
   namespace: WebsocketNamespace.THE_GAME,
@@ -39,7 +36,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   constructor(
       private logger: LoggerService,
-      private gamesLobbyService: GameLobbyService,
+      private gamesService: GamesService,
       private chatsService: ChatsService,
       private lobbyManager: LobbyManager,
       private gameManager: GameManager,
@@ -74,28 +71,6 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     await this.chatsService.create(message);
   }
 
-  @SubscribeMessage(LobbyEvent.GET_LOBBYS)
-  async handleGetLobbys(@MessageBody() message: string): Promise<void> {
-    const lobbys = await this.gamesLobbyService.findAll();
-
-    this.logger.info(`Sending ${lobbys.length} lobbys`);
-    this.server.emit(LobbyEvent.LOBBYS, lobbys);
-  }
-
-  @SubscribeMessage(LobbyEvent.CREATE_LOBBY)
-  async handleCreateLobby(@MessageBody() createLobby: CreateLobby): Promise<void> {
-    this.logger.info(`Creating lobby for mode ${createLobby.mode} with ${createLobby.numberOfPlayers} players`);
-    const lobby = await this.gamesLobbyService.create(createLobby);
-    this.server.emit(LobbyEvent.NEW_LOBBY, lobby);
-  }
-
-  @SubscribeMessage(LobbyEvent.JOIN_LOBBY)
-  async handleJoinLobby(@MessageBody() joinLobby: JoinLobby): Promise<void> {
-    this.logger.info(`Trying to add player ${joinLobby.user_uid} to lobby ${joinLobby.lobby_uid}`);
-    const lobby = await this.gamesLobbyService.join(joinLobby);
-    this.server.emit(LobbyEvent.UPDATE_LOBBY, lobby);
-  }
-
   @SubscribeMessage(SystemEvent.GET_CHAT_HISTORY)
   async handleChatHistory(@ConnectedSocket() client: Socket): Promise<void> {
     const chatHistory = await this.chatsService.findAll();
@@ -111,8 +86,8 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
   }
 
   @SubscribeMessage(GameEvent.CREATE_GAME)
-  handleCreateGame(@MessageBody() gcd: GameCreateDto): void {
-    this.gameManager.createGame(gcd.creator, gcd.mode, gcd.numberOfPlayers);
+  async handleCreateGame(@MessageBody() gcd: GameCreateDto): Promise<void> {
+    await this.gameManager.createGame(gcd.creator, gcd.mode, gcd.numberOfPlayers);
     this.logger.info(`Creating game for mode ${gcd.mode} with ${gcd.numberOfPlayers} players`);
 
     this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());

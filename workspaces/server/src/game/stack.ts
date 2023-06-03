@@ -1,32 +1,34 @@
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 
 export class Stack{
-    private id: number;
-    private cards: number[];
-    private direction: StackDirection;
-    constructor(id: number, direction: StackDirection){
-        this.id = id;
-        this.direction = direction;
 
-        this.cards = [];
+
+    private _id: number;
+    private _cards: number[];
+    private _direction: StackDirection;
+    constructor(id: number, direction: StackDirection){
+        this._id = id;
+        this._direction = direction;
+
+        this._cards = [];
     }
     public addCard(card: number){
-        this.cards.push(card);
+        this._cards.push(card);
     }
 
     public getCards(): number[]{
-        return this.cards;
+        return this._cards;
     }
 
     public getDirection(): StackDirection{
-        return this.direction;
+        return this._direction;
     }
 
     public getTopCard(): number{
-        const topCard = this.cards[this.cards.length - 1];
+        const topCard = this._cards[this._cards.length - 1];
         if(topCard === undefined) return -1;
 
-        return this.cards[this.cards.length - 1];
+        return this._cards[this._cards.length - 1];
     }
 
     public canLayCard(card: number): boolean{
@@ -34,7 +36,7 @@ export class Stack{
         if(topCard === undefined) return true;
         if(topCard === -1) return true;
 
-        if(this.direction === StackDirection.UP){
+        if(this._direction === StackDirection.UP){
             if(card > topCard) return true;
             if(card === topCard - 10) return true;
         } else {
@@ -43,5 +45,16 @@ export class Stack{
         }
 
         return false;
+    }
+
+    get id(): number {
+        return this._id;
+    }
+
+    get cards(): number[] {
+        return this._cards;
+    }
+    get direction(): StackDirection{
+        return this._direction;
     }
 }

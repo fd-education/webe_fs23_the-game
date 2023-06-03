@@ -3,6 +3,7 @@ import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
+import {GamesService} from '../data/games/games.service';
 import {Game} from '../game/game';
 import {Player} from '../game/player';
 
@@ -13,13 +14,14 @@ export class GameManager{
 
     private playersInGame: Map<string, string> = new Map<string, string>();
 
-    constructor(){
+    constructor(private gamesService: GamesService){
 
     }
 
-    public createGame(creator: string, mode: GameMode, maxPlayers: number): Game{
+    public async createGame(creator: string, mode: GameMode, maxPlayers: number): Promise<Game>{
         const game = new Game(creator, mode, maxPlayers);
         this.openGames.push(game);
+        await this.gamesService.create(game.getPersistableGameState());
 
         return game;
     }
