@@ -88,8 +88,8 @@ export const Profile: FC = () => {
         <div className="flex flex-col items-center p-8 h-screen justify-between bg-primaryLight dark:bg-primaryDark w-full space-y-10">
             <SmallTitle />
 
-            <div className="flex grow flex-row w-full space-x-8">
-                <Panel className="grow h-full justify-center">
+            <div className="flex grow flex-row space-x-8">
+                <Panel className="grow h-full justify-center px-5">
                     <Formik
                         enableReinitialize={true}
                         initialValues={{
@@ -175,7 +175,6 @@ export const Profile: FC = () => {
                         </Form>
                     </Formik>
                 </Panel>
-                <Panel className="grow h-full" />
             </div>
 
             <div className="flex flex-col items-center space-y-6">
