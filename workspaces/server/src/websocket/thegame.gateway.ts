@@ -19,6 +19,7 @@ import {GameRoundEndDto} from '@the-game/common/dist/types/game/GameRoundEndDto'
 import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
 import {GamesService} from '../data/games/games.service';
 import {IngameChatsService} from '../data/ingame-chat/ingame-chats.service';
+import {InterventionsService} from '../data/interventions/interventions.service';
 import {GameManager} from '../managers/game.manager';
 import {LobbyManager} from '../managers/lobby.manager';
 import { LoggerService } from '../common/logger/logger.service';
@@ -43,6 +44,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
       private lobbyManager: LobbyManager,
       private gameManager: GameManager,
       private ingameChatsService: IngameChatsService,
+      private interventionsService: InterventionsService,
       ) {
     this.logger.setContext(ThegameGateway.name);
   }
@@ -224,6 +226,8 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     if(!game) throw new Error(`Game ${intervention.gameUid} not running`);
 
     this.server.to(intervention.gameUid).emit(GameEvent.SAVE_INTERVENTION, intervention);
+
+    await this.interventionsService.create(intervention);
   }
 
   @SubscribeMessage(GameEvent.BLOCK_INTERVENTION)
@@ -234,5 +238,14 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     if(!game) throw new Error(`Game ${intervention.gameUid} not running`);
 
     this.server.to(intervention.gameUid).emit(GameEvent.BLOCK_INTERVENTION, intervention);
+
+    await this.interventionsService.create(intervention);
+  }
+
+  @SubscribeMessage(GameEvent.INTERVENTION_HISTORY)
+  async handleInterventionHistory(@ConnectedSocket() client: Socket, @MessageBody() gameUid: {gameUid: string}){
+    const game = this.gameManager.getAnyGame(gameUid.gameUid);
+    const interventionHistory = await this.interventionsService.findAllForGame(game.uid);
+    client.emit(GameEvent.INTERVENTION_HISTORY, interventionHistory);
   }
 }

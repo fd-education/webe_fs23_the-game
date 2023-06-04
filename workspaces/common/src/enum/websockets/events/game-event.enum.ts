@@ -25,7 +25,7 @@ export enum GameEvent {
 
     END_ROUND = 'end-round',
 
+    INTERVENTION_HISTORY = 'intervention-history',
     SAVE_INTERVENTION= 'save-intervention',
-
     BLOCK_INTERVENTION = 'block-intervention',
 }

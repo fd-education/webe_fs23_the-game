@@ -28,7 +28,10 @@ export const GameChat = () => {
     const gameId = useRecoilValue(gameidState);
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState<Array<IngameMessage>>([]);
+    const [chatMessages, setChatMessages] = useState<Array<IngameMessage>>([]);
+    const [interventionMessages, setInterventionMessages] = useState<
+        Array<IngameMessage>
+    >([]);
 
     useEffect(() => {
         if (!user) {
@@ -44,7 +47,7 @@ export const GameChat = () => {
         const onChatMessage: WsListener<IngameMessage> = (
             msg: IngameMessage
         ) => {
-            setMessages((currentMsg: IngameMessage[]) => {
+            setChatMessages((currentMsg: IngameMessage[]) => {
                 return [
                     {
                         authorUid: msg.authorUid,
@@ -62,27 +65,9 @@ export const GameChat = () => {
         const onIntervention: WsListener<GameInterventionDto> = (
             intervention: GameInterventionDto
         ) => {
-            const message =
-                intervention.type === IngameMessageType.BLOCK_INTERVENTION
-                    ? t('game.blockMessage', {
-                          player: intervention.playerName,
-                          stack: intervention.stackIndex
-                      })
-                    : t('game.saveMessage', {
-                          player: intervention.playerName,
-                          stack: intervention.stackIndex
-                      });
-
-            setMessages((currentMsg: IngameMessage[]) => {
+            setChatMessages((currentMsg: IngameMessage[]) => {
                 return [
-                    {
-                        authorUid: intervention.playerUid,
-                        authorName: intervention.playerName,
-                        message: message,
-                        timestamp: intervention.timestamp,
-                        gameUid: intervention.gameUid,
-                        type: intervention.type
-                    },
+                    createMessageFromIntervention(intervention),
                     ...currentMsg
                 ];
             });
@@ -99,6 +84,30 @@ export const GameChat = () => {
         };
     });
 
+    const createMessageFromIntervention = (
+        intervention: GameInterventionDto
+    ): IngameMessage => {
+        const message =
+            intervention.type === IngameMessageType.BLOCK_INTERVENTION
+                ? t('game.blockMessage', {
+                      player: intervention.playerName,
+                      stack: intervention.stackIndex
+                  })
+                : t('game.saveMessage', {
+                      player: intervention.playerName,
+                      stack: intervention.stackIndex
+                  });
+
+        return {
+            authorUid: intervention.playerUid,
+            authorName: intervention.playerName,
+            message: message,
+            timestamp: intervention.timestamp,
+            gameUid: intervention.gameUid,
+            type: intervention.type
+        };
+    };
+
     useEffect(() => {
         wsm.emit<{gameUid: string}>({
             event: ChatEvent.INGAME_CHAT_HISTORY,
@@ -107,16 +116,45 @@ export const GameChat = () => {
             }
         });
 
+        wsm.emit<{gameUid: string}>({
+            event: GameEvent.INTERVENTION_HISTORY,
+            data: {
+                gameUid: gameId
+            }
+        });
+
         const onChatHistory: WsListener<IngameMessage[]> = (
             messages: IngameMessage[]
         ) => {
-            setMessages(messages);
+            setChatMessages(messages);
+        };
+
+        const onInterventionHistory: WsListener<GameInterventionDto[]> = (
+            interventions: GameInterventionDto[]
+        ) => {
+            const interventionMessages: IngameMessage[] = [];
+
+            for (const intervention of interventions) {
+                interventionMessages.push(
+                    createMessageFromIntervention(intervention)
+                );
+            }
+
+            setInterventionMessages(interventionMessages);
         };
 
         wsm.registerListener(ChatEvent.INGAME_CHAT_HISTORY, onChatHistory);
+        wsm.registerListener(
+            GameEvent.INTERVENTION_HISTORY,
+            onInterventionHistory
+        );
 
         return () => {
             wsm.removeListener(ChatEvent.INGAME_CHAT_HISTORY, onChatHistory);
+            wsm.removeListener(
+                GameEvent.INTERVENTION_HISTORY,
+                onInterventionHistory
+            );
         };
     }, [webSocketState]);
 
@@ -150,16 +188,19 @@ export const GameChat = () => {
         <div className="flex items-center h-full justify-center bg-primaryLight dark:bg-primaryDark">
             <Panel className="justify-end">
                 <div className="last:border-b-0 h-full overflow-y-auto pr-3 flex flex-col-reverse">
-                    {messages.map((msg, index) => {
-                        return msg.type !== IngameMessageType.CHAT ? (
-                            <GameIntervention msg={msg} key={index} />
-                        ) : msg.type === IngameMessageType.CHAT &&
-                          msg.authorUid === user!.uid ? (
-                            <ChatBubbleOwn msg={msg} key={index} />
-                        ) : (
-                            <ChatBubbleForeign msg={msg} key={index} />
-                        );
-                    })}
+                    {chatMessages
+                        .concat(interventionMessages)
+                        .sort((a, b) => b.timestamp - a.timestamp)
+                        .map((msg, index) => {
+                            return msg.type !== IngameMessageType.CHAT ? (
+                                <GameIntervention msg={msg} key={index} />
+                            ) : msg.type === IngameMessageType.CHAT &&
+                              msg.authorUid === user!.uid ? (
+                                <ChatBubbleOwn msg={msg} key={index} />
+                            ) : (
+                                <ChatBubbleForeign msg={msg} key={index} />
+                            );
+                        })}
                 </div>
                 <div className="divider dark:before:bg-the_game_gray dark:after:bg-the_game_gray" />
                 <div className="w-full flex space-x-3">
