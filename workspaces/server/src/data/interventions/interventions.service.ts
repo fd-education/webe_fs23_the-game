@@ -1,6 +1,5 @@
 import {Injectable} from '@nestjs/common';
 import {InjectModel} from '@nestjs/mongoose';
-import {IngameMessage} from '@the-game/common/dist/types/chat/message';
 import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
 import {Model} from 'mongoose';
 import {Intervention} from './interventions.schema';
