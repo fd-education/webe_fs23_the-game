@@ -26,6 +26,8 @@ export const TablesView = () => {
             const open = gamesList.filter((g) => !g.started);
             const running = gamesList.filter((g) => g.started);
 
+            console.log(running);
+
             setOpenGames(open);
             setRunningGames(running);
         };
@@ -57,12 +59,24 @@ export const TablesView = () => {
                         {openGames.map((game: GameCreateResponseDto) => {
                             return <TableTile game={game} key={game.uid} />;
                         })}
-                        <div className="divider font-title font-bold text-black dark:text-white dark:before:bg-the_game_gray dark:after:bg-the_game_gray">
-                            {t('lobby.runningGames')}
-                        </div>
-                        {runningGames.map((game: GameCreateResponseDto) => {
-                            return <TableTile game={game} key={game.uid} />;
-                        })}
+
+                        {runningGames.length > 0 && (
+                            <>
+                                <div className="divider font-title font-bold text-black dark:text-white dark:before:bg-the_game_gray dark:after:bg-the_game_gray">
+                                    {t('lobby.runningGames')}
+                                </div>
+                                {runningGames.map(
+                                    (game: GameCreateResponseDto) => {
+                                        return (
+                                            <TableTile
+                                                game={game}
+                                                key={game.uid}
+                                            />
+                                        );
+                                    }
+                                )}
+                            </>
+                        )}
                     </div>
                 </div>
 

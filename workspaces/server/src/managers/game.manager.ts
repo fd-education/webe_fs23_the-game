@@ -23,6 +23,9 @@ export class GameManager{
     }
 
     public createGame(creator: string, mode: GameMode, maxPlayers: number): Game{
+        if(this.openGames.concat(this.runningGames).some(g => g.creator === creator)) throw new Error('Player already created a game')
+        if(this.playersInGame.get(creator)) throw new Error('Player already in another game');
+
         const game = new Game(creator, mode, maxPlayers);
         this.openGames.push(game);
 
@@ -30,7 +33,7 @@ export class GameManager{
     }
 
     public deleteGame(gameId: string): Game{
-        const gameToDelete = this.openGames.find(game => game.uid === gameId);
+        const gameToDelete = this.openGames.concat(this.runningGames).find(game => game.uid === gameId);
         if(!gameToDelete) throw new Error('Game not found');
 
         for(const player of gameToDelete.players){
@@ -38,14 +41,15 @@ export class GameManager{
         }
 
         this.openGames = this.openGames.filter(game => game.uid !== gameId);
+        this.runningGames = this.runningGames.filter(game => game.uid !== gameId);
 
         return gameToDelete;
     }
 
-    public getOpenGames(): GameCreateResponseDto[]{
+    public getAllGames(): GameCreateResponseDto[]{
         const gamesToReturn = [];
 
-        for(const game of this.openGames){
+        for(const game of this.openGames.concat(this.runningGames)){
             gamesToReturn.push({
                 uid: game.uid,
                 creator: game.creator,
@@ -60,32 +64,30 @@ export class GameManager{
     }
 
     public validateJoinRequest(gjd: GameJoinDto): void{
-        const game = this.openGames.find(game => game.uid === gjd.gameUid);
+        const openGame = this.openGames.find(game => game.uid === gjd.gameUid);
+        const runningGame = this.runningGames.find(g => g.uid === gjd.gameUid);
 
-        if(!game) throw new Error('Game not found');
+        if(!openGame && !runningGame) throw new Error('Game not found');
 
         const gameUid = this.playersInGame.get(gjd.userUid);
-        if(gameUid && gameUid != gjd.gameUid) throw new Error('Player already in another game');
+        if(gameUid && gameUid !== gjd.gameUid) throw new Error('Player already in another game');
     }
 
     public addPlayerToGame(gjd: GameJoinDto){
-        const game = this.openGames.find(game => game.uid === gjd.gameUid);
-
-        if(!game) throw new Error('Game not found');
+        const game = this.getAnyGame(gjd.gameUid);
 
         const gameUid = this.playersInGame.get(gjd.userUid);
         if(gameUid && gameUid != gjd.gameUid) throw new Error('Player already in another game');
 
+        if(game.progress !== GameProgress.OPEN) return;
+
         this.playersInGame.set(gjd.userUid, gjd.gameUid);
-        return game.joinPlayer(new Player(gjd.userUid, gjd.userName));
+        game.joinPlayer(new Player(gjd.userUid, gjd.userName));
     }
 
     public removePlayerFromGame(playerId: string){
         const gameUid = this.playersInGame.get(playerId);
         if(!gameUid) throw new Error('Player not found');
-
-        const game = this.openGames.find(game => game.uid === gameUid);
-        if(!game) throw new Error('Game not found');
 
         this.playersInGame.delete(playerId);
     }
@@ -161,11 +163,6 @@ export class GameManager{
         if(!game) return '';
 
         return game.uid;
-    }
-
-    public removeGame(gameId: string){
-        this.openGames = this.openGames.filter(g => g.uid !== gameId);
-        this.runningGames = this.runningGames.filter(g => g.uid !== gameId);
     }
 
     private async buildOpenGames(){

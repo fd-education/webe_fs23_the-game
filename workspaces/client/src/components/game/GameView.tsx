@@ -91,7 +91,12 @@ export const GameView = () => {
             {gameLost && <LooseDialogue />}
 
             <DndProvider backend={HTML5Backend}>
-                <div className="flex flex-col h-full w-[75%] p-8">
+                <div
+                    className={`flex flex-col h-full w-[75%] p-8 ${
+                        (!started || gameWon || gameLost) &&
+                        'pointer-events-none'
+                    }`}
+                >
                     <OtherPlayersRow />
 
                     <div className="flex flex-col justify-between h-[55%]">

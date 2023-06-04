@@ -5,6 +5,7 @@ import {
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
+import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
@@ -95,7 +96,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     const game = this.gameManager.createGame(gcd.creator, gcd.mode, gcd.numberOfPlayers);
     this.logger.info(`Creating game for mode ${gcd.mode} with ${gcd.numberOfPlayers} players`);
 
-    this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+    this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getAllGames());
 
     await this.gamesService.create(game.getPersistableGameState());
   }
@@ -106,7 +107,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
       const game = this.gameManager.deleteGame(gdd.gameUid);
       this.logger.info(`Deleting game ${gdd.gameUid}`);
 
-      this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+      this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getAllGames());
 
       await this.gamesService.delete(game.uid);
 
@@ -119,8 +120,8 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
   @SubscribeMessage(GameEvent.GET_GAMES)
   handleGetGames(@ConnectedSocket() client: Socket): void {
-    this.logger.info(`Sending ${this.gameManager.getOpenGames().length} open games to client ${client.id}`);
-    client.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+    this.logger.info(`Sending ${this.gameManager.getAllGames().length} open games to client ${client.id}`);
+    client.emit(GameEvent.GAMES_UPDATE, this.gameManager.getAllGames());
   }
 
   @SubscribeMessage(GameEvent.JOIN_REQUEST)
@@ -142,8 +143,12 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
     const game = this.gameManager.getAnyGame(gjd.gameUid);
 
+    if(game.progress === GameProgress.LOST || game.progress === GameProgress.WON){
+      this.gameManager.deleteGame(gjd.gameUid);
+    }
+
     this.server.to(gjd.gameUid).emit(GameEvent.GAME_STATE, game.getGameState());
-    this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getOpenGames());
+    this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getAllGames());
     client.join(gjd.gameUid);
 
     await this.gamesService.update(game.getPersistableGameState());
@@ -163,6 +168,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
     this.logger.info(`Starting game ${gameUid.gameId}`);
 
     const game = this.gameManager.startGame(gameUid.gameId);
+    this.server.emit(GameEvent.GAMES_UPDATE, this.gameManager.getAllGames());
     this.server.to(gameUid.gameId).emit(GameEvent.GAME_STATE, game.getGameState());
     await this.gamesService.update(game.getPersistableGameState());
   }
@@ -173,12 +179,12 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
     try{
       const game = this.gameManager.getRunningGame(lcd.gameUid);
-      game.layCard(lcd.userUid, lcd.card, lcd.stack);
+      game.playCard(lcd.userUid, lcd.card, lcd.stack);
 
       this.server.to(lcd.gameUid).emit(GameEvent.GAME_STATE, game.getGameState());
 
       if(game.hasEnded()){
-        this.gameManager.removeGame(game.uid);
+        this.gameManager.deleteGame(game.uid);
       }
 
       await this.gamesService.update(game.getPersistableGameState());
@@ -199,7 +205,7 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
         this.server.to(red.gameUid).emit(GameEvent.GAME_STATE, gameState);
 
         if(game.hasEnded()){
-          this.gameManager.removeGame(game.uid);
+          this.gameManager.deleteGame(game.uid);
         }
 
         await this.gamesService.update(game.getPersistableGameState());

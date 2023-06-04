@@ -74,7 +74,14 @@ export const TableTile = (props: TableTileProps) => {
     };
 
     return (
-        <div key={game.uid} className="rounded-lg p-2 bg-the_game_gray_light">
+        <div
+            key={game.uid}
+            className={`rounded-lg p-2 ${
+                game.connectedPlayers.includes(user!.uid)
+                    ? 'bg-green-200'
+                    : 'bg-the_game_gray_light'
+            } `}
+        >
             <div className="flex flex-row justify-between items-center">
                 <p className="font-bold">
                     {game.mode === GameMode.CLASSIC
@@ -88,12 +95,16 @@ export const TableTile = (props: TableTileProps) => {
                 </p>
 
                 <div className="flex flex-row space-x-4 mx-2">
-                    <button
-                        className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
-                        onClick={() => handleJoinGame(game.uid)}
-                    >
-                        {t('lobby.join')}
-                    </button>
+                    {(!game.started ||
+                        (game.started &&
+                            game.connectedPlayers.includes(user!.uid))) && (
+                        <button
+                            className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
+                            onClick={() => handleJoinGame(game.uid)}
+                        >
+                            {t('lobby.join')}
+                        </button>
+                    )}
 
                     {game.creator === user?.uid && (
                         <button onClick={() => handleDeleteLobby(game.uid)}>

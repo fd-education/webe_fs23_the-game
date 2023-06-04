@@ -133,7 +133,7 @@ export class Game{
         }
     }
 
-    public layCard(playerUid: string, card: number, stackIndex: number){
+    public playCard(playerUid: string, card: number, stackIndex: number){
         if(stackIndex < 0 || stackIndex > 3) throw new Error('Invalid stack index');
         if(card < 2 || card > 99) throw new Error('Invalid card');
         if(this._progress === GameProgress.OPEN) throw new Error('Game not started');
@@ -152,11 +152,20 @@ export class Game{
 
         stack.addCard(card);
         player.removeCard(card);
+
+        if(this.isGameWon()){
+            this._progress = GameProgress.WON;
+        } else if(this.isGameLost()){
+            this._progress = GameProgress.LOST;
+        } else {
+            this._progress = GameProgress.STARTED;
+        }
     }
 
     public endRoundOfPlayer(playerUid: string){
         if(!this.checkCanRoundEnd) throw new Error('Round cannot end');
-        if(this._progress !== GameProgress.STARTED) throw new Error('Game not started');
+        if(this.hasEnded()) throw new Error('Game has ended');
+        if(this._progress === GameProgress.OPEN) throw new Error('Game not started');
 
         const player = this._players.find(p => p.uid === playerUid);
         if(!player) throw new Error('Player not in game');
