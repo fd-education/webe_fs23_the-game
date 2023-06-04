@@ -1,3 +1,5 @@
+import {IngameMessageType} from '@the-game/common/dist/enum/game/ingameMessageType.enum';
+import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
 import React, {useContext} from 'react';
@@ -9,11 +11,6 @@ import {StackIndex} from '../layout/utils/StackIndex';
 import {SaveDownButton} from './SaveDownButton';
 import {SaveUpButton} from './SaveUpButton';
 import {StopButton} from './StopButton';
-
-export enum StackDirection {
-    UP,
-    DOWN
-}
 
 type QuickActionButtonsProps = {
     stackIndex: number;
@@ -36,14 +33,22 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
                 playerName: user.username,
                 gameUid: gameContext.gameId,
                 stackIndex: props.stackIndex,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                type: IngameMessageType.BLOCK_INTERVENTION
             }
         });
     };
 
-    const handleSaveIntervention = () => {
+    const handleSaveIntervention = (direction: StackDirection) => {
         if (!user) return;
         if (!gameContext) return;
+
+        const type: IngameMessageType =
+            direction === StackDirection.UP
+                ? IngameMessageType.SAVEDOWN_INTERVENTION
+                : IngameMessageType.SAVEUP_INTERVENTION;
+
+        console.log(type);
 
         wsm.emit<GameInterventionDto>({
             event: GameEvent.SAVE_INTERVENTION,
@@ -52,7 +57,8 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
                 playerName: user.username,
                 gameUid: gameContext.gameId,
                 stackIndex: props.stackIndex,
-                timestamp: Date.now()
+                timestamp: Date.now(),
+                type: type
             }
         });
     };
@@ -67,12 +73,15 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
             {props.stackDirection === StackDirection.UP ? (
                 <SaveDownButton
                     stackIndex={props.stackIndex}
-                    onClick={handleSaveIntervention}
+                    onClick={() => {
+                        console.log('Save Down Clicked!');
+                        handleSaveIntervention(StackDirection.UP);
+                    }}
                 />
             ) : (
                 <SaveUpButton
                     stackIndex={props.stackIndex}
-                    onClick={handleSaveIntervention}
+                    onClick={() => handleSaveIntervention(StackDirection.DOWN)}
                 />
             )}
         </div>

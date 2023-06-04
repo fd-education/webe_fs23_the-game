@@ -1,4 +1,6 @@
 export enum IngameMessageType{
     CHAT = 'chat',
-    INTERVENTION = 'intervention',
+    BLOCK_INTERVENTION = 'block-intervention',
+    SAVEUP_INTERVENTION = 'saveup-intervention',
+    SAVEDOWN_INTERVENTION = 'savedown-intervention',
 }

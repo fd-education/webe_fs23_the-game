@@ -1,4 +1,5 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import {IngameMessageType} from '@the-game/common/dist/enum/game/ingameMessageType.enum';
 import {HydratedDocument} from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -38,6 +39,11 @@ export class IngameChat {
         required: true,
     })
     timestamp: number;
+
+    @Prop({
+        required: true,
+    })
+    type: IngameMessageType;
 }
 
 export const IngameChatsSchema = SchemaFactory.createForClass(IngameChat);

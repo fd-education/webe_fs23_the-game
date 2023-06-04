@@ -1,10 +1,7 @@
 import {IngameMessageType} from '@the-game/common/dist/enum/game/ingameMessageType.enum';
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
-import {
-    IngameMessage,
-    MessageWithKey
-} from '@the-game/common/dist/types/chat/message';
+import {IngameMessage} from '@the-game/common/dist/types/chat/message';
 import {GameInterventionDto} from '@the-game/common/dist/types/game/GameInterventionDto';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -15,9 +12,13 @@ import userState from '../../common/states/user.state';
 import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
+import {SaveDownIcon} from '../game/buttons/utils/SaveDownIcon';
+import {SaveUpIcon} from '../game/buttons/utils/SaveUpIcon';
+import {StopIcon} from '../game/buttons/utils/StopIcon';
 import {SendIcon} from '../svg/send.icon';
 import {Panel} from '../util/panel/Panel';
 import {ChatBubbleForeign, ChatBubbleOwn} from './ChatBubble';
+import {GameIntervention} from './GameIntervention';
 
 export const GameChat = () => {
     const {t} = useTranslation();
@@ -27,10 +28,7 @@ export const GameChat = () => {
     const gameId = useRecoilValue(gameidState);
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
-    const [messages, setMessages] = useState<Array<MessageWithKey>>([]);
-    const [interventions, setInterventions] = useState<
-        Array<GameInterventionDto>
-    >([]);
+    const [messages, setMessages] = useState<Array<IngameMessage>>([]);
 
     useEffect(() => {
         if (!user) {
@@ -43,17 +41,18 @@ export const GameChat = () => {
             return;
         }
 
-        const onChatMessage: WsListener<MessageWithKey> = (
-            msg: MessageWithKey
+        const onChatMessage: WsListener<IngameMessage> = (
+            msg: IngameMessage
         ) => {
-            setMessages((currentMsg: MessageWithKey[]) => {
+            setMessages((currentMsg: IngameMessage[]) => {
                 return [
                     {
                         authorUid: msg.authorUid,
                         authorName: msg.authorName,
                         message: msg.message,
                         timestamp: msg.timestamp,
-                        uid: msg.uid
+                        gameUid: msg.gameUid,
+                        type: msg.type
                     },
                     ...currentMsg
                 ];
@@ -63,18 +62,35 @@ export const GameChat = () => {
         const onIntervention: WsListener<GameInterventionDto> = (
             intervention: GameInterventionDto
         ) => {
-            setInterventions((currentInterventions: GameInterventionDto[]) => {
-                return [intervention, ...currentInterventions];
-            });
+            const message =
+                intervention.type === IngameMessageType.BLOCK_INTERVENTION
+                    ? t('game.blockMessage', {
+                          player: intervention.playerName,
+                          stack: intervention.stackIndex
+                      })
+                    : t('game.saveMessage', {
+                          player: intervention.playerName,
+                          stack: intervention.stackIndex
+                      });
 
-            console.log(interventions);
+            setMessages((currentMsg: IngameMessage[]) => {
+                return [
+                    {
+                        authorUid: intervention.playerUid,
+                        authorName: intervention.playerName,
+                        message: message,
+                        timestamp: intervention.timestamp,
+                        gameUid: intervention.gameUid,
+                        type: intervention.type
+                    },
+                    ...currentMsg
+                ];
+            });
         };
 
-        if (webSocketState.connected) {
-            wsm.registerListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
-            wsm.registerListener(GameEvent.BLOCK_INTERVENTION, onIntervention);
-            wsm.registerListener(GameEvent.SAVE_INTERVENTION, onIntervention);
-        }
+        wsm.registerListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
+        wsm.registerListener(GameEvent.BLOCK_INTERVENTION, onIntervention);
+        wsm.registerListener(GameEvent.SAVE_INTERVENTION, onIntervention);
 
         return () => {
             wsm.removeListener(ChatEvent.INGAME_MESSAGE, onChatMessage);
@@ -91,8 +107,8 @@ export const GameChat = () => {
             }
         });
 
-        const onChatHistory: WsListener<MessageWithKey[]> = (
-            messages: MessageWithKey[]
+        const onChatHistory: WsListener<IngameMessage[]> = (
+            messages: IngameMessage[]
         ) => {
             setMessages(messages);
         };
@@ -135,7 +151,10 @@ export const GameChat = () => {
             <Panel className="justify-end">
                 <div className="last:border-b-0 h-full overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((msg, index) => {
-                        return msg.authorUid === user!.uid ? (
+                        return msg.type !== IngameMessageType.CHAT ? (
+                            <GameIntervention msg={msg} key={index} />
+                        ) : msg.type === IngameMessageType.CHAT &&
+                          msg.authorUid === user!.uid ? (
                             <ChatBubbleOwn msg={msg} key={index} />
                         ) : (
                             <ChatBubbleForeign msg={msg} key={index} />

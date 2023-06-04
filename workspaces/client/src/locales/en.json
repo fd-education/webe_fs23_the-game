@@ -49,6 +49,7 @@
         },
         "game": {
             "backToLobby": "Back to the lobby",
+            "blockMessage": "{{player}} wants to block stack {{stack}}!",
             "congrats": "Congrats!",
             "endRound": "End Round",
             "loose": "You lost!",
@@ -58,6 +59,7 @@
                 "onfire": "On Fire"
             },
             "pickupCardsRemaining": "remaining",
+            "saveMessage": "{{player}} could save stack {{stack}}.",
             "start": "Start",
             "start_question": "Would you like to start the game?",
             "starting": "Starting",

@@ -1,7 +1,5 @@
-import {
-    InterventionButtons,
-    StackDirection
-} from '../buttons/InterventionButtons';
+import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
+import {InterventionButtons} from '../buttons/InterventionButtons';
 import {Card} from '../cards/Card';
 import {BottomUpDropTarget} from './utils/BottomUpDropTarget';
 import {BottomUpIcon} from './utils/BottomUpIcon';

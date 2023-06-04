@@ -1,4 +1,4 @@
 export enum StackDirection{
-    UP = 1,
-    DOWN = 2,
+    UP = 'up',
+    DOWN = 'down',
 }

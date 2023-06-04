@@ -1,7 +1,10 @@
-import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
+import {
+    IngameMessage,
+    MessageWithKey
+} from '@the-game/common/dist/types/chat/message';
 
 type ChatBubbleProps = {
-    msg: MessageWithKey;
+    msg: MessageWithKey | IngameMessage;
 };
 
 /**

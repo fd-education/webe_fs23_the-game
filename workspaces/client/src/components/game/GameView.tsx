@@ -1,4 +1,5 @@
 import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
+import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {Player} from '@the-game/common/dist/types/game/GameState';
 import React, {useContext, useEffect, useState} from 'react';
@@ -11,7 +12,6 @@ import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
 import {GameContext} from '../../pages/Game';
-import {StackDirection} from './buttons/InterventionButtons';
 import {LooseDialogue} from './layout/LooseDialogue';
 import {OtherPlayersRow} from './layout/OtherPlayersRow';
 import {PlayerRow} from './layout/PlayerRow';

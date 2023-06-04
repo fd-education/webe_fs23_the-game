@@ -49,6 +49,7 @@
         },
         "game": {
             "backToLobby": "Zurück zur Lobby",
+            "blockMessage": "{{player}} möchte Stapel {{stack}} blockieren!",
             "congrats": "Gratulation!",
             "endRound": "Zug beenden",
             "loose": "Verloren!",
@@ -58,6 +59,7 @@
                 "onfire": "On Fire"
             },
             "pickupCardsRemaining": "übrig",
+            "saveMessage": "{{player}} kann Stapel {{stack}} retten.",
             "start": "Starten",
             "start_question": "Möchtest du das Spiel starten?",
             "starting": "Starten",
