@@ -1,5 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
+import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
@@ -44,13 +45,14 @@ export class GameManager{
     public getOpenGames(): GameCreateResponseDto[]{
         const gamesToReturn = [];
 
-        for(let game of this.openGames){
+        for(const game of this.openGames){
             gamesToReturn.push({
                 uid: game.uid,
                 creator: game.creator,
                 mode: game.mode,
                 numberOfPlayers: game.playerLimit,
-                connectedPlayers: game.players.length
+                connectedPlayers: game.players.map(p => p.uid),
+                started: game.progress !== GameProgress.OPEN
             });
         }
 
@@ -113,6 +115,7 @@ export class GameManager{
 
         gameToStart.startGame();
         this.runningGames.push(gameToStart);
+        this.openGames = this.openGames.filter(g => g.uid !== gameToStart.uid);
 
         return gameToStart;
     }
@@ -158,6 +161,11 @@ export class GameManager{
         if(!game) return '';
 
         return game.uid;
+    }
+
+    public removeGame(gameId: string){
+        this.openGames = this.openGames.filter(g => g.uid !== gameId);
+        this.runningGames = this.runningGames.filter(g => g.uid !== gameId);
     }
 
     private async buildOpenGames(){

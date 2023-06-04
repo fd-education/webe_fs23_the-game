@@ -5,7 +5,7 @@ import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import {useRecoilValue, useSetRecoilState} from 'recoil';
 import gameidState from '../../../common/states/gameid.state';
 import userState from '../../../common/states/user.state';
 import useWebSocket from '../../../hooks/useWebSocket';
@@ -81,7 +81,11 @@ export const TableTile = (props: TableTileProps) => {
                         ? t('game.mode.classic')
                         : t('game.mode.onfire')}
                 </p>
-                <p>{game.connectedPlayers + ' / ' + game.numberOfPlayers}</p>
+                <p>
+                    {game.connectedPlayers.length +
+                        ' / ' +
+                        game.numberOfPlayers}
+                </p>
 
                 <div className="flex flex-row space-x-4 mx-2">
                     <button

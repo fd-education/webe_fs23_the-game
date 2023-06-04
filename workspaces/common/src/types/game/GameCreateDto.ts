@@ -8,5 +8,6 @@ export type GameCreateDto = {
 
 export type GameCreateResponseDto = {
     uid: string;
-    connectedPlayers: number;
+    connectedPlayers: string[];
+    started: boolean;
 } & GameCreateDto;

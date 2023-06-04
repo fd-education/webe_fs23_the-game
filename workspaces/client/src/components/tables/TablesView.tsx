@@ -13,14 +13,21 @@ import {TableTile} from './utils/TableTile';
 export const TablesView = () => {
     const {t} = useTranslation();
     const {wsm} = useWebSocket();
-    const [games, setGames] = useState<Array<GameCreateResponseDto>>([]);
+    const [openGames, setOpenGames] = useState<GameCreateResponseDto[]>([]);
+    const [runningGames, setRunningGames] = useState<GameCreateResponseDto[]>(
+        []
+    );
     const webSocketState = useRecoilValue(websocketState);
 
     useEffect(() => {
         const onGameUpdate: WsListener<GameCreateResponseDto[]> = (
             gamesList: GameCreateResponseDto[]
         ) => {
-            setGames(gamesList);
+            const open = gamesList.filter((g) => !g.started);
+            const running = gamesList.filter((g) => g.started);
+
+            setOpenGames(open);
+            setRunningGames(running);
         };
 
         wsm.registerListener(GameEvent.GAMES_UPDATE, onGameUpdate);
@@ -47,7 +54,13 @@ export const TablesView = () => {
 
                 <div className="h-full content-start overflow-y-auto">
                     <div className="flex flex-col space-y-3">
-                        {games.map((game: GameCreateResponseDto) => {
+                        {openGames.map((game: GameCreateResponseDto) => {
+                            return <TableTile game={game} key={game.uid} />;
+                        })}
+                        <div className="divider font-title font-bold text-black dark:text-white dark:before:bg-the_game_gray dark:after:bg-the_game_gray">
+                            {t('lobby.runningGames')}
+                        </div>
+                        {runningGames.map((game: GameCreateResponseDto) => {
                             return <TableTile game={game} key={game.uid} />;
                         })}
                     </div>

@@ -5,11 +5,9 @@ import {useNavigate} from 'react-router-dom';
 import {useRecoilState} from 'recoil';
 import UserRepository from '../common/localstorage/user.repository';
 import userState from '../common/states/user.state';
-import websocketState from '../common/states/websocket.state';
 import {TablesView} from '../components/tables/TablesView';
 import {GlobalPlayerView} from '../components/users/GlobalPlayerView';
 import useWebSocket from '../hooks/useWebSocket';
-import {refreshAccessToken} from '../services/api';
 import {LobbyChat} from '../components/chat/LobbyChat';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
@@ -17,14 +15,9 @@ import {SmallTitle} from '../components/util/title/SmallTitle';
 import UserService from '../services/profile/user.service';
 
 export const Lobby: FC = () => {
-    const {wsm, websocket} = useWebSocket();
+    const {wsm} = useWebSocket();
     const navigate = useNavigate();
     const [user, setUser] = useRecoilState(userState);
-    const webSocketState = useWebSocket();
-
-    const refreshAccessTokenCallback = useCallback(async () => {
-        await refreshAccessToken();
-    }, []);
 
     const fetchUser = useCallback(async () => {
         const uid = UserRepository.getUserId();

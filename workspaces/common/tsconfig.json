@@ -5,7 +5,13 @@
     "sourceMap": true,
     "composite": true,
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.iterable"
+    ]
   },
   "include": ["src/**/*"]
 }

@@ -177,6 +177,10 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
 
       this.server.to(lcd.gameUid).emit(GameEvent.GAME_STATE, game.getGameState());
 
+      if(game.hasEnded()){
+        this.gameManager.removeGame(game.uid);
+      }
+
       await this.gamesService.update(game.getPersistableGameState());
     } catch(e){
         this.logger.warn(`Could not lay card ${lcd.card} in game ${lcd.gameUid}: ${e}`);
@@ -193,6 +197,11 @@ export class ThegameGateway implements OnGatewayConnection, OnGatewayDisconnect 
         const gameState = game.endRoundOfPlayer(red.userUid);
 
         this.server.to(red.gameUid).emit(GameEvent.GAME_STATE, gameState);
+
+        if(game.hasEnded()){
+          this.gameManager.removeGame(game.uid);
+        }
+
         await this.gamesService.update(game.getPersistableGameState());
         return true;
     } catch (e) {

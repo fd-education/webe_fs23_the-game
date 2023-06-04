@@ -205,6 +205,10 @@ export class Game{
         }
     }
 
+    public hasEnded(){
+        return this.progress !== GameProgress.STARTED && this.progress !== GameProgress.OPEN;
+    }
+
     private checkCanRoundEnd(): boolean{
         const hasPullStackCondition = this.pullStack.length > 0 && this.cardsLaidInRound >= 2;
         const noPullStackCondition = this.pullStack.length === 0 && this.cardsLaidInRound >= 1;
