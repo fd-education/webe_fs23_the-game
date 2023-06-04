@@ -69,6 +69,24 @@ export const CreateTableForm = () => {
                             />
                         </div>
 
+                        <div>
+                            <label htmlFor="mode">
+                                {t('lobby.mode') + ': '}
+                            </label>
+                            <Field
+                                as="select"
+                                name="mode"
+                                className="text-center bg-transparent border-b-2 border-black dark:border-white"
+                            >
+                                <option selected value={GameMode.CLASSIC}>
+                                    {t('game.mode.classic')}
+                                </option>
+                                <option value={GameMode.ONFIRE}>
+                                    {t('game.mode.onfire')}
+                                </option>
+                            </Field>
+                        </div>
+
                         <button
                             className="w-10 h-10 bg-the_game_purple rounded-full"
                             type="submit"
