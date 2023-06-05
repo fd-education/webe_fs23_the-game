@@ -1,5 +1,5 @@
-import {Lang} from '@the-game/common/dist/enum/lang.enum';
-import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
 import { HydratedDocument } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { v4 as uuidv4 } from 'uuid';

@@ -1,4 +1,4 @@
-import {SignInPayload} from '@the-game/common/dist/types/signInPayload';
+import {SignInPayload} from '@the-game/common/dist/types/auth/signInPayload';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Transform, TransformFnParams } from 'class-transformer';
 

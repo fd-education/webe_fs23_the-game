@@ -1,6 +1,6 @@
-import {Lang} from '@the-game/common/dist/enum/lang.enum';
-import {Theme} from '@the-game/common/dist/enum/theme.enum';
-import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
+import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
+import {ProfileUpdate} from '@the-game/common/dist/types/profile/profileUpdate';
 import {
     IsEmail,
     IsEnum,
@@ -41,7 +41,7 @@ export class ProfileUpdateDto implements ProfileUpdate{
         minNumbers: 1,
         minSymbols: 1,
     })
-    readonly password?: string;
+    password?: string;
 
     @ValidateIf((o: ProfileUpdateDto) => o.password !== undefined)
     @Match(ProfileUpdateDto, (r: ProfileUpdateDto) => r.password)

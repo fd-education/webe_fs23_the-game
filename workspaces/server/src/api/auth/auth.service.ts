@@ -8,7 +8,7 @@ import { BcryptService } from '../../security/bcrypt/bcrypt.service';
 import { LoggerService } from '../../common/logger/logger.service';
 import { MailService } from '../../common/mail/mail.service';
 import { randomBytes } from 'crypto';
-import {TokensService} from "../../data/token/tokens.service";
+import {TokensService} from "../../data/tokens/tokens.service";
 import {RequestPasswordResetTokenDto} from "../../common/dto/passwordResetToken.dto";
 import {ConfigService} from "../../common/config/config.service";
 
@@ -40,7 +40,7 @@ export class AuthService {
         await this.updateRefreshToken(user.uid, tokens.refreshToken);
 
         return {
-            uid: user.uid,
+            user,
             ...tokens
         };
     }

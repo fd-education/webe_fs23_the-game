@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import {Stage} from '@the-game/common/dist/enum/stage.enum';
+import {Stage} from '@the-game/common/dist/enum/preferences/stage.enum';
 import { MailService } from './mail.service';
 import { ConfigModule } from '../config/config.module';
 import { LoggerModule } from '../logger/logger.module';

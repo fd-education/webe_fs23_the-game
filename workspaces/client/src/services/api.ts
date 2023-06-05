@@ -1,6 +1,6 @@
 import axios, {AxiosInstance} from 'axios';
 import {config} from '../common/config/config';
-import TokenService from './auth/token.service';
+import TokenService from '../common/localstorage/token.repository';
 
 const authInterceptor: AxiosInstance = axios.create({
     baseURL: config.backendUrl,
@@ -34,23 +34,7 @@ authInterceptor.interceptors.response.use(
                 originalConfig._retry = true;
 
                 try {
-                    const BASE_URL = config.backendUrl;
-
-                    const resp = await axios.post(
-                        BASE_URL + '/auth/refresh',
-                        {
-                            uid: localStorage.getItem('user_id'),
-                            refreshToken: TokenService.getRefreshToken()
-                        },
-                        {
-                            headers: {
-                                Authorization: `Bearer ${TokenService.getRefreshToken()}`
-                            }
-                        }
-                    );
-
-                    const {accessToken} = resp.data;
-                    TokenService.setAccessToken(accessToken);
+                    await refreshAccessToken();
 
                     return authInterceptor(originalConfig);
                 } catch (err) {
@@ -62,5 +46,25 @@ authInterceptor.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+
+export const refreshAccessToken = async () => {
+    const BASE_URL = config.backendUrl;
+
+    const resp = await axios.post(
+        BASE_URL + '/auth/refresh',
+        {
+            uid: localStorage.getItem('user_id'),
+            refreshToken: TokenService.getRefreshToken()
+        },
+        {
+            headers: {
+                Authorization: `Bearer ${TokenService.getRefreshToken()}`
+            }
+        }
+    );
+
+    const {accessToken} = resp.data;
+    TokenService.setAccessToken(accessToken);
+};
 
 export default authInterceptor;

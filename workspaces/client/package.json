@@ -14,6 +14,7 @@
     "packageManager": "yarn@3.5.0",
     "dependencies": {
         "@popperjs/core": "^2.11.7",
+        "@tailwindcss/aspect-ratio": "^0.4.2",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^13.4.0",
         "@the-game/common": "*",
@@ -24,10 +25,15 @@
         "i18next": "^22.4.15",
         "i18next-browser-languagedetector": "^7.0.1",
         "react": "^18.2.0",
+        "react-confetti": "^6.1.0",
+        "react-dnd": "^16.0.1",
+        "react-dnd-html5-backend": "^16.0.1",
         "react-dom": "^18.2.0",
         "react-i18next": "^12.2.0",
         "react-router-dom": "^6.10.0",
         "react-scripts": "5.0.1",
+        "react-use": "^17.4.0",
+        "recoil": "^0.7.7",
         "socket.io-client": "^4.6.1",
         "typescript": "^4.9.5",
         "yup": "^1.1.1"

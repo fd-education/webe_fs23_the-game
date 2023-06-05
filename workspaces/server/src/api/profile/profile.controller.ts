@@ -9,8 +9,7 @@ import {
 import {ProfileUpdateDto} from '../../common/dto/profileUpdate.dto';
 import { LoggerService } from '../../common/logger/logger.service';
 import {
-  PasswordDto,
-  ProfileRequestDto,
+  PasswordDto
 } from '../../common/dto/profile.dto';
 import { ProfileService } from './profile.service';
 import { NoSuchProfileException } from '../../common/exceptions/profile.exceptions';

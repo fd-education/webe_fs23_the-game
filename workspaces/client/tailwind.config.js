@@ -6,7 +6,7 @@ module.exports = {
     theme: {
         fontFamily: {
             'sans': ['Inter', 'sans-serif'],
-            'title': ['Roboto Mono', 'monospace'],
+            'title': ['Roboto Mono', 'monospace']
         },
         extend: {
             colors: {
@@ -15,8 +15,8 @@ module.exports = {
                 shadowLight: 'rgba(239, 224, 239, 0.33)',
 
                 primaryDark: '#3D3A3A',
-                secondaryDark: '#3A3737',
-                shadowDark: 'rgba(33,33,33,0.25)',
+                secondaryDark: 'rgb(58,55,55)',
+                shadowDark: 'rgba(33,33,33,0)',
 
                 the_game_purple: '#6B4EFF',
                 the_game_darkPurple: '#6f65a0',
@@ -24,12 +24,16 @@ module.exports = {
                 the_game_orange: '#BF7160',
                 the_game_darkOrange: '#814d41',
                 the_game_gray: '#847C7C',
+                the_game_gray_light: '#ABA7A7',
 
                 chatBubbleForeign: '#262628',
                 chatBubbleOwn: '#E9E9EB',
             },
+            aspectRatio: {
+              'card': '1 / 1.5',
+            },
             backgroundImage: {
-                'cards': "url('/public/svg/background-cards.svg')",
+                'cards': "url('/public/svg/background-cards.svg')"
             },
             backgroundPosition: {
                 'cards-background': '-10rem -45rem',
@@ -39,13 +43,23 @@ module.exports = {
                 '6': '4rem',
             },
             boxShadow: {
-                around: '0 0 7px 11px',
+                'dark-around': '12px 12px 29px #2e2c2c, -12px -12px 29px #464242;',
+                'light-around': '12px 12px 29px #e2d6d6, -12px -12px 29px #fff6f6;'
             },
             borderRadius: {
                 '2lg': '1rem'
             },
             fontSize:{
                 '10xl': '10rem',
+            },
+            keyframes: {
+                'grow': {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '50%': { transform: 'scale(2)' },
+                }
+            },
+            animation: {
+                'grow': 'grow 1s ease-in-out 1',
             }
         }
     },
@@ -60,5 +74,5 @@ module.exports = {
     },
     variants: {},
     darkMode: 'class',
-    plugins: [require('daisyui')]
+    plugins: [require('daisyui'), require('@tailwindcss/aspect-ratio'),]
 };

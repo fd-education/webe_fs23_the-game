@@ -48,13 +48,17 @@ export class UsersService {
     }
 
     async update(updateUserDto: ProfileUpdateDto): Promise<User | null> {
-        const hashedPassword =
-            updateUserDto.password ?
-                await this.bcryptService.hash(updateUserDto.password) : null;
+        const updateData = {...updateUserDto};
+
+        if(!updateData.password) {
+            delete updateData.password;
+        } else {
+            updateData.password = await this.bcryptService.hash(updateData.password);
+        }
 
         return await this.userModel.findOneAndUpdate(
             { uid: updateUserDto.uid },
-            {...updateUserDto, password: hashedPassword},
+            { ...updateData },
             { new: true }
         );
     }

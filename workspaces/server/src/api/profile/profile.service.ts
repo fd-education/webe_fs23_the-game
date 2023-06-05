@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import {ProfileUpdate} from '@the-game/common/dist/types/profileUpdate';
 import {ProfileUpdateDto} from '../../common/dto/profileUpdate.dto';
 import { UsersService } from '../../data/users/users.service';
 import { NoSuchProfileException } from '../../common/exceptions/profile.exceptions';
@@ -51,6 +50,7 @@ export class ProfileService {
     const hashedPassword = await this.bcryptService.hash(
       passwordUpdate.password,
     );
+
     const user = await this.userService.updatePassword(
       passwordUpdate.uid,
       hashedPassword,

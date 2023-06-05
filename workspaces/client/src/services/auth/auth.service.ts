@@ -1,33 +1,49 @@
+import {PasswordResetTokenPayload} from '@the-game/common/dist/types/auth/passwordResetTokenPayload';
+import {RegistrationPayload} from '@the-game/common/dist/types/auth/registrationPayload';
+import {ResetPasswordPayload} from '@the-game/common/dist/types/auth/resetPasswordPayload';
+import {SignInPayload} from '@the-game/common/dist/types/auth/signInPayload';
+import {User} from '@the-game/common/dist/types/auth/user';
 import {AxiosResponse} from 'axios';
-import {RegistrationPayload} from '../../common/types/registrationPayload';
-import {LoginPayload} from '../../common/types/loginPayload';
-import {RequestTokenPayload} from '../../common/types/requestTokenPayload';
-import {ResetPasswordPayload} from '../../common/types/resetPasswordPayload';
-import {User} from '../../common/types/user';
+import TokenRepository from '../../common/localstorage/token.repository';
+import UserRepository from '../../common/localstorage/user.repository';
 import authInterceptor from '../api';
-import TokenService from './token.service';
 
 class AuthService {
-    login(loginPayload: LoginPayload) {
-        return authInterceptor
-            .post('/auth/signin', loginPayload)
-            .then((response) => {
-                if (response.data.accessToken) {
-                    TokenService.setAccessToken(response.data.accessToken);
-                    TokenService.setRefreshToken(response.data.refreshToken);
-                    localStorage.setItem('user_id', response.data.uid);
-                }
-            });
+    async login(
+        loginPayload: SignInPayload
+    ): Promise<[User | null, string | null]> {
+        const userResponse = await authInterceptor.post(
+            '/auth/signin',
+            loginPayload
+        );
+
+        if (userResponse.data.accessToken && userResponse.data.user) {
+            TokenRepository.setAccessToken(userResponse.data.accessToken);
+            TokenRepository.setRefreshToken(userResponse.data.refreshToken);
+            UserRepository.setUserId(userResponse.data.user.uid);
+
+            return [
+                userResponse.data.user as User,
+                userResponse.data.accessToken as string
+            ];
+        }
+
+        return [null, null];
     }
 
-    logout() {
+    async logout() {
         const uid = localStorage.getItem('user_id');
 
-        if (uid) authInterceptor.post('/auth/signout', {uid});
+        if (uid)
+            await authInterceptor.get('/auth/signout', {
+                params: {
+                    uid: uid
+                }
+            });
 
-        localStorage.removeItem('user');
-        localStorage.removeItem('user_id');
-        TokenService.removeTokens();
+        UserRepository.removeUserId();
+        UserRepository.removeUser();
+        TokenRepository.removeTokens();
     }
 
     register(
@@ -36,7 +52,7 @@ class AuthService {
         return authInterceptor.post('/auth/register', registrationPayload);
     }
 
-    requestResetPasswordToken(requestTokenPayload: RequestTokenPayload) {
+    requestResetPasswordToken(requestTokenPayload: PasswordResetTokenPayload) {
         return authInterceptor.post('/auth/request-token', requestTokenPayload);
     }
 

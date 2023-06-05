@@ -1,4 +1,4 @@
-import {Stage} from '@the-game/common/dist/enum/stage.enum';
+import {Stage} from '@the-game/common/dist/enum/preferences/stage.enum';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import { Injectable } from '@nestjs/common';

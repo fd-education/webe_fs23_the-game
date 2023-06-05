@@ -50,6 +50,13 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
     * [5.7 Gitlab](#57-gitlab)
   * [6 Datenmodell](#6-datenmodell)
     * [6.1 User](#61-user)
+    * [6.2 Chat (Message)](#62-chat-message)
+    * [6.3 Game](#63-game)
+      * [6.3.1 Game State](#631-game-state)
+      * [6.3.2 Stack](#632-stack)
+      * [6.3.3 Player](#633-player)
+    * [6.4 Interventions](#64-interventions)
+    * [3.5 Ingame Chat](#35-ingame-chat)
   * [7 UI Prototyp](#7-ui-prototyp)
     * [7.1 Landing Page](#71-landing-page)
     * [7.2 Registration Page](#72-registration-page)
@@ -192,16 +199,26 @@ nicht erwartet, dass sämtliche Kontroll- und Speichermechanismen vollständig i
 
 ### 3.4 Meilenstein 4
 
-**Abgabe: 21.05.2023 (PVA8 - 1d), Nachbearbeitung: 02.06.2023 (PVA9 - 2d)**  
+**Abgabe: 21.05.2023 (PVA8 - 1d), Nachbearbeitung: 05.06.2023 (PVA9 - 1d)**  
 Mit dem Stand dieses Meilensteins muss das Projekt in der nächsten Präsenzveranstaltung präsentiert werden.
 Dementsprechend muss die Funktionalität so komplett wie möglich integriert und das Projekt vollständig sein. Nach der
 Präsenzveranstaltung werden noch zwei Wochen zur Verfügung gestellt. Dieser Puffer sollte allerdings nicht für fehlende
 Features, sondern für Bugfixes und finalisierende Politur des Projektes dienen.
 
-- [ ] Feature-complete Version des Servers
-- [ ] Feature-complete Version des Clients
-- [ ] Kontrolle, ob alle Anforderungen realisiert wurden
-- [ ] Auflistung, was noch Verbessert werden muss und/oder was noch nicht erledigt wurde
+- [X] Feature-complete Version des Servers
+  - [X] WebSocket-Interface & Gateway für Spiel, Chatting und Lobby
+  - [X] Persistierung von Spielen, Chats und Interventionen
+  - [X] Game-Flow management
+- [X] Feature-complete Version des Clients
+  - [X] Auflistung von offenen Spielen
+  - [X] Auflistung von laufenden Spielen
+  - [X] Formular für die Erstellung neuer Spiele
+  - [X] Spielscreen mit Karten (SVG), Animationen, Drag & Drop
+- [X] Kontrolle, ob alle Anforderungen realisiert wurden
+- [X] Auflistung, was noch Verbessert werden muss und/oder was noch nicht erledigt wurde
+  - [X] Dokumentation abschliessen (insb. Kommunikationsprotokoll & Deploymentkonzept)
+  - [X] Out-of-Scope/ Second-Release: Freundeslisten, Spielstatistiken
+
 
 ## 4 Anforderungen
 
@@ -960,6 +977,82 @@ um User Stories und Tasks zu erfassen. Zu Planungszwecken wird ausserdem ein Boa
     "avg_duration": <average game duration>,
     "partners": <list of prev partners (max. 30 rounds)>
   }
+}
+```
+
+### 6.2 Chat (Message)
+```json
+{
+  "uid": <unique identifier>,
+  "authorUid": <uid of the author>,
+  "authorName": <name of the author>,
+  "message": <message content>,
+  "timestamp": <timestamp of the message>
+}
+```
+
+### 6.3 Game
+#### 6.3.1 Game State
+```json
+{
+  "gameId": <unique identifier>,
+  "creator": <uid of the creator>,
+  "numberOfPlayers": <# of players intended for the game>,
+  "gameMode": <game mode (classic, onfire)>,
+  "numberOfHandcards": <# of handcards per player>,
+  "progress": <game progress (open, started, won, lost)>,
+  "pickupStack": <list of cards in the pickup stack>,
+  "stacks": <list of stacks (stacks to play cards onto, during the game)>,
+  "roundCounter": <# of rounds played>,
+  "canRoundEnd": <boolean, whether the round can end>,
+  "isNewRound": <boolean, whether a the round has just started>,
+  "cardsLaidInRound": <# of cards laid in the current round>,
+  "dangerRound": <boolean, whether the current round is a danger round>,
+  "players": <list of players>,  
+}
+```
+
+#### 6.3.2 Stack
+```json
+{
+  "id": <number of the stack (0 - 3)>,
+  "direction": <direction of the stack (upward, downward)>,
+  "cards": <list of cards in the stack>
+}
+```
+
+#### 6.3.3 Player
+```json
+{
+  "uid": <unique identifier>,
+  "username": <username of the player>,
+  "handCards": <list of cards the player has on hand>,
+}
+```
+
+### 6.4 Interventions
+```json
+{
+  "uid": <unique identifier>,
+  "gameUid": <gameUid of the game the intervention is related to>,
+  "playerUid": <uid of the player the intervention is related to>,
+  "playerName": <name of the player the intervention is related to>,
+  "stackIndex": <index of the stack the intention is related to>,
+  "timestamp": <timestamp of the intervention>,
+  "type": <type of the message (chat, intervention)>
+}
+```
+
+### 3.5 Ingame Chat
+```json
+{
+  "uid": <unique identifier>,
+  "gameUid": <gameUid of the game the message is related to>,
+  "authorUid": <uid of the author>,
+  "authorName": <name of the author>,
+  "message": <message content>,
+  "timestamp": <timestamp of the message>,
+  "type": <type of the message (chat, intervention)>
 }
 ```
 

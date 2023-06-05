@@ -1,8 +1,18 @@
 import { Module } from '@nestjs/common';
-import { WebsocketGateway } from './websocket.gateway';
+import {ConfigModule} from '../common/config/config.module';
+import {GamesModule} from '../data/games/games.module';
+import {IngameChatsModule} from '../data/ingame-chat/ingame-chats.module';
+import {InterventionsModule} from '../data/interventions/interventions.module';
+import {GameManager} from '../managers/game.manager';
+import {LobbyManager} from '../managers/lobby.manager';
+import {ChatsModule} from '../data/chats/chats.module';
+import {UsersModule} from '../data/users/users.module';
+import {OwnJwtModule} from '../security/jwt/jwt.module';
+import { ThegameGateway } from './thegame.gateway';
 import { LoggerService } from '../common/logger/logger.service';
 
 @Module({
-  providers: [WebsocketGateway, LoggerService],
+  imports: [ConfigModule, OwnJwtModule, UsersModule, GamesModule, ChatsModule, IngameChatsModule, InterventionsModule],
+  providers: [ThegameGateway, LoggerService, LobbyManager, GameManager],
 })
 export class WebsocketModule {}

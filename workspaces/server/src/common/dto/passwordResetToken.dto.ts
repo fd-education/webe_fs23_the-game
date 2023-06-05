@@ -1,4 +1,4 @@
-import {PasswordResetTokenPayload} from '@the-game/common/dist/types/passwordResetTokenPayload';
+import {PasswordResetTokenPayload} from '@the-game/common/dist/types/auth/passwordResetTokenPayload';
 import {IsNotEmpty, IsString, IsUUID} from "class-validator";
 import {Transform, TransformFnParams} from "class-transformer";
 

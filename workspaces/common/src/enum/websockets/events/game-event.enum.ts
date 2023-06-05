@@ -1,0 +1,31 @@
+export enum GameEvent {
+    // Game Creation
+    CREATE_GAME = 'create-game',
+    DELETE_GAME = 'delete-game',
+
+    // Game Listing
+    GET_GAMES = 'get-games',
+    GAMES_UPDATE = 'games',
+
+    // Game Metadata
+    GAME_INFO = 'game-info',
+
+    // Game Joining
+    JOIN_REQUEST = 'join-request',
+    JOIN_GAME = 'join-game',
+    ALL_PLAYERS = 'all-players',
+
+    // Game Flow
+    START_GAME = 'start-game',
+
+    // Game State
+    GAME_STATE = 'game-state',
+
+    LAY_CARD = 'lay-card',
+
+    END_ROUND = 'end-round',
+
+    INTERVENTION_HISTORY = 'intervention-history',
+    SAVE_INTERVENTION= 'save-intervention',
+    BLOCK_INTERVENTION = 'block-intervention',
+}

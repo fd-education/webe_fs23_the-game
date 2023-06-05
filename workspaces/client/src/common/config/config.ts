@@ -1,4 +1,4 @@
-import {Stage} from '@the-game/common/dist/enum/stage.enum';
+import {Stage} from '@the-game/common/dist/enum/preferences/stage.enum';
 
 type Config = {
     stage: Stage;

@@ -1,5 +1,5 @@
-import {Lang} from '@the-game/common/dist/enum/lang.enum';
-import {Theme} from '@the-game/common/dist/enum/theme.enum';
+import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
+import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import useSwitchLang from '../../../hooks/useSwitchLang';
@@ -51,6 +51,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
     };
 
     const handleLogout = () => {
+        // noinspection JSIgnoredPromiseFromCall
         AuthService.logout();
         navigate('/login');
     };
@@ -58,7 +59,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
     return (
         <div className="flex flex-row h-max space-x-10">
             {props.togglesToDisplay.screenMode && (
-                <div className="bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl w-max cursor-pointer">
+                <div className="shadow-light-around dark:shadow-dark-around bg-secondaryLight dark:bg-secondaryDark p-0.5 rounded-xl w-max cursor-pointer">
                     <label className="flex flex-row justify-center items-center space-x-2 p-1">
                         <SunIcon />
                         <input
@@ -73,7 +74,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
             )}
 
             {props.togglesToDisplay.language && (
-                <div className="bg-secondaryLight dark:bg-secondaryDark shadow p-0.5 rounded-xl w-max cursor-pointer">
+                <div className="bg-secondaryLight dark:bg-secondaryDark shadow-light-around dark:shadow-dark-around p-0.5 rounded-xl w-max cursor-pointer">
                     <label className="flex flex-row justify-center items-center cursor-pointer">
                         <p className="font-bold text-black dark:text-white icon-size-m px-2">
                             DE
@@ -94,7 +95,7 @@ export const PreferenceToggles = (props: PreferenceTogglesProps) => {
             {props.togglesToDisplay.logout ||
             props.togglesToDisplay.home ||
             props.togglesToDisplay.profile ? (
-                <div className="flex flex-row space-x-4 bg-secondaryLight dark:bg-secondaryDark shadow px-2 rounded-xl">
+                <div className="flex flex-row space-x-4 bg-secondaryLight dark:bg-secondaryDark shadow-light-around dark:shadow-dark-around px-2 rounded-xl">
                     {props.togglesToDisplay.logout && (
                         <button
                             className="flex items-center h-full px-2"

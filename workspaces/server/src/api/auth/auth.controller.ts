@@ -1,4 +1,4 @@
-import {Body, Controller, HttpCode, HttpStatus, Post, UseGuards} from '@nestjs/common';
+import {Body, Controller, Get, HttpCode, HttpStatus, ParseUUIDPipe, Post, Query, UseGuards} from '@nestjs/common';
 import {ResetPasswordDto} from '../../common/dto/resetPassword.dto';
 import { AuthService } from './auth.service';
 import { SigninDto } from '../../common/dto/signin.dto';
@@ -39,6 +39,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('signin')
   async signIn(@Body() signInDto: SigninDto) {
+    this.logger.info(`Signing in user: ${signInDto.email}`);
+
     try {
       return await this.authService.signIn(
         signInDto.email,
@@ -55,17 +57,28 @@ export class AuthController {
     }
   }
 
+  @UseGuards(AccessTokenGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('validate')
+  async validateAccessToken(@Body() uid: string) {
+    this.logger.log(`Validating access token for user: ${uid}`)
+  }
+
   @UseGuards(RefreshTokenGuard)
   @HttpCode(HttpStatus.OK)
   @Post('refresh')
   async refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
+    this.logger.log(`Refreshing tokens for user: ${refreshTokenDto.uid}`)
+
     return await this.authService.refreshTokens(refreshTokenDto.uid, refreshTokenDto.refreshToken);
   }
 
   @UseGuards(AccessTokenGuard)
   @HttpCode(HttpStatus.OK)
-  @Post('signout')
-  async logout(@Body() uid: string) {
+  @Get('signout')
+  async logout(@Query('uid', new ParseUUIDPipe({version: '4'})) uid: string) {
+    this.logger.log(`Signing out user: ${uid}`)
+
     await this.authService.signOut(uid);
   }
 
@@ -78,7 +91,6 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('reset-password')
   async resetPassword(@Body() resetPasswordDto: ResetPasswordDto){
-    console.log(resetPasswordDto);
     return await this.authService.resetPassword(resetPasswordDto);
   }
 }
