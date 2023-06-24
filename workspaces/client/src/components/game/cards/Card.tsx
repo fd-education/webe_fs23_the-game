@@ -12,19 +12,17 @@ export const Card = (props: CardFrontProps) => {
     const user = useRecoilValue(userState);
 
     const [gameMode, setGameMode] = useState<GameMode>();
-    const [isAtTurn, setIsAtTurn] = useState<boolean>(false);
 
     useEffect(() => {
         if (!gameContext) return;
         if (!user) return;
 
-        setIsAtTurn(user.uid === gameContext.playerAtTurn);
         setGameMode(gameContext.gameMode);
     }, [gameContext]);
 
     return gameMode === GameMode.CLASSIC ? (
-        <ClassicCard {...props} canDrag={isAtTurn} />
+        <ClassicCard {...props} />
     ) : (
-        <OnFireCard {...props} canDrag={isAtTurn} />
+        <OnFireCard {...props} />
     );
 };

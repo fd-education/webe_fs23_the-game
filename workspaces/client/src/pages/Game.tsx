@@ -16,7 +16,7 @@ export const GameContext = React.createContext<GameState>(
 
 export const Game: FC = () => {
     const navigate = useNavigate();
-    const {wsm} = useWebSocket();
+    const {wsm, websocket} = useWebSocket();
     const user = useRecoilValue(userState);
 
     const [gameState, setGameState] = useState<GameState>(
@@ -29,15 +29,14 @@ export const Game: FC = () => {
             return;
         }
 
-        const onGameInfo: WsListener<GameState> = (gameState: GameState) => {
-            setGameState(gameState);
-        };
+        if (!websocket.connected) {
+            return;
+        }
 
         const onGameState: WsListener<GameState> = (gameState: GameState) => {
             setGameState(gameState);
         };
 
-        wsm.registerListener(GameEvent.GAME_INFO, onGameInfo);
         wsm.registerListener(GameEvent.GAME_STATE, onGameState);
 
         wsm.emit<{playerUid: string}>({
@@ -46,10 +45,9 @@ export const Game: FC = () => {
         });
 
         return () => {
-            wsm.removeListener(GameEvent.GAME_INFO, onGameInfo);
             wsm.removeListener(GameEvent.GAME_STATE, onGameState);
         };
-    }, []);
+    }, [websocket.connected]);
 
     return (
         <GameContext.Provider value={gameState}>
@@ -59,11 +57,12 @@ export const Game: FC = () => {
                         <GameChat />
                     </div>
 
-                    <div className="flex flex-col items-center space-y-8">
+                    <div className="flex flex-col w-full items-center space-y-8">
                         <PreferenceToggles
                             togglesToDisplay={{
                                 screenMode: true,
-                                language: true
+                                language: true,
+                                home: true
                             }}
                         />
                     </div>

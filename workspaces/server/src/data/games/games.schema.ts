@@ -2,10 +2,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
-import {HydratedDocument} from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-
-export type GameDocument = HydratedDocument<GameSchema>;
 
 @Schema({collection: 'games'})
 export class GameSchema{

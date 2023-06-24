@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 import {Lang} from '../../enum/preferences/lang.enum';
 import {Theme} from '../../enum/preferences/theme.enum';
 import {UserGameStats} from '../profile/gameStats';

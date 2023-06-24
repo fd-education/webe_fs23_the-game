@@ -1,6 +1,8 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum IngameMessageType{
     CHAT = 'chat',
-    BLOCK_INTERVENTION = 'block-intervention',
-    SAVEUP_INTERVENTION = 'saveup-intervention',
-    SAVEDOWN_INTERVENTION = 'savedown-intervention',
+    BLOCK_INTERVENTION = 'blockIntervention',
+    SAVEUP_INTERVENTION = 'saveupIntervention',
+    SAVEDOWN_INTERVENTION = 'savedownIntervention',
 }

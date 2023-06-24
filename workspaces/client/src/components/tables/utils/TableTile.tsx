@@ -3,6 +3,7 @@ import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event
 import {GameCreateResponseDto} from '@the-game/common/dist/types/game/GameCreateDto';
 import {GameDeleteDto} from '@the-game/common/dist/types/game/GameDeleteDto';
 import {GameJoinDto} from '@the-game/common/dist/types/game/GameJoinDto';
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue, useSetRecoilState} from 'recoil';
@@ -25,12 +26,11 @@ export const TableTile = (props: TableTileProps) => {
     const game = props.game;
 
     const handleJoinGame = (uid: string) => {
-        // TODO: Show error message
         if (!user) return;
 
         wsm.emitWithAck<GameJoinDto>(
             {
-                event: GameEvent.JOIN_REQUEST,
+                event: GameEvent.JOIN_GAME,
                 data: {
                     gameUid: uid,
                     userUid: user.uid,
@@ -40,15 +40,6 @@ export const TableTile = (props: TableTileProps) => {
             (success: boolean) => {
                 if (!success) return;
 
-                wsm.emit<GameJoinDto>({
-                    event: GameEvent.JOIN_GAME,
-                    data: {
-                        gameUid: uid,
-                        userUid: user.uid,
-                        userName: user.username
-                    }
-                });
-
                 setGameId(uid);
                 navigate('/game');
             }
@@ -56,28 +47,22 @@ export const TableTile = (props: TableTileProps) => {
     };
 
     const handleDeleteLobby = (uid: string) => {
-        wsm.emitWithAck<GameDeleteDto>(
-            {
-                event: GameEvent.DELETE_GAME,
-                data: {
-                    gameUid: uid
-                }
-            },
-            (success: boolean) => {
-                if (success) return;
-                else {
-                    // TODO Handle Error on Game Deletion
-                    console.log('Game could not be deleted');
-                }
+        if (!user) return;
+
+        wsm.emit<GameDeleteDto>({
+            event: GameEvent.DELETE_GAME,
+            data: {
+                gameUid: uid,
+                userUid: user.uid
             }
-        );
+        });
     };
 
     return (
         <div
             key={game.uid}
             className={`rounded-lg p-2 ${
-                game.connectedPlayers.includes(user!.uid)
+                user && game.connectedPlayers.includes(user.uid)
                     ? 'bg-green-200'
                     : 'bg-the_game_gray_light'
             } `}
@@ -96,8 +81,9 @@ export const TableTile = (props: TableTileProps) => {
 
                 <div className="flex flex-row space-x-4 mx-2">
                     {(!game.started ||
-                        (game.started &&
-                            game.connectedPlayers.includes(user!.uid))) && (
+                        (user &&
+                            game.started &&
+                            game.connectedPlayers.includes(user.uid))) && (
                         <button
                             className="rounded-md bg-the_game_orange hover:bg-the_game_darkOrange py-1 px-2 text-white font-bold"
                             onClick={() => handleJoinGame(game.uid)}

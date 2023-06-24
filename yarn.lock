@@ -1806,6 +1806,9 @@ __metadata:
 "@devtronaut/the-game@workspace:.":
   version: 0.0.0-use.local
   resolution: "@devtronaut/the-game@workspace:."
+  dependencies:
+    rimraf: ^5.0.0
+    typescript: ^5.0.4
   languageName: unknown
   linkType: soft
 

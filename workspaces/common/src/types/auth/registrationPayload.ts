@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export type RegistrationPayload = {
     firstname: string;
     lastname: string;

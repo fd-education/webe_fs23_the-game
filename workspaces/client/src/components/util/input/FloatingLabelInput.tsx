@@ -21,6 +21,7 @@ export const FloatingLabelInput = ({
                     {...props}
                     className="block rounded-lg px-2.5 pb-1.5 pt-5 w-full text-sm text-gray-900 bg-white appearance-none focus:outline-none focus:ring-0 focus:border-0 focus:border-b-2 focus:border-b-the_game_purple peer"
                     placeholder=" "
+                    autoComplete=""
                 />
                 <label
                     htmlFor={field.name}

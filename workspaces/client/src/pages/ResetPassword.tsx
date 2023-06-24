@@ -130,9 +130,11 @@ export const ResetPassword: FC = () => {
                 </Formik>
             </div>
 
-            <PreferenceToggles
-                togglesToDisplay={{screenMode: true, language: true}}
-            />
+            <div className="w-full max-w-[25%]">
+                <PreferenceToggles
+                    togglesToDisplay={{screenMode: true, language: true}}
+                />
+            </div>
         </div>
     );
 };

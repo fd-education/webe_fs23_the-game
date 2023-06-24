@@ -40,4 +40,5 @@ const validateConfig = (): Config => {
 };
 
 const config = validateConfig();
+
 export {config};

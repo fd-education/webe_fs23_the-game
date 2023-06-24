@@ -17,7 +17,7 @@ export const CardOnFireFrontSpecial = (props: CardFrontProps) => {
     return (
         <div
             ref={drag}
-            className={`h-full w-max ${props.canDrag ? '!cursor-grab' : ''} ${
+            className={`h-full ${props.canDrag ? '!cursor-grab' : ''} ${
                 isDragging ? '!cursor-grabbing' : ''
             }`}
         >

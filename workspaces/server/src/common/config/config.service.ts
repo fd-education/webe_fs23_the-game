@@ -23,24 +23,34 @@ export class ConfigService {
   get port(): number {
     return this.envConfig.PORT;
   }
-  get mongoUri(): string {
-    if (this.envConfig.STAGE === Stage.DEV) {
-      return `mongodb://${this.envConfig.MONGO_USER}:${this.envConfig.MONGO_PASS}@${this.envConfig.MONGO_HOST}`;
-    }
 
-    return `mongodb://${this.envConfig.MONGO_USER}:${this.envConfig.MONGO_PASS}@${this.envConfig.MONGO_HOST}/${this.envConfig.MONGO_DB}`;
+
+  get mongoConfig(): {
+    uri: string,
+    user: string,
+    pass: string,
+    retryWrites: boolean,
+    w: string
+  } {
+    return {
+      uri: this.mongoHost,
+      user: this.mongoUser,
+      pass: this.mongoPass,
+      retryWrites: true,
+      w: 'majority'
+    }
   }
 
-  get mongoDbName(): string {
-    return this.envConfig.MONGO_DB;
+  get mongoHost(): string {
+    return this.isProd() ? this.envConfig.MONGO_HOST : this.envConfig.MONGO_HOST_DEV;
   }
 
   get mongoUser(): string {
-    return this.envConfig.MONGO_USER;
+    return this.isProd() ? this.envConfig.MONGO_USER : this.envConfig.MONGO_USER_DEV;
   }
 
   get mongoPass(): string {
-    return this.envConfig.MONGO_PASS;
+    return this.isProd() ? this.envConfig.MONGO_PASS : this.envConfig.MONGO_PASS_DEV;
   }
 
   get jwtAccessSecret(): string {
@@ -87,6 +97,10 @@ export class ConfigService {
     return this.envConfig.SMTP_TLS === 'true';
   }
 
+  private isProd(): boolean {
+    return this.stage === Stage.PROD;
+  }
+
   private validateEnv() {
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       APP_NAME: Joi.string().required(),
@@ -99,6 +113,11 @@ export class ConfigService {
       MONGO_DB: Joi.string().required(),
       MONGO_USER: Joi.string().required(),
       MONGO_PASS: Joi.string().required(),
+
+      MONGO_HOST_DEV: Joi.string().required(),
+      MONGO_DB_DEV: Joi.string().required(),
+      MONGO_USER_DEV: Joi.string().required(),
+      MONGO_PASS_DEV: Joi.string().required(),
 
       JWT_ACCESS_SECRET: Joi.string().required(),
       JWT_REFRESH_SECRET: Joi.string().required(),

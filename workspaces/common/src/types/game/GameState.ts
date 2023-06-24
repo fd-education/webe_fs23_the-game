@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 import {GameMode} from '../../enum/game/gameMode.enum';
 import {GameProgress} from '../../enum/game/gameProgress.enum';
 
@@ -21,10 +23,6 @@ export type GameState = {
     playerAtTurn: string;
 
     players: Player[];
-}
-
-export type HandCards = {
-    handCards: number[];
 }
 
 export type Player = {

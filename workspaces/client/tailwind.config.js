@@ -12,10 +12,12 @@ module.exports = {
             colors: {
                 primaryLight: '#F3E6E6',
                 secondaryLight: '#FFF8F8',
+                secondaryLightOpaque: 'rgba(65,65,65,0.70)',
                 shadowLight: 'rgba(239, 224, 239, 0.33)',
 
                 primaryDark: '#3D3A3A',
                 secondaryDark: 'rgb(58,55,55)',
+                secondaryDarkOpaque: 'rgba(89,84,84,0.5)',
                 shadowDark: 'rgba(33,33,33,0)',
 
                 the_game_purple: '#6B4EFF',
@@ -59,7 +61,7 @@ module.exports = {
                 }
             },
             animation: {
-                'grow': 'grow 1s ease-in-out 1',
+                'grow': 'grow 1s ease-in-out 1'
             }
         }
     },
@@ -74,5 +76,9 @@ module.exports = {
     },
     variants: {},
     darkMode: 'class',
-    plugins: [require('daisyui'), require('@tailwindcss/aspect-ratio'),]
+    plugins: [
+        require('daisyui'),
+        require('@tailwindcss/aspect-ratio'),
+        require('autoprefixer'),
+        require('tailwindcss')]
 };

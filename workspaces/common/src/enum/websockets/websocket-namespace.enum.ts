@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum WebsocketNamespace {
-    THE_GAME = 'the-game',
+    THE_GAME = 'theGame',
 }

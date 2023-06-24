@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export type UserGameStats = {
     played: number;
     wins: number;

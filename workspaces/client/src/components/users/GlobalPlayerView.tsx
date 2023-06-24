@@ -1,4 +1,4 @@
-import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
+import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
 import React, {useLayoutEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useRecoilValue} from 'recoil';
@@ -40,15 +40,15 @@ export const GlobalPlayerView = () => {
         if (webSocketState.connected) {
             setTimeout(() => {
                 wsm.emit<void>({
-                    event: SystemEvent.GET_USERS
+                    event: LobbyEvent.PLAYERS_UPDATE
                 });
             }, 1);
         }
 
-        wsm.registerListener(SystemEvent.USER_UPDATE, onConnectedPlayers);
+        wsm.registerListener(LobbyEvent.PLAYERS_UPDATE, onConnectedPlayers);
 
         return () => {
-            wsm.removeListener(SystemEvent.USER_UPDATE, onConnectedPlayers);
+            wsm.removeListener(LobbyEvent.PLAYERS_UPDATE, onConnectedPlayers);
         };
     }, [webSocketState]);
 
@@ -80,21 +80,23 @@ export const GlobalPlayerView = () => {
                             </div>
                         </>
                     )}
-                    {players.map((player: ActivePlayer) => {
-                        return (
-                            <div
-                                key={player.uid}
-                                className="flex flex-row items-center justify-start space-x-4 rounded-lg p-2 bg-the_game_gray_light"
-                            >
-                                <UserTag username={player.username} />
-                                <div className="flex flex-row justify-between items-center">
-                                    <p className="font-medium">
-                                        {player.username}
-                                    </p>
+                    <div className="space-y-2">
+                        {players.map((player: ActivePlayer) => {
+                            return (
+                                <div
+                                    key={player.uid}
+                                    className="flex flex-row items-center justify-start space-x-4 rounded-lg p-2 bg-the_game_gray_light"
+                                >
+                                    <UserTag username={player.username} />
+                                    <div className="flex flex-row justify-between items-center">
+                                        <p className="font-medium">
+                                            {player.username}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         </Panel>

@@ -177,7 +177,7 @@ export const Profile: FC = () => {
                 </Panel>
             </div>
 
-            <div className="flex flex-col items-center space-y-6">
+            <div className="flex flex-col w-full max-w-[33%] items-center space-y-6">
                 <RulesButton />
                 <PreferenceToggles
                     togglesToDisplay={{

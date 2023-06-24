@@ -1,12 +1,14 @@
 {
     "name": "@the-game/client",
     "version": "0.0.1",
+    "private": true,
     "scripts": {
         "lint": "eslint src --ext .ts,.tsx",
         "prettier": "prettier src test --check",
         "prettier:fix": "prettier src test --write",
         "format": "yarn prettier:fix && yarn lint --fix",
         "start:dev": "react-scripts start",
+        "start:prod": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

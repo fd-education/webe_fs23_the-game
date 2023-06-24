@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export type ProfileUpdate = {
     uid: string;
     firstname?: string;

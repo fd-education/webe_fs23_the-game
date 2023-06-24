@@ -1,6 +1,7 @@
 {
   "name": "@the-game/common",
   "version": "1.0.0",
+  "private": true,
   "packageManager": "yarn@3.5.0",
   "scripts": {
     "build": "rimraf dist && rimraf tsconfig.tsbuildinfo && tsc",

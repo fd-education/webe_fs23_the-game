@@ -2,10 +2,8 @@ export const HouseIcon = () => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="1.7rem"
-            height="1.7rem"
             fill="currentColor"
-            className="bi bi-house-fill fill-black dark:fill-white"
+            className="bi bi-house-fill fill-black dark:fill-white h-6 w-6"
             viewBox="0 0 16 16"
         >
             <path

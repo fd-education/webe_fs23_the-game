@@ -1,5 +1,4 @@
-import React, {FC, useCallback, useEffect, useState} from 'react';
-import {Navigate, Route} from 'react-router-dom';
+import React, {useCallback, useLayoutEffect, useState} from 'react';
 import authInterceptor from '../../../services/api';
 
 type Props = {
@@ -18,14 +17,10 @@ const ProtectedRoute = (props: Props) => {
         }
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         validateAuth()
-            .then((_) => {
-                setIsAuthenticated(true);
-            })
-            .catch((_) => {
-                setIsAuthenticated(false);
-            });
+            .then(() => setIsAuthenticated(true))
+            .catch(() => setIsAuthenticated(false));
     }, []);
 
     return <>{isAuthenticated ? props.children : null}</>;

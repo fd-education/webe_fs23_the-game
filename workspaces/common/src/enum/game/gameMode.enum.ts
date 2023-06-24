@@ -1,4 +1,6 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum GameMode {
-    CLASSIC = 'CLASSIC',
-    ONFIRE = 'ONFIRE',
+    CLASSIC = 'classic',
+    ONFIRE = 'onfire',
 }

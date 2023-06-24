@@ -43,7 +43,7 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
   * [5 Eingesetzte Technologien](#5-eingesetzte-technologien)
     * [5.1 NodeJS (TypeScript)](#51-nodejs-typescript)
     * [5.2 Yarn](#52-yarn-)
-    * [5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher](#53-reactjs-html-css-typescript---nicht-100-sicher)
+    * [5.3 ReactJS (HTML/ CSS/ TypeScript)](#53-reactjs-html-css-typescript)
     * [5.4 Socket.io](#54-socketio)
     * [5.5 MongoDB](#55-mongodb)
     * [5.6 Docker](#56-docker)
@@ -72,14 +72,21 @@ Repository: https://git.ffhs.ch/fabian.diemand/webe_the_game/
         * [8.1.1.2 Anmeldung](#8112-anmeldung)
         * [8.1.1.3 Passwort zurücksetzen](#8113-passwort-zurücksetzen)
     * [8.2 Kommunikationsprotokoll](#82-kommunikationsprotokoll)
-      * [8.2.1 Chatting](#821-chatting)
-      * [8.2.2 Spielverlauf](#822-spielverlauf)
-      * [8.2.3 Kurzinterventionen](#823-kurzinterventionen)
-      * [8.2.3 Ausserhalb des Spiels](#823-ausserhalb-des-spiels)
-    * [8.4 Server](#84-server)
+      * [8.2.1 Anmelden von Spielern](#821-anmelden-von-spielern)
+      * [8.2.2 Erstellen von Spielen](#822-erstellen-von-spielen)
+      * [8.2.3 globale Chatnachrichten](#823-globale-chatnachrichten)
+      * [8.2.4 Chatnachrichten im Spiel](#824-chatnachrichten-im-spiel)
+      * [8.2.5 Kurzinterventionen während des Spiels](#825-kurzinterventionen-während-des-spiels)
+      * [8.2.6 Updates am Spielzustand](#826-updates-am-spielzustand)
+        * [8.2.6.1 Starten eines Spiels](#8261-starten-eines-spiels)
+        * [8.2.6.2 Legen einer Karte](#8262-legen-einer-karte)
+        * [8.2.6.3 Beenden einer Runde](#8263-beenden-einer-runde)
+    * [8.3 Gesamtarchitektur](#83-gesamtarchitektur)
   * [9 Deploymentkonzept](#9-deploymentkonzept)
   * [10 Installationsanleitung](#10-installationsanleitung)
-  * [Quellen](#quellen)
+    * [10.1 Voraussetzungen](#101-voraussetzungen)
+    * [10.2 Installation](#102-installation)
+  * [11 Fazit](#11-fazit)
 <!-- TOC -->
 
 ---
@@ -882,11 +889,11 @@ vgl. [Abschnitt 2](#2-erklärung-des-spiels)) von "The Game" und Ideen des Entwi
 ### 4.2 Nicht-Funktionale Anforderungen
 
 #### 4.2.1 Leistungsanforderungen
-| Titel                      | Art  | Beschreibung                                                                                                                                  | Metrik                                   |
-|----------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------|
-| Spielrunden Nachvollziehen | Muss | Spielrunden sind bis auf Spielrunden-Ebene nachvollziehbar                                                                                    | Ja/ Nein                                 |
-| Echtzeit-Kommunikation     | Muss | Kommunikation zwischen den Spielern während der Runde erfolgt in Echtzeit und beeinträchtigt den Spielfluss nicht                             | < 2 Sekunden zwischen Sender & Empfänger |
-| Spielstatistiken           | Soll | Statistiken (Anzahl gespielter Spiele, Anzahl gewonnener Spiele, durchschnittliche Rundendauer) werden unmittelbar nach Spielende nachgeführt | < 5 Sekunden bis Update in UI            |
+| Titel                      | Art  | Beschreibung                                                                                                                                  | Metrik                                          |
+|----------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------|
+| Spielrunden Nachvollziehen | Muss | Spielrunden sind bis auf Spielrunden-Ebene nachvollziehbar                                                                                    | Ja/ Nein                                        |
+| Echtzeit-Kommunikation     | Muss | Kommunikation zwischen den Spielern während der Runde erfolgt in Echtzeit und beeinträchtigt den Spielfluss nicht                             | < 100 Millisekunden zwischen Sender & Empfänger |
+| Spielstatistiken           | Soll | Statistiken (Anzahl gespielter Spiele, Anzahl gewonnener Spiele, durchschnittliche Rundendauer) werden unmittelbar nach Spielende nachgeführt | < 200 Sekunden bis Update in UI                 |
 
 #### 4.2.2 Qualitätsanforderungen
 | Titel                       | Art  | Beschreibung                                                                                   | Metrik                                   |
@@ -920,7 +927,7 @@ Für diese Vorteile wird der Mehraufwand hinsichtlich Speicherplatz in Kauf geno
 
 Für das Projekt wird Yarn in der Version 1.22.19 (Classic Stable) verwendet.
 
-### 5.3 ReactJS (HTML/ CSS/ TypeScript) - nicht 100% sicher
+### 5.3 ReactJS (HTML/ CSS/ TypeScript)
 [ReactJS](https://reactjs.org/) ist eine Bibliothek zur Erstellung von webbasierten UIs. Ein spezielles Merkmal der Library ist die komponentenbasierte Herangehensweise an
 die Erstellung einer grafischen Benutzeroberfläche. So können repetitive Muster sehr effizient und effektiv umgesetzt und gewartet werden.
 
@@ -1103,6 +1110,12 @@ Serverseitig werden folgende Endpunkte für die Authentifizierung bereitgestellt
 - POST /auth/request-token (Anfordern einer E-Mail mit einem Token zur Passwortänderung)
 - POST /auth/reset-password (Passwortänderung)
 
+Die Erneuerung des Tokens wird durch einen Refresh Token realisiert. Dieser wird bei der Anmeldung mit ausgeliefert und
+ist 7 Tage gültig. Der Access Token ist 15 Minuten gültig. Wird ein neuer Access Token angefordert, wird der Refresh
+Token überprüft. Ist dieser gültig, wird ein neuer Access Token ausgestellt. Ist der Refresh Token abgelaufen, muss sich
+der Benutzer erneut anmelden. Das folgende Diagramm zeigt diesen Prozess:
+![Refresh Exchange](./img/refresh_communication.jpg)
+
 ##### 8.1.1.1 Registration
 Bei der Registration wird ein neuer Benutzer angelegt. Das Passwort wird mit bcrypt gehasht und in der Datenbank gespeichert.
 Sämtliche Daten der Registrierung werden vom Client, vom Server und von der Datenbank überprüft. So werden 
@@ -1188,107 +1201,218 @@ Der Request-Body für das Zurücksetzen des Passworts hat folgende Struktur:
 ```
 
 ### 8.2 Kommunikationsprotokoll
+Dieser Abschnitt stellt das Kommunikationsprotokoll via Websocket vor. Für die Kommunikation über den Websocket gibt es 
+folgende wichtige Anwendungsfälle: Anmelden von Spielern, Erstellen von Spielen, globale Chatnachrichten, Chatnachrichten im Spiel,
+Updates am Spielzustand (legen von Karten), Kurzinterventionen während des Spiels. 
 
-#### 8.2.1 Chatting
-Die Web App soll eine Chatting Funktion umsetzen (vgl. [UC#9 Chatting](#419-uc-9---chatting)). Diese soll den Austausch von
-Chat-Nachrichten in verschiedene Gruppen erlauben.
+Die Datenobjekte für den Nachrichtenaustausch, sowie die Event-Typen sind im geteilten Modul "common" definiert.
 
-Umgesetzt werden diese Gruppen in Socket.io mit Namespaces. So wird es einen "friends", einen "global" und einen "table" Namespace geben,
-in denen Nachrichten ausgetauscht werden können. Die Namespaces werden im Protokoll als Recipients angegeben. Wird keine Gruppe angesprochen,
-sondern ein einzelner Nutzer, wird dessen Nutzer-UUID angegeben.
-
-Die Verbindung zum Namespace wird bereits im Socket aufgebaut. Die Information im JSON wird der Nachvollziehbarkeit halber dennoch
-hinterlegt.
+#### 8.2.1 Anmelden von Spielern
+Wenn sich ein Spieler neu im Webgame einloggt und dadurch der Lobby beitritt, meldet sich dessen Client beim Websocket an.
+Dafür wird eine Anmeldenachricht mit folgender Struktur an den Websocket geschickt:
 ```json
 {
-  "id": "<request-uuid>",
-  "type": "chat-request",
-  "sender": "<player-uuid>",
-  "recipients": "<global || table || friends || <user-uuid>>",
-  "message": "<message>"
+  "uid": <User ID des angemeldeten Benutzers>,
+  "username": <Username des angemeldeten Benutzers>,
 }
 ```
 
-Die Anfrage löst beim Socket das Versenden der Nachricht an die gewünschte Gruppe aus.
+Diese Anmeldung hat nichts mehr mit der Authentifikation des Benutzers zu tun, sondern dient ledigtlich des Aufbaus der Websocket-Verbindung.
+Zusätzlich werden alle ebenfalls verbundenen Benutzer über den neuen Spieler über eine Websocket-Nachricht informiert und deren GUI wird entsprechend angepasst.
+Das Update trägt den Event Typ NEW_PLAYER. Der neue Spieler erhält als Reaktion auf die Anmeldung eine Nachricht mit allen bereits angemeldeten Spielern und dem Event-Typ PLAYERS_UPDATE.
 
-#### 8.2.2 Spielverlauf
-Während des Spiels fordert jeder Client nach jedem Spielzug vom Server den neuen Zustand an. Um die Antwortzeit zu überbrücken,
-hält der Client einen transienten Zustand des Spiels, der dann mit der Antwort des Servers ersetzt wird.
-
-Das JSON, mit dem der neue Zustand angefordert wird, hat folgende Form:
+#### 8.2.2 Erstellen von Spielen
+Wird in der GUI ein neues Spiel erstellt, wird das neue Spiel dem Server mit folgender Struktur mitgeteilt:
 ```json
 {
-  "id": "<request-uuid>",
-  "type": "state-request",
-  "round": "<round-number>",
-  "player": "<player-uuid>",
-  "action": 
-    {
-      "stack": "<1 || 2 || 3 || 4>",
-      "card": "<2 - 99>",
-    }
+  "creator": <User ID des Spielers, der das Spiel erstellt hat>,
+  "mode": <Spielmodus (classic, onfire>,
+  "numberOfPlayers": <Anzahl Spieler>,
+}
+
+Der Server erstellt ein neues Spiel und informiert alle verbundenen Spieler über das neue Spiel. Das Update trägt den Event Typ CREATE_GAME.
+Das Update hat zusätzlich zu den Attributen aus der vorherigen Strtuktur folgende Attribute:
+```json
+{
+  ...: <Attribute der vorherigen Struktur (Erstellung eines Spiels)>,
+  "uid": <ID des Spiels>,
+  "connectedPlayers": <Liste der verbundenen Spieler>,
+  "started": <Boolean, ob das Spiel bereits gestartet wurde>,
 }
 ```
 
-Die Antwort, die der Server sendet, beinhaltet die Information, ob der gesendete Zug valide war und abhängig davon den neuen 
-oder alten Zustand des Spiels. Mit der Request-UUID können die Antworten zu den jeweiligen Anfragen gemappt werden:
+Wenn der Spieler sich neu beim Server anmeldet (vgl. 8.2.1), erhält er eine Liste aller Spiele. Daher ist das "started"-Attribut relevant.
+
+#### 8.2.3 globale Chatnachrichten
+Eine globale Chatnachricht (Nachricht an alle Spieler) hat folgende Struktur:
 ```json
 {
-  "id": "<request-uuid>",
-  "type": "state-response",
-  "valid_play": "true || false",
-  "state": [
-    {
-      "stack": "<1 || 2 || 3 || 4>",
-      "cards": ["<all cards on the stack in laid order>"]
-    }, 
-    ...
-  ]
+  "authorUid": <User ID des Autors>,
+  "authorName": <Username des Autors>,
+  "message": <Nachricht>,
+  "timestamp": <Zeitstempel der Nachricht>,
 }
 ```
 
-#### 8.2.3 Kurzinterventionen
-Kurzinterventionen sind Anforderungen von Spielern bezüglich eines bestimmten Stapels (dass nach Möglichkeit nicht mehr weiter
-auf einen Stapel abgelegt werden solle oder dass beim aktuellen Stand des Stapels ein Rückwärtstrick möglich wäre). Die Kurzinterventionen
-werden über folgendes JSON an den Server geschickt:
+Die Nachricht wird vom Server an alle verbundenen Spieler gesendet. 
+Wenn sich ein Spieler neu beim Server anmeldet, erhält er ausserdem eine Liste der letzten 300 Nachrichten. 
+
+
+#### 8.2.4 Chatnachrichten im Spiel
+Chatnachrichten im Spiel folgen der selben Struktur wie globale Nachrichten, haben allerdings zusätzlich noch folgende Attribute:
+
 ```json
 {
-  "id": "<request-uuid>",
-  "type": "intervention",
-  "kind": "<stop || save>",
-  "stack": "1 || 2 || 3 || 4",
-  "player": "<player-uuid"
+  ...: <Attribute der vorherigen Struktur (globaler Chat)>,
+  "gameUid": <ID des Spiels, in dem die Nachricht gesendet wurde>,
+  "type": <Typ der Nachricht (chat, intervention)>,
 }
 ```
 
-Der Server verteilt die Intervention an die verbundenen Clients, welche die UI entsprechend updaten.
+#### 8.2.5 Kurzinterventionen während des Spiels
+Kurzinterventionen während des Spiels haben dieselbe Struktur wie Chatnachrichten und unterscheiden sich lediglich durch das "type"-Attribut und
+den Inhalt der Nachricht.
 
-#### 8.2.3 Ausserhalb des Spiels
-Das Hinzufügen bzw. Entfernen eines Nutzers zu bzw. von der Freundesliste wird ebenfalls mit einer HTTP POST Anfrage an den Server umgesetzt.
-Hierfür werden ein "add-friend"- und ein "remove-friend"-Endpoint angeboten. Der Request Body hat dabei das folgende Format:
+#### 8.2.6 Updates am Spielzustand
+Updates am Spielzustand können durch verschiedene Aktionen ausgelöst werden. Dazu gehören das Starten eines Spiels, das Legen einer Karte und das Beenden einer Runde.
+Das Update hat dabei immer folgende Struktur:
+
 ```json
 {
-  "user-uuid": "<uuid of user demanding the removal/ addition>",
-  "friend-uuid": "<uuid of the user to be removed/ added"
+  "gameId": <ID des Spiels, in dem die Aktion ausgeführt wurde>,
+  "creator": <User ID des Spielers, der das Spiel erstellt hat>,
+  "numberOfPlayers": <Anzahl Spieler>,
+  "gameMode": <Spielmodus (classic, onfire)>,
+  "progress": <Fortschritt des Spiels (open, started, won, lost)>,
+  "pickupStack": <Liste der Karten im Pickup-Stack>,
+  "stack1": <Liste der Karten im Stack 1>,
+  "stack2": <Liste der Karten im Stack 2>,
+  "stack3": <Liste der Karten im Stack 3>,
+  "stack4": <Liste der Karten im Stack 4>,
+  "canRoundEnd": <Boolean, ob die Runde beendet werden kann>,
+  "playerAtTurn": <User ID des Spielers, der an der Reihe ist>,
+  "players": <Liste der Spieler im Spiel>,
 }
 ```
 
-Als Antwort erfolgt wiederum ein HTTP Status Code, sowie eine Erläuterung über den Zustand nach der Aktion:
+Die Spieler werden während des Spiels durch folgende Struktur modelliert:
 ```json
 {
-  "outcome": "<success || failure>",
-  "message": "<message to reason the outcome>"
+  "playerId": <User ID des Spielers>,
+  "name": <Username des Spielers>,
+  "handCards": <Liste der Karten auf der Hand des Spielers>,
 }
 ```
 
-### 8.4 Server
-Bei der Architektur des Servers handelt es sich um einen groben Entwurf, der sich zum aktuellen Zeitpunt primär auf den Datenaustausch zwischen einzelnen Modulen bzw. Komponenten, sowie den Gateways zum Frontend hin konzentriert.
-Ebenfalls werden erste Überlegungen für die Struktur der Datenbank dargelegt.
+Die Updates am Spielzustand werden nach folgender Sequenz versendet bzw. propagiert: <br>
+![Game Communication Sequence](./img/game_communication.png)
 
-![Server Architecture Draft](./img/server.jpg)
+
+##### 8.2.6.1 Starten eines Spiels
+Beim Spielstart legt der Server den initialen Zustand des Spiels fest und informiert alle Spieler im Spiel über den neuen Zustand.
+Das beinhaltet das Mischen des Aufnahmestapels, das Verteilen der Handkarten, die Änderung des Fortschritts auf "started" und das Setzen des Spielers, der an der Reihe ist.
+
+##### 8.2.6.2 Legen einer Karte
+Legt ein Spieler eine Karte, wird diese Aktion vom Client und vom Server validiert. So wird ein Fehler bereits im Frontend erkannt, würde aber
+schlimmstenfalls vom Server auch mit einer Exception abgelehnt werden. Die Nachricht an den Server hat folgende Struktur:
+```json
+{
+  "gameUid": <ID des Spiels, in dem die Karte gelegt wurde>,
+  "userUid": <User ID des Spielers, der die Karte gelegt hat>,
+  "card": <Die gelegte Karte>,
+  "stack": <Der Stack, auf den die Karte gelegt wurde>,
+}
+```
+
+Der Server sendet als Reaktion (falls die Aktion valide war) ein Update mit der Struktur aus 8.2.6 an alle Spieler im Spiel.
+
+##### 8.2.6.3 Beenden einer Runde
+Beendet ein Spieler eine Runde, wird das ebenfalls server- und clientseitig validiert. Die Nachricht hat folgende Struktur:
+```json
+{
+  "gameUid": <ID des Spiels, in dem die Runde beendet wurde>,
+  "userUid": <User ID des Spielers, der die Runde beendet hat>,
+}
+```
+Der Server sendet als Reaktion (falls die Aktion valide war) ein Update mit der Struktur aus 8.2.6 an alle Spieler im Spiel.
+
+### 8.3 Gesamtarchitektur
+Der Server stellt zwei Klassen von Schnittstellen bereit. Einerseits eine REST-Schnittstelle für sämtlichen Funktionen, die 
+mit der Authentifikation und den Nutzerprofilen zusammenhängen. Andererseits wird eine WebSocket-Schnittstelle für alle Funktionen bereitgestellt, die mit dem Spiel und dem Chatting zusammenhängen.
+
+Das React-basierte Frontend ist eine Multi-Page-Applikation. Daten werden im Localstorage persistiert. Dazu gehören Informationen über den Benutzer
+und die ID des Spiels, in dem er sich befindet. Der Zustand des Spiels wird im Frontend nicht persistiert sondern über die ID beim Server angefragt.
+
+Serverseitig wird über eine MongoDB Datenbank persistiert. Dafür werden Services verwendet. Das Naming folgt den Vorgaben von Nestjs und hat nichts mit Mikroservices zu tun.
+Der Server verwaltet in-memory die aktuell verbundenen Spieler und Spiele. Dafür werden Maps verwendet. Die Spieler werden über die User ID identifiziert, die Spiele über die ID des Spiels.
+
+Die Zustände der Spiele werden in-memory nach jeder zustandsändernden Aktion aktualisiert. Die Persistierung erfolgt jeweils ebenfalls, jedoch erst nach der
+Nachricht mit dem aktualisierten Zustand an die Spieler. So wird sichergestellt, dass die Spieler immer in Echtzeit den aktuellen Zustand des Spiels erhalten.
+
+Für die Persistierung wird auf MongoDB gesetzt. Die Entscheidung basiert im wesentlichen auf der Geschwindigkeit der Abfragen und der guten Integration in Nestjs.
+
+![Server Architecture Draft](./img/architecture.png)
 
 ## 9 Deploymentkonzept
+Für das Deployment werden zwei Anforderungen gestellt:
+
+1. Die Applikation soll Latenzen von <100ms aufweisen.
+2. Die Applikation soll kosten-effizient und flexibel sein.
+
+Die Latenz der Applikation wird wesentlich durch die Nähe der Server zu den Clients bestimmt. Um die Latenz möglichst gering zu halten, werden die Server in der Nähe der Clients deployed.
+Die Applikation wird daher regional möglichst Nah an den Clients deployed. Die Anforderung nach Kosteneffizienz und Flexibilität lässt sich mit einem cloud-basierten Deployment erfüllen.
+Die Elastizität der Cloud kann genutzt werden, um die Anzahl der Server an die Anzahl der Clients anzupassen. So können die Kosten für die Server möglichst gering gehalten werden.
+Die regionale Verteilung wird ebenfalls durch die Cloud unterstützt. So können die Instanzen in verschiedenen Regionen deployed werden.
+
+Für die ideale Skalierbarkeit könnte die Applikation in verschiedene Mikroservices aufgeteilt werden. Ein Mikroservice für die Authentifikation und die Profilfunktionen, sowie einer für die Spiellogik
+würden den sehr unterschiedlichen Anforderungen an die Skalierbarkeit gerecht werden. Die Authentifikation und die Profilfunktionen werden nur selten genutzt, die Spiellogik hingegen sehr häufig.
+
+Anfragen an den Server würden in dem Szenario durch einen Load-Balancer an verschiedene Instanzen verteilt. Herausforderungen ergeben sich aus der Synchronisation der Daten. In einem ersten Schritt wird auf eine
+aufwendige Implementation verzichtet und die Spieler werden automatisch auf den lokalen Server zugeteilt und können nur mit Spielern auf dem gleichen Server kommunizieren und spielen. Eine Echtzeit-Synchronisation der Daten
+kann dadurch vermieden werden. 
+
+In einem produktiven System würden die bereits erklärten in-memory Datenstrukturen durch einen In-Memory-Store, wie Redis, resilienter gestaltet
+und die Synchronisation zwischen in-memory Daten und der Datenbank auch auf eine solche Lösung ausgelagert werden.
+
+![Deployment](./img/deployment.png)
 
 ## 10 Installationsanleitung
 
-## Quellen
+### 10.1 Voraussetzungen
+- Docker (https://docs.docker.com/get-docker/)
+- Docker Compose (https://docs.docker.com/compose/install/)
+
+### 10.2 Installation
+1. Repository klonen (https://git.ffhs.ch/fabian.diemand/webe_the_game)
+2. In das Verzeichnis "webe_the_game" wechseln
+3. .env File erzeugen und mit Inhalt füllen (.env File in der Abgabe in Moodle)
+4. Docker Compose starten (beim ersten Aufsetzen zwischen 2 und 5 Minuten): `docker-compose up -d` (im Hindergrund) oder `docker-compose up` (im Vordergrund)
+5. Die Applikation ist unter http://localhost:80 erreichbar
+
+Im Rahmen der Korrektur durch den Dozenten (bis 10 Wochen nach der Abgabe) können folgende Accounts
+im Spiel, ohne vorangehende Registration, verwendet werden:
+- Email: devtronaut@hotmail.com, Username: JohnDoe1, Passwort: Johndoe1!
+- Email: j@d.com, Username: JaneDoe1, Passwort: Janedoe1!
+- Email: b@g.com, Username: BestGamer1, Passwort: Bestgamer1!
+
+## 11 Fazit
+Das Projekt war von Beginn an als Herausforderung geplant. Der Entwickler hat sich bewusst für ein Solo-Projekt entschieden.
+Die Herausforderung bestand darin, die Applikation in einem zeitlich überschaubaren Rahmen zu entwickeln und dabei möglichst viele
+der gesetzten Anforderungen zu erfüllen. Die Anforderungen wurden in der Planungsphase bewusst hoch angesetzt.
+
+Bei der Entwicklung haben sich einige Schwierigkeiten ergeben. Die hohen Ansprüche an die Usability haben sich als sehr aufwendig herausgestellt.
+So war beispielsweise die Umsetzung der Drag-and-Drop-Funktionen sehr aufwendig. Insgesamt hat die Gestaltung der GUI sehr viel Zeit in Anspruch genommen.
+Dies aber mehrheitlich aufgrund der Tatsache, dass der Entwickler bisher keine Erfahrung mit Frontend-/ GUI-Entwicklung hatte.
+
+Die Herausforderung des Solo-Projektes hat sich allerdings als enorm lehrreich herausgestellt. Der Entwickler hat sich in vielen Bereichen weiterbilden können.
+Frontend-Entwicklung als eine Komponente, aber auch die Umsetzung einer Auth-Logik basierend auf JWT-Tokens, sowie die Umsetzung einer WebSocket-Schnittstelle
+waren Neuland für den Entwickler und konnten im Rahmen der Semesterarbeit geschlossen umgesetzt werden. Zusätzlich zu den technischen waren auch
+die organisatorischen Themen rund um den Aufbau des Projekts und die Planung der Architektur sehr spannend. So konnte das erste Mal mit Yarn und Workspaces gearbeitet 
+und damit eine Mono-Repo Struktur für die Entwicklung verwendet werden.
+
+Die Anforderungen an die Applikation konnten im Rahmen der Semesterarbeit nicht vollständig erfüllt werden. So wurde auf die Implementierung der Anforderungsgruppe rund um
+die Funktionalitäten einer Freundesliste (#5, #6, #7) und die Statistiken im Nutzerprofil (#13) aus zeitlichen Gründen verzichtet. Alle anderen Anforderungen wurden umgesetzt.
+
+Die Realisierung der Installation mit Docker und Docker Compose hat sich letztlich als sehr aufwendig herausgestellt. Die Applikation besteht aus drei Komponenten (Frontend, Backend, Common),
+von denen eine (Common) ein Modul mit geteilter Logik (Typen, DTOs, Enums) darstellt und von denen alle drei verschiedene Anforderungen an die Umgebung haben.
+Auch diese Schwierigkeiten konnten schliesslich gelöst und dadurch die Abgabe bzw. Installation durch den Dozenten massiv vereinfacht werden.

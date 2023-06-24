@@ -8,11 +8,11 @@ import {LobbyManager} from '../managers/lobby.manager';
 import {ChatsModule} from '../data/chats/chats.module';
 import {UsersModule} from '../data/users/users.module';
 import {OwnJwtModule} from '../security/jwt/jwt.module';
-import { ThegameGateway } from './thegame.gateway';
+import { TheGameGateway } from './thegameGateway';
 import { LoggerService } from '../common/logger/logger.service';
 
 @Module({
   imports: [ConfigModule, OwnJwtModule, UsersModule, GamesModule, ChatsModule, IngameChatsModule, InterventionsModule],
-  providers: [ThegameGateway, LoggerService, LobbyManager, GameManager],
+  providers: [TheGameGateway, LoggerService, LobbyManager, GameManager],
 })
 export class WebsocketModule {}

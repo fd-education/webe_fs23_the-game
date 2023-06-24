@@ -1,5 +1,5 @@
-import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
-import {UserAnnouncement} from '@the-game/common/dist/types/playerOverview/userAnnouncement';
+import {LobbyEvent} from '@the-game/common/dist/enum/websockets/events/lobby-event.enum';
+import {PlayerAnnouncementDto} from '@the-game/common/dist/types/lobby/PlayerAnnouncementDto';
 import {FC, useCallback, useEffect} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilState} from 'recoil';
@@ -42,8 +42,8 @@ export const Lobby: FC = () => {
             return;
         }
 
-        wsm.emit<UserAnnouncement>({
-            event: SystemEvent.ANNOUNCE_USER,
+        wsm.emit<PlayerAnnouncementDto>({
+            event: LobbyEvent.NEW_PLAYER,
             data: {
                 uid: user.uid,
                 username: user.username
@@ -64,7 +64,7 @@ export const Lobby: FC = () => {
                     <TablesView />
                 </div>
 
-                <div className="flex flex-col items-center space-y-6">
+                <div className="flex flex-col w-full items-center space-y-6">
                     <RulesButton />
                     <PreferenceToggles
                         togglesToDisplay={{
