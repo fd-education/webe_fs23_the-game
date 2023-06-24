@@ -1385,7 +1385,7 @@ und die Synchronisation zwischen in-memory Daten und der Datenbank auch auf eine
 ### 10.2 Installation
 1. Repository klonen (https://git.ffhs.ch/fabian.diemand/webe_the_game)
 2. In das Verzeichnis "webe_the_game" wechseln
-3. .env File erzeugen und mit Inhalt füllen (.env File in der Abgabe in Moodle)
+3. .env File im Verzeichnis "webe_the_game/workspaces/server" erzeugen und mit Inhalt füllen (.env File in der Abgabe in Moodle)
 4. Docker Compose starten (beim ersten Aufsetzen zwischen 2 und 5 Minuten): `docker-compose up -d` (im Hindergrund) oder `docker-compose up` (im Vordergrund)
 5. Die Applikation ist unter http://localhost:80 erreichbar
 
