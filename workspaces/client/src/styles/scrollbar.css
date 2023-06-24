@@ -1,0 +1,17 @@
+::-webkit-scrollbar {
+    width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+    background: theme('colors.the_game_gray');
+    border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb {
+    background: theme('colors.the_game_orange');
+    border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: theme('colors.the_game_darkOrange');
+}

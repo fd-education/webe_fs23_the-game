@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  frontend:
+    container_name: 'the-game-frontend'
+    build:
+      context: .
+      dockerfile: frontend.Dockerfile
+    ports:
+      - '80:80'
+    restart: unless-stopped
+
+  backend:
+    container_name: 'the-game-backend'
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    env_file:
+      - ./workspaces/server/.env
+    ports:
+      - '9000:9000'
+    restart: unless-stopped
+

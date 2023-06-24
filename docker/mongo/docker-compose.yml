@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    env_file:
+      - .env
+      - mongo.env
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh host.docker.internal:27017 --quiet
+      retries: 2
+      interval: 10s
+      start_period: 30s
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    env_file:
+      - .env
+      - mongo-express.env
+    ports:
+      - "8081:8081"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+

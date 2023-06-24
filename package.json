@@ -1,0 +1,30 @@
+{
+  "name": "@devtronaut/the-game",
+  "version": "0.0.1",
+  "private": true,
+  "author": "Fabian Diemand, fabian.diemand@students.ffhs.ch",
+  "license": "MIT",
+  "description": "Web Engineering Semester Project",
+  "workspaces": [
+    "workspaces/client",
+    "workspaces/common",
+    "workspaces/server"
+  ],
+  "scripts": {
+    "build-common": "yarn workspace @the-game/common build",
+    "build-client": "yarn workspace @the-game/client build",
+    "build-server": "yarn workspace @the-game/server build",
+    "start-client:dev": "yarn workspace @the-game/client start:dev",
+    "start-server:dev": "yarn workspace @the-game/server start:dev",
+    "start:dev": "yarn start-server:dev && yarn start-client:dev",
+    "start-client:prod": "yarn workspace @the-game/client start:prod",
+    "start-server:prod": "yarn workspace @the-game/server start:prod",
+    "start:prod": "yarn start-server:prod && yarn start-client:prod",
+    "start": "yarn start:dev"
+  },
+  "packageManager": "yarn@3.5.0",
+  "devDependencies": {
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.4"
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "translation": {
+    "auth": {
+      "common": {
+        "confirmPassword": "Passwort bestätigen",
+        "email": "E-Mail",
+        "errors": {
+          "invalidConfirmPassword": "Passwörter müssen übereinstimmen.",
+          "invalidEmail": "Diese E-Mail Adresse ist ungültig.",
+          "invalidLengthUsername": "Benutzername muss mind. 5 und max. 30 Buchstaben lang sein.",
+          "invalidPassword": "Passwort muss mind. 8 Zeichen lang sein und Gross- und Kleinbuchstaben, Zahlen und Sonderzeichen enthalten.",
+          "requiredConfirmPassword": "Kein Bestätigungspasswort eingetragen.",
+          "requiredEmail": "Keine E-Mail Adresse eingetragen.",
+          "requiredFirstname": "Kein Vorname eingetragen.",
+          "requiredLastname": "Kein Nachname eingetragen.",
+          "requiredPassword": "Kein Passwort eingetragen.",
+          "requiredUsername": "Kein Benutzername eingetragen."
+        },
+        "firstname": "Vorname",
+        "lastname": "Nachname",
+        "password": "Passwort",
+        "username": "Benutzername"
+      },
+      "login": {
+        "forgotPassword": "Passwort vergessen?",
+        "loggingIn": "Anmeldung...",
+        "login": "Anmelden",
+        "noAccount": "Noch kein Konto? Jetzt registrieren!"
+      },
+      "passwordReset": {
+        "codeExists": "Ich habe bereits einen Code.",
+        "getCode": "Code erhalten",
+        "info": "Gib deine E-Mail Adresse und deinen Benutzernamen an, um einen Code für die Rücksetzung deines Passworts zu erhalten.",
+        "resetCode": "Code",
+        "resetInfo": "Gib deinen Code ein und setze ein neues Passwort.",
+        "resetPassword": "Passwort zurücksetzen"
+      },
+      "register": {
+        "register": "Registrieren"
+      }
+    },
+    "chat": {
+      "inputPlaceholder": "Hier schreiben ..."
+    },
+    "common": {
+      "cancel": "Abbrechen",
+      "readRules": "Regeln lesen",
+      "subtitle": "Spiel... solange du kannst!"
+    },
+    "errors": {
+      "cannotEndFinalRound": "Die letzte Runde im Einzelspieler-Modus kann nicht beendet werden.",
+      "deleterNotCreator": "Nur der Ersteller kann ein Spiel löschen.",
+      "gameEnded": "Das Spiel ist bereits beended.",
+      "gameNotDeleted": "Spiel konnte nicht gelöscht werden.",
+      "gameNotFound": "Das Spiel konnte nicht gefunden werden.",
+      "gameNotStarted": "Das Spiel läuft noch nicht.",
+      "invalidCard": "Die gewählte Karte existiert nicht.",
+      "invalidCardForStack": "Die Karte kann nicht auf den gewünschten Stapel gelegt werden.",
+      "invalidStack": "Der gewählte Stack existiert nicht.",
+      "loginFailed": "Login ist fehlgeschlagen.",
+      "playerAlreadyCreator": "Du hast bereits ein Spiel erstellt.",
+      "playerAlreadyInGame": "Du befindest dich bereits in einem Spiel.",
+      "playerNotHavingCard": "Du besitzt diese Karte nicht.",
+      "playerNotInGame": "Du bist nicht Teil dieses Spiels.",
+      "registrationFailed": "Registrierung fehlgeschlagen.",
+      "roundCannotEnd": "Die Runde kann noch nicht beendet werden."
+    },
+    "game": {
+      "backToLobby": "Zurück zur Lobby",
+      "blockMessage": "{{player}} möchte Stapel {{stack}} blockieren!",
+      "congrats": "Gratulation!",
+      "endRound": "Zug beenden",
+      "loose": "Verloren!",
+      "looseMessage": "THE GAME hat dich besiegt!",
+      "mode": {
+        "classic": "Klassisch",
+        "onfire": "On Fire"
+      },
+      "pickupCardsRemaining": "übrig",
+      "saveMessage": "{{player}} kann Stapel {{stack}} retten.",
+      "start": "Starten",
+      "start_question": "Möchtest du das Spiel starten?",
+      "starting": "Starten",
+      "winMessage": "Gut gemacht! Du hast THE GAME besiegt!"
+    },
+    "lobby": {
+      "createTable": "Spiel erstellen",
+      "join": "Beitreten",
+      "mode": "Modus",
+      "numberOfPlayers": "Spieler",
+      "runningGames": "Laufende Spiele",
+      "title": "Verfügbare Spiele"
+    },
+    "players": {
+      "others": "Andere",
+      "title": {
+        "global": "Global"
+      },
+      "yourself": "Du"
+    },
+    "profile": {
+      "delete": "Profil löschen",
+      "update": "Speichern"
+    },
+    "rules": {
+      "communication1": "Um das Spiel zu besiegen und alle Karten ablegen zu können, müssen alle Spieler gut kommunizieren. Nutze den Chat, um dich mit deinen Mitspielern abzusprechen.",
+      "communication2": "Neben dem Chat kannst du Kurzinterventionen nutzen. Das Handsymbol teilt deinen Mitspielern mit, einen Stapel ruhen zu lassen. Das Schildsymbol kündigt an, dass du einen Stapel retten kannst.",
+      "communication3": "Schweigen heisst verlieren!",
+      "communicationTitle": "Kommunikation",
+      "general1": "Das Spiel basiert auf einem kollaborativen Ansatz. Alle Spieler:innen verfolgen also als Team das Ziel, das Spiel zu besiegen. Dies ist geschafft, wenn sämtliche 98 Spielkarten auf die vier Ablegestapel abgelegt werden konnten.",
+      "general2": "Dabei dürfen zwei Stapel (1 und 3) nur in absteigender Reihenfolge und zwei Stapel (2 und 4) nur in aufsteigender Reihenfolge bedient werden.",
+      "generalTitle": "Allgemeine Regeln",
+      "onfire1": "Die Grundregeln im \"On Fire\"-Modus entsprechen jenen des klassischen Spiels. Neu haben allerdings alle Karten der Elfer-Reihe zwischen 22 und 77 ein Feuersymbol und müssen spätestens in der Runde nach der sie gelegt wurden, überdeckt werden. Ansonsten ist das Spiel verloren!",
+      "onfire2": "Im Beispiel muss der Spieler die 77 in diesem Spielzug mit der 78 überdecken. Andernfalls verlieren die Spieler das Spiel!",
+      "onfireTitle": "Spezialmodus: On Fire",
+      "save1": "Die Stapel können nicht ausschliesslich in eineRichtung bedient werden. In Zehnerschritten können Stapel in umgedrehter Richtung bedient werden. Dieser Schritt wird als Retten oder Rückwärtstrick bezeichnet.",
+      "save2": "Im Beispiel könnte Stapel Nummer 3 aus den Handkarten des Spielers mit der 80 und anschliessend mit der 90 bedient werden und kann dadurch beinahe zum Maximum gerettet werden.",
+      "save3": "Teile deinen Mitspielern eine mögliche Rettung durch das Klicken der Schildsymbole beim entsprechenden Stapel mit.",
+      "saveTitle": "Retten"
+    }
+  }
+}

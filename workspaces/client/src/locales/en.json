@@ -1,0 +1,122 @@
+{
+  "translation": {
+    "auth": {
+      "common": {
+        "confirmPassword": "Confirm Password",
+        "email": "Email",
+        "errors": {
+          "invalidConfirmPassword": "Passwords must match.",
+          "invalidEmail": "This email address is not valid.",
+          "invalidLengthUsername": "Username must be between 5 and 30 characters.",
+          "invalidPassword": "Password must be at least 8 characters long and contain upper and lower case letters, numbers and special characters.",
+          "requiredConfirmPassword": "Confirmation Password is required.",
+          "requiredEmail": "Email address is required.",
+          "requiredFirstname": "Firstname is required.",
+          "requiredLastname": "Lastname ist required.",
+          "requiredPassword": "Password is required.",
+          "requiredUsername": "Username is required."
+        },
+        "firstname": "Firstname",
+        "lastname": "Lastname",
+        "password": "Password",
+        "username": "Username"
+      },
+      "login": {
+        "forgotPassword": "Forgot password?",
+        "loggingIn": "Loading...",
+        "login": "Log in",
+        "noAccount": "No account? Register!"
+      },
+      "passwordReset": {
+        "codeExists": "I already have a code.",
+        "getCode": "Get reset code",
+        "info": "Enter your email address and your username to get a reset code for your password.",
+        "resetCode": "Reset Code",
+        "resetInfo": "Enter your reset code and set a new password.",
+        "resetPassword": "Reset Password"
+      },
+      "register": {
+        "register": "Register"
+      }
+    },
+    "chat": {
+      "inputPlaceholder": "Write here ..."
+    },
+    "common": {
+      "cancel": "Cancel",
+      "readRules": "Read the Rules",
+      "subtitle": "Play... as long as you can!"
+    },
+    "errors": {
+      "cannotEndFinalRound": "The final round in singelplayer mode cannot be ended.",
+      "deleterNotCreator": "Only the creator can delete a game.",
+      "gameEnded": "The game already ended.",
+      "gameNotDeleted": "Game could not be deleted.",
+      "gameNotFound": "The game was not found.",
+      "gameNotStarted": "The game has not started yet.",
+      "invalidCard": "This card does not exist.",
+      "invalidCardForStack": "This card cannot be placed on that stack.",
+      "invalidStack": "This stack does not exist.",
+      "loginFailed": "Login failed.",
+      "playerAlreadyCreator": "You already created a game.",
+      "playerAlreadyInGame": "You are already in a game.",
+      "playerNotHavingCard": "You don't have this card.",
+      "playerNotInGame": "You are not participating in this game.",
+      "registrationFailed": "Registration failed.",
+      "roundCannotEnd": "The round cannot end yet."
+    },
+    "game": {
+      "backToLobby": "Back to the lobby",
+      "blockMessage": "{{player}} wants to block stack {{stack}}!",
+      "congrats": "Congrats!",
+      "endRound": "End Round",
+      "loose": "You lost!",
+      "looseMessage": "THE GAME beat you!",
+      "mode": {
+        "classic": "Classic",
+        "onfire": "On Fire"
+      },
+      "pickupCardsRemaining": "remaining",
+      "saveMessage": "{{player}} could save stack {{stack}}.",
+      "start": "Start",
+      "start_question": "Would you like to start the game?",
+      "starting": "Starting",
+      "winMessage": "Well done! You beat THE GAME!"
+    },
+    "lobby": {
+      "createTable": "Create Game",
+      "join": "Join",
+      "mode": "Mode",
+      "numberOfPlayers": "Players",
+      "runningGames": "Running Games",
+      "title": "Open Games"
+    },
+    "players": {
+      "others": "Others",
+      "title": {
+        "global": "Global"
+      },
+      "yourself": "You"
+    },
+    "profile": {
+      "delete": "Delete Profile",
+      "update": "Update"
+    },
+    "rules": {
+      "communication1": "Um das Spiel zu besiegen und alle Karten ablegen zu können, müssen alle Spieler gut kommunizieren. Use the chat, um dich mit deinen Mitspielern abzusprechen.",
+      "communication2": "Apart from the chat you can use the intervention buttons next to the stacks. The hand icon urges the other players, to not play a card on the respective stack. The shield icon announces that you can save a stack.",
+      "communication3": "Silence means losing!",
+      "communicationTitle": "Communication",
+      "general1": "The game is based on a collaborative approach. All players work together as a team to team with the goal of beating the game. This is when all 98 playing cards have been placed on the four discard piles.",
+      "general2": "Two stacks (1 and 3) may only be used in descending order, and two stacks (2 and 4) may only be served in ascending order.",
+      "generalTitle": "General Rules",
+      "onfire1": "The basic rules in the \"On Fire\" mode correspond to those of the classic game. However, all the cards in the eleven-row between 22 and 77 now have a fire symbol and must be covered at the latest in the round after they were laid. Otherwise the game is lost!",
+      "onfire2": "In the example, the player must cover the 77 with the 78 in this move. Otherwise, the players lose the game!",
+      "onfireTitle": "Special mode: On Fire",
+      "save1": "The stacks cannot be operated exclusively in one direction. In steps of ten stacks can be served in the opposite direction. This step is called a save or backward trick.",
+      "save2": "In the example, stack number 3 could be served from the player's hand cards with the 80 and then with the 90, and can thus be saved almost to the maximum.",
+      "save3": "Tell your teammates about a possible save by clicking the shield icons by the corresponding stack.",
+      "saveTitle": "Save"
+    }
+  }
+}
