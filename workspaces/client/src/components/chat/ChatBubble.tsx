@@ -15,9 +15,9 @@ type ChatBubbleProps = {
 export const ChatBubbleOwn = (chatProps: ChatBubbleProps) => {
     return (
         <div className="chat chat-end">
-            <div className="chat-bubble bg-chatBubbleOwn text-black">
+            <div className="chat-bubble bg-chatBubbleOwn text-black break-words safe-break-word">
                 <div className="chat-header opacity-50">
-                    <time className="text-xs opacity-50">
+                    <time className="text-xs opacity-70">
                         {' '}
                         {new Date(chatProps.msg.timestamp).toLocaleTimeString(
                             'de-CH',
@@ -42,10 +42,10 @@ export const ChatBubbleOwn = (chatProps: ChatBubbleProps) => {
 export const ChatBubbleForeign = (chatProps: ChatBubbleProps) => {
     return (
         <div className="chat chat-start">
-            <div className="chat-bubble bg-chatBubbleForeign text-white">
+            <div className="chat-bubble bg-chatBubbleForeign text-white break-words safe-break-word">
                 <div className="chat-header opacity-50">
                     {chatProps.msg.authorName}
-                    <time className="text-xs opacity-50">
+                    <time className="text-xs opacity-70">
                         {' '}
                         {new Date(chatProps.msg.timestamp).toLocaleTimeString(
                             'de-CH',

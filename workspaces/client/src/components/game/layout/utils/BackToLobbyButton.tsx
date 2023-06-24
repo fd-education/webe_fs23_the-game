@@ -1,11 +1,15 @@
 import {useTranslation} from 'react-i18next';
 import {useNavigate} from 'react-router-dom';
+import {useResetRecoilState} from 'recoil';
+import gameidState from '../../../../common/states/gameid.state';
 
 export const BackToLobbyButton = () => {
     const {t} = useTranslation();
     const navigate = useNavigate();
+    const resetGameId = useResetRecoilState(gameidState);
 
     const handleBackToLobbyClick = () => {
+        resetGameId();
         navigate('/lobby');
     };
 

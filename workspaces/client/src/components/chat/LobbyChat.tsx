@@ -1,5 +1,4 @@
 import {ChatEvent} from '@the-game/common/dist/enum/websockets/events/chat-event.enum';
-import {SystemEvent} from '@the-game/common/dist/enum/websockets/events/system-event.enum';
 import {MessageWithKey} from '@the-game/common/dist/types/chat/message';
 import React, {useState, useEffect, KeyboardEvent} from 'react';
 import {useTranslation} from 'react-i18next';
@@ -47,14 +46,11 @@ export const LobbyChat = () => {
         };
 
         if (webSocketState.connected) {
-            wsm.registerListener(
-                ChatEvent.RECEIVE_GLOBAL_MESSAGE,
-                onChatMessage
-            );
+            wsm.registerListener(ChatEvent.GLOBAL_MESSAGE, onChatMessage);
         }
 
         return () => {
-            wsm.removeListener(ChatEvent.RECEIVE_GLOBAL_MESSAGE, onChatMessage);
+            wsm.removeListener(ChatEvent.GLOBAL_MESSAGE, onChatMessage);
         };
     });
 
@@ -66,28 +62,29 @@ export const LobbyChat = () => {
         };
 
         if (webSocketState.connected) {
-            wsm.registerListener(SystemEvent.CHAT_HISTORY, onChatHistory);
+            wsm.registerListener(ChatEvent.GLOBAL_CHAT_HISTORY, onChatHistory);
 
             setTimeout(() => {
                 wsm.emit<void>({
-                    event: SystemEvent.GET_CHAT_HISTORY
+                    event: ChatEvent.GLOBAL_CHAT_HISTORY
                 });
             }, 1);
         }
 
         return () => {
-            wsm.removeListener(SystemEvent.CHAT_HISTORY, onChatHistory);
+            wsm.removeListener(ChatEvent.GLOBAL_CHAT_HISTORY, onChatHistory);
         };
     }, [webSocketState]);
 
     const sendMessage = () => {
         if (message === '') return;
+        if (!user) return;
 
         wsm.emit<Message>({
-            event: ChatEvent.SEND_GLOBAL_MESSAGE,
+            event: ChatEvent.GLOBAL_MESSAGE,
             data: {
-                authorUid: user!.uid,
-                authorName: user!.username,
+                authorUid: user.uid,
+                authorName: user.username,
                 message,
                 timestamp: Date.now()
             }
@@ -109,7 +106,7 @@ export const LobbyChat = () => {
             <Panel className="justify-end">
                 <div className="last:border-b-0 h-full overflow-y-auto pr-3 flex flex-col-reverse">
                     {messages.map((msg, index) => {
-                        return msg.authorUid === user!.uid ? (
+                        return user && msg.authorUid === user.uid ? (
                             <ChatBubbleOwn msg={msg} key={index} />
                         ) : (
                             <ChatBubbleForeign msg={msg} key={index} />
@@ -117,7 +114,7 @@ export const LobbyChat = () => {
                     })}
                 </div>
                 <div className="divider dark:before:bg-the_game_gray dark:after:bg-the_game_gray" />
-                <div className="w-full flex space-x-3">
+                <div className="flex space-x-3">
                     <input
                         id="chat-input"
                         type="text"

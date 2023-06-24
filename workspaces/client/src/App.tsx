@@ -2,10 +2,8 @@ import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
 import {LobbyChat} from './components/chat/LobbyChat';
 import React, {FC, useEffect} from 'react';
-
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import ProtectedRoute from './components/util/routes/ProtectedRoute';
-import useWebSocket from './hooks/useWebSocket';
 import {Game} from './pages/Game';
 import {Lobby} from './pages/Lobby';
 import {RequestToken} from './pages/RequestToken';

@@ -1,9 +1,6 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 import {Message} from '@the-game/common/dist/types/chat/message';
-import {HydratedDocument} from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-
-export type ChatDocument = HydratedDocument<Chat>;
 
 @Schema()
 export class Chat implements Message {

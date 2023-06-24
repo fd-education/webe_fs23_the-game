@@ -1,11 +1,9 @@
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 
 export class Stack{
-
-
-    private _id: number;
-    private _cards: number[];
-    private _direction: StackDirection;
+    private readonly _id: number;
+    private readonly _cards: number[];
+    private readonly _direction: StackDirection;
     constructor(id: number, direction: StackDirection, cards?: number[]){
         this._id = id;
         this._direction = direction;

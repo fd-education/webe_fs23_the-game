@@ -1,3 +1,8 @@
 .icon-size-m {
     font-size: 1.3rem;
 }
+
+.safe-break-word {
+    overflow-wrap: break-word;
+    word-break: break-word;
+}

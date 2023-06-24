@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 import {IngameMessageType} from '../../enum/game/ingameMessageType.enum';
 
 export type GameInterventionDto = {

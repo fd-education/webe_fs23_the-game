@@ -1,6 +1,7 @@
 import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
+import {Exceptions} from '@the-game/common/dist/enum/websockets/exceptions.enum';
 import {Player} from '@the-game/common/dist/types/game/GameState';
 import React, {useContext, useEffect, useState} from 'react';
 import {DndProvider} from 'react-dnd';
@@ -8,10 +9,10 @@ import {HTML5Backend} from 'react-dnd-html5-backend';
 import {useNavigate} from 'react-router-dom';
 import {useRecoilValue} from 'recoil';
 import userState from '../../common/states/user.state';
-import websocketState from '../../common/states/websocket.state';
 import {WsListener} from '../../common/websocket/websocket.manager';
 import useWebSocket from '../../hooks/useWebSocket';
 import {GameContext} from '../../pages/Game';
+import {Error} from '../error/Error';
 import {LooseDialogue} from './layout/LooseDialogue';
 import {OtherPlayersRow} from './layout/OtherPlayersRow';
 import {PlayerRow} from './layout/PlayerRow';
@@ -22,7 +23,6 @@ import {WinDialogue} from './layout/WinDialogue';
 export const GameView = () => {
     const navigate = useNavigate();
     const {wsm} = useWebSocket();
-    const webSocketState = useRecoilValue(websocketState);
     const user = useRecoilValue(userState);
 
     const gameContext = useContext(GameContext);
@@ -34,9 +34,16 @@ export const GameView = () => {
 
     const [isCreator, setIsCreator] = useState<boolean>(false);
 
+    const [error, setError] = React.useState<boolean>();
+    const [errorMessage, setErrorMessage] = React.useState<string>('');
+
     useEffect(() => {
         if (!user) {
             navigate('/login');
+            return;
+        }
+
+        if (!gameContext) {
             return;
         }
 
@@ -45,14 +52,19 @@ export const GameView = () => {
             setPlayer(player);
         };
 
-        if (webSocketState.connected) {
-            wsm.registerListener(GameEvent.ALL_PLAYERS, onAllPlayers);
-        }
+        const onException: WsListener<Error> = (exception) => {
+            setError(true);
+            setErrorMessage(exception.message);
+        };
+
+        wsm.registerListener(GameEvent.ALL_PLAYERS, onAllPlayers);
+        wsm.registerListener(Exceptions.EXCEPTION, onException);
 
         return () => {
             wsm.removeListener(GameEvent.ALL_PLAYERS, onAllPlayers);
+            wsm.removeListener(Exceptions.EXCEPTION, onException);
         };
-    }, [player]);
+    }, [player, gameContext]);
 
     useEffect(() => {
         if (!gameContext) {
@@ -129,6 +141,13 @@ export const GameView = () => {
                     {player && <PlayerRow />}
                 </div>
             </DndProvider>
+
+            {error && (
+                <Error
+                    message={errorMessage}
+                    onErrorClose={() => setError(false)}
+                />
+            )}
         </>
     );
 };

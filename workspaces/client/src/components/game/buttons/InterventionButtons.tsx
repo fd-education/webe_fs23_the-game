@@ -48,8 +48,6 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
                 ? IngameMessageType.SAVEDOWN_INTERVENTION
                 : IngameMessageType.SAVEUP_INTERVENTION;
 
-        console.log(type);
-
         wsm.emit<GameInterventionDto>({
             event: GameEvent.SAVE_INTERVENTION,
             data: {
@@ -74,7 +72,6 @@ export const InterventionButtons = (props: QuickActionButtonsProps) => {
                 <SaveDownButton
                     stackIndex={props.stackIndex}
                     onClick={() => {
-                        console.log('Save Down Clicked!');
                         handleSaveIntervention(StackDirection.UP);
                     }}
                 />

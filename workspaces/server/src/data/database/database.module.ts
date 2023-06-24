@@ -5,10 +5,10 @@ import { ConfigModule } from '../../common/config/config.module';
 
 @Module({
   imports: [
-    MongooseModule.forRootAsync({
+    MongooseModule.forRootAsync( {
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
-        uri: configService.mongoUri,
+        ...configService.mongoConfig
       }),
       inject: [ConfigService],
     }),

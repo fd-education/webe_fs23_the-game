@@ -2,6 +2,7 @@ import {specialCards} from '@the-game/common/dist/constants/special-cards';
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameProgress} from '@the-game/common/dist/enum/game/gameProgress.enum';
 import {StackDirection} from '@the-game/common/dist/enum/game/StackDirection';
+import {Exceptions} from '@the-game/common/dist/enum/websockets/exceptions.enum';
 import {GameState} from '@the-game/common/dist/types/game/GameState';
 import {GameSchema} from '../data/games/games.schema';
 import {Player} from './player';
@@ -25,7 +26,7 @@ export class Game{
     private cardsLaidInRound: number;
     private roundCounter: number;
 
-    private canRoundEnd: boolean;
+    private canRoundEnd: boolean = false;
     private dangerRound: boolean;
 
     constructor(
@@ -35,6 +36,7 @@ export class Game{
         gameId?: string,
         numberOfHandcards?: number,
         progress?: GameProgress,
+        pullstack?: number[],
         stacks?: Stack[],
         roundCounter?: number,
         isNewRound?: boolean,
@@ -52,17 +54,15 @@ export class Game{
 
         this._progress = progress || GameProgress.OPEN;
 
-        this.pullStack = [];
+        this.pullStack = pullstack || [];
 
-        this._players = [];
+        this._players = players || [];
         this.stacks = stacks || [];
         this.roundCounter = roundCounter || 0;
         this.isNewRound = isNewRound || true;
         this.canRoundEnd = canRoundEnd || false;
         this.cardsLaidInRound = cardsLaidInRound || 0;
         this.dangerRound = dangerRound || false;
-
-        this._players = players || [];
     }
 
     public joinPlayer(player: Player){
@@ -134,41 +134,48 @@ export class Game{
     }
 
     public playCard(playerUid: string, card: number, stackIndex: number){
-        if(stackIndex < 0 || stackIndex > 3) throw new Error('Invalid stack index');
-        if(card < 2 || card > 99) throw new Error('Invalid card');
-        if(this._progress === GameProgress.OPEN) throw new Error('Game not started');
-        if(this._progress === GameProgress.WON || this._progress === GameProgress.LOST) throw new Error('Game already ended');
+        if(stackIndex < 0 || stackIndex > 3) throw new Error(Exceptions.INVALID_STACK);
+        if(card < 2 || card > 99) throw new Error(Exceptions.INVALID_CARD);
+        if(this._progress === GameProgress.OPEN) throw new Error(Exceptions.GAME_NOT_STARTED);
+        if(this._progress === GameProgress.WON || this._progress === GameProgress.LOST) throw new Error(Exceptions.GAME_ENDED);
 
         const player = this._players.find(p => p.uid === playerUid);
-        if(!player) throw new Error('Player not in game');
-        if(player.handCards.findIndex(c => c === card) === -1) throw new Error('Player has not this card');
+        if(!player) throw new Error(Exceptions.PLAYER_NOT_IN_GAME);
+        if(player.handCards.findIndex(c => c === card) === -1) throw new Error(Exceptions.PLAYER_NOT_HAVING_CARD);
 
         const stack = this.stacks[stackIndex];
-        if(!stack.canLayCard(card)) throw new Error('Invalid card for stack');
+        if(!stack.canLayCard(card)) throw new Error(Exceptions.INVALID_CARD_FOR_STACK);
 
         this.cardsLaidInRound++;
         this.isNewRound = false;
-        this.canRoundEnd = this.checkCanRoundEnd();
 
         stack.addCard(card);
         player.removeCard(card);
 
+        if(this.mode === GameMode.ONFIRE && specialCards.includes(stack.getTopCard()) && specialCards.includes(card)){
+            this.dangerRound = false;
+        }
+
         if(this.isGameWon()){
             this._progress = GameProgress.WON;
-        } else if(this.isGameLost()){
+        } else if(this.isGameLost(false)){
             this._progress = GameProgress.LOST;
         } else {
+            this.canRoundEnd = this.checkCanRoundEnd();
             this._progress = GameProgress.STARTED;
         }
+
+        return this.getGameState();
     }
 
     public endRoundOfPlayer(playerUid: string){
-        if(!this.checkCanRoundEnd) throw new Error('Round cannot end');
-        if(this.hasEnded()) throw new Error('Game has ended');
-        if(this._progress === GameProgress.OPEN) throw new Error('Game not started');
+        if(!this.checkCanRoundEnd) throw new Error(Exceptions.ROUND_CANNOT_END);
+        if(this.hasEnded()) throw new Error(Exceptions.GAME_ENDED);
+        if(this._progress === GameProgress.OPEN) throw new Error(Exceptions.GAME_NOT_STARTED);
+        if(this.players.length === 1 && this.pullStack.length === 0) throw new Error(Exceptions.CANNOT_END_FINALROUND);
 
         const player = this._players.find(p => p.uid === playerUid);
-        if(!player) throw new Error('Player not in game');
+        if(!player) throw new Error(Exceptions.PLAYER_NOT_IN_GAME);
 
         this.roundCounter++;
 
@@ -177,21 +184,22 @@ export class Game{
             return this.getGameState();
         }
 
+        this.cardsLaidInRound = 0;
+        this.isNewRound = true;
+
         const remainingCards = player.handCards;
         const newCards = this.pullStack.splice(0, this.numberOfHandcards - remainingCards.length);
         player.setHandCards(remainingCards.concat(newCards));
 
         // in singles games, cards must be dealt before checking for a possibly lost game
-        if(this.isGameLost()){
+        if(this.isGameLost(true)){
             this._progress = GameProgress.LOST;
             return this.getGameState();
         }
 
-        this.cardsLaidInRound = 0;
-        this.isNewRound = true;
-
         this.dangerRound = this._mode === GameMode.ONFIRE && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
 
+        this.canRoundEnd = false;
         return this.getGameState();
     }
 
@@ -232,17 +240,18 @@ export class Game{
         return pullStackEmpty && handCardsEmpty;
     }
 
-    private isGameLost(): boolean{
+    private isGameLost(roundEnd: boolean): boolean{
         if(this._mode === GameMode.CLASSIC){
             return this.isGameLostClassic();
         } else {
-            return this.isGameLostOnFire();
+            return this.isGameLostOnFire(roundEnd);
         }
     }
 
     private isGameLostClassic(): boolean{
         const player =  this._players[(this.roundCounter) % this._players.length];
-        if(player.handCards.length === 0) return true;
+
+        if(player.handCards.length === 0 && !this.canRoundEnd) return true;
 
         const bottomUpStacks = this.stacks.filter(s => s.getDirection() === StackDirection.UP);
         const topDownStacks = this.stacks.filter(s => s.getDirection() === StackDirection.DOWN);
@@ -252,18 +261,21 @@ export class Game{
         const minBottomUpStackCard = Math.min(...bottomUpStacks.map(s => s.getTopCard()));
         const maxTopDownStackCard = Math.max(...topDownStacks.map(s => s.getTopCard()));
 
-        const bottomUpStacksDead = maxHandCard < minBottomUpStackCard;
-        const topDownStacksDead = minHandCard > maxTopDownStackCard;
+        const initialStackCard = -1;
+        const bottomUpStacksDead = !bottomUpStacks.some(s => s.getTopCard() === initialStackCard) && maxHandCard < minBottomUpStackCard;
+        const topDownStacksDead = !topDownStacks.some(s => s.getTopCard() === initialStackCard) && minHandCard > maxTopDownStackCard;
 
         const bottomUpSavePossible = bottomUpStacks.map(s => s.getTopCard()).some(c => player.handCards.some(h => h === c - 10));
         const topDownSavePossible = topDownStacks.map(s => s.getTopCard()).some(c => player.handCards.some(h => h === c + 10));
 
-        return bottomUpStacksDead && topDownStacksDead && !bottomUpSavePossible && !topDownSavePossible;
+        const canRoundEnd = this.checkCanRoundEnd();
+
+        return !canRoundEnd && bottomUpStacksDead && topDownStacksDead && !bottomUpSavePossible && !topDownSavePossible;
     }
 
-    private isGameLostOnFire(): boolean{
+    private isGameLostOnFire(roundEnd: boolean): boolean{
         const classicGameOver = this.isGameLostClassic();
-        const specialCardsLeft = this.dangerRound && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
+        const specialCardsLeft = (classicGameOver || roundEnd) && this.dangerRound && this.stacks.map(s => s.getTopCard()).some(c => specialCards.includes(c));
 
         return classicGameOver || specialCardsLeft;
     }

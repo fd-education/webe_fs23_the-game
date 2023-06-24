@@ -1,6 +1,8 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum GameProgress {
-    OPEN = 'OPEN',
-    STARTED = 'STARTED',
-    LOST = 'LOST',
-    WON = 'WON',
+    OPEN = 'open',
+    STARTED = 'started',
+    LOST = 'lost',
+    WON = 'won',
 }

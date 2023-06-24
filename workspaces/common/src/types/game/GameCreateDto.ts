@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 import {GameMode} from '../../enum/game/gameMode.enum';
 
 export type GameCreateDto = {

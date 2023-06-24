@@ -12,7 +12,7 @@ export const InputError = (props: InputErrorProps) => {
                 data-tip={props.message}
             >
                 <ExclamationMarkIcon
-                    strokeColor={'stroke-red-200 hover:stroke-red-800'}
+                    strokeColor={'stroke-red-400 hover:stroke-red-600'}
                 />
             </div>
         </div>

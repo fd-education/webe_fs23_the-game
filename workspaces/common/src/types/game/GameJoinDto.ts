@@ -1,3 +1,5 @@
+// noinspection JSUnusedGlobalSymbols
+
 export type GameJoinDto = {
     gameUid: string;
     userUid: string;

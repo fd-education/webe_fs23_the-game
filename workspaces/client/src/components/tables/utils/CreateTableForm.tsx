@@ -1,7 +1,6 @@
 import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
 import {GameCreateDto} from '@the-game/common/dist/types/game/GameCreateDto';
-import {CreateLobby} from '@the-game/common/dist/types/lobby/createLobby';
 import {Field, Form, Formik} from 'formik';
 import React from 'react';
 import {useTranslation} from 'react-i18next';
@@ -18,7 +17,7 @@ export const CreateTableForm = () => {
     const {wsm} = useWebSocket();
     const user = useRecoilValue(userState);
 
-    const initialValues: CreateLobby = {
+    const initialValues: GameCreateDto = {
         creator: '',
         numberOfPlayers: 4,
         mode: GameMode.CLASSIC
@@ -28,7 +27,7 @@ export const CreateTableForm = () => {
         numberOfPlayers: yup.number().min(2).max(5).required()
     });
 
-    const handleCreateGame = (formValues: CreateLobby) => {
+    const handleCreateGame = (formValues: GameCreateDto) => {
         if (!user) {
             navigate('/');
             return;
@@ -78,10 +77,16 @@ export const CreateTableForm = () => {
                                 name="mode"
                                 className="text-center bg-transparent border-b-2 border-black dark:border-white"
                             >
-                                <option selected value={GameMode.CLASSIC}>
+                                <option
+                                    value={GameMode.CLASSIC}
+                                    className="bg-secondaryLight dark:bg-secondaryDark"
+                                >
                                     {t('game.mode.classic')}
                                 </option>
-                                <option value={GameMode.ONFIRE}>
+                                <option
+                                    value={GameMode.ONFIRE}
+                                    className="bg-secondaryLight dark:bg-secondaryDark"
+                                >
                                     {t('game.mode.onfire')}
                                 </option>
                             </Field>

@@ -1,31 +1,32 @@
+// noinspection JSUnusedGlobalSymbols
+
 export enum GameEvent {
     // Game Creation
-    CREATE_GAME = 'create-game',
-    DELETE_GAME = 'delete-game',
+    CREATE_GAME = 'createGame',
+    DELETE_GAME = 'deleteGame',
 
     // Game Listing
-    GET_GAMES = 'get-games',
-    GAMES_UPDATE = 'games',
+    GAMES_UPDATE = 'gamesUpdate',
 
     // Game Metadata
-    GAME_INFO = 'game-info',
+    GAME_INFO = 'gameInfo',
 
     // Game Joining
-    JOIN_REQUEST = 'join-request',
-    JOIN_GAME = 'join-game',
-    ALL_PLAYERS = 'all-players',
+    JOIN_REQUEST = 'joinRequest',
+    JOIN_GAME = 'joinGame',
+    ALL_PLAYERS = 'allPlayers',
 
     // Game Flow
-    START_GAME = 'start-game',
+    START_GAME = 'startGame',
 
     // Game State
-    GAME_STATE = 'game-state',
+    GAME_STATE = 'gameState',
 
-    LAY_CARD = 'lay-card',
+    PLAY_CARD = 'playCard',
 
-    END_ROUND = 'end-round',
+    END_ROUND = 'endRound',
 
-    INTERVENTION_HISTORY = 'intervention-history',
-    SAVE_INTERVENTION= 'save-intervention',
-    BLOCK_INTERVENTION = 'block-intervention',
+    INTERVENTION_HISTORY = 'interventionHistory',
+    SAVE_INTERVENTION= 'saveIntervention',
+    BLOCK_INTERVENTION = 'blockIntervention',
 }

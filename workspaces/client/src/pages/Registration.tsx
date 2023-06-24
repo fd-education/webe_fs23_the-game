@@ -2,6 +2,7 @@ import {Lang} from '@the-game/common/dist/enum/preferences/lang.enum';
 import {Theme} from '@the-game/common/dist/enum/preferences/theme.enum';
 import {RegistrationPayload} from '@the-game/common/dist/types/auth/registrationPayload';
 import {useTranslation} from 'react-i18next';
+import {Error} from '../components/error/Error';
 import {registrationValidation} from '../services/validation/registrationValidation';
 import {PreferenceToggles} from '../components/util/button/PreferenceToggles';
 import {RulesButton} from '../components/util/button/RulesButton';
@@ -13,10 +14,11 @@ import {useNavigate} from 'react-router-dom';
 import {BigTitle} from '../components/util/title/BigTitle';
 
 export const Register: FC = () => {
-    const [successful, setSuccessful] = React.useState(false);
-    const [message, setMessage] = React.useState('');
     const navigate = useNavigate();
     const {t} = useTranslation();
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState(false);
+    const [errorMessage, setErrorMessage] = React.useState('');
 
     const initialValues: RegistrationPayload = {
         firstname: '',
@@ -29,26 +31,25 @@ export const Register: FC = () => {
         theme: Theme.light
     };
 
-    const handleRegister = async (formValue: RegistrationPayload) => {
+    const handleRegistration = async (formValue: RegistrationPayload) => {
         try {
+            setLoading(true);
             const response = await AuthService.register(formValue);
 
             if (response.status === 200) {
-                setSuccessful(true);
                 navigate('/login');
             } else {
-                // TO DO: Proper Error Handling
-                setMessage('Registration failed');
-                setSuccessful(false);
+                displayError();
             }
-        } catch (error: any) {
-            const resMessage =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
-            setMessage(resMessage.toString());
-            setSuccessful(false);
+        } catch (_) {
+            displayError();
         }
+    };
+
+    const displayError = () => {
+        setLoading(false);
+        setError(true);
+        setErrorMessage('registrationFailed');
     };
 
     const handleCancellation = () => {
@@ -56,17 +57,17 @@ export const Register: FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fill bg-scroll bg-cards-background bg-no-repeat">
-            <BigTitle />
+        <>
+            <div className="flex flex-col items-center p-4 mx-auto min-h-screen justify-between bg-primaryLight dark:bg-primaryDark bg-cards bg-fill bg-scroll bg-cards-background bg-no-repeat">
+                <BigTitle />
 
-            <Formik
-                initialValues={initialValues}
-                onSubmit={handleRegister}
-                onReset={handleCancellation}
-                validationSchema={registrationValidation}
-            >
-                <Form className="flex flex-col space-y-5 w-1/5">
-                    {!successful && (
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleRegistration}
+                    onReset={handleCancellation}
+                    validationSchema={registrationValidation}
+                >
+                    <Form className="flex flex-col space-y-5 w-1/5">
                         <div className="flex flex-col space-y-8">
                             <div className="flex flex-col space-y-3">
                                 <FloatingLabelInput
@@ -105,7 +106,9 @@ export const Register: FC = () => {
 
                             <div className="flex flex-col space-y-3">
                                 <button
-                                    className={`btn bg-the_game_purple border-none hover:bg-the_game_darkPurple text-white rounded-full`}
+                                    className={`btn bg-the_game_purple border-none hover:bg-the_game_darkPurple text-white rounded-full ${
+                                        loading && 'loading'
+                                    }`}
                                     type="submit"
                                 >
                                     {t('auth.register.register')}
@@ -119,23 +122,24 @@ export const Register: FC = () => {
                                 </button>
                             </div>
                         </div>
-                    )}
+                    </Form>
+                </Formik>
 
-                    {message && (
-                        <div>
-                            <div role="alert">{message}</div>
-                        </div>
-                    )}
-                </Form>
-            </Formik>
+                <div className="flex flex-col  w-full max-w-[25%] items-center space-y-8">
+                    <RulesButton />
 
-            <div className="flex flex-col items-center space-y-8">
-                <RulesButton />
-
-                <PreferenceToggles
-                    togglesToDisplay={{screenMode: true, language: true}}
-                />
+                    <PreferenceToggles
+                        togglesToDisplay={{screenMode: true, language: true}}
+                    />
+                </div>
             </div>
-        </div>
+
+            {error && (
+                <Error
+                    message={errorMessage}
+                    onErrorClose={() => setError(false)}
+                />
+            )}
+        </>
     );
 };

@@ -1,4 +1,3 @@
-import Confetti from 'react-confetti';
 import {useTranslation} from 'react-i18next';
 import {BackToLobbyButton} from './utils/BackToLobbyButton';
 

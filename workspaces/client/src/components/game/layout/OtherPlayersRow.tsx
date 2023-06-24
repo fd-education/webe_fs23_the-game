@@ -10,6 +10,7 @@ export const OtherPlayersRow = () => {
     const user = useRecoilValue(userState);
 
     const [otherPlayers, setOtherPlayers] = useState<Player[]>([]);
+    const [activePlayer, setActivePlayer] = useState<string>('');
 
     useEffect(() => {
         if (!gameContext) return;
@@ -19,13 +20,20 @@ export const OtherPlayersRow = () => {
             (p) => p.playerId !== user.uid
         );
 
+        setActivePlayer(gameContext.playerAtTurn);
         setOtherPlayers(otherPlayers);
     }, [gameContext]);
 
     return (
         <div className="flex flex-row justify-around h-[19%] px-36">
             {otherPlayers.map((player, index) => {
-                return <PlayerTile player={player} key={index} />;
+                return (
+                    <PlayerTile
+                        player={player}
+                        active={activePlayer}
+                        key={index}
+                    />
+                );
             })}
         </div>
     );

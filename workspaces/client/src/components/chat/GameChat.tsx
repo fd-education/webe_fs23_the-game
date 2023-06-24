@@ -36,11 +36,6 @@ export const GameChat = () => {
             return;
         }
 
-        if (!gameId) {
-            navigate('/lobby');
-            return;
-        }
-
         const onChatMessage: WsListener<IngameMessage> = (
             msg: IngameMessage
         ) => {
@@ -157,13 +152,14 @@ export const GameChat = () => {
 
     const sendMessage = () => {
         if (message === '') return;
+        if (!user) return;
 
         wsm.emit<IngameMessage>({
             event: ChatEvent.INGAME_MESSAGE,
             data: {
                 gameUid: gameId,
-                authorUid: user!.uid,
-                authorName: user!.username,
+                authorUid: user.uid,
+                authorName: user.username,
                 message,
                 timestamp: Date.now(),
                 type: IngameMessageType.CHAT
@@ -192,7 +188,8 @@ export const GameChat = () => {
                             return msg.type !== IngameMessageType.CHAT ? (
                                 <GameIntervention msg={msg} key={index} />
                             ) : msg.type === IngameMessageType.CHAT &&
-                              msg.authorUid === user!.uid ? (
+                              user &&
+                              msg.authorUid === user.uid ? (
                                 <ChatBubbleOwn msg={msg} key={index} />
                             ) : (
                                 <ChatBubbleForeign msg={msg} key={index} />

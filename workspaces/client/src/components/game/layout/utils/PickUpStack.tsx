@@ -36,20 +36,13 @@ export const PickUpStack = () => {
         if (!user) return;
         if (!gameContext.gameId) return;
 
-        wsm.emitWithAck<GameRoundEndDto>(
-            {
-                event: GameEvent.END_ROUND,
-                data: {
-                    gameUid: gameContext.gameId,
-                    userUid: user.uid
-                }
-            },
-            (success) => {
-                if (!success) {
-                    console.log('Failed to end round');
-                }
+        wsm.emit<GameRoundEndDto>({
+            event: GameEvent.END_ROUND,
+            data: {
+                gameUid: gameContext.gameId,
+                userUid: user.uid
             }
-        );
+        });
     };
 
     return gameMode === GameMode.CLASSIC ? (
@@ -58,10 +51,10 @@ export const PickUpStack = () => {
             cardsOnStack={cardsOnStack}
             canRoundEnd={canRoundEnd}
             onclick={handleEndRound}
-            className={`${
+            className={`rounded-md ${
                 !(isAtTurn && canRoundEnd)
-                    ? 'pointer-events-none'
-                    : 'hover:cursor-pointer'
+                    ? 'hover:cursor-not-allowed pointer-events-none ring-offset-0 ring-4 ring-red-800'
+                    : 'hover:cursor-pointer ring-offset-0 ring-2 ring-green-500'
             }`}
         />
     ) : (
@@ -70,10 +63,10 @@ export const PickUpStack = () => {
             cardsOnStack={cardsOnStack}
             canRoundEnd={canRoundEnd}
             onclick={handleEndRound}
-            className={`${
+            className={`rounded-md ${
                 !(isAtTurn && canRoundEnd)
-                    ? 'pointer-events-none'
-                    : 'hover:cursor-pointer'
+                    ? 'hover:cursor-not-allowed pointer-events-none ring-offset-0 ring-4 ring-red-800'
+                    : 'hover:cursor-pointer ring-offset-0 ring-2 ring-green-500'
             }`}
         />
     );

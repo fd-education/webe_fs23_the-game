@@ -11,20 +11,20 @@ export const CardClassicFront = (props: CardFrontProps) => {
                 isDragging: monitor.isDragging()
             })
         }),
-        [props.value, props.canDrag]
+        [props]
     );
 
     return (
         <div
             ref={drag}
-            className={`h-full w-max ${props.canDrag ? '!cursor-grab' : ''} ${
+            className={`h-full ${props.canDrag ? '!cursor-grab' : ''} ${
                 isDragging ? '!cursor-grabbing' : ''
             }`}
         >
             <svg
                 viewBox="0 0 240 370"
                 fill="none"
-                className={`${props.className} h-full ${
+                className={`${props.className} h-full w-full ${
                     isDragging && 'opacity-0'
                 }`}
                 xmlns="http://www.w3.org/2000/svg"

@@ -1,6 +1,6 @@
 export class Player{
-    private _uid: string;
-    private _username: string;
+    private readonly _uid: string;
+    private readonly _username: string;
     private _handCards: number[];
 
     private isReady: boolean;

@@ -1,3 +1,4 @@
+import React from 'react';
 import {useTranslation} from 'react-i18next';
 import {PickUpStackProps} from './pickUpStackProps.type';
 
@@ -123,7 +124,7 @@ export const PickUpStackOnFire = (props: PickUpStackProps) => {
                     height="370"
                     rx="10"
                     fill="#9F9F9F"
-                    fillOpacity="0.3"
+                    fillOpacity={`${props.canRoundEnd ? '0.1' : '0.3'}`}
                 />
                 <rect
                     x="1.5"

@@ -1,11 +1,13 @@
+import {GameMode} from '@the-game/common/dist/enum/game/gameMode.enum';
 import {GameEvent} from '@the-game/common/dist/enum/websockets/events/game-event.enum';
-import {GameLayCardDto} from '@the-game/common/dist/types/game/GameLayCardDto';
-import {ReactElement} from 'react';
+import {GamePlayCardDto} from '@the-game/common/dist/types/game/GamePlayCardDto';
+import {ReactElement, useContext, useEffect, useState} from 'react';
 import {useDrop} from 'react-dnd';
 import {useRecoilValue} from 'recoil';
 import gameidState from '../../../../common/states/gameid.state';
 import userState from '../../../../common/states/user.state';
 import useWebSocket from '../../../../hooks/useWebSocket';
+import {GameContext} from '../../../../pages/Game';
 
 type DropTargetProps = {
     children: ReactElement | ReactElement[];
@@ -17,33 +19,33 @@ export const BottomUpDropTarget = (props: DropTargetProps) => {
     const user = useRecoilValue(userState);
     const gameId = useRecoilValue(gameidState);
     const {wsm} = useWebSocket();
+    const gameContext = useContext(GameContext);
 
-    const [{isOver, canDrop}, drop] = useDrop(() => ({
+    const [gameMode, setGameMode] = useState<GameMode>(GameMode.CLASSIC);
+
+    useEffect(() => {
+        if (!gameContext) return;
+
+        setGameMode(gameContext.gameMode);
+    }, [gameContext]);
+
+    // noinspection JSUnusedGlobalSymbols
+    const [{isOver}, drop] = useDrop(() => ({
         accept: 'Card',
         drop: (item: {value: number}) => {
             handleDrop(item.value, props.index);
         },
-        canDrop: (item: {value: number}) =>
-            canDropCard(item.value, props.currentCard),
         collect: (monitor) => ({
             isOver: monitor.isOver(),
             canDrop: monitor.canDrop()
         })
     }));
 
-    const canDropCard = (cardValue: number, stackValue: number) => {
-        return (
-            stackValue === -1 ||
-            cardValue > stackValue ||
-            cardValue === stackValue - 10
-        );
-    };
-
     const handleDrop = (cardValue: number, stackIndex: number) => {
         if (!user || !gameId) return;
 
-        wsm.emit<GameLayCardDto>({
-            event: GameEvent.LAY_CARD,
+        wsm.emit<GamePlayCardDto>({
+            event: GameEvent.PLAY_CARD,
             data: {
                 gameUid: gameId,
                 userUid: user.uid,
@@ -57,10 +59,10 @@ export const BottomUpDropTarget = (props: DropTargetProps) => {
         <div
             ref={drop}
             className={`h-full rounded-md w-max ${
-                isOver && canDrop
-                    ? ' ring-offset-0 ring-2 ring-green-500'
-                    : isOver && !canDrop
-                    ? ' ring-offset-0 ring-2 ring-red-500'
+                isOver && gameMode === GameMode.CLASSIC
+                    ? ' ring-offset-0 ring-2 ring-the_game_purple'
+                    : isOver && gameMode === GameMode.ONFIRE
+                    ? ' ring-offset-0 ring-2 ring-the_game_orange'
                     : ''
             }`}
         >
